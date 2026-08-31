@@ -326,27 +326,31 @@ async function loadNews(){
 const newsBox=document.getElementById("news");
 
 const feeds=[
-
-{
-name:"CLARITY",
-query:"CLARITY Act XRP crypto"
-},
-
-{
-name:"XRP ETF",
-query:"XRP ETF Ripple"
-},
-
-{
-name:"SEC / Ripple",
-query:"SEC Ripple XRP"
-},
-
-{
-name:"FOMC",
-query:"Federal Reserve FOMC crypto"
-}
-
+  {
+    tag:"🔴 緊急",
+    name:"CLARITY Act",
+    query:"CLARITY Act XRP Ripple crypto"
+  },
+  {
+    tag:"🔴 緊急",
+    name:"SEC / Ripple",
+    query:"SEC Ripple XRP"
+  },
+  {
+    tag:"🟠 重要",
+    name:"XRP ETF",
+    query:"XRP ETF"
+  },
+  {
+    tag:"🟡 注目",
+    name:"FRB / FOMC",
+    query:"FRB FOMC crypto"
+  },
+  {
+    tag:"🟡 注目",
+    name:"BTC",
+    query:"Bitcoin crypto market"
+  }
 ];
 
 let all=[];
@@ -355,26 +359,28 @@ for(const feed of feeds){
 
 try{
 
-const url=
-"https://api.rss2json.com/v1/api.json?rss_url="+
-encodeURIComponent(
+const rss=
 "https://news.google.com/rss/search?q="+
 encodeURIComponent(feed.query)+
-"&hl=en-US&gl=US&ceid=US:en"
-);
+"&hl=ja&gl=JP&ceid=JP:ja";
+
+const url=
+"https://api.rss2json.com/v1/api.json?rss_url="+
+encodeURIComponent(rss);
 
 const response=await fetch(url);
 const data=await response.json();
 
 if(data.items){
 
-data.items.slice(0,3).forEach(item=>{
+data.items.slice(0,4).forEach(item=>{
 
 all.push({
-title:item.title,
-link:item.link,
-date:new Date(item.pubDate),
-tag:feed.name
+  title:item.title,
+  link:item.link,
+  date:new Date(item.pubDate),
+  tag:feed.tag,
+  name:feed.name
 });
 
 });
@@ -389,14 +395,16 @@ console.log("ニュース取得エラー",e);
 
 }
 
+// 新しい順
 all.sort((a,b)=>b.date-a.date);
 
-all=all.slice(0,8);
+// 最大10件
+all=all.slice(0,10);
 
 if(all.length===0){
 
 newsBox.innerHTML=
-'<div class="small">ニュースを取得できませんでした。次回更新で再取得します。</div>';
+'<div class="small">📰 ニュースを取得できませんでした。次回更新で再取得します。</div>';
 
 return;
 
@@ -409,13 +417,17 @@ return `
 
 <div>
 <span class="tag">${item.tag}</span>
+<span class="small">${item.name}</span>
+</div>
+
+<div style="margin-top:6px;">
 <a href="${item.link}" target="_blank">
-${escapeHTML(item.title)}
+${escapeHTML(translateTitle(item.title))}
 </a>
 </div>
 
 <div class="news-meta">
-${item.date.toLocaleString("ja-JP")}
+${formatTime(item.date)}
 </div>
 
 </div>
@@ -424,6 +436,51 @@ ${item.date.toLocaleString("ja-JP")}
 }).join("");
 
 }
+
+
+// 英語タイトルを日本語っぽく整理
+// Google News日本語検索で取得できたタイトルはそのまま表示。
+// 英語が混ざった場合は主要な暗号資産用語だけ日本語化。
+function translateTitle(title){
+
+return String(title)
+
+.replace(/CLARITY Act/gi,"CLARITY法案")
+.replace(/Ripple/gi,"Ripple")
+.replace(/XRP ETF/gi,"XRP ETF")
+.replace(/spot ETF/gi,"現物ETF")
+.replace(/ETF/gi,"ETF")
+.replace(/Bitcoin/gi,"ビットコイン")
+.replace(/crypto/gi,"暗号資産")
+.replace(/cryptocurrency/gi,"暗号資産")
+.replace(/Federal Reserve/gi,"米連邦準備制度")
+.replace(/Fed/gi,"FRB")
+.replace(/SEC/gi,"SEC");
+
+}
+
+
+function formatTime(date){
+
+const now=new Date();
+const diff=Math.floor((now-date)/1000);
+
+if(diff<60){
+  return "たった今";
+}
+
+if(diff<3600){
+  return Math.floor(diff/60)+"分前";
+}
+
+if(diff<86400){
+  return Math.floor(diff/3600)+"時間前";
+}
+
+return date.toLocaleString("ja-JP");
+
+}
+
 
 function escapeHTML(str){
 
@@ -436,12 +493,10 @@ return String(str)
 
 }
 
-load();
+
 loadNews();
 
-setInterval(load,5000);
 setInterval(loadNews,300000);
-
 </script>
 
 </body>
