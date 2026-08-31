@@ -35,11 +35,12 @@ body{
   background:#222;
   border-radius:99px;
   overflow:hidden;
+  margin-top:12px;
 }
 .fill{
-  width:82%;
   height:100%;
   background:linear-gradient(90deg,#8B6A00,#F4D06F);
+  transition:width .5s;
 }
 .levels{
   display:grid;
@@ -60,6 +61,40 @@ body{
   color:#aaa;
   font-size:13px;
 }
+.news{
+  border-top:1px solid #333;
+  padding:12px 0;
+}
+.news:first-child{
+  border-top:0;
+}
+.news a{
+  color:white;
+  text-decoration:none;
+  font-weight:600;
+  line-height:1.45;
+}
+.news-meta{
+  color:#888;
+  font-size:11px;
+  margin-top:5px;
+}
+.tag{
+  display:inline-block;
+  font-size:10px;
+  padding:3px 6px;
+  border-radius:6px;
+  margin-right:5px;
+  background:#332800;
+  color:#F4D06F;
+}
+.alert{
+  padding:10px;
+  border-radius:10px;
+  background:#1a1608;
+  border:1px solid #7A5A00;
+  margin-top:10px;
+}
 </style>
 </head>
 
@@ -73,6 +108,7 @@ body{
 <div class="card">
 <div class="small">XRP / JPY</div>
 <div id="x" class="big">読み込み中...</div>
+<div id="xchange" class="small">--</div>
 </div>
 
 <div class="card">
@@ -90,8 +126,10 @@ body{
 <div id="r"></div>
 
 <div class="bar">
-<div class="fill"></div>
+<div id="fill" class="fill" style="width:0%"></div>
 </div>
+
+<div id="progress" class="small"></div>
 
 </div>
 
@@ -100,13 +138,15 @@ body{
 <h3 class="gold">🎯 戦闘価格帯</h3>
 
 <div class="levels">
-<div class="level active">225円</div>
-<div class="level">250円</div>
-<div class="level">275円</div>
-<div class="level">300円</div>
-<div class="level">400円</div>
-<div class="level">500円</div>
+<div id="l225" class="level">225円</div>
+<div id="l250" class="level">250円</div>
+<div id="l275" class="level">275円</div>
+<div id="l300" class="level">300円</div>
+<div id="l400" class="level">400円</div>
+<div id="l500" class="level">500円</div>
 </div>
+
+<div id="zone" class="alert"></div>
 
 </div>
 
@@ -114,12 +154,30 @@ body{
 
 <h3 class="gold">🚨 最重要監視</h3>
 
-<div>🛡️ 225円防衛</div>
-<div>🏛️ CLARITY Act</div>
-<div>📈 XRP現物ETF</div>
-<div>🏦 FRB / FOMC</div>
-<div>₿ BTC急変</div>
+<div>🛡️ <b>225円防衛</b></div>
+<div>🏛️ <b>CLARITY Act</b></div>
+<div>📈 <b>XRP現物ETF</b></div>
+<div>🏦 <b>FRB / FOMC</b></div>
+<div>₿ <b>BTC急変</b></div>
 
+</div>
+
+<div class="card">
+
+<h3 class="gold">📰 最新ニュース</h3>
+
+<div class="small">
+CLARITY / ETF / SEC / Ripple / FOMCを優先表示
+</div>
+
+<div id="news">
+読み込み中...
+</div>
+
+</div>
+
+<div class="small">
+価格更新：5秒ごと ｜ ニュース更新：5分ごと
 </div>
 
 <script>
@@ -127,14 +185,17 @@ body{
 const TARGET=2750000;
 const HOLD=10000;
 
+let lastXRP=null;
+
 async function load(){
 
 try{
 
-const d=await(
-await fetch(
-"https://api.coingecko.com/api/v3/simple/price?ids=ripple,bitcoin&vs_currencies=jpy,usd&include_last_updated_at=true"
-)).json();
+const response=await fetch(
+"https://api.coingecko.com/api/v3/simple/price?ids=ripple,bitcoin&vs_currencies=jpy,usd"
+);
+
+const d=await response.json();
 
 const x=d.ripple.jpy;
 const b=d.bitcoin.usd;
@@ -142,21 +203,244 @@ const b=d.bitcoin.usd;
 const value=Math.round(x*HOLD);
 const remain=TARGET-value;
 
-document.getElementById("x").textContent=x.toFixed(1)+"円";
-document.getElementById("b").textContent="$"+Math.round(b).toLocaleString();
-document.getElementById("v").textContent=value.toLocaleString()+"円";
+document.getElementById("x").textContent=
+x.toFixed(1)+"円";
+
+document.getElementById("b").textContent=
+"$"+Math.round(b).toLocaleString();
+
+document.getElementById("v").textContent=
+value.toLocaleString()+"円";
+
 document.getElementById("r").textContent=
 remain>0
 ?"275万円まで あと"+remain.toLocaleString()+"円"
-:"目標達成";
+:"🎯 目標達成";
+
+let percent=(value/TARGET)*100;
+percent=Math.max(0,Math.min(100,percent));
+
+document.getElementById("fill").style.width=
+percent+"%";
+
+document.getElementById("progress").textContent=
+"目標進捗 "+percent.toFixed(1)+"%";
+
+if(lastXRP!==null){
+
+const diff=x-lastXRP;
+
+document.getElementById("xchange").textContent=
+diff>0
+?"↑ 前回取得比 +"+diff.toFixed(1)+"円"
+:diff<0
+?"↓ 前回取得比 "+diff.toFixed(1)+"円"
+:"→ 変化なし";
+
+}else{
+
+document.getElementById("xchange").textContent=
+"初回取得";
+
+}
+
+lastXRP=x;
+
+updateZone(x);
 
 }catch(e){
+
 console.log("価格取得エラー",e);
+
 }
 
 }
+
+function updateZone(x){
+
+document.querySelectorAll(".level")
+.forEach(el=>el.classList.remove("active"));
+
+if(x<225){
+
+document.getElementById("l225")
+.classList.add("active");
+
+document.getElementById("zone").textContent=
+"🔴 警戒：225円を下回っています";
+
+}else if(x<250){
+
+document.getElementById("l225")
+.classList.add("active");
+
+document.getElementById("zone").textContent=
+"🟡 防衛圏：225〜250円";
+
+}else if(x<275){
+
+document.getElementById("l250")
+.classList.add("active");
+
+document.getElementById("zone").textContent=
+"🟢 上昇圏：250〜275円";
+
+}else if(x<300){
+
+document.getElementById("l275")
+.classList.add("active");
+
+document.getElementById("zone").textContent=
+"🚀 目標圏：275〜300円";
+
+}else if(x<400){
+
+document.getElementById("l300")
+.classList.add("active");
+
+document.getElementById("zone").textContent=
+"🚀 強気圏：300〜400円";
+
+}else if(x<500){
+
+document.getElementById("l400")
+.classList.add("active");
+
+document.getElementById("zone").textContent=
+"🔥 爆発圏：400〜500円";
+
+}else{
+
+document.getElementById("l500")
+.classList.add("active");
+
+document.getElementById("zone").textContent=
+"👑 500円突破圏";
+
+}
+
+}
+
+async function loadNews(){
+
+const newsBox=document.getElementById("news");
+
+const feeds=[
+
+{
+name:"CLARITY",
+query:"CLARITY Act XRP crypto"
+},
+
+{
+name:"XRP ETF",
+query:"XRP ETF Ripple"
+},
+
+{
+name:"SEC / Ripple",
+query:"SEC Ripple XRP"
+},
+
+{
+name:"FOMC",
+query:"Federal Reserve FOMC crypto"
+}
+
+];
+
+let all=[];
+
+for(const feed of feeds){
+
+try{
+
+const url=
+"https://api.rss2json.com/v1/api.json?rss_url="+
+encodeURIComponent(
+"https://news.google.com/rss/search?q="+
+encodeURIComponent(feed.query)+
+"&hl=en-US&gl=US&ceid=US:en"
+);
+
+const response=await fetch(url);
+const data=await response.json();
+
+if(data.items){
+
+data.items.slice(0,3).forEach(item=>{
+
+all.push({
+title:item.title,
+link:item.link,
+date:new Date(item.pubDate),
+tag:feed.name
+});
+
+});
+
+}
+
+}catch(e){
+
+console.log("ニュース取得エラー",e);
+
+}
+
+}
+
+all.sort((a,b)=>b.date-a.date);
+
+all=all.slice(0,8);
+
+if(all.length===0){
+
+newsBox.innerHTML=
+'<div class="small">ニュースを取得できませんでした。次回更新で再取得します。</div>';
+
+return;
+
+}
+
+newsBox.innerHTML=all.map(item=>{
+
+return `
+<div class="news">
+
+<div>
+<span class="tag">${item.tag}</span>
+<a href="${item.link}" target="_blank">
+${escapeHTML(item.title)}
+</a>
+</div>
+
+<div class="news-meta">
+${item.date.toLocaleString("ja-JP")}
+</div>
+
+</div>
+`;
+
+}).join("");
+
+}
+
+function escapeHTML(str){
+
+return String(str)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
 load();
+loadNews();
+
 setInterval(load,5000);
+setInterval(loadNews,300000);
 
 </script>
 
