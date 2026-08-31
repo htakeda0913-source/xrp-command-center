@@ -129,9 +129,11 @@ const HOLD=10000;
 
 async function load(){
 
+try{
+
 const d=await(
 await fetch(
-"https://api.coingecko.com/api/v3/simple/price?ids=ripple,bitcoin&vs_currencies=jpy,usd"
+"https://api.coingecko.com/api/v3/simple/price?ids=ripple,bitcoin&vs_currencies=jpy,usd&include_last_updated_at=true"
 )).json();
 
 const x=d.ripple.jpy;
@@ -148,8 +150,11 @@ remain>0
 ?"275万円まで あと"+remain.toLocaleString()+"円"
 :"目標達成";
 
+}catch(e){
+console.log("価格取得エラー",e);
 }
 
+}
 load();
 setInterval(load,10000);
 
