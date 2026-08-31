@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XRP司令室</title>
+
+<style>
+body{
+  margin:0;
+  background:#050505;
+  color:white;
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  padding:18px;
+}
+.card{
+  background:#111;
+  border:1px solid #7A5A00;
+  border-radius:18px;
+  padding:16px;
+  margin:12px 0;
+}
+.gold{color:#F4D06F;}
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.big{
+  font-size:34px;
+  font-weight:700;
+}
+.bar{
+  height:8px;
+  background:#222;
+  border-radius:99px;
+  overflow:hidden;
+}
+.fill{
+  width:82%;
+  height:100%;
+  background:linear-gradient(90deg,#8B6A00,#F4D06F);
+}
+.levels{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+.level{
+  border:1px solid #555;
+  border-radius:12px;
+  padding:10px;
+  text-align:center;
+}
+.active{
+  border:2px solid #F4D06F;
+  background:#1a1608;
+}
+.small{
+  color:#aaa;
+  font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<h1 class="gold">⚡ XRP司令室</h1>
+<div class="small">BLACK × GOLD TERMINAL</div>
+
+<div class="grid">
+
+<div class="card">
+<div class="small">XRP / JPY</div>
+<div id="x" class="big">読み込み中...</div>
+</div>
+
+<div class="card">
+<div class="small">BTC / USD</div>
+<div id="b" class="big">読み込み中...</div>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="small">10,000 XRP 評価額</div>
+<div id="v" class="big gold">--</div>
+
+<div id="r"></div>
+
+<div class="bar">
+<div class="fill"></div>
+</div>
+
+</div>
+
+<div class="card">
+
+<h3 class="gold">🎯 戦闘価格帯</h3>
+
+<div class="levels">
+<div class="level active">225円</div>
+<div class="level">250円</div>
+<div class="level">275円</div>
+<div class="level">300円</div>
+<div class="level">400円</div>
+<div class="level">500円</div>
+</div>
+
+</div>
+
+<div class="card">
+
+<h3 class="gold">🚨 最重要監視</h3>
+
+<div>🛡️ 225円防衛</div>
+<div>🏛️ CLARITY Act</div>
+<div>📈 XRP現物ETF</div>
+<div>🏦 FRB / FOMC</div>
+<div>₿ BTC急変</div>
+
+</div>
+
+<script>
+
+const TARGET=2750000;
+const HOLD=10000;
+
+async function load(){
+
+const d=await(
+await fetch(
+"https://api.coingecko.com/api/v3/simple/price?ids=ripple,bitcoin&vs_currencies=jpy,usd"
+)).json();
+
+const x=d.ripple.jpy;
+const b=d.bitcoin.usd;
+
+const value=Math.round(x*HOLD);
+const remain=TARGET-value;
+
+document.getElementById("x").textContent=x.toFixed(1)+"円";
+document.getElementById("b").textContent="$"+Math.round(b).toLocaleString();
+document.getElementById("v").textContent=value.toLocaleString()+"円";
+document.getElementById("r").textContent=
+remain>0
+?"275万円まで あと"+remain.toLocaleString()+"円"
+:"目標達成";
+
+}
+
+load();
+setInterval(load,60000);
+
+</script>
+
+</body>
+</html>
