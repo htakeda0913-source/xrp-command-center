@@ -8,430 +8,543 @@
 
 <style>
 :root{
-  --bg:#050505;
-  --panel:#0d0d0d;
-  --panel2:#121212;
-  --line:#272727;
-  --gold:#d6b35a;
-  --green:#45d483;
-  --red:#ff5c5c;
-  --text:#f3f3f3;
-  --muted:#858585;
+ --bg:#050505;
+ --panel:#0b0d0e;
+ --panel2:#101314;
+ --line:#252a2b;
+ --gold:#d8b45a;
+ --gold2:#9e7b2d;
+ --green:#35d27b;
+ --red:#ff5656;
+ --white:#f4f4f4;
+ --gray:#7d8588;
 }
 *{box-sizing:border-box}
 body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif;
+ margin:0;
+ background:
+ radial-gradient(circle at 50% -10%,#302510 0,#0b0b0b 25%,#050505 55%);
+ color:var(--white);
+ font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
 }
 .wrap{
-  max-width:700px;
-  margin:auto;
-  padding:14px 13px 40px;
+ max-width:720px;
+ margin:auto;
+ padding:14px 12px 45px;
 }
 header{
-  padding:8px 3px 15px;
+ padding:8px 4px 18px;
+ display:flex;
+ justify-content:space-between;
+ align-items:end;
 }
-.logo{
-  color:var(--gold);
-  font-size:24px;
-  font-weight:900;
-  letter-spacing:1px;
+.brand{
+ color:var(--gold);
+ font-size:22px;
+ font-weight:900;
+ letter-spacing:1.5px;
 }
-.status{
-  margin-top:5px;
-  font-size:11px;
-  color:var(--muted);
+.sub{
+ color:#666;
+ font-size:9px;
+ letter-spacing:2px;
+ margin-top:4px;
 }
-.dot{
-  display:inline-block;
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:var(--green);
-  margin-right:5px;
+.live{
+ font-size:10px;
+ color:var(--green);
+ white-space:nowrap;
+}
+.live i{
+ display:inline-block;
+ width:6px;
+ height:6px;
+ border-radius:50%;
+ background:var(--green);
+ margin-right:4px;
+ box-shadow:0 0 8px var(--green);
 }
 .grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:9px;
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:9px;
 }
 .card{
-  background:linear-gradient(145deg,#111,#090909);
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:14px;
-  margin-bottom:9px;
-  box-shadow:0 5px 20px #0008;
+ background:linear-gradient(145deg,rgba(18,20,20,.97),rgba(7,8,8,.97));
+ border:1px solid var(--line);
+ border-radius:16px;
+ padding:14px;
+ margin-bottom:9px;
+ box-shadow:0 8px 30px #0009;
 }
 .full{grid-column:1/-1}
+.title{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ color:var(--gold);
+ font-size:12px;
+ font-weight:800;
+ letter-spacing:.8px;
+ margin-bottom:10px;
+}
+.title span{
+ color:#555;
+ font-size:9px;
+ font-weight:500;
+}
 .label{
-  color:var(--muted);
-  font-size:11px;
-  margin-bottom:6px;
+ color:var(--gray);
+ font-size:10px;
+ letter-spacing:.5px;
 }
 .price{
-  font-size:28px;
-  font-weight:850;
-  letter-spacing:-1px;
+ font-size:29px;
+ line-height:1.1;
+ font-weight:900;
+ margin-top:4px;
+ letter-spacing:-1px;
 }
-.gold{color:var(--gold)}
+.xrp{color:var(--gold)}
+.btc{color:#eee}
+.change{
+ font-size:11px;
+ margin-top:6px;
+}
 .green{color:var(--green)}
 .red{color:var(--red)}
-.muted{color:var(--muted)}
-.change{
-  margin-top:5px;
-  font-size:12px;
+.gray{color:var(--gray)}
+.hero{
+ text-align:center;
+ padding:19px 14px 16px;
+ border-color:#4b3b1b;
+ background:
+ linear-gradient(180deg,rgba(36,29,15,.65),rgba(8,9,9,.98));
 }
-.big{
-  font-size:25px;
-  font-weight:800;
+.hero .smalllabel{
+ color:#8c784d;
+ font-size:10px;
+ letter-spacing:2px;
 }
-.targetbar{
-  height:8px;
-  background:#222;
-  border-radius:10px;
-  overflow:hidden;
-  margin:11px 0 7px;
+.heroValue{
+ font-size:34px;
+ font-weight:950;
+ color:var(--gold);
+ margin:5px 0;
+ letter-spacing:-1.5px;
 }
-.targetfill{
-  height:100%;
-  width:0%;
-  background:var(--gold);
-  border-radius:10px;
-  transition:.5s;
+.target{
+ font-size:11px;
+ color:var(--gray);
 }
-.targettext{
-  display:flex;
-  justify-content:space-between;
-  font-size:11px;
-  color:var(--muted);
+.bar{
+ height:7px;
+ background:#202425;
+ border-radius:20px;
+ margin:12px 0 7px;
+ overflow:hidden;
 }
-h2{
-  margin:0 0 12px;
-  font-size:15px;
-  color:var(--gold);
+.fill{
+ height:100%;
+ width:0;
+ background:linear-gradient(90deg,var(--gold2),var(--gold));
+ border-radius:20px;
+ transition:.5s;
 }
-table{
-  width:100%;
-  border-collapse:collapse;
+.barline{
+ display:flex;
+ justify-content:space-between;
+ color:#666;
+ font-size:9px;
 }
-td{
-  padding:9px 4px;
-  border-bottom:1px solid #202020;
-  font-size:12px;
+.zones{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:6px;
 }
-td:last-child{text-align:right}
-.zone-now{
-  color:var(--gold);
-  font-weight:bold;
+.zone{
+ background:#111516;
+ border:1px solid #202526;
+ border-radius:9px;
+ padding:9px 5px;
+ text-align:center;
+}
+.zone b{
+ display:block;
+ color:#ddd;
+ font-size:13px;
+}
+.zone small{
+ display:block;
+ color:#666;
+ font-size:8px;
+ margin-top:3px;
+}
+.zone.active{
+ border-color:#80652b;
+ box-shadow:inset 0 0 15px #6d531c22;
+}
+.zone.active b{color:var(--gold)}
+.metrics{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:6px;
 }
 .metric{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:7px;
+ background:#111516;
+ border:1px solid #202526;
+ border-radius:9px;
+ padding:8px;
 }
-.metric div{
-  background:#151515;
-  border:1px solid #222;
-  border-radius:9px;
-  padding:9px;
+.metric .mname{
+ color:#666;
+ font-size:8px;
 }
 .metric b{
-  display:block;
-  font-size:15px;
-  margin-top:4px;
+ display:block;
+ margin-top:4px;
+ font-size:14px;
 }
 .signal{
-  text-align:center;
-  padding:13px;
-  border-radius:10px;
-  background:#151515;
-  font-size:18px;
-  font-weight:800;
+ margin-top:8px;
+ padding:10px;
+ border-radius:9px;
+ background:#111516;
+ border:1px solid #242828;
+ text-align:center;
+ font-size:12px;
+ font-weight:800;
+}
+.chartbox{
+ position:relative;
+ height:215px;
 }
 canvas{
-  width:100%;
-  height:210px;
-  display:block;
+ width:100%;
+ height:215px;
+ display:block;
+}
+.material{
+ display:grid;
+ gap:7px;
+}
+.materialRow{
+ display:flex;
+ align-items:center;
+ gap:9px;
+ padding:10px;
+ border-radius:10px;
+ background:#111516;
+ border:1px solid #202526;
+}
+.priority{
+ width:7px;
+ height:34px;
+ border-radius:5px;
+ background:var(--gold);
+ box-shadow:0 0 10px #d8b45a44;
+}
+.priority.red{
+ background:var(--red);
+ box-shadow:0 0 10px #ff565644;
+}
+.mtext b{
+ display:block;
+ font-size:12px;
+}
+.mtext small{
+ color:#666;
+ font-size:9px;
 }
 .news a{
-  display:block;
-  text-decoration:none;
-  color:#ddd;
-  padding:11px 2px;
-  border-bottom:1px solid #202020;
-  font-size:13px;
-  line-height:1.45;
+ display:block;
+ color:#ddd;
+ text-decoration:none;
+ padding:11px 2px;
+ border-bottom:1px solid #202425;
+ font-size:12px;
+ line-height:1.45;
 }
+.news a:last-child{border-bottom:0}
 .news a:active{color:var(--gold)}
 .news small{
-  display:block;
-  color:#666;
-  margin-top:3px;
-}
-.badges{
-  display:flex;
-  flex-wrap:wrap;
-  gap:7px;
-}
-.badge{
-  padding:7px 9px;
-  border-radius:8px;
-  background:#171717;
-  border:1px solid #292929;
-  color:#ddd;
-  font-size:11px;
-}
-.badge.hot{
-  border-color:#6d5520;
-  color:var(--gold);
-}
-.event{
-  padding:11px 0;
-  border-bottom:1px solid #202020;
-}
-.event strong{font-size:13px}
-.event span{
-  display:block;
-  color:var(--muted);
-  font-size:11px;
-  margin-top:3px;
+ display:block;
+ color:#555;
+ font-size:8px;
+ margin-top:3px;
 }
 button{
-  width:100%;
-  border:1px solid #383838;
-  border-radius:10px;
-  padding:12px;
-  background:#151515;
-  color:#eee;
-  font-size:13px;
+ width:100%;
+ border:1px solid #403922;
+ background:linear-gradient(180deg,#181612,#0d0e0e);
+ color:var(--gold);
+ border-radius:10px;
+ padding:12px;
+ font-size:12px;
+ font-weight:700;
 }
 footer{
-  text-align:center;
-  color:#555;
-  font-size:10px;
-  padding-top:12px;
+ text-align:center;
+ color:#414546;
+ font-size:8px;
+ letter-spacing:1px;
+ margin-top:10px;
 }
 @media(max-width:420px){
-  .price{font-size:25px}
-  .big{font-size:22px}
+ .price{font-size:25px}
+ .heroValue{font-size:31px}
+ .metrics{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
 
 <body>
+
 <div class="wrap">
 
 <header>
-  <div class="logo">⚡ XRP COMMAND CENTER</div>
-  <div class="status">
-    <span class="dot"></span>
-    <span id="status">MARKET DATA CONNECTING...</span>
-  </div>
+ <div>
+  <div class="brand">⚡ XRP COMMAND CENTER</div>
+  <div class="sub">MARKET · TECHNICAL · MATERIALS</div>
+ </div>
+ <div class="live"><i></i><span id="status">CONNECTING</span></div>
 </header>
 
 <div class="grid">
 
-<!-- MARKET -->
+<!-- XRP -->
 <div class="card">
-  <div class="label">XRP / JPY</div>
-  <div id="xrp" class="price gold">---</div>
-  <div id="xrpChange" class="change muted">24H ---</div>
+ <div class="title">XRP / JPY <span>BITBANK</span></div>
+ <div class="label">LAST PRICE</div>
+ <div id="xrp" class="price xrp">---</div>
+ <div id="xrpChange" class="change gray">24H ---</div>
 </div>
 
+<!-- BTC USD -->
 <div class="card">
-  <div class="label">BTC / JPY</div>
-  <div id="btc" class="price">---</div>
-  <div id="btcChange" class="change muted">24H ---</div>
+ <div class="title">BTC / USD <span>USD</span></div>
+ <div class="label">LAST PRICE</div>
+ <div id="btc" class="price btc">---</div>
+ <div id="btcChange" class="change gray">24H ---</div>
 </div>
 
 <!-- ASSET -->
-<div class="card full">
-  <h2>💰 XRP ASSET COMMAND</h2>
+<div class="card full hero">
+ <div class="smalllabel">10,000 XRP CURRENT VALUE</div>
+ <div id="asset" class="heroValue">---</div>
+ <div id="remain" class="target">2,750,000円まで ---</div>
 
-  <div class="label">10,000 XRP 現在評価額</div>
-  <div id="asset" class="big gold">---</div>
+ <div class="bar">
+  <div id="fill" class="fill"></div>
+ </div>
 
-  <div class="targetbar">
-    <div id="targetFill" class="targetfill"></div>
-  </div>
-
-  <div class="targettext">
-    <span>0円</span>
-    <span id="targetRemain">2,750,000円まで ---</span>
-    <span>275万円</span>
-  </div>
+ <div class="barline">
+  <span>¥0</span>
+  <span>TARGET ¥2,750,000</span>
+ </div>
 </div>
 
-<!-- PRICE ZONE -->
+<!-- PRICE ZONES -->
 <div class="card full">
-  <h2>🎯 PRICE ZONE</h2>
-  <table id="zones"></table>
+ <div class="title">🎯 XRP PRICE MAP <span>10,000 XRP</span></div>
+ <div id="zones" class="zones"></div>
 </div>
 
 <!-- TECHNICAL -->
 <div class="card full">
-  <h2>📊 TECHNICAL</h2>
+ <div class="title">📊 TECHNICAL COMMAND <span>LIVE</span></div>
 
+ <div class="metrics">
   <div class="metric">
-    <div>
-      <div class="label">RSI</div>
-      <b id="rsi">---</b>
-    </div>
-    <div>
-      <div class="label">MACD</div>
-      <b id="macd">---</b>
-    </div>
-    <div>
-      <div class="label">VOLUME</div>
-      <b id="volume">---</b>
-    </div>
+   <div class="mname">RSI</div>
+   <b id="rsi">---</b>
   </div>
+  <div class="metric">
+   <div class="mname">MACD</div>
+   <b id="macd">---</b>
+  </div>
+  <div class="metric">
+   <div class="mname">24H HIGH</div>
+   <b id="high">---</b>
+  </div>
+  <div class="metric">
+   <div class="mname">24H LOW</div>
+   <b id="low">---</b>
+  </div>
+ </div>
 
-  <div style="height:9px"></div>
-
-  <div id="signal" class="signal">ANALYZING...</div>
+ <div id="signal" class="signal">DATA ANALYZING...</div>
 </div>
 
 <!-- CHART -->
 <div class="card full">
-  <h2>📈 XRP PRICE CHART</h2>
+ <div class="title">📈 XRP MOVEMENT <span>LIVE TICK</span></div>
+ <div class="chartbox">
   <canvas id="chart"></canvas>
+ </div>
 </div>
 
-<!-- IMPORTANT -->
+<!-- MATERIAL -->
 <div class="card full">
-  <h2>🚨 MATERIAL WATCH</h2>
+ <div class="title">🚨 MATERIAL WATCH <span>PRIORITY</span></div>
 
-  <div class="badges">
-    <div class="badge hot">🔴 CLARITY ACT — 最優先</div>
-    <div class="badge">🟠 XRP SPOT ETF</div>
-    <div class="badge">🟡 FOMC / FRB</div>
-    <div class="badge">⚪ SEC / REGULATION</div>
-    <div class="badge">⚪ RIPPLE</div>
-  </div>
-</div>
+ <div class="material">
 
-<!-- EVENTS -->
-<div class="card full">
-  <h2>📅 IMPORTANT EVENTS</h2>
-
-  <div class="event">
-    <strong>🔴 CLARITY Act</strong>
-    <span>最重要規制材料。投票・審議状況を監視</span>
+  <div class="materialRow">
+   <div class="priority red"></div>
+   <div class="mtext">
+    <b>CLARITY ACT</b>
+    <small>最重要規制材料 · 議会審議・投票を監視</small>
+   </div>
   </div>
 
-  <div class="event">
-    <strong>🟠 XRP Spot ETF</strong>
-    <span>ETF承認・資金流入・流出を監視</span>
+  <div class="materialRow">
+   <div class="priority"></div>
+   <div class="mtext">
+    <b>XRP SPOT ETF</b>
+    <small>承認・資金流入・流出を監視</small>
+   </div>
   </div>
 
-  <div class="event">
-    <strong>🟡 FOMC / FRB</strong>
-    <span>金利・声明・議長発言を監視</span>
+  <div class="materialRow">
+   <div class="priority"></div>
+   <div class="mtext">
+    <b>FOMC / FRB</b>
+    <small>金利・声明・議長発言を監視</small>
+   </div>
   </div>
+
+  <div class="materialRow">
+   <div class="priority"></div>
+   <div class="mtext">
+    <b>SEC / RIPPLE / REGULATION</b>
+    <small>規制・訴訟・Ripple関連材料を監視</small>
+   </div>
+  </div>
+
+ </div>
 </div>
 
 <!-- NEWS -->
 <div class="card full">
-  <h2>📰 LIVE NEWS</h2>
-  <div id="news" class="news">
-    <a href="https://news.google.com/search?q=XRP" target="_blank">
-      XRP NEWS を開く
-    </a>
-    <a href="https://news.google.com/search?q=Ripple%20CLARITY%20Act" target="_blank">
-      CLARITY Act NEWS を開く
-    </a>
-    <a href="https://news.google.com/search?q=XRP%20ETF" target="_blank">
-      XRP ETF NEWS を開く
-    </a>
-  </div>
+ <div class="title">📰 LIVE NEWS <span>AUTO</span></div>
+ <div id="news" class="news">
+
+  <a href="https://news.google.com/search?q=XRP" target="_blank">
+   XRP 最新ニュース
+  </a>
+
+  <a href="https://news.google.com/search?q=Ripple%20CLARITY%20Act" target="_blank">
+   🔴 CLARITY Act 最新ニュース
+  </a>
+
+  <a href="https://news.google.com/search?q=XRP%20ETF" target="_blank">
+   🟠 XRP ETF 最新ニュース
+  </a>
+
+ </div>
 </div>
 
+<!-- UPDATE -->
 <div class="card full">
-  <button onclick="loadAll()">🔄 今すぐ更新</button>
+ <button onclick="loadAll()">⟳ 司令室を更新</button>
 </div>
 
 </div>
 
 <footer>
-XRP COMMAND CENTER · Auto Refresh 30s
+XRP COMMAND CENTER · 30 SEC MARKET UPDATE
 </footer>
 
 </div>
 
 <script>
 
-const XRP="https://public.bitbank.cc/xrp_jpy/ticker";
-const BTC="https://public.bitbank.cc/btc_jpy/ticker";
+const XRP_API="https://public.bitbank.cc/xrp_jpy/ticker";
+const BTC_API="https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT";
 
-let xrpPrice=0;
-let history=[];
+let xrp=0;
+let prices=[];
 
 const yen=n =>
- Number(n).toLocaleString("ja-JP",{maximumFractionDigits:2})+"円";
+ "¥"+Number(n).toLocaleString("ja-JP",{maximumFractionDigits:0});
 
-function setStatus(t,good=true){
- document.getElementById("status").textContent=t;
- document.querySelector(".dot").style.background=
-   good ? "#45d483" : "#ff5c5c";
-}
+const usd=n =>
+ "$"+Number(n).toLocaleString("en-US",{maximumFractionDigits:0});
 
-async function ticker(url){
-
- const r=await fetch(url+"?"+Date.now(),{
-   cache:"no-store"
- });
-
- if(!r.ok) throw new Error("API ERROR");
-
- return await r.json();
+function status(text,good=true){
+ document.getElementById("status").textContent=text;
+ document.querySelector(".live i").style.background=
+  good ? "var(--green)" : "var(--red)";
 }
 
 async function loadMarket(){
 
  try{
 
-   const xr=await ticker(XRP);
-   const d=xr.data;
+  const r=await fetch(XRP_API+"?t="+Date.now(),{
+   cache:"no-store"
+  });
 
-   xrpPrice=Number(d.last);
-   const change=Number(d.change || 0);
+  if(!r.ok)throw new Error();
 
-   document.getElementById("xrp").textContent=yen(xrpPrice);
+  const d=await r.json();
+  const t=d.data;
 
-   const ce=document.getElementById("xrpChange");
-   ce.textContent="24H "+(change>=0?"+":"")+change+"%";
-   ce.className="change "+(change>=0?"green":"red");
+  xrp=Number(t.last);
 
-   history.push(xrpPrice);
-   if(history.length>120) history.shift();
+  document.getElementById("xrp").textContent=yen(xrp);
 
-   const br=await ticker(BTC);
-   const b=br.data;
+  const ch=Number(t.change||0);
+  const ce=document.getElementById("xrpChange");
 
-   document.getElementById("btc").textContent=
-     yen(Number(b.last));
+  ce.textContent="24H "+(ch>=0?"+":"")+ch+"%";
+  ce.className="change "+(ch>=0?"green":"red");
 
-   const bc=Number(b.change || 0);
-   const be=document.getElementById("btcChange");
+  document.getElementById("high").textContent=
+   yen(t.high||0);
 
-   be.textContent="24H "+(bc>=0?"+":"")+bc+"%";
-   be.className="change "+(bc>=0?"green":"red");
+  document.getElementById("low").textContent=
+   yen(t.low||0);
 
-   updateAsset();
-   updateZones();
-   updateTechnical();
-   drawChart();
+  prices.push(xrp);
+  if(prices.length>100)prices.shift();
 
-   setStatus("MARKET DATA LIVE");
+  updateAsset();
+  updateZones();
+  updateTech();
+  draw();
+
+ }catch(e){
+  console.log("XRP",e);
+ }
+
+ try{
+
+  const r=await fetch(BTC_API+"?t="+Date.now(),{
+   cache:"no-store"
+  });
+
+  if(!r.ok)throw new Error();
+
+  const d=await r.json();
+
+  const b=Number(d.lastPrice);
+  const ch=Number(d.priceChangePercent);
+
+  document.getElementById("btc").textContent=usd(b);
+
+  const ce=document.getElementById("btcChange");
+
+  ce.textContent="24H "+(ch>=0?"+":"")+ch.toFixed(2)+"%";
+  ce.className="change "+(ch>=0?"green":"red");
+
+  status("LIVE");
 
  }catch(e){
 
-   console.log(e);
-   setStatus("MARKET DATA ERROR",false);
+  document.getElementById("btc").textContent="---";
+  status("PARTIAL DATA",false);
 
  }
 
@@ -439,47 +552,42 @@ async function loadMarket(){
 
 function updateAsset(){
 
- if(!xrpPrice)return;
-
- const value=xrpPrice*10000;
+ const value=xrp*10000;
  const target=2750000;
- const remain=target-value;
+ const diff=target-value;
 
  document.getElementById("asset").textContent=yen(value);
 
- document.getElementById("targetRemain").textContent=
-   remain>0
-   ? "275万円まで "+yen(remain)
-   : "🎉 275万円突破！";
+ document.getElementById("remain").textContent=
+  diff>0
+   ?"275万円まで "+yen(diff)
+   :"🎉 275万円突破！";
 
  const pct=Math.max(0,Math.min(100,value/target*100));
 
- document.getElementById("targetFill").style.width=pct+"%";
+ document.getElementById("fill").style.width=pct+"%";
 }
 
 function updateZones(){
 
  const levels=[225,250,275,300,400,500];
 
- let html="";
+ document.getElementById("zones").innerHTML=
+ levels.map(v=>{
 
- levels.forEach(v=>{
+  const value=v*10000;
 
-   const value=v*10000;
-   const diff=xrpPrice-v;
+  const active=
+   xrp>=v && xrp<(levels[levels.indexOf(v)+1]||999999);
 
-   html+=`
-   <tr>
-     <td>${v}円</td>
-     <td>${yen(value)}</td>
-     <td class="${diff>=0?"green":"red"}">
-       ${diff>=0?"▲":"▼"} ${yen(Math.abs(diff))}
-     </td>
-   </tr>`;
+  return `
+   <div class="zone ${active?"active":""}">
+    <b>¥${v}</b>
+    <small>${yen(value)}</small>
+   </div>
+  `;
 
- });
-
- document.getElementById("zones").innerHTML=html;
+ }).join("");
 }
 
 function ema(arr,n){
@@ -487,183 +595,234 @@ function ema(arr,n){
  if(arr.length<n)return null;
 
  const k=2/(n+1);
- let e=arr.slice(0,n).reduce((a,b)=>a+b,0)/n;
+
+ let e=arr.slice(0,n)
+  .reduce((a,b)=>a+b,0)/n;
 
  for(let i=n;i<arr.length;i++)
-   e=arr[i]*k+e*(1-k);
+  e=arr[i]*k+e*(1-k);
 
  return e;
 }
 
-function calcRSI(arr,n=14){
+function rsi(arr,n=14){
 
  if(arr.length<n+1)return null;
 
- let gain=0,loss=0;
+ let gain=0;
+ let loss=0;
 
  for(let i=arr.length-n;i<arr.length;i++){
 
-   const diff=arr[i]-arr[i-1];
+  const d=arr[i]-arr[i-1];
 
-   if(diff>0)gain+=diff;
-   else loss-=diff;
+  if(d>0)gain+=d;
+  else loss-=d;
+
  }
 
  if(loss===0)return 100;
 
- return 100-(100/(1+(gain/loss)));
+ return 100-(100/(1+gain/loss));
 }
 
-function updateTechnical(){
+function updateTech(){
 
- const r=calcRSI(history);
+ const r=rsi(prices);
 
  document.getElementById("rsi").textContent=
-   r===null?"---":r.toFixed(1);
+  r===null?"---":r.toFixed(1);
 
- if(history.length>=26){
+ if(prices.length>=26){
 
-   const e12=ema(history,12);
-   const e26=ema(history,26);
+  const e12=ema(prices,12);
+  const e26=ema(prices,26);
+  const m=e12-e26;
 
-   const m=e12-e26;
+  document.getElementById("macd").textContent=
+   m.toFixed(3);
 
-   document.getElementById("macd").textContent=
-     m.toFixed(4);
+  const s=document.getElementById("signal");
 
-   document.getElementById("signal").textContent=
-     m>0
-       ? "🟢 MACD POSITIVE / 上昇優勢"
-       : "🔴 MACD NEGATIVE / 下落優勢";
+  if(m>0){
 
-   document.getElementById("signal").className=
-     "signal "+(m>0?"green":"red");
+   s.textContent="🟢 MACD POSITIVE · 上昇優勢";
+   s.className="signal green";
+
+  }else{
+
+   s.textContent="🔴 MACD NEGATIVE · 下落優勢";
+   s.className="signal red";
+
+  }
 
  }else{
 
-   document.getElementById("macd").textContent="準備中";
-   document.getElementById("signal").textContent=
-     "📡 データ蓄積中";
+  document.getElementById("macd").textContent="蓄積中";
 
+  document.getElementById("signal").textContent=
+   "📡 市場データ蓄積中...";
+
+  document.getElementById("signal").className=
+   "signal gray";
  }
-
- document.getElementById("volume").textContent="LIVE";
 }
 
-function drawChart(){
+function draw(){
 
  const c=document.getElementById("chart");
  const ctx=c.getContext("2d");
 
- const rect=c.getBoundingClientRect();
+ const w=c.clientWidth;
+ const h=215;
+ const dpr=window.devicePixelRatio||1;
 
- c.width=rect.width*devicePixelRatio;
- c.height=210*devicePixelRatio;
+ c.width=w*dpr;
+ c.height=h*dpr;
 
- ctx.scale(devicePixelRatio,devicePixelRatio);
-
- const w=rect.width;
- const h=210;
+ ctx.setTransform(dpr,0,0,dpr,0,0);
 
  ctx.clearRect(0,0,w,h);
 
- if(history.length<2)return;
+ if(prices.length<2)return;
 
- let min=Math.min(...history);
- let max=Math.max(...history);
+ const min=Math.min(...prices);
+ const max=Math.max(...prices);
+ const range=(max-min)||1;
 
- if(max===min){
-   max+=1;
-   min-=1;
+ /* grid */
+
+ ctx.strokeStyle="#191d1e";
+ ctx.lineWidth=1;
+
+ for(let i=1;i<5;i++){
+
+  const y=i*h/5;
+
+  ctx.beginPath();
+  ctx.moveTo(0,y);
+  ctx.lineTo(w,y);
+  ctx.stroke();
+
  }
+
+ /* line */
 
  ctx.beginPath();
 
- history.forEach((p,i)=>{
+ prices.forEach((p,i)=>{
 
-   const x=i/(history.length-1)*w;
-   const y=h-(p-min)/(max-min)*(h-20)-10;
+  const px=
+   i/(prices.length-1)*w;
 
-   if(i===0)ctx.moveTo(x,y);
-   else ctx.lineTo(x,y);
+  const py=
+   h-((p-min)/range)*(h-20)-10;
+
+  if(i===0)ctx.moveTo(px,py);
+  else ctx.lineTo(px,py);
+
  });
 
- ctx.strokeStyle="#d6b35a";
+ ctx.strokeStyle="#d8b45a";
  ctx.lineWidth=2;
  ctx.stroke();
 
- ctx.fillStyle="#777";
- ctx.font="10px sans-serif";
+ /* current */
 
- ctx.fillText(yen(max),5,12);
- ctx.fillText(yen(min),5,h-3);
+ const last=prices[prices.length-1];
+
+ const y=
+  h-((last-min)/range)*(h-20)-10;
+
+ ctx.beginPath();
+ ctx.arc(w-2,y,3,0,Math.PI*2);
+
+ ctx.fillStyle="#d8b45a";
+ ctx.fill();
+
+ ctx.font="10px sans-serif";
+ ctx.fillStyle="#777";
+
+ ctx.fillText(yen(max),5,11);
+ ctx.fillText(yen(min),5,h-4);
 }
 
 async function loadNews(){
 
- const news=document.getElementById("news");
+ const box=document.getElementById("news");
+
+ const rss=
+  "https://news.google.com/rss/search?q="+
+  encodeURIComponent("XRP OR Ripple OR CLARITY Act OR XRP ETF")+
+  "&hl=ja&gl=JP&ceid=JP:ja";
 
  try{
 
-   const rss=
-     "https://news.google.com/rss/search?q="+
-     encodeURIComponent("XRP OR Ripple OR CLARITY Act OR XRP ETF")+
-     "&hl=ja&gl=JP&ceid=JP:ja";
+  const proxy=
+   "https://api.allorigins.win/raw?url="+
+   encodeURIComponent(rss);
 
-   const proxy=
-     "https://api.allorigins.win/raw?url="+
-     encodeURIComponent(rss);
+  const r=await fetch(proxy+"&t="+Date.now());
 
-   const r=await fetch(proxy+"?"+Date.now());
+  if(!r.ok)throw new Error();
 
-   if(!r.ok)throw new Error();
+  const text=await r.text();
 
-   const text=await r.text();
+  const xml=
+   new DOMParser().parseFromString(text,"text/xml");
 
-   const xml=new DOMParser().parseFromString(text,"text/xml");
+  const items=
+   [...xml.querySelectorAll("item")].slice(0,8);
 
-   const items=[...xml.querySelectorAll("item")].slice(0,10);
+  if(!items.length)throw new Error();
 
-   if(!items.length)throw new Error();
+  box.innerHTML=items.map(item=>{
 
-   news.innerHTML=items.map(item=>{
+   const title=
+    item.querySelector("title")?.textContent||
+    "XRP NEWS";
 
-     const title=item.querySelector("title")?.textContent||"XRP NEWS";
-     const link=item.querySelector("link")?.textContent||"https://news.google.com/search?q=XRP";
-     const date=item.querySelector("pubDate")?.textContent||"";
+   const link=
+    item.querySelector("link")?.textContent||
+    "https://news.google.com/search?q=XRP";
 
-     return `
-       <a href="${link}" target="_blank" rel="noopener">
-         ${title}
-         <small>${date}</small>
-       </a>`;
+   const date=
+    item.querySelector("pubDate")?.textContent||"";
 
-   }).join("");
+   return `
+    <a href="${link}" target="_blank" rel="noopener">
+     ${title}
+     <small>${date}</small>
+    </a>
+   `;
+
+  }).join("");
 
  }catch(e){
 
-   news.innerHTML=`
-     <a href="https://news.google.com/search?q=XRP" target="_blank">
-       📰 XRP 最新ニュース
-     </a>
-     <a href="https://news.google.com/search?q=Ripple%20CLARITY%20Act" target="_blank">
-       🔴 CLARITY Act 最新ニュース
-     </a>
-     <a href="https://news.google.com/search?q=XRP%20ETF" target="_blank">
-       🟠 XRP ETF 最新ニュース
-     </a>
-   `;
+  box.innerHTML=`
+   <a href="https://news.google.com/search?q=XRP" target="_blank">
+    📰 XRP 最新ニュース
+   </a>
+   <a href="https://news.google.com/search?q=Ripple%20CLARITY%20Act" target="_blank">
+    🔴 CLARITY Act 最新ニュース
+   </a>
+   <a href="https://news.google.com/search?q=XRP%20ETF" target="_blank">
+    🟠 XRP ETF 最新ニュース
+   </a>
+  `;
 
  }
-
 }
 
 async function loadAll(){
 
- setStatus("UPDATING...");
+ status("UPDATING");
 
- await loadMarket();
- await loadNews();
+ await Promise.all([
+  loadMarket(),
+  loadNews()
+ ]);
 
 }
 
@@ -672,7 +831,7 @@ loadAll();
 setInterval(loadMarket,30000);
 setInterval(loadNews,180000);
 
-window.addEventListener("resize",drawChart);
+window.addEventListener("resize",draw);
 
 </script>
 
