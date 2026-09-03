@@ -302,11 +302,38 @@ button{
  line-height:1.7
 }
 
-.news-time{
+
+/* ニュース */
+
+.news-item{
+ display:block;
+ text-decoration:none;
+ color:#eef4ff;
+}
+
+.news-item:active{
+ opacity:.65;
+}
+
+.news-source{
+ color:#6f88aa;
+ font-size:8px;
+ margin-top:4px;
+}
+
+.news-arrow{
+ float:right;
+ color:#728caf;
+ font-size:15px;
+}
+
+.news-update{
+ text-align:center;
  color:#667d9d;
  font-size:8px;
- margin-top:4px
+ margin-top:7px;
 }
+
 
 @media(max-width:430px){
 
@@ -322,9 +349,11 @@ button{
 </style>
 </head>
 
+
 <body>
 
 <div class="wrap">
+
 
 <header>
 
@@ -583,7 +612,7 @@ button{
 </div>
 
 
-<!-- 最新ニュース追加 -->
+<!-- 最新ニュース -->
 
 <div class="section card">
 
@@ -591,89 +620,149 @@ button{
   📰 最新XRPニュース
  </div>
 
- <div id="newsList">
 
+ <!-- CLARITY -->
+
+ <a
+  class="news-item"
+  href="https://www.coindesk.com/markets/2026/08/07/bitcoin-stuck-near-usd64-000-as-clarity-act-vote-slips-to-september/"
+  target="_blank"
+  rel="noopener noreferrer"
+ >
 
   <div class="event red">
 
    <div class="icon">🔴</div>
 
    <div>
-    <b>CLARITY Act</b>
+
+    <b>
+     CLARITY Act — 9月へ延期
+     <span class="news-arrow">›</span>
+    </b>
 
     <small>
-     米国暗号資産規制を巡る動きを最優先監視。
+     米上院での市場構造法案の投票が9月にずれ込み、XRPも反応。
     </small>
 
-    <div class="news-time">
-     規制ニュース
+    <div class="news-source">
+     CoinDesk ／ タップして記事を見る
     </div>
 
    </div>
 
   </div>
 
+ </a>
+
+
+ <!-- XRP / CLARITY -->
+
+ <a
+  class="news-item"
+  href="https://crypto.news/what-happens-to-xrp-if-clarity-act-dies-september/"
+  target="_blank"
+  rel="noopener noreferrer"
+ >
+
+  <div class="event red">
+
+   <div class="icon">⚠️</div>
+
+   <div>
+
+    <b>
+     CLARITY Act — 9月の行方
+     <span class="news-arrow">›</span>
+    </b>
+
+    <small>
+     9月の法案審議がXRPの規制環境にどう影響するかを分析。
+    </small>
+
+    <div class="news-source">
+     crypto.news ／ タップして記事を見る
+    </div>
+
+   </div>
+
+  </div>
+
+ </a>
+
+
+ <!-- XRP ETF -->
+
+ <a
+  class="news-item"
+  href="https://crypto.news/xrp-recovery-2026-three-conditions/"
+  target="_blank"
+  rel="noopener noreferrer"
+ >
 
   <div class="event green">
 
    <div class="icon">🟢</div>
 
    <div>
-    <b>XRP 現物ETF</b>
+
+    <b>
+     XRP ETF — 資金流入を監視
+     <span class="news-arrow">›</span>
+    </b>
 
     <small>
-     ETF申請・承認・資金流入を監視。
+     XRP ETFの資金フローや市場回復条件をチェック。
     </small>
 
-    <div class="news-time">
-     ETFニュース
+    <div class="news-source">
+     crypto.news ／ タップして記事を見る
     </div>
 
    </div>
 
   </div>
 
+ </a>
+
+
+ <!-- XRP market -->
+
+ <a
+  class="news-item"
+  href="https://finance.yahoo.com/markets/crypto/articles/xrp-explodes-40-week-hit-184231224.html"
+  target="_blank"
+  rel="noopener noreferrer"
+ >
 
   <div class="event">
 
    <div class="icon">🟠</div>
 
    <div>
-    <b>XRP 市場動向</b>
+
+    <b>
+     XRP 市場急変・上昇材料
+     <span class="news-arrow">›</span>
+    </b>
 
     <small>
-     出来高・急騰・急落など大きな変化を監視。
+     XRPの急上昇と市場全体の資金動向をチェック。
     </small>
 
-    <div class="news-time">
-     市場ニュース
+    <div class="news-source">
+     Yahoo Finance ／ タップして記事を見る
     </div>
 
    </div>
 
   </div>
 
-
-  <div class="event">
-
-   <div class="icon">🟡</div>
-
-   <div>
-    <b>Ripple / XRP</b>
-
-    <small>
-     Ripple社・XRP Ledger関連の重要材料を監視。
-    </small>
-
-    <div class="news-time">
-     Rippleニュース
-    </div>
-
-   </div>
-
-  </div>
+ </a>
 
 
+ <div class="news-update">
+  📰 タイトルをタップすると記事を開きます
  </div>
 
 </div>
@@ -843,7 +932,8 @@ async function getData(url){
 
  const r =
   await fetch(
-   url + "?t=" + Date.now()
+   url + (url.includes("?") ? "&" : "?") +
+   "t=" + Date.now()
   );
 
  if(!r.ok)
@@ -961,7 +1051,7 @@ async function updateData(){
  try{
 
 
-  /* XRP */
+  /* XRP / JPY */
 
   const x =
    await getData(
