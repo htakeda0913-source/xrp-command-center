@@ -2,141 +2,231 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>XRP司令室</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#050505">
+<title>XRP COMMAND CENTER</title>
+
 <style>
+*{box-sizing:border-box}
 body{
-  margin:0;
-  background:#050505;
-  color:white;
-  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+ margin:0;background:#050505;color:#eee;
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+ padding:14px
 }
-header{
-  padding:20px;
-  text-align:center;
-  color:#ffd700;
-  font-size:28px;
-  font-weight:bold;
+h1{color:#d8b45a;font-size:24px;margin:4px 0}
+h2{font-size:17px;color:#d8b45a;margin:0 0 10px}
+.sub{color:#888;font-size:12px;margin-bottom:15px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{
+ background:#101010;border:1px solid #292929;
+ border-radius:12px;padding:14px;margin-bottom:10px
 }
-.box{
-  margin:12px;
-  padding:18px;
-  border:1px solid #444;
-  border-radius:12px;
-  background:#111;
+.price{font-size:27px;font-weight:700}
+.xrp{color:#d8b45a}
+.btc{color:#aaa}
+.small{font-size:12px;color:#888}
+.up{color:#5fd18b}.down{color:#ff6868}
+.full{grid-column:1/-1}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td{padding:8px 5px;border-bottom:1px solid #222}
+td:last-child{text-align:right}
+.news a{
+ display:block;color:#ddd;text-decoration:none;
+ padding:10px 0;border-bottom:1px solid #222;
+ font-size:13px;line-height:1.4
 }
-.label{color:#888;font-size:12px}
-.value{font-size:30px;color:#ffd700;font-weight:bold;margin-top:5px}
-.row{display:flex;gap:10px}
-.row .box{flex:1;margin:5px}
+.news a:hover{color:#d8b45a}
+.badge{
+ display:inline-block;padding:5px 8px;border-radius:6px;
+ background:#1a1a1a;color:#d8b45a;font-size:11px;margin:3px
+}
+button{
+ width:100%;padding:11px;border:1px solid #444;
+ background:#151515;color:#ddd;border-radius:8px
+}
 </style>
 </head>
 
 <body>
 
-<header>⚡ XRP司令室</header>
+<h1>⚡ XRP COMMAND CENTER</h1>
+<div class="sub">LIVE MARKET / REGULATION / NEWS</div>
 
-<div class="row">
+<div class="grid">
 
-<div class="box">
-<div class="label">XRP / JPY</div>
-<div class="value" id="xrp">読み込み中</div>
+<div class="card">
+<h2>XRP / JPY</h2>
+<div id="xrp" class="price xrp">取得中…</div>
+<div id="xrpchg" class="small">---</div>
 </div>
 
-<div class="box">
-<div class="label">BTC / USD</div>
-<div class="value" id="btc">読み込み中</div>
+<div class="card">
+<h2>BTC / JPY</h2>
+<div id="btc" class="price btc">取得中…</div>
+<div id="btcchg" class="small">---</div>
 </div>
 
+<div class="card full">
+<h2>💰 10,000 XRP</h2>
+<div id="asset" class="price">---</div>
+<div id="target" class="small">2,750,000円まで ---</div>
 </div>
 
-<div class="box">
-<div class="label">10,000 XRP 評価額</div>
-<div class="value" id="total">---</div>
+<div class="card full">
+<h2>🎯 XRP PRICE ZONE</h2>
+<table>
+<tr><td>225円</td><td id="p225">---</td></tr>
+<tr><td>250円</td><td id="p250">---</td></tr>
+<tr><td>275円</td><td id="p275">---</td></tr>
+<tr><td>300円</td><td id="p300">---</td></tr>
+<tr><td>400円</td><td id="p400">---</td></tr>
+<tr><td>500円</td><td id="p500">---</td></tr>
+</table>
 </div>
 
-<div class="box">
-<div class="label">🎯 275万円まで</div>
-<div class="value" id="target">---</div>
+<div class="card full">
+<h2>🚨 IMPORTANT</h2>
+<span class="badge">CLARITY ACT</span>
+<span class="badge">XRP SPOT ETF</span>
+<span class="badge">FOMC / FRB</span>
+<span class="badge">REGULATION</span>
 </div>
 
-<div class="box">
-<div class="label">📍 重要価格帯</div>
-225円　250円　275円　300円　400円　500円
+<div class="card full">
+<h2>📰 XRP NEWS</h2>
+<div id="news" class="news">ニュース取得中…</div>
 </div>
 
-<div class="box">
-<div class="label">🚨 最重要材料</div>
-<br>
-<b>LEVEL 1</b>　CLARITY Act<br><br>
-<b>LEVEL 2</b>　XRP Spot ETF<br><br>
-<b>LEVEL 3</b>　FRB / FOMC
+<div class="card full">
+<button onclick="location.reload()">🔄 手動更新</button>
 </div>
 
-<div class="box">
-<div class="label">📰 NEWS</div>
-<br>
-<a href="https://www.google.com/search?q=XRP+Ripple+news"
-style="color:#ffd700">
-XRP最新ニュースを開く →
-</a>
-</div>
-
-<div class="box">
-<div class="label">SYSTEM</div>
-<div id="status">画面起動中</div>
 </div>
 
 <script>
 
-async function update(){
+const XRP_API =
+"https://public.bitbank.cc/xrp_jpy/ticker";
 
-try{
+const BTC_API =
+"https://public.bitbank.cc/btc_jpy/ticker";
 
-const url=
-"https://api.coingecko.com/api/v3/simple/price"+
-"?ids=ripple,bitcoin&vs_currencies=jpy,usd";
+function yen(n){
+ return Number(n).toLocaleString("ja-JP",{
+   maximumFractionDigits:2
+ })+" 円";
+}
 
-const response=await fetch(url);
-const data=await response.json();
+async function getPrice(){
 
-const xrp=data.ripple.jpy;
-const btc=data.bitcoin.usd;
+ try{
+   const xr=await fetch(XRP_API+"?t="+Date.now());
+   const xd=await xr.json();
 
-document.getElementById("xrp").innerText=
-"¥"+xrp.toLocaleString();
+   const x=Number(xd.data.last);
 
-document.getElementById("btc").innerText=
-"$"+btc.toLocaleString();
+   document.getElementById("xrp").textContent=yen(x);
 
-const total=xrp*10000;
+   document.getElementById("asset").textContent=yen(x*10000);
 
-document.getElementById("total").innerText=
-"¥"+Math.round(total).toLocaleString();
+   const diff=2750000-x*10000;
 
-const diff=2750000-total;
+   document.getElementById("target").textContent=
+     diff>0
+     ?"2,750,000円まで "+yen(diff)
+     :"🎉 2,750,000円突破！";
 
-document.getElementById("target").innerText=
-diff>0
-?"あと ¥"+Math.round(diff).toLocaleString()
-:"🎯 目標突破！";
+   const levels=[225,250,275,300,400,500];
 
-document.getElementById("status").innerText=
-"🟢 LIVE　最終更新 "+
-new Date().toLocaleTimeString();
+   levels.forEach(v=>{
+     const el=document.getElementById("p"+v);
+     const d=x-v;
 
-}catch(error){
+     if(d>=0){
+       el.textContent="＋"+yen(d);
+       el.className="up";
+     }else{
+       el.textContent="−"+yen(Math.abs(d));
+       el.className="down";
+     }
+   });
 
-document.getElementById("status").innerText=
-"🔴 価格取得エラー";
+ }catch(e){
+   document.getElementById("xrp").textContent="取得失敗";
+   console.log("XRP ERROR",e);
+ }
+
+ try{
+   const br=await fetch(BTC_API+"?t="+Date.now());
+   const bd=await br.json();
+
+   const b=Number(bd.data.last);
+
+   document.getElementById("btc").textContent=yen(b);
+
+ }catch(e){
+   document.getElementById("btc").textContent="取得失敗";
+   console.log("BTC ERROR",e);
+ }
 
 }
 
+async function getNews(){
+
+ const q=encodeURIComponent(
+   "XRP OR Ripple OR CLARITY Act OR XRP ETF"
+ );
+
+ const url=
+   "https://news.google.com/rss/search?q="+
+   q+
+   "&hl=ja&gl=JP&ceid=JP:ja";
+
+ try{
+
+   const r=await fetch(
+     "https://api.rss2json.com/v1/api.json?rss_url="+
+     encodeURIComponent(url)
+   );
+
+   const d=await r.json();
+
+   if(!d.items || !d.items.length)
+     throw new Error("NO NEWS");
+
+   let html="";
+
+   d.items.slice(0,10).forEach(item=>{
+
+     const title=item.title || "XRP NEWS";
+
+     html+=
+       '<a href="'+item.link+
+       '" target="_blank" rel="noopener">'+
+       title+
+       "</a>";
+
+   });
+
+   document.getElementById("news").innerHTML=html;
+
+ }catch(e){
+
+   document.getElementById("news").innerHTML=
+     '<a href="https://news.google.com/search?q=XRP" target="_blank">📰 XRPニュースをGoogle Newsで開く</a>'+
+     '<a href="https://news.google.com/search?q=Ripple%20CLARITY%20Act" target="_blank">⚖️ CLARITY Actニュース</a>'+
+     '<a href="https://news.google.com/search?q=XRP%20ETF" target="_blank">🏦 XRP ETFニュース</a>';
+
+   console.log("NEWS ERROR",e);
+ }
+
 }
 
-update();
+getPrice();
+getNews();
 
-setInterval(update,60000);
+setInterval(getPrice,30000);
+setInterval(getNews,300000);
 
 </script>
 
