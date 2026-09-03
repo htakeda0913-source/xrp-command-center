@@ -3,945 +3,729 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07111f">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0b1220">
-
 <title>XRP COMMAND CENTER PRO</title>
 
 <style>
 *{box-sizing:border-box}
-
 body{
  margin:0;
- background:#0b1220;
+ background:
+ radial-gradient(circle at 50% -10%,#17365b 0,#091322 42%,#050a12 100%);
  color:#f4f7fb;
- font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+ font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif;
+}
+.wrap{max-width:760px;margin:auto;padding:14px 12px 40px}
+header{
+ display:flex;justify-content:space-between;align-items:center;
+ padding:8px 3px 16px;
+}
+h1{font-size:20px;margin:0;font-weight:900}
+.sub{font-size:11px;color:#8295b3;margin-top:4px}
+.live{
+ padding:6px 10px;border-radius:20px;
+ background:#09241b;border:1px solid #1d684d;
+ color:#39e6a4;font-size:11px;font-weight:800
 }
 
-.wrap{
- max-width:720px;
- margin:auto;
- padding:14px 12px 40px;
-}
-
-.header{
- background:linear-gradient(135deg,#182842,#0e1728);
- border:1px solid #2a3b58;
- border-radius:20px;
- padding:18px;
- margin-bottom:12px;
- box-shadow:0 12px 30px #0005;
-}
-
-.title{
- font-size:22px;
- font-weight:900;
-}
-
-.sub{
- font-size:12px;
- color:#8fa1ba;
- margin-top:4px;
-}
-
-.status{
- margin-top:10px;
- font-size:12px;
- color:#71e3a2;
-}
-
-.grid{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:10px;
-}
-
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .card{
- background:#111c2e;
- border:1px solid #293955;
- border-radius:18px;
- padding:15px;
- box-shadow:0 8px 20px #0003;
+ background:linear-gradient(145deg,#101d31,#0a1220);
+ border:1px solid #20334f;
+ border-radius:18px;padding:15px;
+ box-shadow:0 12px 35px rgba(0,0,0,.22);
 }
+.wide{grid-column:1/-1}
+.label{font-size:11px;color:#8295b3;font-weight:800}
+.price{font-size:27px;font-weight:900;margin:7px 0}
+.status{font-size:10px;color:#37e5a2}
+.status.off{color:#ff6377}
 
-.label{
- font-size:12px;
- color:#8fa1ba;
- margin-bottom:6px;
+.asset{
+ font-size:30px;font-weight:900;margin-top:5px;
 }
-
-.price{
- font-size:26px;
- font-weight:900;
- letter-spacing:-.6px;
+.target{font-size:12px;color:#a8b7cc}
+.progress{
+ height:9px;background:#17253a;border-radius:20px;
+ overflow:hidden;margin:12px 0 8px
 }
-
-.xrp{color:#55d6ff}
-.fx{color:#bda7ff}
-.btc{color:#f4f7fb}
-
-.unit{
- font-size:12px;
- color:#9aa9bd;
-}
-
-.section{
- margin-top:12px;
- background:#111c2e;
- border:1px solid #293955;
- border-radius:18px;
- padding:15px;
- box-shadow:0 8px 20px #0002;
-}
-
-.section h2{
- font-size:15px;
- margin:0 0 12px;
-}
-
-.big .price{
- font-size:31px;
-}
-
-.target{
- display:flex;
- justify-content:space-between;
- margin-bottom:9px;
-}
-
-.target strong{
- font-size:20px;
-}
-
 .bar{
- height:9px;
- background:#27364d;
- border-radius:20px;
- overflow:hidden;
+ height:100%;width:0;
+ background:linear-gradient(90deg,#4ea7ff,#34e7a5);
+ transition:width .3s
 }
-
-.barin{
- height:100%;
- width:0%;
- background:linear-gradient(90deg,#55d6ff,#67e5a0);
- transition:.4s;
-}
-
-.small{
- font-size:11px;
- color:#8190a7;
- margin-top:7px;
-}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.muted{font-size:11px;color:#8295b3}
 
 .levels{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:7px;
+ display:grid;grid-template-columns:repeat(3,1fr);
+ gap:8px;margin-top:11px
 }
-
 .level{
- background:#0d1728;
- border:1px solid #293955;
- border-radius:12px;
- padding:10px 5px;
- text-align:center;
+ text-align:center;padding:12px 5px;
+ border:1px solid #20334e;background:#091321;
+ border-radius:13px
 }
+.level b{font-size:17px;display:block}
+.level span{font-size:10px;color:#7388a7}
+.level.goal{border-color:#8067b4;background:#171226}
 
-.level b{
- font-size:14px;
-}
-
-.level span{
- display:block;
- font-size:11px;
- color:#8190a7;
- margin-top:4px;
-}
-
-.alertbox{
- background:#0d1728;
- border:1px solid #293955;
+.alert{
+ margin-top:10px;padding:13px;
  border-radius:14px;
- padding:12px;
+ background:#150f19;border:1px solid #49304d
 }
-
-.alertrow{
- display:flex;
- justify-content:space-between;
- align-items:center;
- padding:9px 0;
- border-bottom:1px solid #24334a;
-}
-
-.alertrow:last-child{
- border-bottom:0;
-}
-
-.alertname{
- font-size:13px;
-}
-
-.alertstate{
- font-size:11px;
- color:#8190a7;
-}
-
-.alert-active{
- color:#ffcf5a;
- font-weight:800;
-}
-
-.notice{
- display:none;
- margin-top:10px;
- padding:13px;
- border-radius:13px;
- background:#40251d;
- border:1px solid #9b6048;
- color:#ffd5c7;
- font-size:13px;
- font-weight:800;
-}
-
-.notice.show{
- display:block;
-}
-
-.priority{
- display:flex;
- gap:9px;
- padding:10px 0;
- border-bottom:1px solid #24334a;
-}
-
-.priority:last-child{
- border-bottom:0;
-}
-
-.dot{
- width:9px;
- height:9px;
- border-radius:50%;
- background:#ffd15a;
- margin-top:4px;
- flex:none;
- box-shadow:0 0 10px #ffd15a88;
-}
-
-.prioritytext{
- font-size:13px;
-}
-
-.prioritytext small{
- display:block;
- color:#8190a7;
- margin-top:3px;
-}
-
-.news{
- display:block;
- text-decoration:none;
- color:#fff;
- background:#0d1728;
- border:1px solid #293955;
- border-radius:12px;
- padding:12px;
- margin-top:8px;
-}
-
-.news b{
- font-size:13px;
-}
-
-.news small{
- display:block;
- color:#8190a7;
- margin-top:4px;
+.alertTitle{font-weight:900;font-size:14px}
+.alertMsg{
+ margin-top:7px;padding:9px;
+ background:#0b1524;border-radius:10px;
+ font-size:12px;color:#c9d4e4
 }
 
 button{
- width:100%;
- border:0;
- border-radius:13px;
- padding:12px;
- margin-top:10px;
- background:#1d2c45;
- color:#fff;
- font-weight:800;
+ background:#122137;color:#fff;border:1px solid #315073;
+ border-radius:10px;padding:9px 12px;font-weight:800
 }
+button.on{border-color:#35c996;color:#35e5a2}
+
+.news{display:flex;flex-direction:column;gap:8px;margin-top:11px}
+.news a{
+ text-decoration:none;color:#f2f5fa;
+ border:1px solid #20334e;
+ background:#091321;
+ border-radius:13px;padding:12px
+}
+.news b{display:block;font-size:13px}
+.news span{display:block;font-size:10px;color:#7186a5;margin-top:4px}
+
+.tv{
+ overflow:hidden;border-radius:13px;
+ border:1px solid #20334e;background:#080e19
+}
+.tv iframe{display:block;width:100%;height:105px;border:0}
 
 .footer{
- text-align:center;
- color:#61718a;
- font-size:10px;
- margin-top:15px;
+ margin-top:15px;font-size:9px;color:#627695;
+ line-height:1.6
 }
 
-@media(max-width:420px){
+.flash{
+ animation:flash .7s ease 2
+}
+@keyframes flash{
+ 0%,100%{box-shadow:0 0 0 rgba(255,70,100,0)}
+ 50%{box-shadow:0 0 28px rgba(255,70,100,.7)}
+}
+
+@media(max-width:430px){
  .price{font-size:23px}
- .big .price{font-size:28px}
+ .asset{font-size:27px}
 }
 </style>
 </head>
 
 <body>
-
 <div class="wrap">
 
-<div class="header">
- <div class="title">⚡ XRP COMMAND CENTER PRO</div>
- <div class="sub">XRP市場監視・資産評価・重要材料</div>
- <div id="status" class="status">● LIVE接続中…</div>
-</div>
-
+<header>
+ <div>
+  <h1>⚡ XRP COMMAND CENTER PRO</h1>
+  <div class="sub">リアルタイム市場監視システム</div>
+ </div>
+ <div id="connection" class="live">● 接続中</div>
+</header>
 
 <div class="grid">
 
- <div class="card">
-  <div class="label">XRP / JPY</div>
-  <div id="xrpPrice" class="price xrp">---</div>
-  <span class="unit">円</span>
- </div>
-
- <div class="card">
-  <div class="label">BTC / USD</div>
-  <div id="btcPrice" class="price btc">---</div>
-  <span class="unit">USD</span>
- </div>
-
- <div class="card">
-  <div class="label">USD / JPY</div>
-  <div id="usdJpy" class="price fx">---</div>
-  <span class="unit">円</span>
- </div>
-
- <div class="card">
-  <div class="label">XRP / USD</div>
-  <div id="xrpUsd" class="price">---</div>
-  <span class="unit">USD</span>
- </div>
-
+<!-- XRP -->
+<div class="card">
+ <div class="label">XRP / JPY</div>
+ <div id="xrp" class="price">---</div>
+ <div id="xrpStatus" class="status">● REALTIME 接続待ち</div>
 </div>
 
-
-<div class="section big">
-
- <h2>💰 10,000 XRP 評価額</h2>
-
- <span id="valuation" class="price">---</span>
- <span class="unit">円</span>
-
- <div class="small">
-  目標：2,750,000円
- </div>
-
+<!-- BTC -->
+<div class="card">
+ <div class="label">BTC / USD</div>
+ <div id="btc" class="price">---</div>
+ <div id="btcStatus" class="status">● REALTIME 接続待ち</div>
 </div>
 
-
-<div class="section">
-
- <h2>🎯 275万円まで</h2>
-
- <div class="target">
-
+<!-- USDJPY -->
+<div class="card wide">
+ <div class="row">
   <div>
-   <div class="label">現在評価額</div>
-   <strong id="currentValue">---</strong>
+   <div class="label">USD / JPY</div>
+   <div class="muted">リアルタイム為替</div>
+  </div>
+  <div class="status">● LIVE</div>
+ </div>
+
+ <div class="tv">
+  <iframe
+   src="https://www.tradingview.com/widgetembed/?symbol=FX%3AUSDJPY&interval=1&hidesidetoolbar=1&hidetoptoolbar=1&symboledit=0&saveimage=0&theme=dark&style=1&timezone=Asia%2FTokyo&withdateranges=0&hideideas=1&locale=ja">
+  </iframe>
+ </div>
+</div>
+
+<!-- ASSET -->
+<div class="card wide">
+ <div class="row">
+  <div>
+   <div class="label">💰 10,000 XRP 現在評価額</div>
+   <div id="asset" class="asset">---</div>
   </div>
 
   <div style="text-align:right">
-   <div class="label">残り</div>
-   <strong id="remaining">---</strong>
+   <div class="label">🎯 目標</div>
+   <b>¥2,750,000</b>
   </div>
-
  </div>
 
- <div class="bar">
-  <div id="bar" class="barin"></div>
+ <div class="progress">
+  <div id="bar" class="bar"></div>
  </div>
 
- <div id="progressText" class="small">---</div>
-
+ <div class="row">
+  <div id="distance" class="muted">目標まで ---</div>
+  <div id="percent" class="muted">---%</div>
+ </div>
 </div>
 
-
-<div class="section">
-
- <h2>🚨 XRP価格アラート</h2>
-
- <div class="alertbox">
-
-  <div class="alertrow">
-   <div class="alertname">🔴 225円割れ</div>
-   <div id="a225" class="alertstate">監視中</div>
-  </div>
-
-  <div class="alertrow">
-   <div class="alertname">🟠 250円到達</div>
-   <div id="a250" class="alertstate">監視中</div>
-  </div>
-
-  <div class="alertrow">
-   <div class="alertname">🟢 275円到達</div>
-   <div id="a275" class="alertstate">監視中</div>
-  </div>
-
-  <div class="alertrow">
-   <div class="alertname">🔵 300円到達</div>
-   <div id="a300" class="alertstate">監視中</div>
-  </div>
-
-  <div class="alertrow">
-   <div class="alertname">🚀 400円到達</div>
-   <div id="a400" class="alertstate">監視中</div>
-  </div>
-
-  <div class="alertrow">
-   <div class="alertname">🔥 500円到達</div>
-   <div id="a500" class="alertstate">監視中</div>
-  </div>
-
- </div>
-
- <div id="notice" class="notice"></div>
-
-</div>
-
-
-<div class="section">
-
- <h2>📊 XRP価格帯クイックビュー</h2>
+<!-- PRICE LEVELS -->
+<div class="card wide">
+ <div class="label">🎯 XRP 価格司令ライン</div>
+ <div class="muted">10,000 XRPの評価額</div>
 
  <div class="levels">
-
   <div class="level">
-   <b>225円</b>
-   <span>2,250,000円</span>
+   <b>¥225</b><span>¥2,250,000</span>
   </div>
-
   <div class="level">
-   <b>250円</b>
-   <span>2,500,000円</span>
+   <b>¥250</b><span>¥2,500,000</span>
   </div>
-
+  <div class="level goal">
+   <b>⭐ ¥275</b><span>¥2,750,000</span>
+  </div>
   <div class="level">
-   <b>275円</b>
-   <span>2,750,000円</span>
+   <b>¥300</b><span>¥3,000,000</span>
   </div>
-
   <div class="level">
-   <b>300円</b>
-   <span>3,000,000円</span>
+   <b>¥400</b><span>¥4,000,000</span>
   </div>
-
   <div class="level">
-   <b>400円</b>
-   <span>4,000,000円</span>
+   <b>¥500</b><span>¥5,000,000</span>
   </div>
-
-  <div class="level">
-   <b>500円</b>
-   <span>5,000,000円</span>
-  </div>
-
  </div>
-
 </div>
 
+<!-- ALERT -->
+<div id="alertCard" class="card wide">
 
-<div class="section">
-
- <h2>🚨 最重要監視</h2>
-
- <div class="priority">
-  <div class="dot"></div>
-  <div class="prioritytext">
-   CLARITY Act
-   <small>XRP規制環境を左右する最重要材料</small>
+ <div class="row">
+  <div>
+   <div class="label">🚨 価格通知</div>
+   <div class="muted">音・振動なし / 画面通知</div>
   </div>
+
+  <button id="notifyBtn">🔔 通知を許可</button>
  </div>
 
- <div class="priority">
-  <div class="dot"></div>
-  <div class="prioritytext">
-   XRP Spot ETF
-   <small>資金流入・承認関連材料</small>
-  </div>
- </div>
-
- <div class="priority">
-  <div class="dot"></div>
-  <div class="prioritytext">
-   FRB / FOMC
-   <small>金利・金融政策</small>
-  </div>
- </div>
-
- <div class="priority">
-  <div class="dot"></div>
-  <div class="prioritytext">
-   BTC急変
-   <small>XRPへの連動を監視</small>
+ <div class="alert">
+  <div id="alertTitle" class="alertTitle">監視待機中</div>
+  <div id="alertMsg" class="alertMsg">
+   XRPリアルタイム価格を受信すると価格ラインを監視します。
   </div>
  </div>
 
 </div>
 
+<!-- MATERIAL -->
+<div class="card wide">
 
-<div class="section">
+ <div class="label">🔥 最重要材料</div>
+ <div class="muted">XRPへの影響を重視</div>
 
- <h2>📰 重要ニュース</h2>
+ <div class="news">
 
- <a class="news" target="_blank"
- href="https://www.google.com/search?q=XRP+CLARITY+Act+latest">
-  <b>CLARITY Act / XRP 最新情報</b>
-  <small>タップして確認 → Safari</small>
- </a>
+  <a href="https://www.google.com/search?q=CLARITY+Act+XRP+%E3%82%AF%E3%83%A9%E3%83%AA%E3%83%86%E3%82%A3%E6%B3%95&tbm=nws"
+     target="_blank">
+   <b>🥇 CLARITY Act — 最重要</b>
+   <span>日本語ニュースを検索 →</span>
+  </a>
 
- <a class="news" target="_blank"
- href="https://www.google.com/search?q=XRP+spot+ETF+latest">
-  <b>XRP Spot ETF 最新情報</b>
-  <small>タップして確認 → Safari</small>
- </a>
+  <a href="https://www.google.com/search?q=XRP+ETF+%E7%8F%BE%E7%89%A9ETF&tbm=nws"
+     target="_blank">
+   <b>🥈 XRP Spot ETF</b>
+   <span>日本語ニュースを検索 →</span>
+  </a>
 
- <a class="news" target="_blank"
- href="https://www.google.com/search?q=Bitcoin+crypto+market+latest">
-  <b>BTC・暗号資産 最新情報</b>
-  <small>タップして確認 → Safari</small>
- </a>
+  <a href="https://www.google.com/search?q=FRB+FOMC+%E6%9A%97%E5%8F%B7%E8%B3%87%E7%94%A3&tbm=nws"
+     target="_blank">
+   <b>🥉 FRB / FOMC</b>
+   <span>日本語ニュースを検索 →</span>
+  </a>
 
+  <a href="https://www.google.com/search?q=BTC+%E6%80%A5%E8%90%BD+%E6%80%A5%E9%A8%B0&tbm=nws"
+     target="_blank">
+   <b>⚡ BTC 急変</b>
+   <span>日本語ニュースを検索 →</span>
+  </a>
+
+ </div>
 </div>
 
+<!-- NEWS -->
+<div class="card wide">
 
-<button onclick="loadAll()">🔄 今すぐ更新</button>
+ <div class="label">📰 日本語ニュース</div>
+ <div class="muted">タップすると最新ニュースを開きます</div>
+
+ <div class="news">
+
+  <a href="https://www.google.com/search?q=XRP+%E3%83%AA%E3%83%83%E3%83%97%E3%83%AB+%E6%9C%80%E6%96%B0&tbm=nws"
+     target="_blank">
+   <b>🟢 XRP / リップル 最新ニュース</b>
+   <span>日本語ニュース</span>
+  </a>
+
+  <a href="https://www.google.com/search?q=CLARITY+Act+XRP+%E6%9C%80%E6%96%B0&tbm=nws"
+     target="_blank">
+   <b>⚖️ CLARITY Act 最新ニュース</b>
+   <span>日本語ニュース</span>
+  </a>
+
+  <a href="https://www.google.com/search?q=XRP+ETF+%E6%9C%80%E6%96%B0&tbm=nws"
+     target="_blank">
+   <b>📈 XRP ETF 最新ニュース</b>
+   <span>日本語ニュース</span>
+  </a>
+
+  <a href="https://www.google.com/search?q=%E6%9A%97%E5%8F%B7%E8%B3%87%E7%94%A3+%E6%9C%80%E6%96%B0%E3%83%8B%E3%83%A5%E3%83%BC%E3%82%B9&tbm=nws"
+     target="_blank">
+   <b>🌎 暗号資産 最新ニュース</b>
+   <span>日本語ニュース</span>
+  </a>
+
+ </div>
+</div>
 
 <div class="footer">
- XRP COMMAND CENTER PRO
+XRP：Bitbank Public WebSocket / ticker_xrp_jpy<br>
+BTC：Binance Spot WebSocket / btcusdt@trade<br>
+USD/JPY：TradingView Forex表示<br>
+※価格通知はこのページを開いている間に動作します。ブラウザ通知は端末側の許可が必要です。
 </div>
 
 </div>
-
 
 <script>
 
-/* ==========================
+/* =========================
    基本設定
-========================== */
+========================= */
 
-const XRP_API =
- "https://public.bitbank.cc/xrp_jpy/ticker";
+const XRP_ROOM = "ticker_xrp_jpy";
+const XRP_WS =
+ "wss://stream.bitbank.cc/socket.io/?EIO=4&transport=websocket";
 
-const BTC_API =
- "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT";
+const BTC_WS =
+ "wss://stream.binance.com:9443/ws/btcusdt@trade";
 
-/*
- USD/JPYは複数ルートを順番に試す
-*/
-const FX_APIS=[
- "https://open.er-api.com/v6/latest/USD",
- "https://api.frankfurter.app/latest?from=USD&to=JPY"
+const XRP_AMOUNT = 10000;
+const TARGET = 2750000;
+
+const LEVELS = [
+  {price:225,name:"225円"},
+  {price:250,name:"250円"},
+  {price:275,name:"275円"},
+  {price:300,name:"300円"},
+  {price:400,name:"400円"},
+  {price:500,name:"500円"}
 ];
 
-const HOLDINGS=10000;
-const TARGET=2750000;
+let xrpPrice = null;
+let previousXrp = null;
+let xrpSocket = null;
+let btcSocket = null;
+
+let triggeredUp = {};
+let triggeredDown = {};
+let below225 = false;
 
 
-/* ==========================
-   現在値
-========================== */
-
-let xrp=0;
-let btc=0;
-let usdJpy=0;
-let lastXrp=0;
-
-
-/* ==========================
+/* =========================
    表示
-========================== */
+========================= */
 
-function xrpFormat(v){
+function yen(v){
+ return "¥" + Number(v).toLocaleString("ja-JP",{
+   minimumFractionDigits:2,
+   maximumFractionDigits:2
+ });
+}
 
- return Number(v).toLocaleString("ja-JP",{
-  minimumFractionDigits:2,
-  maximumFractionDigits:2
+function yen0(v){
+ return "¥" + Math.round(v).toLocaleString("ja-JP");
+}
+
+function usd(v){
+ return "$" + Number(v).toLocaleString("en-US",{
+   minimumFractionDigits:2,
+   maximumFractionDigits:2
+ });
+}
+
+function updateAsset(){
+
+ if(xrpPrice === null)return;
+
+ const value = xrpPrice * XRP_AMOUNT;
+ const pct = Math.min(100,(value/TARGET)*100);
+ const diff = TARGET-value;
+
+ document.getElementById("asset").textContent = yen0(value);
+
+ document.getElementById("bar").style.width =
+   Math.max(0,pct) + "%";
+
+ document.getElementById("percent").textContent =
+   pct.toFixed(1) + "%";
+
+ document.getElementById("distance").textContent =
+   diff >= 0
+    ? "目標まで " + yen0(diff)
+    : "目標超過 " + yen0(Math.abs(diff));
+
+ checkAlerts(xrpPrice);
+}
+
+
+/* =========================
+   ALERT
+========================= */
+
+function notifyBrowser(title,message){
+
+ if(
+   "Notification" in window &&
+   Notification.permission === "granted"
+ ){
+   try{
+     new Notification(title,{body:message});
+   }catch(e){}
+ }
+}
+
+function showAlert(title,message){
+
+ document.getElementById("alertTitle").textContent =
+   "🚨 " + title;
+
+ document.getElementById("alertMsg").textContent =
+   message + "　" +
+   new Date().toLocaleTimeString("ja-JP");
+
+ document.getElementById("alertCard").classList.remove("flash");
+
+ void document.getElementById("alertCard").offsetWidth;
+
+ document.getElementById("alertCard").classList.add("flash");
+
+ notifyBrowser(title,message);
+}
+
+function checkAlerts(price){
+
+ if(previousXrp === null){
+   previousXrp = price;
+   return;
+ }
+
+ /* 225円割れ */
+
+ if(previousXrp >= 225 && price < 225){
+
+   if(!below225){
+
+     below225 = true;
+
+     showAlert(
+       "225円割れ",
+       "XRPが重要ライン225円を下抜けました。現在 " + yen(price)
+     );
+   }
+
+ }else if(price >= 225){
+
+   below225 = false;
+ }
+
+
+ /* 価格ライン到達 */
+
+ LEVELS.forEach(level=>{
+
+   const p = level.price;
+
+   if(previousXrp < p && price >= p){
+
+     if(!triggeredUp[p]){
+
+       triggeredUp[p] = true;
+
+       showAlert(
+         level.name + " 到達",
+         "XRPが" + level.name + "に到達。現在 " + yen(price)
+       );
+     }
+   }
+
+   if(price < p){
+
+     triggeredUp[p] = false;
+   }
+
  });
 
+ previousXrp = price;
 }
 
 
-function btcFormat(v){
+/* =========================
+   XRP BITBANK REALTIME
+========================= */
 
- return Number(v).toLocaleString("en-US",{
-  minimumFractionDigits:2,
-  maximumFractionDigits:2
- });
-
-}
-
-
-function fxFormat(v){
-
- return Number(v).toLocaleString("ja-JP",{
-  minimumFractionDigits:2,
-  maximumFractionDigits:2
- });
-
-}
-
-
-function yenFormat(v){
-
- return Math.round(v).toLocaleString("ja-JP");
-
-}
-
-
-/* ==========================
-   ステータス
-========================== */
-
-function status(text,good=true){
-
- const el=document.getElementById("status");
-
- el.textContent=(good?"● ":"⚠ ")+text;
-
- el.style.color=
-  good ? "#71e3a2" : "#ffb86b";
-
-}
-
-
-/* ==========================
-   XRP
-========================== */
-
-async function getXRP(){
+function connectXRP(){
 
  try{
 
-  const r=await fetch(
-   XRP_API+"?t="+Date.now(),
-   {cache:"no-store"}
-  );
+   xrpSocket = new WebSocket(XRP_WS);
 
-  if(!r.ok) throw new Error("XRP HTTP "+r.status);
+   xrpSocket.onopen = function(){
 
-  const d=await r.json();
+     document.getElementById("xrpStatus").textContent =
+       "● REALTIME 接続中";
 
-  const v=Number(d.data.last);
+     document.getElementById("xrpStatus")
+       .classList.remove("off");
 
-  if(!Number.isFinite(v)){
+     document.getElementById("connection").textContent =
+       "● LIVE";
 
-   throw new Error("XRP price invalid");
+     /* Socket.IO namespace connection */
 
-  }
+     xrpSocket.send("40");
 
-  xrp=v;
+     setTimeout(function(){
 
-  document.getElementById("xrpPrice").textContent=
-   xrpFormat(xrp);
+       if(xrpSocket.readyState === WebSocket.OPEN){
 
-  updateDisplay();
+         xrpSocket.send(
+           '42["join-room","' + XRP_ROOM + '"]'
+         );
 
-  checkAlerts();
+       }
 
-  return true;
+     },300);
+
+   };
+
+   xrpSocket.onmessage = function(event){
+
+     const text = event.data;
+
+     if(typeof text !== "string")return;
+
+     /* ping */
+     if(text === "2"){
+       xrpSocket.send("3");
+       return;
+     }
+
+     if(!text.startsWith("42"))return;
+
+     try{
+
+       const packet =
+         JSON.parse(text.substring(2));
+
+       if(!Array.isArray(packet))return;
+
+       const payload = packet[1];
+
+       if(!payload)return;
+
+       const data =
+         payload.message &&
+         payload.message.data;
+
+       if(data && data.last){
+
+         const price = Number(data.last);
+
+         if(Number.isFinite(price)){
+
+           xrpPrice = price;
+
+           document.getElementById("xrp").textContent =
+             yen(price);
+
+           updateAsset();
+
+         }
+       }
+
+     }catch(e){}
+
+   };
+
+   xrpSocket.onclose = function(){
+
+     document.getElementById("xrpStatus").textContent =
+       "● 再接続中";
+
+     document.getElementById("xrpStatus")
+       .classList.add("off");
+
+     setTimeout(connectXRP,2000);
+   };
+
+   xrpSocket.onerror = function(){
+
+     try{xrpSocket.close()}catch(e){}
+
+   };
 
  }catch(e){
 
-  console.log(e);
-
-  return false;
+   setTimeout(connectXRP,2000);
 
  }
 
 }
 
 
-/* ==========================
-   BTC
-========================== */
+/* =========================
+   BTC BINANCE REALTIME
+========================= */
 
-async function getBTC(){
+function connectBTC(){
 
  try{
 
-  const r=await fetch(
-   BTC_API+"&t="+Date.now(),
-   {cache:"no-store"}
-  );
+   btcSocket = new WebSocket(BTC_WS);
 
-  if(!r.ok) throw new Error("BTC HTTP "+r.status);
+   btcSocket.onopen = function(){
 
-  const d=await r.json();
+     document.getElementById("btcStatus").textContent =
+       "● REALTIME 接続中";
 
-  const v=Number(d.price);
+     document.getElementById("btcStatus")
+       .classList.remove("off");
 
-  if(!Number.isFinite(v)){
+   };
 
-   throw new Error("BTC invalid");
+   btcSocket.onmessage = function(event){
 
-  }
+     try{
 
-  btc=v;
+       const data = JSON.parse(event.data);
 
-  document.getElementById("btcPrice").textContent=
-   btcFormat(btc);
+       const price = Number(data.p);
 
-  return true;
+       if(Number.isFinite(price)){
+
+         document.getElementById("btc").textContent =
+           usd(price);
+
+       }
+
+     }catch(e){}
+
+   };
+
+   btcSocket.onclose = function(){
+
+     document.getElementById("btcStatus").textContent =
+       "● 再接続中";
+
+     document.getElementById("btcStatus")
+       .classList.add("off");
+
+     setTimeout(connectBTC,2000);
+
+   };
+
+   btcSocket.onerror = function(){
+
+     try{btcSocket.close()}catch(e){}
+
+   };
 
  }catch(e){
 
-  console.log(e);
-
-  return false;
+   setTimeout(connectBTC,2000);
 
  }
 
 }
 
 
-/* ==========================
-   USD / JPY
-========================== */
+/* =========================
+   BROWSER NOTIFICATION
+========================= */
 
-async function getFX(){
+document.getElementById("notifyBtn").onclick =
+ async function(){
 
- for(const url of FX_APIS){
+   if(!("Notification" in window)){
 
-  try{
+     alert(
+       "このブラウザでは通知機能を利用できません。"
+     );
 
-   const r=await fetch(
-    url+(url.includes("?")?"&":"?")+"t="+Date.now(),
-    {cache:"no-store"}
-   );
+     return;
+   }
 
-   if(!r.ok) continue;
+   try{
 
-   const d=await r.json();
+     const result =
+       await Notification.requestPermission();
 
-   let v=0;
+     if(result === "granted"){
 
-   if(d.rates && d.rates.JPY){
+       this.textContent = "🔔 通知ON";
+       this.classList.add("on");
 
-    v=Number(d.rates.JPY);
+       showAlert(
+         "通知ON",
+         "価格通知を有効にしました。"
+       );
+
+     }else{
+
+       this.textContent = "🔕 通知OFF";
+
+     }
+
+   }catch(e){
+
+     this.textContent = "🔕 通知OFF";
 
    }
 
-   if(d.rates && d.rates.USD && !v){
+};
 
-    v=Number(d.rates.USD);
 
-   }
+/* =========================
+   START
+========================= */
 
-   if(Number.isFinite(v) && v>0){
-
-    usdJpy=v;
-
-    document.getElementById("usdJpy").textContent=
-     fxFormat(usdJpy);
-
-    updateDisplay();
-
-    return true;
-
-   }
-
-  }catch(e){
-
-   console.log("FX",e);
-
-  }
-
- }
-
- return false;
-
-}
-
-
-/* ==========================
-   評価額
-========================== */
-
-function updateDisplay(){
-
- if(!xrp) return;
-
- const value=xrp*HOLDINGS;
-
- const remaining=Math.max(
-  TARGET-value,
-  0
- );
-
- const progress=Math.min(
-  value/TARGET*100,
-  100
- );
-
-
- document.getElementById("valuation").textContent=
-  yenFormat(value);
-
- document.getElementById("currentValue").textContent=
-  yenFormat(value);
-
- document.getElementById("remaining").textContent=
-  yenFormat(remaining);
-
- document.getElementById("bar").style.width=
-  progress+"%";
-
- document.getElementById("progressText").textContent=
-  "目標達成率 "+progress.toFixed(1)+
-  "% ｜ 目標XRP価格 275.00円";
-
-
- if(usdJpy>0){
-
-  const xu=xrp/usdJpy;
-
-  document.getElementById("xrpUsd").textContent=
-   xu.toFixed(4);
-
- }
-
-}
-
-
-/* ==========================
-   XRPアラート
-========================== */
-
-function alertLevel(id,condition){
-
- const el=document.getElementById(id);
-
- if(condition){
-
-  el.textContent="到達";
-
-  el.classList.add("alert-active");
-
- }else{
-
-  el.textContent="監視中";
-
-  el.classList.remove("alert-active");
-
- }
-
-}
-
-
-function showNotice(text){
-
- const n=document.getElementById("notice");
-
- n.textContent="🚨 "+text;
-
- n.classList.add("show");
-
- clearTimeout(window.noticeTimer);
-
- window.noticeTimer=setTimeout(()=>{
-  n.classList.remove("show");
- },10000);
-
-}
-
-
-function checkAlerts(){
-
- if(!xrp) return;
-
- alertLevel("a225",xrp<225);
- alertLevel("a250",xrp>=250);
- alertLevel("a275",xrp>=275);
- alertLevel("a300",xrp>=300);
- alertLevel("a400",xrp>=400);
- alertLevel("a500",xrp>=500);
-
-
- if(lastXrp>0){
-
-  const change=(xrp-lastXrp)/lastXrp*100;
-
-  if(change<=-2){
-
-   showNotice(
-    "XRP急落 "+change.toFixed(2)+"%"
-
-   );
-
-  }
-
-  if(change>=2){
-
-   showNotice(
-    "XRP急騰 +"+change.toFixed(2)+"%"
-
-   );
-
-  }
-
- }
-
- lastXrp=xrp;
-
-}
-
-
-/* ==========================
-   全取得
-========================== */
-
-async function loadAll(){
-
- status("データ更新中…",true);
-
- const result=await Promise.all([
-  getXRP(),
-  getBTC(),
-  getFX()
- ]);
-
- const ok=result.filter(Boolean).length;
-
- if(ok===3){
-
-  status(
-   "LIVE　XRP / BTC / USDJPY 更新中",
-   true
-  );
-
- }else{
-
-  status(
-   "取得 "+ok+"/3",
-   false
-  );
-
- }
-
-}
-
-
-/* ==========================
-   起動
-========================== */
-
-loadAll();
-
-/*
- 5秒ごとに更新
-*/
-
-setInterval(loadAll,5000);
+connectXRP();
+connectBTC();
 
 </script>
 
