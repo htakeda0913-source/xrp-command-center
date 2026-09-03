@@ -1,286 +1,144 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#050505">
-<title>⚡ XRP COMMAND CENTER</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XRP司令室</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#050505;color:#eee;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-.wrap{max-width:900px;margin:auto;padding:10px}.head{text-align:center;padding:8px 0 12px}
-h1{margin:0;color:#ffd447;font-size:24px;letter-spacing:2px}.sub{color:#777;font-size:10px;margin-top:3px}
-.status{display:flex;justify-content:space-between;background:#101010;border:1px solid #282828;border-radius:9px;padding:8px 10px;font-size:11px;margin-bottom:9px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.card{background:#0d0d0d;border:1px solid #292929;border-radius:11px;padding:12px}.full{grid-column:1/-1}
-.t{color:#888;font-size:10px;letter-spacing:1px;margin-bottom:5px}.num{font-size:27px;font-weight:800;color:#ffd447}.big{font-size:22px;font-weight:800}
-.up{color:#57e58b}.down{color:#ff5555}.muted{color:#777;font-size:11px}
-.bar{height:8px;background:#222;border-radius:10px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;background:#ffd447;width:0}
-table{width:100%;border-collapse:collapse;font-size:11px}td,th{padding:7px 4px;border-bottom:1px solid #222;text-align:left}th{color:#777}
-.row{padding:9px;background:#111;border-radius:7px;margin:5px 0;border-left:3px solid #ffd447;font-size:11px}.row b{color:#ffd447}
-.news{padding:9px 2px;border-bottom:1px solid #222;font-size:12px}.news a{color:#eee;text-decoration:none}.news a:hover{color:#ffd447}.news small{display:block;color:#666;margin-top:3px}
-button{background:#151515;color:#ffd447;border:1px solid #555;border-radius:7px;padding:7px 9px;margin:3px;font-weight:700}
-.signal{font-size:17px;font-weight:800;color:#ffd447}
-@media(max-width:600px){.grid{grid-template-columns:1fr}.full{grid-column:auto}}
+body{
+  margin:0;
+  background:#050505;
+  color:white;
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+}
+header{
+  padding:20px;
+  text-align:center;
+  color:#ffd700;
+  font-size:28px;
+  font-weight:bold;
+}
+.box{
+  margin:12px;
+  padding:18px;
+  border:1px solid #444;
+  border-radius:12px;
+  background:#111;
+}
+.label{color:#888;font-size:12px}
+.value{font-size:30px;color:#ffd700;font-weight:bold;margin-top:5px}
+.row{display:flex;gap:10px}
+.row .box{flex:1;margin:5px}
 </style>
 </head>
+
 <body>
-<div class="wrap">
 
-<div class="head">
-<h1>⚡ XRP COMMAND CENTER</h1>
-<div class="sub">MARKET • TECHNICAL • NEWS • REGULATION • MACRO</div>
-</div>
-
-<div class="status">
-<span>🟢 SYSTEM ONLINE</span><span id="clock">--:--:--</span>
-</div>
-
-<div class="grid">
-
-<div class="card">
-<div class="t">XRP / JPY</div>
-<div id="xrp" class="num">---</div>
-<div id="xchg" class="muted">---</div>
-</div>
-
-<div class="card">
-<div class="t">BTC / USD</div>
-<div id="btc" class="num">---</div>
-<div id="bchg" class="muted">---</div>
-</div>
-
-<div class="card full">
-<div class="t">💰 XRP VALUATION — 10,000 XRP</div>
-<div id="val" class="big">---</div>
-<div class="muted">TARGET ¥2,750,000</div>
-<div class="bar"><i id="bar"></i></div>
-<div id="dist" class="muted">---</div>
-</div>
-
-<div class="card">
-<div class="t">🚨 COMMAND SIGNAL</div>
-<div id="signal" class="signal">ANALYZING</div>
-<div id="sigtext" class="muted">市場を監視中</div>
-</div>
-
-<div class="card">
-<div class="t">₿ BTC IMPACT</div>
-<div id="bsignal" class="signal">---</div>
-<div class="muted">BTC 24h変動</div>
-</div>
-
-<div class="card">
-<div class="t">📊 RSI</div>
-<div id="rsi" class="big">WAIT</div>
-<div id="rsit" class="muted">データ蓄積中</div>
-</div>
-
-<div class="card">
-<div class="t">📈 MACD</div>
-<div id="macd" class="big">WAIT</div>
-<div id="macdt" class="muted">データ蓄積中</div>
-</div>
-
-<div class="card full">
-<div class="t">📍 XRP IMPORTANT PRICE ZONES</div>
-<table>
-<tr><th>価格</th><th>10,000 XRP</th><th>意味</th></tr>
-<tr><td>¥225</td><td>¥2,250,000</td><td>🔴 重要サポート</td></tr>
-<tr><td>¥250</td><td>¥2,500,000</td><td>🟡 上昇確認</td></tr>
-<tr><td>¥275</td><td>¥2,750,000</td><td>🎯 TARGET</td></tr>
-<tr><td>¥300</td><td>¥3,000,000</td><td>🔥 突破重要</td></tr>
-<tr><td>¥400</td><td>¥4,000,000</td><td>🚀 強気領域</td></tr>
-<tr><td>¥500</td><td>¥5,000,000</td><td>🔥 EXTREME</td></tr>
-</table>
-</div>
-
-<div class="card full">
-<div class="t">🚨 PRIORITY INTELLIGENCE</div>
+<header>⚡ XRP司令室</header>
 
 <div class="row">
-<b>LEVEL 1　CLARITY ACT</b><br>
-9月15日の上院cloture投票を最優先監視。これは最終成立投票ではなく、法案の審議入りを進めるための手続き投票。
+
+<div class="box">
+<div class="label">XRP / JPY</div>
+<div class="value" id="xrp">読み込み中</div>
 </div>
 
-<div class="row">
-<b>LEVEL 2　XRP SPOT ETF</b><br>
-ETFへの資金流入・新規申請・承認関連を監視。
-</div>
-
-<div class="row">
-<b>LEVEL 3　FRB / FOMC</b><br>
-金利・インフレ・議長発言・金融環境を監視。
-</div>
-
-<div class="row">
-<b>LEVEL 4　BTC</b><br>
-BTC急落時のXRP連れ安、BTC上昇時のアルト資金流入を監視。
-</div>
-
-<div class="row">
-<b>LEVEL 5　XRP SUPPLY / WHALES</b><br>
-エスクロー・大口送金・取引所残高などを監視。
-</div>
-</div>
-
-<div class="card full">
-<div class="t">📅 SEPTEMBER WATCH</div>
-<div class="row"><b>09/15</b>　CLARITY Act cloture vote — 最重要</div>
-<div class="row"><b>FOMC</b>　米金融政策・金利見通し</div>
-<div class="row"><b>XRP ETF</b>　資金流入・申請・承認材料</div>
-<div class="row"><b>BTC</b>　急落・急騰・市場全体の流動性</div>
-</div>
-
-<div class="card full">
-<div class="t">📰 LIVE NEWS</div>
-<div id="news">ニュース取得中...</div>
-<button onclick="news()">🔄 NEWS UPDATE</button>
-</div>
-
-<div class="card full">
-<div class="t">🔎 QUICK COMMAND</div>
-<button onclick="search('XRP Ripple latest news')">XRP NEWS</button>
-<button onclick="search('XRP CLARITY Act latest')">CLARITY</button>
-<button onclick="search('XRP ETF latest')">ETF</button>
-<button onclick="search('FOMC Federal Reserve latest')">FOMC</button>
-<button onclick="search('Bitcoin BTC latest')">BTC</button>
-</div>
-
-<div class="card full">
-<div class="t">🛰️ SYSTEM</div>
-<div id="system" class="muted">価格API・ニュースAPIを監視中</div>
-<div id="updated" class="muted"></div>
+<div class="box">
+<div class="label">BTC / USD</div>
+<div class="value" id="btc">読み込み中</div>
 </div>
 
 </div>
+
+<div class="box">
+<div class="label">10,000 XRP 評価額</div>
+<div class="value" id="total">---</div>
+</div>
+
+<div class="box">
+<div class="label">🎯 275万円まで</div>
+<div class="value" id="target">---</div>
+</div>
+
+<div class="box">
+<div class="label">📍 重要価格帯</div>
+225円　250円　275円　300円　400円　500円
+</div>
+
+<div class="box">
+<div class="label">🚨 最重要材料</div>
+<br>
+<b>LEVEL 1</b>　CLARITY Act<br><br>
+<b>LEVEL 2</b>　XRP Spot ETF<br><br>
+<b>LEVEL 3</b>　FRB / FOMC
+</div>
+
+<div class="box">
+<div class="label">📰 NEWS</div>
+<br>
+<a href="https://www.google.com/search?q=XRP+Ripple+news"
+style="color:#ffd700">
+XRP最新ニュースを開く →
+</a>
+</div>
+
+<div class="box">
+<div class="label">SYSTEM</div>
+<div id="status">画面起動中</div>
 </div>
 
 <script>
-const HOLD=10000,TARGET=2750000;
-let xs=[],bs=[];
 
-const $=id=>document.getElementById(id);
-const yen=n=>"¥"+Math.round(n).toLocaleString("ja-JP");
-const usd=n=>"$"+Math.round(n).toLocaleString("en-US");
+async function update(){
 
-function clock(){
-$("clock").textContent=new Date().toLocaleTimeString("ja-JP");
-}
-setInterval(clock,1000);clock();
-
-function ch(id,v){
-if(typeof v!=="number")return;
-$(id).textContent=(v>=0?"+":"")+v.toFixed(2)+"% / 24h";
-$(id).className=v>=0?"up":"down";
-}
-
-async function price(){
 try{
-const u="https://api.coingecko.com/api/v3/simple/price?ids=ripple,bitcoin&vs_currencies=jpy,usd&include_24hr_change=true";
-const d=await (await fetch(u,{cache:"no-store"})).json();
 
-let x=d.ripple.jpy,b=d.bitcoin.usd;
-$("xrp").textContent=yen(x);
-$("btc").textContent=usd(b);
-ch("xchg",d.ripple.jpy_24h_change);
-ch("bchg",d.bitcoin.usd_24h_change);
+const url=
+"https://api.coingecko.com/api/v3/simple/price"+
+"?ids=ripple,bitcoin&vs_currencies=jpy,usd";
 
-xs.push(x);bs.push(b);
-if(xs.length>100)xs.shift();
-if(bs.length>100)bs.shift();
+const response=await fetch(url);
+const data=await response.json();
 
-let v=x*HOLD,d=TARGET-v;
-$("val").textContent=yen(v);
-$("dist").textContent=d>0?"🎯 目標まで "+yen(d):"🔥 目標突破 +"+yen(Math.abs(d));
-$("bar").style.width=Math.min(100,v/TARGET*100)+"%";
+const xrp=data.ripple.jpy;
+const btc=data.bitcoin.usd;
 
-let s="NORMAL",st="通常監視";
-if(x<225){s="⚠️ SUPPORT BREAK";st="225円を下回った";}
-else if(x<250){s="🟡 WATCH";st="225〜250円監視";}
-else if(x>=300){s="🔥 BREAKOUT";st="300円突破領域";}
-else if(d.ripple.jpy_24h_change>=5){s="🚀 SURGE";st="XRP急騰";}
-else if(d.ripple.jpy_24h_change<=-5){s="🔻 DROP";st="XRP急落";}
-$("signal").textContent=s;$("sigtext").textContent=st;
+document.getElementById("xrp").innerText=
+"¥"+xrp.toLocaleString();
 
-let bsig="NEUTRAL";
-if(d.bitcoin.usd_24h_change>=3)bsig="🟢 BTC STRONG";
-if(d.bitcoin.usd_24h_change<=-3)bsig="🔴 BTC WEAK";
-$("bsignal").textContent=bsig;
+document.getElementById("btc").innerText=
+"$"+btc.toLocaleString();
 
-rsi();macd();
-$("updated").textContent="最終更新 "+new Date().toLocaleString("ja-JP");
-$("system").textContent="🟢 PRICE / BTC / TECHNICAL MONITOR ONLINE";
-}catch(e){
-$("system").textContent="🟡 価格API待機中。しばらくして再更新";
-}
-}
+const total=xrp*10000;
 
-function rsi(){
-if(xs.length<15){$("rsi").textContent="WAIT";return}
-let g=0,l=0;
-for(let i=xs.length-14;i<xs.length;i++){
-let d=xs[i]-xs[i-1];
-if(d>0)g+=d;else l-=d;
-}
-let r=l===0?100:100-(100/(1+(g/l)));
-$("rsi").textContent=r.toFixed(1);
-$("rsit").textContent=r>=70?"🔴 OVERBOUGHT":r<=30?"🟢 OVERSOLD":"🟡 NEUTRAL";
+document.getElementById("total").innerText=
+"¥"+Math.round(total).toLocaleString();
+
+const diff=2750000-total;
+
+document.getElementById("target").innerText=
+diff>0
+?"あと ¥"+Math.round(diff).toLocaleString()
+:"🎯 目標突破！";
+
+document.getElementById("status").innerText=
+"🟢 LIVE　最終更新 "+
+new Date().toLocaleTimeString();
+
+}catch(error){
+
+document.getElementById("status").innerText=
+"🔴 価格取得エラー";
+
 }
 
-function ema(a,n){
-if(a.length<n)return null;
-let e=a.slice(0,n).reduce((x,y)=>x+y,0)/n,k=2/(n+1);
-for(let i=n;i<a.length;i++)e=a[i]*k+e*(1-k);
-return e;
 }
 
-function macd(){
-if(xs.length<35){$("macd").textContent="WAIT";return}
-let m=ema(xs,12)-ema(xs,26);
-$("macd").textContent=m.toFixed(3);
-$("macdt").textContent=m>=0?"🟢 POSITIVE":"🔴 NEGATIVE";
-}
+update();
 
-async function news(){
-$("news").textContent="ニュース取得中...";
-try{
-const qs=[
-"XRP Ripple",
-"XRP ETF",
-"CLARITY Act crypto"
-];
-let a=[];
-for(const q of qs){
-let rss="https://news.google.com/rss/search?q="+encodeURIComponent(q)+"&hl=en&gl=US&ceid=US:en";
-let u="https://api.rss2json.com/v1/api.json?rss_url="+encodeURIComponent(rss);
-let d=await(await fetch(u)).json();
-if(d.items)a=a.concat(d.items);
-}
-a.sort((x,y)=>new Date(y.pubDate)-new Date(x.pubDate));
-a=a.slice(0,12);
-$("news").innerHTML="";
-a.forEach(n=>{
-let div=document.createElement("div");
-div.className="news";
-let link=document.createElement("a");
-link.href=n.link;link.target="_blank";link.rel="noopener";
-link.textContent=n.title;
-let sm=document.createElement("small");
-sm.textContent=new Date(n.pubDate).toLocaleString("ja-JP");
-div.append(link,sm);$("news").appendChild(div);
-});
-}catch(e){
-$("news").innerHTML="🟡 ニュース取得できませんでした。QUICK COMMANDから検索できます。";
-}
-}
+setInterval(update,60000);
 
-function search(q){
-window.open("https://www.google.com/search?q="+encodeURIComponent(q),"_blank");
-}
-
-price();
-news();
-setInterval(price,60000);
-setInterval(news,300000);
 </script>
+
 </body>
 </html>
