@@ -2,231 +2,677 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#050505">
 <title>XRP COMMAND CENTER</title>
 
 <style>
+:root{
+  --bg:#050505;
+  --panel:#0d0d0d;
+  --panel2:#121212;
+  --line:#272727;
+  --gold:#d6b35a;
+  --green:#45d483;
+  --red:#ff5c5c;
+  --text:#f3f3f3;
+  --muted:#858585;
+}
 *{box-sizing:border-box}
 body{
- margin:0;background:#050505;color:#eee;
- font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
- padding:14px
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif;
 }
-h1{color:#d8b45a;font-size:24px;margin:4px 0}
-h2{font-size:17px;color:#d8b45a;margin:0 0 10px}
-.sub{color:#888;font-size:12px;margin-bottom:15px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.wrap{
+  max-width:700px;
+  margin:auto;
+  padding:14px 13px 40px;
+}
+header{
+  padding:8px 3px 15px;
+}
+.logo{
+  color:var(--gold);
+  font-size:24px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+.status{
+  margin-top:5px;
+  font-size:11px;
+  color:var(--muted);
+}
+.dot{
+  display:inline-block;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--green);
+  margin-right:5px;
+}
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
 .card{
- background:#101010;border:1px solid #292929;
- border-radius:12px;padding:14px;margin-bottom:10px
+  background:linear-gradient(145deg,#111,#090909);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:9px;
+  box-shadow:0 5px 20px #0008;
 }
-.price{font-size:27px;font-weight:700}
-.xrp{color:#d8b45a}
-.btc{color:#aaa}
-.small{font-size:12px;color:#888}
-.up{color:#5fd18b}.down{color:#ff6868}
 .full{grid-column:1/-1}
-table{width:100%;border-collapse:collapse;font-size:13px}
-td{padding:8px 5px;border-bottom:1px solid #222}
-td:last-child{text-align:right}
-.news a{
- display:block;color:#ddd;text-decoration:none;
- padding:10px 0;border-bottom:1px solid #222;
- font-size:13px;line-height:1.4
+.label{
+  color:var(--muted);
+  font-size:11px;
+  margin-bottom:6px;
 }
-.news a:hover{color:#d8b45a}
+.price{
+  font-size:28px;
+  font-weight:850;
+  letter-spacing:-1px;
+}
+.gold{color:var(--gold)}
+.green{color:var(--green)}
+.red{color:var(--red)}
+.muted{color:var(--muted)}
+.change{
+  margin-top:5px;
+  font-size:12px;
+}
+.big{
+  font-size:25px;
+  font-weight:800;
+}
+.targetbar{
+  height:8px;
+  background:#222;
+  border-radius:10px;
+  overflow:hidden;
+  margin:11px 0 7px;
+}
+.targetfill{
+  height:100%;
+  width:0%;
+  background:var(--gold);
+  border-radius:10px;
+  transition:.5s;
+}
+.targettext{
+  display:flex;
+  justify-content:space-between;
+  font-size:11px;
+  color:var(--muted);
+}
+h2{
+  margin:0 0 12px;
+  font-size:15px;
+  color:var(--gold);
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+td{
+  padding:9px 4px;
+  border-bottom:1px solid #202020;
+  font-size:12px;
+}
+td:last-child{text-align:right}
+.zone-now{
+  color:var(--gold);
+  font-weight:bold;
+}
+.metric{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+}
+.metric div{
+  background:#151515;
+  border:1px solid #222;
+  border-radius:9px;
+  padding:9px;
+}
+.metric b{
+  display:block;
+  font-size:15px;
+  margin-top:4px;
+}
+.signal{
+  text-align:center;
+  padding:13px;
+  border-radius:10px;
+  background:#151515;
+  font-size:18px;
+  font-weight:800;
+}
+canvas{
+  width:100%;
+  height:210px;
+  display:block;
+}
+.news a{
+  display:block;
+  text-decoration:none;
+  color:#ddd;
+  padding:11px 2px;
+  border-bottom:1px solid #202020;
+  font-size:13px;
+  line-height:1.45;
+}
+.news a:active{color:var(--gold)}
+.news small{
+  display:block;
+  color:#666;
+  margin-top:3px;
+}
+.badges{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+}
 .badge{
- display:inline-block;padding:5px 8px;border-radius:6px;
- background:#1a1a1a;color:#d8b45a;font-size:11px;margin:3px
+  padding:7px 9px;
+  border-radius:8px;
+  background:#171717;
+  border:1px solid #292929;
+  color:#ddd;
+  font-size:11px;
+}
+.badge.hot{
+  border-color:#6d5520;
+  color:var(--gold);
+}
+.event{
+  padding:11px 0;
+  border-bottom:1px solid #202020;
+}
+.event strong{font-size:13px}
+.event span{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  margin-top:3px;
 }
 button{
- width:100%;padding:11px;border:1px solid #444;
- background:#151515;color:#ddd;border-radius:8px
+  width:100%;
+  border:1px solid #383838;
+  border-radius:10px;
+  padding:12px;
+  background:#151515;
+  color:#eee;
+  font-size:13px;
+}
+footer{
+  text-align:center;
+  color:#555;
+  font-size:10px;
+  padding-top:12px;
+}
+@media(max-width:420px){
+  .price{font-size:25px}
+  .big{font-size:22px}
 }
 </style>
 </head>
 
 <body>
+<div class="wrap">
 
-<h1>⚡ XRP COMMAND CENTER</h1>
-<div class="sub">LIVE MARKET / REGULATION / NEWS</div>
+<header>
+  <div class="logo">⚡ XRP COMMAND CENTER</div>
+  <div class="status">
+    <span class="dot"></span>
+    <span id="status">MARKET DATA CONNECTING...</span>
+  </div>
+</header>
 
 <div class="grid">
 
+<!-- MARKET -->
 <div class="card">
-<h2>XRP / JPY</h2>
-<div id="xrp" class="price xrp">取得中…</div>
-<div id="xrpchg" class="small">---</div>
+  <div class="label">XRP / JPY</div>
+  <div id="xrp" class="price gold">---</div>
+  <div id="xrpChange" class="change muted">24H ---</div>
 </div>
 
 <div class="card">
-<h2>BTC / JPY</h2>
-<div id="btc" class="price btc">取得中…</div>
-<div id="btcchg" class="small">---</div>
+  <div class="label">BTC / JPY</div>
+  <div id="btc" class="price">---</div>
+  <div id="btcChange" class="change muted">24H ---</div>
+</div>
+
+<!-- ASSET -->
+<div class="card full">
+  <h2>💰 XRP ASSET COMMAND</h2>
+
+  <div class="label">10,000 XRP 現在評価額</div>
+  <div id="asset" class="big gold">---</div>
+
+  <div class="targetbar">
+    <div id="targetFill" class="targetfill"></div>
+  </div>
+
+  <div class="targettext">
+    <span>0円</span>
+    <span id="targetRemain">2,750,000円まで ---</span>
+    <span>275万円</span>
+  </div>
+</div>
+
+<!-- PRICE ZONE -->
+<div class="card full">
+  <h2>🎯 PRICE ZONE</h2>
+  <table id="zones"></table>
+</div>
+
+<!-- TECHNICAL -->
+<div class="card full">
+  <h2>📊 TECHNICAL</h2>
+
+  <div class="metric">
+    <div>
+      <div class="label">RSI</div>
+      <b id="rsi">---</b>
+    </div>
+    <div>
+      <div class="label">MACD</div>
+      <b id="macd">---</b>
+    </div>
+    <div>
+      <div class="label">VOLUME</div>
+      <b id="volume">---</b>
+    </div>
+  </div>
+
+  <div style="height:9px"></div>
+
+  <div id="signal" class="signal">ANALYZING...</div>
+</div>
+
+<!-- CHART -->
+<div class="card full">
+  <h2>📈 XRP PRICE CHART</h2>
+  <canvas id="chart"></canvas>
+</div>
+
+<!-- IMPORTANT -->
+<div class="card full">
+  <h2>🚨 MATERIAL WATCH</h2>
+
+  <div class="badges">
+    <div class="badge hot">🔴 CLARITY ACT — 最優先</div>
+    <div class="badge">🟠 XRP SPOT ETF</div>
+    <div class="badge">🟡 FOMC / FRB</div>
+    <div class="badge">⚪ SEC / REGULATION</div>
+    <div class="badge">⚪ RIPPLE</div>
+  </div>
+</div>
+
+<!-- EVENTS -->
+<div class="card full">
+  <h2>📅 IMPORTANT EVENTS</h2>
+
+  <div class="event">
+    <strong>🔴 CLARITY Act</strong>
+    <span>最重要規制材料。投票・審議状況を監視</span>
+  </div>
+
+  <div class="event">
+    <strong>🟠 XRP Spot ETF</strong>
+    <span>ETF承認・資金流入・流出を監視</span>
+  </div>
+
+  <div class="event">
+    <strong>🟡 FOMC / FRB</strong>
+    <span>金利・声明・議長発言を監視</span>
+  </div>
+</div>
+
+<!-- NEWS -->
+<div class="card full">
+  <h2>📰 LIVE NEWS</h2>
+  <div id="news" class="news">
+    <a href="https://news.google.com/search?q=XRP" target="_blank">
+      XRP NEWS を開く
+    </a>
+    <a href="https://news.google.com/search?q=Ripple%20CLARITY%20Act" target="_blank">
+      CLARITY Act NEWS を開く
+    </a>
+    <a href="https://news.google.com/search?q=XRP%20ETF" target="_blank">
+      XRP ETF NEWS を開く
+    </a>
+  </div>
 </div>
 
 <div class="card full">
-<h2>💰 10,000 XRP</h2>
-<div id="asset" class="price">---</div>
-<div id="target" class="small">2,750,000円まで ---</div>
+  <button onclick="loadAll()">🔄 今すぐ更新</button>
 </div>
 
-<div class="card full">
-<h2>🎯 XRP PRICE ZONE</h2>
-<table>
-<tr><td>225円</td><td id="p225">---</td></tr>
-<tr><td>250円</td><td id="p250">---</td></tr>
-<tr><td>275円</td><td id="p275">---</td></tr>
-<tr><td>300円</td><td id="p300">---</td></tr>
-<tr><td>400円</td><td id="p400">---</td></tr>
-<tr><td>500円</td><td id="p500">---</td></tr>
-</table>
 </div>
 
-<div class="card full">
-<h2>🚨 IMPORTANT</h2>
-<span class="badge">CLARITY ACT</span>
-<span class="badge">XRP SPOT ETF</span>
-<span class="badge">FOMC / FRB</span>
-<span class="badge">REGULATION</span>
-</div>
-
-<div class="card full">
-<h2>📰 XRP NEWS</h2>
-<div id="news" class="news">ニュース取得中…</div>
-</div>
-
-<div class="card full">
-<button onclick="location.reload()">🔄 手動更新</button>
-</div>
+<footer>
+XRP COMMAND CENTER · Auto Refresh 30s
+</footer>
 
 </div>
 
 <script>
 
-const XRP_API =
-"https://public.bitbank.cc/xrp_jpy/ticker";
+const XRP="https://public.bitbank.cc/xrp_jpy/ticker";
+const BTC="https://public.bitbank.cc/btc_jpy/ticker";
 
-const BTC_API =
-"https://public.bitbank.cc/btc_jpy/ticker";
+let xrpPrice=0;
+let history=[];
 
-function yen(n){
- return Number(n).toLocaleString("ja-JP",{
-   maximumFractionDigits:2
- })+" 円";
+const yen=n =>
+ Number(n).toLocaleString("ja-JP",{maximumFractionDigits:2})+"円";
+
+function setStatus(t,good=true){
+ document.getElementById("status").textContent=t;
+ document.querySelector(".dot").style.background=
+   good ? "#45d483" : "#ff5c5c";
 }
 
-async function getPrice(){
+async function ticker(url){
 
- try{
-   const xr=await fetch(XRP_API+"?t="+Date.now());
-   const xd=await xr.json();
+ const r=await fetch(url+"?"+Date.now(),{
+   cache:"no-store"
+ });
 
-   const x=Number(xd.data.last);
+ if(!r.ok) throw new Error("API ERROR");
 
-   document.getElementById("xrp").textContent=yen(x);
-
-   document.getElementById("asset").textContent=yen(x*10000);
-
-   const diff=2750000-x*10000;
-
-   document.getElementById("target").textContent=
-     diff>0
-     ?"2,750,000円まで "+yen(diff)
-     :"🎉 2,750,000円突破！";
-
-   const levels=[225,250,275,300,400,500];
-
-   levels.forEach(v=>{
-     const el=document.getElementById("p"+v);
-     const d=x-v;
-
-     if(d>=0){
-       el.textContent="＋"+yen(d);
-       el.className="up";
-     }else{
-       el.textContent="−"+yen(Math.abs(d));
-       el.className="down";
-     }
-   });
-
- }catch(e){
-   document.getElementById("xrp").textContent="取得失敗";
-   console.log("XRP ERROR",e);
- }
-
- try{
-   const br=await fetch(BTC_API+"?t="+Date.now());
-   const bd=await br.json();
-
-   const b=Number(bd.data.last);
-
-   document.getElementById("btc").textContent=yen(b);
-
- }catch(e){
-   document.getElementById("btc").textContent="取得失敗";
-   console.log("BTC ERROR",e);
- }
-
+ return await r.json();
 }
 
-async function getNews(){
-
- const q=encodeURIComponent(
-   "XRP OR Ripple OR CLARITY Act OR XRP ETF"
- );
-
- const url=
-   "https://news.google.com/rss/search?q="+
-   q+
-   "&hl=ja&gl=JP&ceid=JP:ja";
+async function loadMarket(){
 
  try{
 
-   const r=await fetch(
-     "https://api.rss2json.com/v1/api.json?rss_url="+
-     encodeURIComponent(url)
-   );
+   const xr=await ticker(XRP);
+   const d=xr.data;
 
-   const d=await r.json();
+   xrpPrice=Number(d.last);
+   const change=Number(d.change || 0);
 
-   if(!d.items || !d.items.length)
-     throw new Error("NO NEWS");
+   document.getElementById("xrp").textContent=yen(xrpPrice);
 
-   let html="";
+   const ce=document.getElementById("xrpChange");
+   ce.textContent="24H "+(change>=0?"+":"")+change+"%";
+   ce.className="change "+(change>=0?"green":"red");
 
-   d.items.slice(0,10).forEach(item=>{
+   history.push(xrpPrice);
+   if(history.length>120) history.shift();
 
-     const title=item.title || "XRP NEWS";
+   const br=await ticker(BTC);
+   const b=br.data;
 
-     html+=
-       '<a href="'+item.link+
-       '" target="_blank" rel="noopener">'+
-       title+
-       "</a>";
+   document.getElementById("btc").textContent=
+     yen(Number(b.last));
 
-   });
+   const bc=Number(b.change || 0);
+   const be=document.getElementById("btcChange");
 
-   document.getElementById("news").innerHTML=html;
+   be.textContent="24H "+(bc>=0?"+":"")+bc+"%";
+   be.className="change "+(bc>=0?"green":"red");
+
+   updateAsset();
+   updateZones();
+   updateTechnical();
+   drawChart();
+
+   setStatus("MARKET DATA LIVE");
 
  }catch(e){
 
-   document.getElementById("news").innerHTML=
-     '<a href="https://news.google.com/search?q=XRP" target="_blank">📰 XRPニュースをGoogle Newsで開く</a>'+
-     '<a href="https://news.google.com/search?q=Ripple%20CLARITY%20Act" target="_blank">⚖️ CLARITY Actニュース</a>'+
-     '<a href="https://news.google.com/search?q=XRP%20ETF" target="_blank">🏦 XRP ETFニュース</a>';
+   console.log(e);
+   setStatus("MARKET DATA ERROR",false);
 
-   console.log("NEWS ERROR",e);
  }
 
 }
 
-getPrice();
-getNews();
+function updateAsset(){
 
-setInterval(getPrice,30000);
-setInterval(getNews,300000);
+ if(!xrpPrice)return;
+
+ const value=xrpPrice*10000;
+ const target=2750000;
+ const remain=target-value;
+
+ document.getElementById("asset").textContent=yen(value);
+
+ document.getElementById("targetRemain").textContent=
+   remain>0
+   ? "275万円まで "+yen(remain)
+   : "🎉 275万円突破！";
+
+ const pct=Math.max(0,Math.min(100,value/target*100));
+
+ document.getElementById("targetFill").style.width=pct+"%";
+}
+
+function updateZones(){
+
+ const levels=[225,250,275,300,400,500];
+
+ let html="";
+
+ levels.forEach(v=>{
+
+   const value=v*10000;
+   const diff=xrpPrice-v;
+
+   html+=`
+   <tr>
+     <td>${v}円</td>
+     <td>${yen(value)}</td>
+     <td class="${diff>=0?"green":"red"}">
+       ${diff>=0?"▲":"▼"} ${yen(Math.abs(diff))}
+     </td>
+   </tr>`;
+
+ });
+
+ document.getElementById("zones").innerHTML=html;
+}
+
+function ema(arr,n){
+
+ if(arr.length<n)return null;
+
+ const k=2/(n+1);
+ let e=arr.slice(0,n).reduce((a,b)=>a+b,0)/n;
+
+ for(let i=n;i<arr.length;i++)
+   e=arr[i]*k+e*(1-k);
+
+ return e;
+}
+
+function calcRSI(arr,n=14){
+
+ if(arr.length<n+1)return null;
+
+ let gain=0,loss=0;
+
+ for(let i=arr.length-n;i<arr.length;i++){
+
+   const diff=arr[i]-arr[i-1];
+
+   if(diff>0)gain+=diff;
+   else loss-=diff;
+ }
+
+ if(loss===0)return 100;
+
+ return 100-(100/(1+(gain/loss)));
+}
+
+function updateTechnical(){
+
+ const r=calcRSI(history);
+
+ document.getElementById("rsi").textContent=
+   r===null?"---":r.toFixed(1);
+
+ if(history.length>=26){
+
+   const e12=ema(history,12);
+   const e26=ema(history,26);
+
+   const m=e12-e26;
+
+   document.getElementById("macd").textContent=
+     m.toFixed(4);
+
+   document.getElementById("signal").textContent=
+     m>0
+       ? "🟢 MACD POSITIVE / 上昇優勢"
+       : "🔴 MACD NEGATIVE / 下落優勢";
+
+   document.getElementById("signal").className=
+     "signal "+(m>0?"green":"red");
+
+ }else{
+
+   document.getElementById("macd").textContent="準備中";
+   document.getElementById("signal").textContent=
+     "📡 データ蓄積中";
+
+ }
+
+ document.getElementById("volume").textContent="LIVE";
+}
+
+function drawChart(){
+
+ const c=document.getElementById("chart");
+ const ctx=c.getContext("2d");
+
+ const rect=c.getBoundingClientRect();
+
+ c.width=rect.width*devicePixelRatio;
+ c.height=210*devicePixelRatio;
+
+ ctx.scale(devicePixelRatio,devicePixelRatio);
+
+ const w=rect.width;
+ const h=210;
+
+ ctx.clearRect(0,0,w,h);
+
+ if(history.length<2)return;
+
+ let min=Math.min(...history);
+ let max=Math.max(...history);
+
+ if(max===min){
+   max+=1;
+   min-=1;
+ }
+
+ ctx.beginPath();
+
+ history.forEach((p,i)=>{
+
+   const x=i/(history.length-1)*w;
+   const y=h-(p-min)/(max-min)*(h-20)-10;
+
+   if(i===0)ctx.moveTo(x,y);
+   else ctx.lineTo(x,y);
+ });
+
+ ctx.strokeStyle="#d6b35a";
+ ctx.lineWidth=2;
+ ctx.stroke();
+
+ ctx.fillStyle="#777";
+ ctx.font="10px sans-serif";
+
+ ctx.fillText(yen(max),5,12);
+ ctx.fillText(yen(min),5,h-3);
+}
+
+async function loadNews(){
+
+ const news=document.getElementById("news");
+
+ try{
+
+   const rss=
+     "https://news.google.com/rss/search?q="+
+     encodeURIComponent("XRP OR Ripple OR CLARITY Act OR XRP ETF")+
+     "&hl=ja&gl=JP&ceid=JP:ja";
+
+   const proxy=
+     "https://api.allorigins.win/raw?url="+
+     encodeURIComponent(rss);
+
+   const r=await fetch(proxy+"?"+Date.now());
+
+   if(!r.ok)throw new Error();
+
+   const text=await r.text();
+
+   const xml=new DOMParser().parseFromString(text,"text/xml");
+
+   const items=[...xml.querySelectorAll("item")].slice(0,10);
+
+   if(!items.length)throw new Error();
+
+   news.innerHTML=items.map(item=>{
+
+     const title=item.querySelector("title")?.textContent||"XRP NEWS";
+     const link=item.querySelector("link")?.textContent||"https://news.google.com/search?q=XRP";
+     const date=item.querySelector("pubDate")?.textContent||"";
+
+     return `
+       <a href="${link}" target="_blank" rel="noopener">
+         ${title}
+         <small>${date}</small>
+       </a>`;
+
+   }).join("");
+
+ }catch(e){
+
+   news.innerHTML=`
+     <a href="https://news.google.com/search?q=XRP" target="_blank">
+       📰 XRP 最新ニュース
+     </a>
+     <a href="https://news.google.com/search?q=Ripple%20CLARITY%20Act" target="_blank">
+       🔴 CLARITY Act 最新ニュース
+     </a>
+     <a href="https://news.google.com/search?q=XRP%20ETF" target="_blank">
+       🟠 XRP ETF 最新ニュース
+     </a>
+   `;
+
+ }
+
+}
+
+async function loadAll(){
+
+ setStatus("UPDATING...");
+
+ await loadMarket();
+ await loadNews();
+
+}
+
+loadAll();
+
+setInterval(loadMarket,30000);
+setInterval(loadNews,180000);
+
+window.addEventListener("resize",drawChart);
 
 </script>
 
