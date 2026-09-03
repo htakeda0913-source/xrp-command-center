@@ -7,268 +7,757 @@
 <title>XRP COMMAND CENTER</title>
 
 <style>
+:root{
+  --bg:#050505;
+  --panel:#0b0c0d;
+  --panel2:#101112;
+  --line:#25282a;
+  --gold:#d9b45a;
+  --gold2:#8f7334;
+  --text:#f2f2f2;
+  --muted:#777;
+  --green:#4bd58a;
+  --red:#ff5b62;
+}
+
 *{box-sizing:border-box}
-body{
+
+html,body{
   margin:0;
-  background:#050505;
-  color:#eee;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  min-height:100%;
+  background:
+    radial-gradient(circle at 50% -10%,#29200d 0,#090909 35%,#050505 65%);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
 }
-.wrap{max-width:900px;margin:auto;padding:14px 12px 40px}
-header{
-  border:1px solid #333;
-  border-radius:18px;
-  padding:16px;
-  margin-bottom:12px;
-  background:linear-gradient(145deg,#111,#070707);
+
+body{
+  padding-bottom:env(safe-area-inset-bottom);
 }
-.title{
-  color:#d6b45a;
-  font-size:22px;
+
+.app{
+  width:min(1100px,100%);
+  margin:auto;
+  padding:12px;
+}
+
+/* HEADER */
+
+.header{
+  position:relative;
+  overflow:hidden;
+  padding:20px 18px 17px;
+  border:1px solid #37311f;
+  border-radius:22px;
+  background:
+    linear-gradient(135deg,rgba(217,180,90,.10),transparent 45%),
+    linear-gradient(180deg,#11110f,#080808);
+  box-shadow:0 12px 40px rgba(0,0,0,.45);
+}
+
+.header:after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+
+.kicker{
+  color:var(--gold);
+  font-size:9px;
+  letter-spacing:3px;
   font-weight:800;
+}
+
+.logo{
+  margin-top:4px;
+  font-size:26px;
+  line-height:1;
+  font-weight:900;
   letter-spacing:2px;
 }
-.sub{color:#888;font-size:11px;margin-top:4px}
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-.card{
-  border:1px solid #292929;
-  border-radius:16px;
-  padding:15px;
-  background:#0d0d0d;
-}
-.label{
-  color:#888;
-  font-size:11px;
-  letter-spacing:1px;
-}
-.price{
-  font-size:27px;
-  font-weight:800;
-  margin-top:6px;
-}
-.gold{color:#d6b45a}
-.green{color:#5ed58a}
-.red{color:#ff6464}
-.white{color:#fff}
-.big{
-  font-size:25px;
-  font-weight:800;
-  margin-top:7px;
-}
-.section{
-  margin-top:14px;
-  color:#d6b45a;
-  font-size:13px;
-  font-weight:800;
-  letter-spacing:1px;
-}
-.bar{
+
+.headerBottom{
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  margin-bottom:8px;
+  align-items:end;
+  margin-top:10px;
 }
-.status{
-  font-size:10px;
-  color:#777;
-}
-table{
-  width:100%;
-  border-collapse:collapse;
-  font-size:12px;
-}
-td,th{
-  padding:9px 5px;
-  border-bottom:1px solid #222;
-}
-th{
-  color:#888;
-  font-weight:500;
-}
-.right{text-align:right}
-.level-hit{color:#d6b45a;font-weight:800}
-.event{
-  padding:11px 12px;
-  border:1px solid #252525;
-  border-radius:12px;
-  margin-bottom:8px;
-  background:#0b0b0b;
-}
-.event strong{color:#fff;font-size:13px}
-.event span{
-  display:block;
+
+.command{
   color:#888;
   font-size:10px;
-  margin-top:4px;
 }
-.links a{
-  display:block;
-  color:#d6b45a;
-  text-decoration:none;
-  padding:10px 0;
-  border-bottom:1px solid #222;
-  font-size:12px;
+
+.online{
+  color:var(--green);
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1px;
 }
-.err{
-  color:#ff6464;
-  font-size:10px;
+
+/* GRID */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:10px;
+  margin-top:10px;
+}
+
+.panel{
+  grid-column:span 6;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:15px;
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.025),transparent 55%),
+    var(--panel);
+  box-shadow:0 8px 30px rgba(0,0,0,.28);
+}
+
+.full{grid-column:span 12}
+.third{grid-column:span 4}
+
+.label{
+  color:#747474;
+  font-size:9px;
+  letter-spacing:2px;
+  font-weight:800;
+}
+
+.value{
+  margin-top:5px;
+  font-size:31px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:-1px;
+}
+
+.gold{color:var(--gold)}
+.green{color:var(--green)}
+.red{color:var(--red)}
+
+.change{
   margin-top:8px;
+  font-size:11px;
+  font-weight:700;
+}
+
+.update{
+  margin-top:7px;
+  color:#555;
+  font-size:9px;
+}
+
+/* COMMAND STATUS */
+
+.alert{
+  border-color:#46391c;
+  background:
+    radial-gradient(circle at 100% 0,rgba(217,180,90,.12),transparent 45%),
+    #0b0b09;
+}
+
+.alertTop{
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 12px rgba(217,180,90,.8);
+}
+
+.alertTitle{
+  font-size:14px;
+  font-weight:900;
+}
+
+.alertText{
+  margin-top:9px;
+  color:#aaa;
+  font-size:11px;
+  line-height:1.6;
+}
+
+.priority{
+  margin-top:12px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+}
+
+.priority div{
+  padding:10px 8px;
+  border:1px solid #272727;
+  border-radius:11px;
+  background:#090909;
+}
+
+.priority b{
+  display:block;
+  color:var(--gold);
+  font-size:9px;
+}
+
+.priority span{
+  display:block;
+  margin-top:3px;
+  color:#777;
+  font-size:8px;
+}
+
+/* TARGET */
+
+.targetRow{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+}
+
+.targetValue{
+  font-size:25px;
+  font-weight:900;
+}
+
+.targetPct{
+  color:var(--gold);
+  font-size:13px;
+  font-weight:800;
+}
+
+.progress{
+  height:9px;
+  margin-top:13px;
+  overflow:hidden;
+  border-radius:99px;
+  background:#1a1a1a;
+  border:1px solid #282828;
+}
+
+.progress i{
+  display:block;
+  height:100%;
+  width:0%;
+  border-radius:99px;
+  background:linear-gradient(90deg,var(--gold2),var(--gold));
+  box-shadow:0 0 14px rgba(217,180,90,.35);
+}
+
+/* LEVELS */
+
+.levels{
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  padding:2px 0 4px;
+  scrollbar-width:none;
+}
+
+.levels::-webkit-scrollbar{display:none}
+
+.level{
+  min-width:82px;
+  padding:11px 8px;
+  border:1px solid #242424;
+  border-radius:12px;
+  background:#090909;
+  text-align:center;
+}
+
+.level strong{
+  display:block;
+  color:#eee;
+  font-size:13px;
+}
+
+.level span{
+  display:block;
+  margin-top:5px;
+  color:#666;
+  font-size:8px;
+}
+
+.level.current{
+  border-color:var(--gold);
+  background:rgba(217,180,90,.08);
+}
+
+.level.current strong{
+  color:var(--gold);
+}
+
+/* TECH */
+
+.tech{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.metric{
+  padding:12px;
+  border:1px solid #232323;
+  border-radius:13px;
+  background:#090909;
+}
+
+.metricName{
+  color:#666;
+  font-size:8px;
+  letter-spacing:1px;
+}
+
+.metricValue{
+  margin-top:6px;
+  font-size:18px;
+  font-weight:900;
+}
+
+.metricSub{
+  margin-top:4px;
+  color:#666;
+  font-size:8px;
+}
+
+/* EVENTS */
+
+.event{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  padding:12px 0;
+  border-bottom:1px solid #1e1e1e;
+}
+
+.event:last-child{border-bottom:0}
+
+.rank{
+  min-width:27px;
+  height:27px;
+  display:grid;
+  place-items:center;
+  border:1px solid #4a3d20;
+  border-radius:8px;
+  color:var(--gold);
+  font-size:9px;
+  font-weight:900;
+}
+
+.eventMain{
+  flex:1;
+}
+
+.eventTitle{
+  font-size:12px;
+  font-weight:800;
+}
+
+.eventSub{
+  margin-top:3px;
+  color:#666;
+  font-size:9px;
+}
+
+/* NEWS */
+
+.news a{
+  display:block;
+  padding:11px 0;
+  color:#ddd;
+  text-decoration:none;
+  font-size:11px;
+  border-bottom:1px solid #1e1e1e;
+}
+
+.news a:last-child{border:0}
+
+.news a span{
+  display:block;
+  margin-top:3px;
+  color:#666;
+  font-size:8px;
+}
+
+/* SYSTEM */
+
+.system{
+  color:#666;
+  font-size:9px;
+  line-height:1.8;
+}
+
+.error{
+  color:var(--red);
+  margin-top:5px;
+  font-size:9px;
   word-break:break-word;
 }
-@media(max-width:600px){
-  .wrap{padding:10px 9px 30px}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+  .app{padding:8px}
+
   .grid{gap:8px}
-  .card{padding:12px}
-  .price{font-size:23px}
-  .big{font-size:21px}
+
+  .panel,
+  .full,
+  .third{
+    grid-column:span 12;
+  }
+
+  .header{
+    padding:17px 15px 15px;
+    border-radius:18px;
+  }
+
+  .logo{font-size:22px}
+
+  .value{font-size:28px}
+
+  .priority{
+    grid-template-columns:1fr 1fr 1fr;
+  }
+
+  .tech{
+    grid-template-columns:1fr 1fr 1fr;
+  }
+}
+
+@media(max-width:380px){
+  .value{font-size:24px}
+  .targetValue{font-size:21px}
+  .metricValue{font-size:16px}
 }
 </style>
 </head>
 
 <body>
-<div class="wrap">
 
-<header>
-  <div class="title">XRP COMMAND CENTER</div>
-  <div class="sub">MARKET / TECHNICAL / REGULATION MONITOR</div>
+<div class="app">
+
+<header class="header">
+  <div class="kicker">XRP / MARKET INTELLIGENCE SYSTEM</div>
+  <div class="logo">COMMAND CENTER</div>
+
+  <div class="headerBottom">
+    <div class="command">LIVE MONITORING // JPY • USD</div>
+    <div class="online">● SYSTEM ONLINE</div>
+  </div>
 </header>
 
 <div class="grid">
 
-  <div class="card">
-    <div class="label">XRP / JPY</div>
-    <div id="xrp" class="price gold">---</div>
-    <div id="xrpChange" class="status">取得中...</div>
+<!-- XRP -->
+
+<section class="panel">
+  <div class="label">XRP / JPY</div>
+  <div id="xrp" class="value gold">---</div>
+  <div id="xrpChange" class="change">---</div>
+  <div id="xrpUpdate" class="update">BITBANK / WAITING</div>
+</section>
+
+<!-- BTC -->
+
+<section class="panel">
+  <div class="label">BTC / USD</div>
+  <div id="btc" class="value">---</div>
+  <div id="btcChange" class="change">---</div>
+  <div id="btcUpdate" class="update">MARKET / WAITING</div>
+</section>
+
+<!-- PRIORITY -->
+
+<section class="panel full alert">
+
+  <div class="alertTop">
+    <div class="dot"></div>
+    <div class="alertTitle">PRIORITY INTELLIGENCE</div>
   </div>
 
-  <div class="card">
-    <div class="label">BTC / USD</div>
-    <div id="btc" class="price white">---</div>
-    <div id="btcChange" class="status">取得中...</div>
+  <div class="alertText">
+    XRP価格だけではなく、規制・ETF・金融政策を同時監視。
+    最重要監視対象は <b style="color:#d9b45a">CLARITY ACT</b>。
   </div>
 
-  <div class="card">
-    <div class="label">10,000 XRP VALUE</div>
-    <div id="value" class="big gold">---</div>
+  <div class="priority">
+
+    <div>
+      <b>01 / CLARITY</b>
+      <span>REGULATION</span>
+    </div>
+
+    <div>
+      <b>02 / XRP ETF</b>
+      <span>FUND FLOW</span>
+    </div>
+
+    <div>
+      <b>03 / FOMC</b>
+      <span>MACRO</span>
+    </div>
+
   </div>
 
-  <div class="card">
-    <div class="label">TARGET ¥2,750,000</div>
-    <div id="distance" class="big white">---</div>
+</section>
+
+<!-- ASSET -->
+
+<section class="panel">
+  <div class="label">10,000 XRP POSITION</div>
+  <div id="asset" class="value gold">---</div>
+  <div class="update">CURRENT MARKET VALUE</div>
+</section>
+
+<!-- TARGET -->
+
+<section class="panel">
+  <div class="label">TARGET / ¥2,750,000</div>
+
+  <div class="targetRow">
+    <div id="targetValue" class="targetValue">---</div>
+    <div id="targetPct" class="targetPct">---</div>
   </div>
 
-</div>
-
-<div class="section">TECHNICAL</div>
-
-<div class="grid">
-
-  <div class="card">
-    <div class="label">RSI 14</div>
-    <div id="rsi" class="big">---</div>
-    <div id="rsiStatus" class="status">計算中...</div>
+  <div class="progress">
+    <i id="progress"></i>
   </div>
 
-  <div class="card">
-    <div class="label">MACD 12 / 26 / 9</div>
-    <div id="macd" class="big">---</div>
-    <div id="macdStatus" class="status">計算中...</div>
+  <div id="targetDistance" class="update">---</div>
+</section>
+
+<!-- PRICE LEVEL -->
+
+<section class="panel full">
+
+  <div class="label" style="margin-bottom:10px">
+    XRP PRICE ZONES
   </div>
 
-  <div class="card">
-    <div class="label">VOLUME</div>
-    <div id="volume" class="big">---</div>
+  <div id="levels" class="levels"></div>
+
+</section>
+
+<!-- TECH -->
+
+<section class="panel full">
+
+  <div class="label" style="margin-bottom:10px">
+    TECHNICAL INTELLIGENCE
   </div>
 
-  <div class="card">
-    <div class="label">XRP / BTC RELATION</div>
-    <div id="relation" class="big">---</div>
+  <div class="tech">
+
+    <div class="metric">
+      <div class="metricName">RSI 14</div>
+      <div id="rsi" class="metricValue">---</div>
+      <div id="rsiSub" class="metricSub">WAITING</div>
+    </div>
+
+    <div class="metric">
+      <div class="metricName">MACD</div>
+      <div id="macd" class="metricValue">---</div>
+      <div id="macdSub" class="metricSub">12 / 26 / 9</div>
+    </div>
+
+    <div class="metric">
+      <div class="metricName">VOLUME</div>
+      <div id="volume" class="metricValue">---</div>
+      <div class="metricSub">LATEST 1H</div>
+    </div>
+
   </div>
 
+</section>
+
+<!-- EVENTS -->
+
+<section class="panel">
+
+  <div class="label">REGULATORY WATCH</div>
+
+  <div class="event">
+    <div class="rank">01</div>
+    <div class="eventMain">
+      <div class="eventTitle">CLARITY Act</div>
+      <div class="eventSub">最重要規制材料</div>
+    </div>
+  </div>
+
+  <div class="event">
+    <div class="rank">02</div>
+    <div class="eventMain">
+      <div class="eventTitle">XRP Spot ETF</div>
+      <div class="eventSub">承認・資金流入</div>
+    </div>
+  </div>
+
+  <div class="event">
+    <div class="rank">03</div>
+    <div class="eventMain">
+      <div class="eventTitle">FRB / FOMC</div>
+      <div class="eventSub">金利・金融政策</div>
+    </div>
+  </div>
+
+  <div class="event">
+    <div class="rank">04</div>
+    <div class="eventMain">
+      <div class="eventTitle">SEC / CRYPTO</div>
+      <div class="eventSub">規制・政策変更</div>
+    </div>
+  </div>
+
+</section>
+
+<!-- NEWS -->
+
+<section class="panel">
+
+  <div class="label">NEWS TERMINAL</div>
+
+  <div class="news">
+
+    <a href="https://news.google.com/search?q=XRP" target="_blank">
+      XRP 最新ニュース →
+      <span>GOOGLE NEWS</span>
+    </a>
+
+    <a href="https://news.google.com/search?q=XRP+ETF" target="_blank">
+      XRP ETF →
+      <span>ETF / FUND FLOW</span>
+    </a>
+
+    <a href="https://news.google.com/search?q=CLARITY+Act+crypto" target="_blank">
+      CLARITY Act →
+      <span>REGULATION</span>
+    </a>
+
+    <a href="https://news.google.com/search?q=FOMC+Fed" target="_blank">
+      FOMC / FED →
+      <span>MACRO</span>
+    </a>
+
+  </div>
+
+</section>
+
+<!-- SYSTEM -->
+
+<section class="panel full">
+
+  <div class="label">SYSTEM STATUS</div>
+
+  <div id="system" class="system">
+    INITIALIZING...
+  </div>
+
+  <div id="error" class="error"></div>
+
+</section>
+
 </div>
-
-<div class="section">XRP PRICE LEVELS</div>
-
-<div class="card">
-<table>
-<thead>
-<tr>
-<th>LEVEL</th>
-<th class="right">10,000 XRP</th>
-<th class="right">STATUS</th>
-</tr>
-</thead>
-<tbody id="levels"></tbody>
-</table>
-</div>
-
-<div class="section">PRIORITY MATERIAL</div>
-
-<div class="event">
-<strong>01　CLARITY ACT</strong>
-<span>最重要：米国暗号資産規制・市場構造法案</span>
-</div>
-
-<div class="event">
-<strong>02　XRP SPOT ETF</strong>
-<span>現物ETF承認・資金流入を監視</span>
-</div>
-
-<div class="event">
-<strong>03　FRB / FOMC</strong>
-<span>金利・金融政策・議長発言を監視</span>
-</div>
-
-<div class="event">
-<strong>04　CRYPTO MARKET</strong>
-<span>BTC急変・XRP出来高・市場全体の変動を監視</span>
-</div>
-
-<div class="section">LIVE NEWS</div>
-
-<div class="card links">
-<a href="https://news.google.com/search?q=XRP" target="_blank">XRP 最新ニュース →</a>
-<a href="https://news.google.com/search?q=CLARITY+Act+crypto" target="_blank">CLARITY Act →</a>
-<a href="https://news.google.com/search?q=XRP+ETF" target="_blank">XRP ETF →</a>
-<a href="https://news.google.com/search?q=FOMC+Fed" target="_blank">FOMC / FRB →</a>
-</div>
-
-<div class="section">SYSTEM</div>
-
-<div class="card">
-<div id="system" class="status">起動中...</div>
-<div id="error" class="err"></div>
-</div>
-
 </div>
 
 <script>
-const XRP_TICKER="https://public.bitbank.cc/xrp_jpy/ticker";
-const XRP_CANDLE="https://public.bitbank.cc/xrp_jpy/candlestick";
-const BTC_TICKER="https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT";
 
-const HOLDINGS=10000;
-const TARGET=2750000;
-const LEVELS=[225,250,275,300,400,500];
+const XRP_TICKER =
+  "https://public.bitbank.cc/xrp_jpy/ticker";
+
+const XRP_CANDLE =
+  "https://public.bitbank.cc/xrp_jpy/candlestick";
+
+const BTC_TICKER =
+  "https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT";
+
+const HOLDINGS = 10000;
+const TARGET = 2750000;
+
+const LEVELS = [
+  225,
+  250,
+  275,
+  300,
+  400,
+  500
+];
 
 async function fetchJSON(url){
-  const r=await fetch(url,{cache:"no-store"});
-  if(!r.ok) throw new Error("HTTP "+r.status);
-  return await r.json();
+
+  const response =
+    await fetch(url,{
+      cache:"no-store"
+    });
+
+  if(!response.ok){
+    throw new Error("HTTP "+response.status);
+  }
+
+  return await response.json();
 }
 
-/* Bitbank candle */
-async function getCandles(type,date){
-  const url=`${XRP_CANDLE}/${type}/${date}`;
-  const json=await fetchJSON(url);
+
+/* =========================
+   XRP TICKER
+========================= */
+
+async function getXRP(){
+
+  const json =
+    await fetchJSON(XRP_TICKER);
+
+  if(!json || json.success !== 1){
+    throw new Error("Bitbank XRP取得失敗");
+  }
+
+  return {
+    price:Number(json.data.last),
+    open:Number(json.data.open)
+  };
+}
+
+
+/* =========================
+   BTC TICKER
+========================= */
+
+async function getBTC(){
+
+  const json =
+    await fetchJSON(BTC_TICKER);
+
+  return {
+    price:Number(json.lastPrice),
+    change:Number(json.priceChangePercent)
+  };
+}
+
+
+/* =========================
+   CANDLES
+========================= */
+
+async function getCandles(date){
+
+  const url =
+    `${XRP_CANDLE}/1hour/${date}`;
+
+  const json =
+    await fetchJSON(url);
 
   if(
     !json ||
-    json.success!==1 ||
+    json.success !== 1 ||
     !json.data ||
     !Array.isArray(json.data.candlestick) ||
     !json.data.candlestick.length
@@ -276,297 +765,494 @@ async function getCandles(type,date){
     throw new Error("Bitbank candle取得失敗");
   }
 
-  const rows=json.data.candlestick[0].ohlcv;
+  const rows =
+    json.data.candlestick[0].ohlcv;
 
   return rows.map(x=>({
+
     open:Number(x[0]),
     high:Number(x[1]),
     low:Number(x[2]),
     close:Number(x[3]),
     volume:Number(x[4]),
     time:Number(x[5])
-  })).sort((a,b)=>a.time-b.time);
+
+  }));
+
 }
 
-/* XRP historical candles */
+
+/* =========================
+   HISTORY
+========================= */
+
 async function loadHistory(){
-  const result=[];
 
-  const now=new Date();
+  const all = [];
 
-  for(let i=0;i<10 && result.length<250;i++){
+  const now = new Date();
 
-    const d=new Date(
-      now.getTime()-i*86400000
-    );
+  for(let i=0;i<10;i++){
 
-    const date=
+    const d =
+      new Date(
+        now.getTime() -
+        i*86400000
+      );
+
+    const date =
       d.getUTCFullYear()+
       String(d.getUTCMonth()+1).padStart(2,"0")+
       String(d.getUTCDate()).padStart(2,"0");
 
     try{
-      const rows=await getCandles("1hour",date);
-      result.push(...rows);
+
+      const rows =
+        await getCandles(date);
+
+      all.push(...rows);
+
     }catch(e){}
+
   }
 
-  const map=new Map();
+  const map =
+    new Map();
 
-  result.forEach(x=>map.set(x.time,x));
+  all.forEach(x=>{
+    map.set(x.time,x);
+  });
 
   return [...map.values()]
     .sort((a,b)=>a.time-b.time)
     .slice(-300);
 }
 
-/* RSI */
+
+/* =========================
+   RSI
+========================= */
+
 function calcRSI(values,period=14){
-  if(values.length<period+1)return null;
+
+  if(values.length < period+1)
+    return null;
 
   let gain=0;
   let loss=0;
 
   for(let i=1;i<=period;i++){
-    const diff=values[i]-values[i-1];
-    if(diff>=0)gain+=diff;
-    else loss-=diff;
+
+    const diff =
+      values[i]-values[i-1];
+
+    if(diff>=0)
+      gain+=diff;
+    else
+      loss-=diff;
+
   }
 
-  let avgGain=gain/period;
-  let avgLoss=loss/period;
+  let avgGain =
+    gain/period;
 
-  for(let i=period+1;i<values.length;i++){
-    const diff=values[i]-values[i-1];
+  let avgLoss =
+    loss/period;
 
-    const g=diff>0?diff:0;
-    const l=diff<0?-diff:0;
+  for(
+    let i=period+1;
+    i<values.length;
+    i++
+  ){
 
-    avgGain=(avgGain*(period-1)+g)/period;
-    avgLoss=(avgLoss*(period-1)+l)/period;
+    const diff =
+      values[i]-values[i-1];
+
+    const g =
+      diff>0 ? diff : 0;
+
+    const l =
+      diff<0 ? -diff : 0;
+
+    avgGain =
+      (avgGain*(period-1)+g)/period;
+
+    avgLoss =
+      (avgLoss*(period-1)+l)/period;
+
   }
 
-  if(avgLoss===0)return 100;
+  if(avgLoss===0)
+    return 100;
 
-  const rs=avgGain/avgLoss;
+  const rs =
+    avgGain/avgLoss;
 
   return 100-(100/(1+rs));
 }
 
-/* EMA */
-function ema(values,period){
-  if(values.length<period)return [];
 
-  const k=2/(period+1);
-  let prev=values
-    .slice(0,period)
-    .reduce((a,b)=>a+b,0)/period;
+/* =========================
+   EMA
+========================= */
+
+function EMA(values,period){
+
+  if(values.length<period)
+    return [];
+
+  const k =
+    2/(period+1);
+
+  let prev =
+    values
+      .slice(0,period)
+      .reduce((a,b)=>a+b,0)/period;
 
   const out=[prev];
 
-  for(let i=period;i<values.length;i++){
-    prev=values[i]*k+prev*(1-k);
+  for(
+    let i=period;
+    i<values.length;
+    i++
+  ){
+
+    prev =
+      values[i]*k+
+      prev*(1-k);
+
     out.push(prev);
   }
 
   return out;
 }
 
-/* MACD */
-function calcMACD(values){
-  if(values.length<35)return null;
 
-  const fast=ema(values,12);
-  const slow=ema(values,26);
+/* =========================
+   MACD
+========================= */
+
+function calcMACD(values){
+
+  if(values.length<35)
+    return null;
+
+  const fast =
+    EMA(values,12);
+
+  const slow =
+    EMA(values,26);
 
   const macd=[];
 
-  const offset=26-12;
+  const offset=14;
 
-  for(let i=0;i<slow.length;i++){
+  for(
+    let i=0;
+    i<slow.length;
+    i++
+  ){
+
     macd.push(
       fast[i+offset]-slow[i]
     );
+
   }
 
-  const signal=ema(macd,9);
+  const signal =
+    EMA(macd,9);
 
-  if(!signal.length)return null;
+  if(!signal.length)
+    return null;
 
-  const m=macd[macd.length-1];
-  const s=signal[signal.length-1-8];
+  const m =
+    macd[macd.length-1];
 
-  return{
+  const s =
+    signal[signal.length-1];
+
+  return {
     macd:m,
     signal:s,
-    hist:m-s
+    histogram:m-s
   };
 }
 
-/* price */
-async function updatePrices(){
 
-  const [x,b]=await Promise.all([
-    fetchJSON(XRP_TICKER),
-    fetchJSON(BTC_TICKER)
-  ]);
+/* =========================
+   LEVELS
+========================= */
 
-  if(x.success!==1)throw new Error("XRP価格取得失敗");
+function drawLevels(price){
 
-  const xp=Number(x.data.last);
-  const xo=Number(x.data.open);
+  const box =
+    document.getElementById("levels");
 
-  const bp=Number(b.lastPrice);
-  const bc=Number(b.priceChangePercent);
+  box.innerHTML =
+    LEVELS.map(level=>{
 
-  document.getElementById("xrp").textContent=
-    "¥"+xp.toLocaleString("ja-JP",{
-      minimumFractionDigits:2,
-      maximumFractionDigits:2
-    });
+      const active =
+        Math.abs(price-level)<2;
 
-  const xchg=((xp-xo)/xo)*100;
-
-  const xe=document.getElementById("xrpChange");
-  xe.textContent=
-    "24H "+(xchg>=0?"+":"")+xchg.toFixed(2)+"%";
-  xe.className="status "+(xchg>=0?"green":"red");
-
-  document.getElementById("btc").textContent=
-    "$"+bp.toLocaleString("en-US",{
-      minimumFractionDigits:2,
-      maximumFractionDigits:2
-    });
-
-  const be=document.getElementById("btcChange");
-  be.textContent=
-    "24H "+(bc>=0?"+":"")+bc.toFixed(2)+"%";
-  be.className="status "+(bc>=0?"green":"red");
-
-  const value=xp*HOLDINGS;
-  const distance=TARGET-value;
-
-  document.getElementById("value").textContent=
-    "¥"+Math.round(value).toLocaleString("ja-JP");
-
-  document.getElementById("distance").textContent=
-    distance>0
-      ?"あと ¥"+Math.round(distance).toLocaleString("ja-JP")
-      :"TARGET CLEAR";
-
-  document.getElementById("relation").textContent=
-    (xp/bp).toFixed(8);
-
-  buildLevels(xp);
-
-  return xp;
-}
-
-/* price levels */
-function buildLevels(current){
-
-  document.getElementById("levels").innerHTML=
-    LEVELS.map(p=>{
-
-      const diff=p-current;
-
-      let status="";
-
-      if(Math.abs(diff)<1){
-        status="CURRENT";
-      }else if(diff>0){
-        status="+"+diff.toFixed(2)+"円";
-      }else{
-        status=diff.toFixed(2)+"円";
-      }
+      const value =
+        level*HOLDINGS;
 
       return `
-      <tr>
-        <td class="${Math.abs(diff)<1?"level-hit":""}">
-          ¥${p.toLocaleString()}
-        </td>
-        <td class="right">
-          ¥${(p*HOLDINGS).toLocaleString()}
-        </td>
-        <td class="right ${Math.abs(diff)<1?"level-hit":""}">
-          ${status}
-        </td>
-      </tr>`;
+        <div class="level ${active?"current":""}">
+          <strong>¥${level}</strong>
+          <span>
+            ¥${value.toLocaleString("ja-JP")}
+          </span>
+        </div>
+      `;
+
     }).join("");
+
 }
 
-/* technical */
-async function updateTechnical(){
 
-  const candles=await loadHistory();
+/* =========================
+   MAIN UPDATE
+========================= */
 
-  if(candles.length<40){
-    throw new Error("ローソク足データ不足");
-  }
+async function updateMarket(){
 
-  const closes=candles.map(x=>x.close);
-
-  const rsi=calcRSI(closes,14);
-  const macd=calcMACD(closes);
-
-  if(rsi!==null){
-    const e=document.getElementById("rsi");
-
-    e.textContent=rsi.toFixed(2);
-
-    document.getElementById("rsiStatus").textContent=
-      rsi>=70
-        ?"OVERBOUGHT"
-        :rsi<=30
-          ?"OVERSOLD"
-          :"NORMAL";
-  }
-
-  if(macd){
-    document.getElementById("macd").textContent=
-      macd.macd.toFixed(4);
-
-    document.getElementById("macdStatus").textContent=
-      "SIGNAL "+macd.signal.toFixed(4)+
-      " / HIST "+macd.hist.toFixed(4);
-  }
-
-  const vol=candles[candles.length-1].volume;
-
-  document.getElementById("volume").textContent=
-    vol.toLocaleString("ja-JP",{maximumFractionDigits:0});
-
-  document.getElementById("system").textContent=
-    "ONLINE / "+new Date().toLocaleString("ja-JP");
-}
-
-/* startup */
-async function updateAll(){
-
-  const error=document.getElementById("error");
+  const error =
+    document.getElementById("error");
 
   error.textContent="";
 
   try{
-    await updatePrices();
+
+    const [xrp,btc] =
+      await Promise.all([
+        getXRP(),
+        getBTC()
+      ]);
+
+    /* XRP */
+
+    const xrpChange =
+      ((xrp.price-xrp.open)/
+      xrp.open)*100;
+
+    document.getElementById("xrp")
+      .textContent =
+      "¥"+xrp.price.toLocaleString(
+        "ja-JP",
+        {
+          minimumFractionDigits:2,
+          maximumFractionDigits:2
+        }
+      );
+
+    const xchg =
+      document.getElementById("xrpChange");
+
+    xchg.textContent =
+      "24H "+
+      (xrpChange>=0?"+":"")+
+      xrpChange.toFixed(2)+"%";
+
+    xchg.className =
+      "change "+
+      (xrpChange>=0?"green":"red");
+
+    document.getElementById("xrpUpdate")
+      .textContent =
+      "BITBANK / LIVE";
+
+    /* BTC */
+
+    document.getElementById("btc")
+      .textContent =
+      "$"+btc.price.toLocaleString(
+        "en-US",
+        {
+          minimumFractionDigits:2,
+          maximumFractionDigits:2
+        }
+      );
+
+    const bchg =
+      document.getElementById("btcChange");
+
+    bchg.textContent =
+      "24H "+
+      (btc.change>=0?"+":"")+
+      btc.change.toFixed(2)+"%";
+
+    bchg.className =
+      "change "+
+      (btc.change>=0?"green":"red");
+
+    document.getElementById("btcUpdate")
+      .textContent =
+      "BINANCE / LIVE";
+
+    /* ASSET */
+
+    const asset =
+      xrp.price*HOLDINGS;
+
+    document.getElementById("asset")
+      .textContent =
+      "¥"+Math.round(asset)
+      .toLocaleString("ja-JP");
+
+    /* TARGET */
+
+    const pct =
+      Math.min(
+        100,
+        asset/TARGET*100
+      );
+
+    const distance =
+      TARGET-asset;
+
+    document.getElementById("targetValue")
+      .textContent =
+      "¥"+Math.round(asset)
+      .toLocaleString("ja-JP");
+
+    document.getElementById("targetPct")
+      .textContent =
+      pct.toFixed(1)+"%";
+
+    document.getElementById("progress")
+      .style.width =
+      pct+"%";
+
+    document.getElementById("targetDistance")
+      .textContent =
+      distance>0
+      ? "TARGETまであと ¥"+
+        Math.round(distance)
+        .toLocaleString("ja-JP")
+      : "TARGET CLEAR";
+
+    drawLevels(xrp.price);
+
+    document.getElementById("system")
+      .textContent =
+      "MARKET ONLINE  /  "+
+      new Date().toLocaleString("ja-JP");
+
   }catch(e){
-    error.textContent+="価格: "+e.message+" ";
+
+    error.textContent =
+      "MARKET ERROR : "+e.message;
+
   }
+
+}
+
+
+/* =========================
+   TECH UPDATE
+========================= */
+
+async function updateTechnical(){
 
   try{
-    await updateTechnical();
+
+    const candles =
+      await loadHistory();
+
+    if(candles.length<40)
+      throw new Error(
+        "ローソク足データ不足"
+      );
+
+    const closes =
+      candles.map(x=>x.close);
+
+    const rsi =
+      calcRSI(closes,14);
+
+    const macd =
+      calcMACD(closes);
+
+    if(rsi!==null){
+
+      const el =
+        document.getElementById("rsi");
+
+      el.textContent =
+        rsi.toFixed(2);
+
+      const sub =
+        document.getElementById("rsiSub");
+
+      if(rsi>=70){
+
+        sub.textContent="OVERBOUGHT";
+        sub.className="metricSub red";
+
+      }else if(rsi<=30){
+
+        sub.textContent="OVERSOLD";
+        sub.className="metricSub green";
+
+      }else{
+
+        sub.textContent="NEUTRAL";
+        sub.className="metricSub";
+
+      }
+
+    }
+
+    if(macd){
+
+      document.getElementById("macd")
+        .textContent =
+        macd.macd.toFixed(4);
+
+      document.getElementById("macdSub")
+        .textContent =
+        "SIG "+
+        macd.signal.toFixed(4)+
+        " / HIST "+
+        macd.histogram.toFixed(4);
+
+    }
+
+    const volume =
+      candles[candles.length-1].volume;
+
+    document.getElementById("volume")
+      .textContent =
+      volume>=1000000
+      ?(volume/1000000).toFixed(2)+"M"
+      :Math.round(volume).toLocaleString();
+
   }catch(e){
-    error.textContent+="テクニカル: "+e.message;
+
+    document.getElementById("error")
+      .textContent +=
+      " TECH : "+e.message;
+
   }
 
-  document.getElementById("system").textContent=
-    "ONLINE / 最終更新 "+
-    new Date().toLocaleTimeString("ja-JP");
+}
+
+
+/* START */
+
+async function updateAll(){
+
+  await updateMarket();
+
+  await updateTechnical();
+
 }
 
 updateAll();
 
 setInterval(updateAll,60000);
+
 </script>
 
 </body>
