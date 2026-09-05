@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>XRP司令室 5.0</title>
+<title>XRP司令室 5.1</title>
 
 <style>
 *{box-sizing:border-box}
@@ -28,7 +28,6 @@ h1{
 margin:0;
 font-size:25px;
 font-weight:900;
-letter-spacing:.3px;
 }
 
 .sub{
@@ -192,27 +191,32 @@ height:100%;
 width:50%;
 background:#168bc3;
 border-radius:99px;
+transition:.4s;
 }
 
 .zone{
 position:relative;
-height:170px;
-margin-top:10px;
-border-radius:12px;
+height:230px;
+margin-top:12px;
+border-radius:14px;
 background:
-linear-gradient(to bottom,
-rgba(255,80,100,.12),
-rgba(255,80,100,.02) 40%,
-rgba(80,220,160,.02) 60%,
-rgba(80,220,160,.12));
+linear-gradient(
+to bottom,
+rgba(255,70,90,.18),
+rgba(255,70,90,.05) 34%,
+rgba(255,210,70,.05) 45%,
+rgba(255,210,70,.02) 55%,
+rgba(70,220,150,.05) 66%,
+rgba(70,220,150,.18)
+);
 border:1px solid #263d50;
 overflow:hidden;
 }
 
 .zoneLine{
 position:absolute;
-left:10px;
-right:10px;
+left:12px;
+right:12px;
 border-top:1px dashed #557084;
 }
 
@@ -220,13 +224,17 @@ border-top:1px dashed #557084;
 position:absolute;
 right:10px;
 font-size:10px;
+padding:3px 6px;
+border-radius:5px;
+background:#08131f;
 }
 
 .currentLine{
 position:absolute;
 left:0;
 right:0;
-border-top:2px solid white;
+border-top:2px solid #fff;
+transition:.4s;
 }
 
 .currentTag{
@@ -236,9 +244,30 @@ transform:translateY(-50%);
 font-size:10px;
 background:#fff;
 color:#000;
-padding:3px 6px;
+padding:4px 7px;
 border-radius:5px;
-font-weight:800;
+font-weight:900;
+transition:.4s;
+}
+
+.liqInfo{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+margin-top:10px;
+}
+
+.liqBox{
+background:#08131f;
+border-radius:10px;
+padding:10px;
+font-size:11px;
+}
+
+.liqBox strong{
+display:block;
+font-size:15px;
+margin-top:4px;
 }
 
 .status{
@@ -268,6 +297,26 @@ height:380px;
 width:100%;
 }
 
+.tvFallback{
+height:100%;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:20px;
+color:#8199ab;
+font-size:12px;
+line-height:1.7;
+}
+
+.volumeGood{
+color:#68e4b1;
+}
+
+.volumeError{
+color:#ff9aaa;
+}
+
 @media(max-width:480px){
 .big{font-size:22px}
 .priceHero{font-size:31px}
@@ -279,7 +328,7 @@ width:100%;
 <body>
 
 <header>
-<h1>🚀 XRP司令室 5.0</h1>
+<h1>🚀 XRP司令室 5.1</h1>
 <div class="sub">REAL-TIME CRYPTO COMMAND CENTER</div>
 </header>
 
@@ -304,6 +353,7 @@ width:100%;
 
 </div>
 
+
 <!-- MARKET -->
 
 <div class="grid">
@@ -327,10 +377,11 @@ width:100%;
 <div class="card">
 <div class="label">📊 XRP出来高</div>
 <div class="big" id="volume">---</div>
-<div class="small">24時間</div>
+<div class="small" id="volumeStatus">Bitbank 24時間</div>
 </div>
 
 </div>
+
 
 <!-- REPORT -->
 
@@ -352,15 +403,23 @@ width:100%;
 
 </div>
 
+
 <!-- CHART -->
 
 <div class="section">📈 XRP/JPY LIVE 5分チャート</div>
 
 <div class="card" style="padding:0;overflow:hidden">
 
-<div id="tvchart" class="tv"></div>
+<div id="tvchart" class="tv">
+
+<div class="tvFallback">
+📡 チャート接続中...
+</div>
 
 </div>
+
+</div>
+
 
 <!-- HEATMAP -->
 
@@ -394,6 +453,7 @@ async>
 
 </div>
 
+
 <!-- LIQUIDATION -->
 
 <div class="section">💥 清算ゾーン・マップ</div>
@@ -401,31 +461,48 @@ async>
 <div class="card">
 
 <div class="small">
-※ 現在は推定ゾーン表示。実際の清算データAPIとは接続していません。
+⚠️ 推定ゾーン。実際の取引所清算データではありません。
+価格変動に合わせてマップ位置を自動調整します。
 </div>
 
 <div class="zone">
 
-<div class="zoneLine" style="top:25%"></div>
+<div class="zoneLine" style="top:20%"></div>
 <div class="zoneLine" style="top:50%"></div>
-<div class="zoneLine" style="top:75%"></div>
+<div class="zoneLine" style="top:80%"></div>
 
-<div class="zoneText" style="top:19%">
-🔴 ロング清算ゾーン
+<div class="zoneText" style="top:14%">
+🔴 ロング清算帯
 </div>
 
 <div class="zoneText" style="top:44%">
 🟡 現在価格
 </div>
 
-<div class="zoneText" style="top:69%">
-🟢 ショート清算ゾーン
+<div class="zoneText" style="top:74%">
+🟢 ショート清算帯
 </div>
 
 <div id="liqCurrent" class="currentLine" style="top:50%"></div>
 
 <div id="liqTag" class="currentTag" style="top:50%">
 現在価格
+</div>
+
+</div>
+
+<div class="liqInfo">
+
+<div class="liqBox">
+🔴 下方向
+<strong id="liqLong">---</strong>
+ロング清算警戒帯
+</div>
+
+<div class="liqBox">
+🟢 上方向
+<strong id="liqShort">---</strong>
+ショート清算警戒帯
 </div>
 
 </div>
@@ -438,6 +515,7 @@ async>
 
 </div>
 
+
 <!-- FEAR -->
 
 <div class="section">😈 Fear & Greed</div>
@@ -445,12 +523,14 @@ async>
 <div class="card">
 
 <div style="display:flex;justify-content:space-between">
+
 <div>
 <div class="big" id="fearValue">---</div>
 <div class="small" id="fearText">取得中</div>
 </div>
 
 <div style="font-size:32px" id="fearEmoji">😐</div>
+
 </div>
 
 <div class="bar">
@@ -458,6 +538,7 @@ async>
 </div>
 
 </div>
+
 
 <!-- BTC DOMINANCE -->
 
@@ -477,6 +558,7 @@ BTCへの資金集中度を確認
 
 </div>
 
+
 <!-- POSITION -->
 
 <div class="section">💰 ポジション司令室</div>
@@ -484,13 +566,19 @@ BTCへの資金集中度を確認
 <div class="card">
 
 <div class="label">保有XRP</div>
-<input id="amount" type="number" value="10000" step="0.0001">
+
+<input id="amount"
+type="number"
+value="10000"
+step="0.0001">
 
 <div class="label" style="margin-top:10px">
 目標金額
 </div>
 
-<input id="goal" type="number" value="2750000">
+<input id="goal"
+type="number"
+value="2750000">
 
 <button onclick="calc()">再計算</button>
 
@@ -499,6 +587,7 @@ BTCへの資金集中度を確認
 <div class="small" id="gap">---</div>
 
 </div>
+
 
 <!-- SIMULATION -->
 
@@ -522,6 +611,7 @@ BTCへの資金集中度を確認
 
 </div>
 
+
 <!-- ZONES -->
 
 <div class="section">🚦 XRP重要価格帯</div>
@@ -543,6 +633,7 @@ BTCへの資金集中度を確認
 </table>
 
 </div>
+
 
 <!-- EVENT -->
 
@@ -572,6 +663,7 @@ BTCへの資金集中度を確認
 
 </div>
 
+
 <!-- JUDGE -->
 
 <div class="section">🧭 司令室総合判定</div>
@@ -590,37 +682,21 @@ BTCへの資金集中度を確認
 
 </div>
 
+
 <div class="footer">
-XRP司令室 5.0<br>
+XRP司令室 5.1<br>
 5秒リアルタイム監視
 </div>
 
 </div>
+
 
 <script src="https://s3.tradingview.com/tv.js"></script>
 
 <script>
 
 /* =========================
-   TradingView XRP/JPY
-========================= */
-
-new TradingView.widget({
-autosize:true,
-symbol:"BITBANK:XRPJPY",
-interval:"5",
-timezone:"Asia/Tokyo",
-theme:"dark",
-style:"1",
-locale:"ja",
-hide_side_toolbar:true,
-allow_symbol_change:false,
-container_id:"tvchart"
-});
-
-
-/* =========================
-   Variables
+   VARIABLES
 ========================= */
 
 let xrp=0;
@@ -639,7 +715,7 @@ const levels=[225,250,275,300,400,500];
 
 
 /* =========================
-   Elements
+   ELEMENTS
 ========================= */
 
 const heroXRP=document.getElementById("heroXRP");
@@ -652,6 +728,7 @@ const btcChange=document.getElementById("btcChange");
 const usdEl=document.getElementById("usdjpy");
 const xrpusdEl=document.getElementById("xrpusd");
 const volumeEl=document.getElementById("volume");
+const volumeStatus=document.getElementById("volumeStatus");
 
 const rBTC=document.getElementById("rBTC");
 const rXRP=document.getElementById("rXRP");
@@ -673,7 +750,7 @@ const judge=document.getElementById("judge");
 
 
 /* =========================
-   Helpers
+   HELPERS
 ========================= */
 
 function yen(v){
@@ -684,7 +761,7 @@ return Math.round(v).toLocaleString("ja-JP")+"円";
 
 
 /* =========================
-   Position
+   POSITION
 ========================= */
 
 function calc(){
@@ -726,7 +803,7 @@ updateZones();
 
 
 /* =========================
-   Price Zones
+   PRICE ZONES
 ========================= */
 
 function updateZones(){
@@ -760,7 +837,9 @@ const diff=p-xrp;
 zones.innerHTML+=`
 <tr>
 <td>${p}円</td>
-<td>${diff>0?"+"+diff.toFixed(3):Math.abs(diff).toFixed(3)+"円上"}</td>
+<td>${diff>0
+?"あと "+diff.toFixed(3)+"円"
+:Math.abs(diff).toFixed(3)+"円上"}</td>
 <td>
 <span class="badge ${cls}">
 ${state}
@@ -775,7 +854,7 @@ ${state}
 
 
 /* =========================
-   Report
+   REPORT
 ========================= */
 
 function updateReport(){
@@ -829,7 +908,7 @@ heroAlert.innerHTML=
 
 
 /* =========================
-   Judge
+   JUDGE
 ========================= */
 
 function judgeMarket(){
@@ -889,7 +968,7 @@ document.getElementById("xrpStatus").textContent=
 
 
 /* =========================
-   XRP
+   XRP PRICE
 ========================= */
 
 async function getXRP(){
@@ -898,10 +977,16 @@ try{
 
 const r=await fetch(
 "https://public.bitbank.cc/xrp_jpy/ticker?x="+Date.now(),
-{cache:"no-store"}
+{
+cache:"no-store"
+}
 );
 
+if(!r.ok) throw new Error("XRP API");
+
 const d=await r.json();
+
+if(!d.data || !d.data.last) throw new Error("XRP data");
 
 prevXrp=xrp;
 
@@ -923,10 +1008,11 @@ heroChange.textContent=
 calc();
 updateReport();
 judgeMarket();
+updateLiquidation();
 
 }catch(e){
 
-heroChange.textContent="通信待機中";
+heroChange.textContent="XRP通信待機中";
 
 }
 
@@ -943,10 +1029,16 @@ try{
 
 const r=await fetch(
 "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd,jpy&x="+Date.now(),
-{cache:"no-store"}
+{
+cache:"no-store"
+}
 );
 
+if(!r.ok) throw new Error("BTC API");
+
 const d=await r.json();
+
+if(!d.bitcoin) throw new Error("BTC data");
 
 prevBtc=btc;
 
@@ -982,13 +1074,17 @@ btcChange.textContent=
 updateReport();
 judgeMarket();
 
-}catch(e){}
+}catch(e){
+
+btcEl.textContent="---";
+
+}
 
 }
 
 
 /* =========================
-   XRP Volume
+   XRP VOLUME
 ========================= */
 
 async function getVolume(){
@@ -997,23 +1093,57 @@ try{
 
 const r=await fetch(
 "https://public.bitbank.cc/xrp_jpy/ticker?x="+Date.now(),
-{cache:"no-store"}
+{
+cache:"no-store"
+}
 );
+
+if(!r.ok) throw new Error("volume API");
 
 const d=await r.json();
 
+if(
+!d.data ||
+d.data.volume===undefined ||
+d.data.volume===null
+){
+throw new Error("volume data");
+}
+
 volume=Number(d.data.volume);
+
+if(!Number.isFinite(volume)){
+
+throw new Error("volume number");
+
+}
 
 volumeEl.textContent=
 volume.toLocaleString("ja-JP");
 
-}catch(e){}
+volumeEl.classList.remove("volumeError");
+volumeEl.classList.add("volumeGood");
+
+volumeStatus.textContent=
+"Bitbank 24時間出来高";
+
+}catch(e){
+
+volumeEl.textContent="取得失敗";
+
+volumeEl.classList.remove("volumeGood");
+volumeEl.classList.add("volumeError");
+
+volumeStatus.textContent=
+"API接続待機";
+
+}
 
 }
 
 
 /* =========================
-   Fear & Greed
+   FEAR & GREED
 ========================= */
 
 async function getFear(){
@@ -1022,8 +1152,12 @@ try{
 
 const r=await fetch(
 "https://api.alternative.me/fng/?limit=1&x="+Date.now(),
-{cache:"no-store"}
+{
+cache:"no-store"
+}
 );
+
+if(!r.ok) throw new Error("fear API");
 
 const d=await r.json();
 
@@ -1047,15 +1181,21 @@ else if(fear<=55) emoji="😐";
 else if(fear<=75) emoji="😎";
 else emoji="🤑";
 
-document.getElementById("fearEmoji").textContent=emoji;
+document.getElementById("fearEmoji").textContent=
+emoji;
 
-}catch(e){}
+}catch(e){
+
+document.getElementById("fearText").textContent=
+"取得待機";
+
+}
 
 }
 
 
 /* =========================
-   BTC Dominance
+   BTC DOMINANCE
 ========================= */
 
 async function getDominance(){
@@ -1064,8 +1204,12 @@ try{
 
 const r=await fetch(
 "https://api.coingecko.com/api/v3/global?x="+Date.now(),
-{cache:"no-store"}
+{
+cache:"no-store"
+}
 );
+
+if(!r.ok) throw new Error("dominance API");
 
 const d=await r.json();
 
@@ -1078,23 +1222,71 @@ dominance.toFixed(2)+"%";
 document.getElementById("domBar").style.width=
 Math.min(dominance,100)+"%";
 
-}catch(e){}
+}catch(e){
+
+document.getElementById("dominance").textContent=
+"取得待機";
+
+}
 
 }
 
 
 /* =========================
-   Liquidation Visual
+   LIQUIDATION MAP
 ========================= */
 
 function updateLiquidation(){
 
 if(!xrp) return;
 
+
+/*
+推定清算帯
+
+現在価格を中心に
+下側 8%〜12%
+上側 8%〜12%
+
+を警戒ゾーンとして表示。
+実際の清算データではない。
+*/
+
+const lower=
+xrp*0.90;
+
+const upper=
+xrp*1.10;
+
+document.getElementById("liqLong").textContent=
+lower.toFixed(3)+"円付近";
+
+document.getElementById("liqShort").textContent=
+upper.toFixed(3)+"円付近";
+
+
+/*
+マップ上の現在位置
+
+価格が更新されるたびに
+中央付近を基準に微調整
+*/
+
 let position=50;
 
-if(xrp>225) position=42;
-else if(xrp<219) position=58;
+if(xrp>=225){
+
+position=42;
+
+}else if(xrp<219){
+
+position=58;
+
+}else{
+
+position=50;
+
+}
 
 document.getElementById("liqCurrent").style.top=
 position+"%";
@@ -1102,11 +1294,64 @@ position+"%";
 document.getElementById("liqTag").style.top=
 position+"%";
 
+document.getElementById("liqTag").textContent=
+"XRP "+xrp.toFixed(3)+"円";
+
 }
 
 
 /* =========================
-   Init
+   TRADINGVIEW
+========================= */
+
+function loadChart(){
+
+const target=document.getElementById("tvchart");
+
+target.innerHTML="";
+
+try{
+
+new TradingView.widget({
+
+autosize:true,
+
+symbol:"BITFLYER:XRPJPY",
+
+interval:"5",
+
+timezone:"Asia/Tokyo",
+
+theme:"dark",
+
+style:"1",
+
+locale:"ja",
+
+hide_side_toolbar:true,
+
+allow_symbol_change:false,
+
+container_id:"tvchart"
+
+});
+
+}catch(e){
+
+target.innerHTML=`
+<div class="tvFallback">
+📡 チャートを読み込めませんでした。<br>
+しばらく待って再読み込みしてください。
+</div>
+`;
+
+}
+
+}
+
+
+/* =========================
+   INIT
 ========================= */
 
 amountEl.oninput=calc;
@@ -1120,13 +1365,14 @@ getVolume();
 getFear();
 getDominance();
 
+setTimeout(loadChart,800);
+
 setInterval(getXRP,5000);
 setInterval(getBTC,5000);
 setInterval(getVolume,5000);
 
 setInterval(getFear,60000);
 setInterval(getDominance,60000);
-
 setInterval(updateLiquidation,5000);
 
 </script>
