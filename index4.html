@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#07111f">
-<title>XRP司令室 7.2</title>
+<title>XRP司令室 7.3</title>
 
 <style>
 *{
@@ -32,7 +32,7 @@ header{
   padding:12px 0 18px;
 }
 
-.logo{
+.logoText{
   font-size:13px;
   letter-spacing:3px;
   color:#69c7ff;
@@ -69,9 +69,51 @@ h1{
   margin-bottom:5px;
 }
 
+/* XRP PRICE */
+
 .xrpHero{
   text-align:center;
-  padding:22px 12px 20px;
+  padding:20px 12px 20px;
+}
+
+.xrpPair{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  margin-bottom:9px;
+}
+
+.xrpLogo{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle at 35% 30%,#63eaff,#1686c7 55%,#07517f);
+  border:1px solid rgba(130,235,255,.75);
+  box-shadow:
+    0 0 10px rgba(50,210,255,.5),
+    inset 0 0 8px rgba(255,255,255,.18);
+}
+
+.xrpLogo svg{
+  width:27px;
+  height:27px;
+  fill:none;
+  stroke:white;
+  stroke-width:3.2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.xrpSymbol{
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:1px;
+  color:#bceeff;
 }
 
 .xrpPrice{
@@ -187,6 +229,8 @@ h1{
   color:#6fcaff;
 }
 
+/* TRADINGVIEW */
+
 .tvWrap{
   width:100%;
   height:390px;
@@ -196,15 +240,15 @@ h1{
   border:1px solid rgba(255,255,255,.07);
 }
 
+.tvContainer{
+  width:100%;
+  height:100%;
+}
+
 @media(min-width:700px){
   .tvWrap{
     height:520px;
   }
-}
-
-.tvContainer{
-  width:100%;
-  height:100%;
 }
 
 .levels{
@@ -364,6 +408,7 @@ footer{
 }
 
 @media(max-width:420px){
+
   .xrpPrice{
     font-size:42px;
   }
@@ -375,6 +420,7 @@ footer{
   .engineRow{
     grid-template-columns:90px 1fr auto;
   }
+
 }
 </style>
 </head>
@@ -384,21 +430,46 @@ footer{
 <div class="container">
 
 <header>
-  <div class="logo">⚡ XRP COMMAND CENTER</div>
-  <h1>XRP司令室 7.2</h1>
+  <div class="logoText">⚡ XRP COMMAND CENTER</div>
+  <h1>XRP司令室 7.3</h1>
   <div class="subtitle">REAL MARKET MONITOR / TRADINGVIEW EDITION</div>
 </header>
 
+
 <!-- XRP HERO -->
+
 <div class="card xrpHero">
+
   <div class="label">XRP / JPY — BITBANK</div>
+
+  <div class="xrpPair">
+
+    <div class="xrpLogo">
+      <svg viewBox="0 0 32 32">
+        <path d="M8 7c3 0 4.5 4.5 8 4.5S21 7 24 7"/>
+        <path d="M8 25c3 0 4.5-4.5 8-4.5S21 25 24 25"/>
+      </svg>
+    </div>
+
+    <div class="xrpSymbol">XRP</div>
+
+  </div>
+
   <div class="xrpPrice" id="xrpPrice">---</div>
+
   <div class="xrpUnit">JPY</div>
-  <div class="change" id="xrpChange">24H ---</div>
+
+  <div class="change" id="xrpChange">
+    24H ---
+  </div>
+
 </div>
 
+
 <!-- MARKET DATA -->
+
 <div class="card">
+
   <div class="sectionTitle">
     <b>MARKET DATA</b>
     <span class="badge">LIVE</span>
@@ -431,17 +502,25 @@ footer{
     </div>
 
   </div>
+
 </div>
 
+
 <!-- MISSION -->
+
 <div class="card mission">
-  <div class="missionTitle">🎯 2,750,000円 MISSION</div>
+
+  <div class="missionTitle">
+    🎯 2,750,000円 MISSION
+  </div>
 
   <div class="missionTarget" id="positionValue">
     ---
   </div>
 
-  <div class="small">保有数量：10,000 XRP</div>
+  <div class="small">
+    保有数量：10,000 XRP
+  </div>
 
   <div class="distance" id="distance">
     目標まで ---
@@ -454,28 +533,37 @@ footer{
   <div class="small">
     目標XRP価格：275.000円
   </div>
+
 </div>
 
+
 <!-- TRADINGVIEW -->
+
 <div class="card">
 
   <div class="sectionTitle">
     <b>📈 XRP REAL CHART</b>
-    <span class="badge">TRADINGVIEW</span>
+    <span class="badge">MA20 / MA50 / MA200</span>
   </div>
 
   <div class="tvWrap">
+
     <div class="tvContainer">
 
-      <div class="tradingview-widget-container"
-           style="height:100%;width:100%;">
+      <div
+        class="tradingview-widget-container"
+        style="height:100%;width:100%;">
 
-        <div class="tradingview-widget-container__widget"
-             style="height:100%;width:100%;"></div>
+        <div
+          class="tradingview-widget-container__widget"
+          style="height:100%;width:100%;">
+        </div>
 
-        <script type="text/javascript"
+        <script
+          type="text/javascript"
           src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js"
           async>
+
         {
           "autosize": true,
           "symbol": "BITFLYER:XRPJPY",
@@ -493,22 +581,37 @@ footer{
           "details": true,
           "hotlist": false,
           "calendar": false,
+
+          "studies": [
+            "MASimple@tv-basicstudies",
+            "MASimple@tv-basicstudies",
+            "MASimple@tv-basicstudies"
+          ],
+
+          "studies_overrides": {
+            "moving average.length": 20
+          },
+
           "support_host": "https://www.tradingview.com"
         }
+
         </script>
 
       </div>
 
     </div>
+
   </div>
 
   <div class="small" style="margin-top:8px;text-align:right;">
-    TradingView / XRPJPY ・ 5分足
+    TradingView / XRPJPY ・ 5分足 ・ MA20 / MA50 / MA200
   </div>
 
 </div>
 
+
 <!-- IMPORTANT LEVELS -->
+
 <div class="card">
 
   <div class="sectionTitle">
@@ -549,9 +652,12 @@ footer{
     </div>
 
   </div>
+
 </div>
 
+
 <!-- MARKET ENGINE -->
+
 <div class="card">
 
   <div class="sectionTitle">
@@ -562,34 +668,62 @@ footer{
   <div class="engine">
 
     <div class="engineRow">
-      <div class="engineName">短期モメンタム</div>
+
+      <div class="engineName">
+        短期モメンタム
+      </div>
+
       <div class="engineBar">
         <div class="engineFill" id="momentumBar"></div>
       </div>
-      <div class="engineValue" id="momentumValue">---</div>
+
+      <div class="engineValue" id="momentumValue">
+        ---
+      </div>
+
     </div>
 
+
     <div class="engineRow">
-      <div class="engineName">BTC SIGNAL</div>
+
+      <div class="engineName">
+        BTC SIGNAL
+      </div>
+
       <div class="engineBar">
         <div class="engineFill" id="btcBar"></div>
       </div>
-      <div class="engineValue" id="btcSignal">---</div>
+
+      <div class="engineValue" id="btcSignal">
+        ---
+      </div>
+
     </div>
 
+
     <div class="engineRow">
-      <div class="engineName">24H RANGE</div>
+
+      <div class="engineName">
+        24H RANGE
+      </div>
+
       <div class="engineBar">
         <div class="engineFill" id="rangeBar"></div>
       </div>
-      <div class="engineValue" id="rangeValue">---</div>
+
+      <div class="engineValue" id="rangeValue">
+        ---
+      </div>
+
     </div>
 
   </div>
 
 </div>
 
+
 <!-- COMMAND -->
+
 <div class="card">
 
   <div class="sectionTitle">
@@ -599,7 +733,9 @@ footer{
 
   <div class="command">
 
-    <div class="label">CURRENT MARKET STATE</div>
+    <div class="label">
+      CURRENT MARKET STATE
+    </div>
 
     <div class="commandMain" id="commandMain">
       ANALYZING...
@@ -613,7 +749,9 @@ footer{
 
 </div>
 
+
 <!-- EVENT RADAR -->
+
 <div class="card">
 
   <div class="sectionTitle">
@@ -624,46 +762,75 @@ footer{
   <div class="radar">
 
     <div class="event critical">
+
       <div class="dot"></div>
+
       <div>
         <strong>CLARITY Act</strong>
         <small>最重要・米国暗号資産規制</small>
       </div>
-      <div class="priority">MAX</div>
+
+      <div class="priority">
+        MAX
+      </div>
+
     </div>
 
+
     <div class="event">
+
       <div class="dot"></div>
+
       <div>
         <strong>XRP Spot ETF</strong>
         <small>資金流入・承認関連</small>
       </div>
-      <div class="priority">HIGH</div>
+
+      <div class="priority">
+        HIGH
+      </div>
+
     </div>
 
+
     <div class="event">
+
       <div class="dot"></div>
+
       <div>
         <strong>FRB / FOMC</strong>
         <small>金利・金融政策</small>
       </div>
-      <div class="priority">HIGH</div>
+
+      <div class="priority">
+        HIGH
+      </div>
+
     </div>
 
+
     <div class="event">
+
       <div class="dot"></div>
+
       <div>
         <strong>U.S. CPI</strong>
         <small>米インフレ指標</small>
       </div>
-      <div class="priority">HIGH</div>
+
+      <div class="priority">
+        HIGH
+      </div>
+
     </div>
 
   </div>
 
 </div>
 
+
 <!-- LOG -->
+
 <div class="card">
 
   <div class="sectionTitle">
@@ -676,12 +843,14 @@ footer{
 
 </div>
 
+
 <footer>
-  XRP COMMAND CENTER 7.2<br>
+  XRP COMMAND CENTER 7.3<br>
   DATA : BITBANK / COINGECKO / FRANKFURTER / TRADINGVIEW
 </footer>
 
 </div>
+
 
 <script>
 
@@ -692,9 +861,8 @@ let lastXrp = null;
 let priceHistory = [];
 let logs = [];
 
-/* -----------------------------
-   XRP
------------------------------ */
+
+/* XRP */
 
 async function fetchXRP(){
 
@@ -719,21 +887,27 @@ async function fetchXRP(){
         maximumFractionDigits:3
       });
 
+
     document.getElementById("xrpVolume").textContent =
       volume.toLocaleString("ja-JP",{
         maximumFractionDigits:0
       }) + " XRP";
 
-    const change = open
-      ? ((price-open)/open)*100
-      : 0;
 
-    const changeEl = document.getElementById("xrpChange");
+    const change =
+      open ? ((price-open)/open)*100 : 0;
+
+
+    const changeEl =
+      document.getElementById("xrpChange");
+
 
     changeEl.textContent =
       "24H " +
       (change >= 0 ? "+" : "") +
-      change.toFixed(2) + "%";
+      change.toFixed(2) +
+      "%";
+
 
     if(change >= 0){
 
@@ -747,14 +921,21 @@ async function fetchXRP(){
 
     }
 
-    /* position */
 
-    const value = price * XRP_AMOUNT;
+    /* POSITION */
+
+    const value =
+      price * XRP_AMOUNT;
+
 
     document.getElementById("positionValue").textContent =
-      value.toLocaleString("ja-JP") + " 円";
+      value.toLocaleString("ja-JP") +
+      " 円";
 
-    const distance = TARGET - value;
+
+    const distance =
+      TARGET - value;
+
 
     if(distance > 0){
 
@@ -772,13 +953,19 @@ async function fetchXRP(){
 
     }
 
-    let progress = (value/TARGET)*100;
-    progress = Math.max(0,Math.min(100,progress));
+
+    let progress =
+      (value/TARGET)*100;
+
+    progress =
+      Math.max(0,Math.min(100,progress));
+
 
     document.getElementById("progressBar").style.width =
       progress + "%";
 
-    /* history */
+
+    /* HISTORY */
 
     priceHistory.push(price);
 
@@ -786,18 +973,27 @@ async function fetchXRP(){
       priceHistory.shift();
     }
 
-    updateEngine(price,high,low,open);
+
+    updateEngine(
+      price,
+      high,
+      low,
+      open
+    );
+
 
     if(lastXrp !== null){
 
-      const diff = price-lastXrp;
+      const diff =
+        price-lastXrp;
+
 
       if(Math.abs(diff) >= 0.5){
 
         addLog(
           new Date().toLocaleTimeString("ja-JP") +
           " XRP " +
-          (diff>0 ? "▲" : "▼") +
+          (diff > 0 ? "▲" : "▼") +
           Math.abs(diff).toFixed(3) +
           "円"
         );
@@ -805,6 +1001,7 @@ async function fetchXRP(){
       }
 
     }
+
 
     lastXrp = price;
 
@@ -816,21 +1013,24 @@ async function fetchXRP(){
 
 }
 
-/* -----------------------------
-   BTC
------------------------------ */
+
+/* BTC */
 
 async function fetchBTC(){
 
   try{
 
     const res = await fetch(
-      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&_=" + Date.now()
+      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&_=" +
+      Date.now()
     );
 
-    const data = await res.json();
+    const data =
+      await res.json();
 
-    const btc = Number(data.bitcoin.usd);
+    const btc =
+      Number(data.bitcoin.usd);
+
 
     document.getElementById("btcPrice").textContent =
       "$" +
@@ -846,9 +1046,8 @@ async function fetchBTC(){
 
 }
 
-/* -----------------------------
-   USDJPY
------------------------------ */
+
+/* USDJPY */
 
 async function fetchUSDJPY(){
 
@@ -856,16 +1055,22 @@ async function fetchUSDJPY(){
 
     let rate = null;
 
+
     try{
 
       const res = await fetch(
-        "https://api.frankfurter.app/latest?from=USD&to=JPY&_=" + Date.now()
+        "https://api.frankfurter.app/latest?from=USD&to=JPY&_=" +
+        Date.now()
       );
 
-      const data = await res.json();
-      rate = Number(data.rates.JPY);
+      const data =
+        await res.json();
+
+      rate =
+        Number(data.rates.JPY);
 
     }catch(e){}
+
 
     if(!rate){
 
@@ -873,22 +1078,30 @@ async function fetchUSDJPY(){
         "https://open.er-api.com/v6/latest/USD"
       );
 
-      const data = await res.json();
-      rate = Number(data.rates.JPY);
+      const data =
+        await res.json();
+
+      rate =
+        Number(data.rates.JPY);
 
     }
+
 
     if(rate){
 
       document.getElementById("usdJpy").textContent =
         rate.toFixed(2);
 
+
       if(lastXrp){
 
-        const xrpUsd = lastXrp / rate;
+        const xrpUsd =
+          lastXrp / rate;
+
 
         document.getElementById("xrpUsd").textContent =
-          "$" + xrpUsd.toFixed(4);
+          "$" +
+          xrpUsd.toFixed(4);
 
       }
 
@@ -902,59 +1115,81 @@ async function fetchUSDJPY(){
 
 }
 
-/* -----------------------------
-   ENGINE
------------------------------ */
 
-function updateEngine(price,high,low,open){
+/* MARKET ENGINE */
+
+function updateEngine(
+  price,
+  high,
+  low,
+  open
+){
 
   let momentum = 50;
+
 
   if(priceHistory.length >= 5){
 
     const old =
-      priceHistory[priceHistory.length-5];
+      priceHistory[
+        priceHistory.length-5
+      ];
+
 
     const diff =
       ((price-old)/old)*100;
 
+
     momentum =
-      Math.max(0,Math.min(100,50 + diff*20));
+      Math.max(
+        0,
+        Math.min(
+          100,
+          50 + diff*20
+        )
+      );
 
   }
+
 
   document.getElementById("momentumBar").style.width =
     momentum + "%";
 
-  document.getElementById("momentumValue").textContent =
-    momentum > 60 ? "強気" :
-    momentum < 40 ? "弱気" :
-    "中立";
 
-  /* BTC signal */
+  document.getElementById("momentumValue").textContent =
+    momentum > 60
+      ? "強気"
+      : momentum < 40
+        ? "弱気"
+        : "中立";
+
 
   let btcSignal = 50;
+
 
   const btcText =
     document.getElementById("btcPrice").textContent;
 
+
   if(btcText !== "---"){
-
     btcSignal = 55;
-
   }
+
 
   document.getElementById("btcBar").style.width =
     btcSignal + "%";
 
-  document.getElementById("btcSignal").textContent =
-    btcSignal > 60 ? "強" :
-    btcSignal < 40 ? "弱" :
-    "中立";
 
-  /* range */
+  document.getElementById("btcSignal").textContent =
+    btcSignal > 60
+      ? "強"
+      : btcSignal < 40
+        ? "弱"
+        : "中立";
+
 
   let range = 50;
+
 
   if(high > low){
 
@@ -963,16 +1198,26 @@ function updateEngine(price,high,low,open){
 
   }
 
+
   range =
-    Math.max(0,Math.min(100,range));
+    Math.max(
+      0,
+      Math.min(
+        100,
+        range
+      )
+    );
+
 
   document.getElementById("rangeBar").style.width =
     range + "%";
 
+
   document.getElementById("rangeValue").textContent =
     range.toFixed(0) + "%";
 
-  /* command */
+
+  /* COMMAND */
 
   const command =
     document.getElementById("commandMain");
@@ -980,30 +1225,35 @@ function updateEngine(price,high,low,open){
   const sub =
     document.getElementById("commandSub");
 
+
   if(price >= 275){
 
-    command.textContent = "🎯 TARGET ZONE";
+    command.textContent =
+      "🎯 TARGET ZONE";
 
     sub.textContent =
       "275円ライン突破。次の監視帯へ。";
 
   }else if(price >= 250){
 
-    command.textContent = "⚡ BREAKOUT WATCH";
+    command.textContent =
+      "⚡ BREAKOUT WATCH";
 
     sub.textContent =
       "250円台を維持できるか監視。";
 
   }else if(price >= 225){
 
-    command.textContent = "🟢 DEFENSE HOLD";
+    command.textContent =
+      "🟢 DEFENSE HOLD";
 
     sub.textContent =
       "225円防衛圏内。上方向を監視。";
 
   }else{
 
-    command.textContent = "🔴 DEFENSE ALERT";
+    command.textContent =
+      "🔴 DEFENSE ALERT";
 
     sub.textContent =
       "225円割れ。重要サポートを警戒。";
@@ -1012,26 +1262,26 @@ function updateEngine(price,high,low,open){
 
 }
 
-/* -----------------------------
-   LOG
------------------------------ */
+
+/* LOG */
 
 function addLog(text){
 
   logs.unshift(text);
 
+
   if(logs.length > 8){
     logs.pop();
   }
+
 
   document.getElementById("log").innerHTML =
     logs.join("<br>");
 
 }
 
-/* -----------------------------
-   START
------------------------------ */
+
+/* START */
 
 fetchXRP();
 fetchBTC();
