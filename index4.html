@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="theme-color" content="#020611">
-<title>XRP司令室 7.5 COMMAND CORE</title>
+<title>XRP司令室 7.5.1</title>
 
 <style>
 *{box-sizing:border-box}
@@ -46,7 +46,7 @@ body:before{
   z-index:1;
 }
 
-/* HEADER */
+/* ===== ヘッダー ===== */
 
 .header{
   position:relative;
@@ -55,8 +55,7 @@ body:before{
   margin-bottom:11px;
   border:1px solid #14558b;
   border-radius:20px;
-  background:
-    linear-gradient(135deg,rgba(8,30,57,.96),rgba(3,10,24,.98));
+  background:linear-gradient(135deg,rgba(8,30,57,.96),rgba(3,10,24,.98));
   box-shadow:
     0 0 30px rgba(0,150,255,.16),
     inset 0 0 30px rgba(0,120,255,.05);
@@ -90,7 +89,7 @@ body:before{
   margin-top:4px;
   color:#6686a8;
   font-size:9px;
-  letter-spacing:1.8px;
+  letter-spacing:1.2px;
 }
 
 .version{
@@ -103,7 +102,7 @@ body:before{
   box-shadow:0 0 12px rgba(0,190,255,.18);
 }
 
-/* CARDS */
+/* ===== カード ===== */
 
 .card{
   position:relative;
@@ -112,8 +111,7 @@ body:before{
   padding:14px;
   border:1px solid #123653;
   border-radius:18px;
-  background:
-    linear-gradient(145deg,rgba(7,22,40,.97),rgba(2,8,19,.98));
+  background:linear-gradient(145deg,rgba(7,22,40,.97),rgba(2,8,19,.98));
   box-shadow:
     0 10px 30px rgba(0,0,0,.34),
     inset 0 0 24px rgba(0,100,180,.035);
@@ -152,7 +150,7 @@ body:before{
   font-weight:800;
 }
 
-/* XRP HERO */
+/* ===== XRP価格 ===== */
 
 .hero{
   display:flex;
@@ -168,8 +166,7 @@ body:before{
   align-items:center;
   justify-content:center;
   border-radius:50%;
-  background:
-    radial-gradient(circle,#087ed1 0%,#063b70 45%,#020d1d 72%);
+  background:radial-gradient(circle,#087ed1 0%,#063b70 45%,#020d1d 72%);
   border:1px solid #168fd3;
   box-shadow:
     0 0 15px rgba(0,180,255,.6),
@@ -187,7 +184,7 @@ body:before{
 .priceLabel{
   color:#6687a8;
   font-size:9px;
-  letter-spacing:1.2px;
+  letter-spacing:1px;
 }
 
 .price{
@@ -208,7 +205,7 @@ body:before{
   font-weight:900;
 }
 
-/* DATA */
+/* ===== 市場データ ===== */
 
 .grid2{
   display:grid;
@@ -236,7 +233,7 @@ body:before{
   font-weight:900;
 }
 
-/* MISSION */
+/* ===== ミッション ===== */
 
 .mission{
   position:relative;
@@ -256,7 +253,7 @@ body:before{
 .missionTitle{
   color:#6584a4;
   font-size:8px;
-  letter-spacing:1.5px;
+  letter-spacing:1.3px;
 }
 
 .missionValue{
@@ -290,7 +287,7 @@ body:before{
   transition:.5s;
 }
 
-/* LEVELS */
+/* ===== 価格帯 ===== */
 
 .levels{
   display:grid;
@@ -338,7 +335,7 @@ body:before{
   text-shadow:0 0 10px rgba(255,190,40,.4);
 }
 
-/* TRADINGVIEW */
+/* ===== TradingView ===== */
 
 .tvWrap{
   height:430px;
@@ -354,12 +351,7 @@ body:before{
   height:100%;
 }
 
-.tradingview-widget-container{
-  width:100%;
-  height:100%;
-}
-
-/* ENGINE */
+/* ===== 分析エンジン ===== */
 
 .engine{
   display:grid;
@@ -387,7 +379,7 @@ body:before{
   font-weight:950;
 }
 
-/* COMMAND */
+/* ===== 司令判定 ===== */
 
 .command{
   padding:19px 10px;
@@ -413,7 +405,7 @@ body:before{
   font-size:9px;
 }
 
-/* RADAR */
+/* ===== 材料レーダー ===== */
 
 .radarItem{
   display:flex;
@@ -443,7 +435,7 @@ body:before{
   font-weight:900;
 }
 
-/* LOG */
+/* ===== ログ ===== */
 
 .log{
   max-height:180px;
@@ -457,8 +449,6 @@ body:before{
   padding:5px 0;
   border-bottom:1px solid #0b1c2d;
 }
-
-/* FOOTER */
 
 .footer{
   margin-top:14px;
@@ -482,18 +472,18 @@ body:before{
 
 <div class="container">
 
-<!-- HEADER -->
+<!-- ヘッダー -->
 <div class="header">
   <div class="headerTop">
     <div>
       <div class="title">🚀 XRP司令室</div>
-      <div class="sub">MARKET COMMAND CENTER / LIVE MONITOR</div>
+      <div class="sub">XRP市場監視・価格戦況・重要材料監視</div>
     </div>
-    <div class="version">7.5 CORE</div>
+    <div class="version">7.5.1</div>
   </div>
 </div>
 
-<!-- XRP -->
+<!-- XRP価格 -->
 <div class="card">
   <div class="hero">
 
@@ -505,7 +495,7 @@ body:before{
     </div>
 
     <div>
-      <div class="priceLabel">XRP / JPY · BITBANK LIVE</div>
+      <div class="priceLabel">XRP / 日本円 ・ ビットバンク</div>
       <div class="price" id="xrpPrice">---.---</div>
       <div class="change" id="xrpChange">---</div>
     </div>
@@ -513,50 +503,50 @@ body:before{
   </div>
 </div>
 
-<!-- MARKET -->
+<!-- 市場状況 -->
 <div class="card">
 
   <div class="sectionTitle">
-    <b>🌐 MARKET STATUS</b>
-    <span class="badge">LIVE</span>
+    <b>🌐 市場状況</b>
+    <span class="badge">リアルタイム</span>
   </div>
 
   <div class="grid2">
 
     <div class="stat">
-      <div class="statLabel">BTC / USD</div>
+      <div class="statLabel">BTC / 米ドル</div>
       <div class="statValue" id="btcPrice">---</div>
     </div>
 
     <div class="stat">
-      <div class="statLabel">USD / JPY</div>
+      <div class="statLabel">米ドル / 日本円</div>
       <div class="statValue" id="usdJpy">---</div>
     </div>
 
     <div class="stat">
-      <div class="statLabel">XRP / USD</div>
+      <div class="statLabel">XRP / 米ドル</div>
       <div class="statValue" id="xrpUsd">---</div>
     </div>
 
     <div class="stat">
-      <div class="statLabel">XRP 24H VOLUME</div>
+      <div class="statLabel">XRP 24時間出来高</div>
       <div class="statValue" id="xrpVolume">---</div>
     </div>
 
   </div>
 </div>
 
-<!-- MISSION -->
+<!-- ミッション -->
 <div class="card">
 
   <div class="sectionTitle">
-    <b>🎯 10,000 XRP MISSION</b>
-    <span class="badge">¥2.75M</span>
+    <b>🎯 10,000 XRP ミッション</b>
+    <span class="badge">目標 275万円</span>
   </div>
 
   <div class="mission">
 
-    <div class="missionTitle">CURRENT POSITION VALUE</div>
+    <div class="missionTitle">現在の保有価値</div>
 
     <div class="missionValue" id="positionValue">
       ¥---
@@ -573,55 +563,55 @@ body:before{
   </div>
 </div>
 
-<!-- LEVELS -->
+<!-- 価格戦況 -->
 <div class="card">
 
   <div class="sectionTitle">
-    <b>🎯 PRICE BATTLEFIELD</b>
-    <span class="badge">KEY LEVELS</span>
+    <b>🎯 XRP 価格戦況</b>
+    <span class="badge">重要価格帯</span>
   </div>
 
   <div class="levels">
 
     <div class="level defense">
       <b>¥225</b>
-      <span>DEFENSE</span>
+      <span>防衛ライン</span>
     </div>
 
     <div class="level">
       <b>¥250</b>
-      <span>BREAKOUT</span>
+      <span>突破監視</span>
     </div>
 
     <div class="level target">
       <b>¥275</b>
-      <span>MISSION</span>
+      <span>ミッション</span>
     </div>
 
     <div class="level">
       <b>¥300</b>
-      <span>EXPANSION</span>
+      <span>上昇拡大</span>
     </div>
 
     <div class="level">
       <b>¥400</b>
-      <span>RUNWAY</span>
+      <span>上昇余地</span>
     </div>
 
     <div class="level">
       <b>¥500</b>
-      <span>MOON</span>
+      <span>高値圏</span>
     </div>
 
   </div>
 </div>
 
-<!-- TRADINGVIEW -->
+<!-- リアルチャート -->
 <div class="card">
 
   <div class="sectionTitle">
-    <b>📈 XRP REAL CHART</b>
-    <span class="badge">MA20 / MA50 / MA200</span>
+    <b>📈 XRP リアルチャート</b>
+    <span class="badge">20・50・200日移動平均</span>
   </div>
 
   <div class="tvWrap">
@@ -692,56 +682,56 @@ body:before{
   </div>
 
   <div class="footer">
-    TRADINGVIEW · BITFLYER:XRPJPY · 5 MIN · MA20 / MA50 / MA200
+    TradingView ・ XRP/JPY ・ 5分足 ・ 移動平均 20 / 50 / 200
   </div>
 
 </div>
 
-<!-- MARKET ENGINE -->
+<!-- 市場分析 -->
 <div class="card">
 
   <div class="sectionTitle">
-    <b>⚡ MARKET ENGINE</b>
-    <span class="badge">AUTO ANALYSIS</span>
+    <b>⚡ 市場分析エンジン</b>
+    <span class="badge">自動判定</span>
   </div>
 
   <div class="engine">
 
     <div class="engineBox">
-      <div class="engineLabel">SHORT MOMENTUM</div>
+      <div class="engineLabel">短期モメンタム</div>
       <div class="engineValue" id="momentum">---</div>
     </div>
 
     <div class="engineBox">
-      <div class="engineLabel">24H RANGE</div>
+      <div class="engineLabel">24時間値幅</div>
       <div class="engineValue" id="range">---</div>
     </div>
 
     <div class="engineBox">
-      <div class="engineLabel">BTC SIGNAL</div>
+      <div class="engineLabel">BTCシグナル</div>
       <div class="engineValue" id="btcSignal">---</div>
     </div>
 
     <div class="engineBox">
-      <div class="engineLabel">PRICE ZONE</div>
+      <div class="engineLabel">現在の価格帯</div>
       <div class="engineValue" id="priceZone">---</div>
     </div>
 
   </div>
 </div>
 
-<!-- COMMAND -->
+<!-- 司令判定 -->
 <div class="card">
 
   <div class="sectionTitle">
-    <b>🧠 COMMAND JUDGMENT</b>
-    <span class="badge">XRP CORE</span>
+    <b>🧠 司令室判定</b>
+    <span class="badge">XRP総合判断</span>
   </div>
 
   <div class="command">
 
     <div class="commandMain" id="commandMain">
-      INITIALIZING...
+      起動中...
     </div>
 
     <div class="commandSub" id="commandSub">
@@ -751,18 +741,18 @@ body:before{
   </div>
 </div>
 
-<!-- EVENT RADAR -->
+<!-- 重要材料 -->
 <div class="card">
 
   <div class="sectionTitle">
-    <b>🏛️ EVENT RADAR</b>
-    <span class="badge">PRIORITY</span>
+    <b>🏛️ 重要材料レーダー</b>
+    <span class="badge">監視優先度</span>
   </div>
 
   <div class="radarItem">
     <div>
       <span class="dot"></span>
-      <b>CLARITY Act</b>
+      <b>CLARITY法案</b>
     </div>
     <div class="priority">最重要</div>
   </div>
@@ -770,45 +760,45 @@ body:before{
   <div class="radarItem">
     <div>
       <span class="dot"></span>
-      <b>XRP Spot ETF</b>
+      <b>XRP現物ETF</b>
     </div>
-    <div class="priority">HIGH</div>
+    <div class="priority">重要</div>
   </div>
 
   <div class="radarItem">
     <div>
       <span class="dot"></span>
-      <b>FRB / FOMC</b>
+      <b>FRB・FOMC</b>
     </div>
-    <div class="priority">HIGH</div>
+    <div class="priority">重要</div>
   </div>
 
   <div class="radarItem">
     <div>
       <span class="dot"></span>
-      <b>U.S. CPI</b>
+      <b>米国CPI</b>
     </div>
-    <div class="priority">HIGH</div>
+    <div class="priority">重要</div>
   </div>
 
 </div>
 
-<!-- LOG -->
+<!-- 価格ログ -->
 <div class="card">
 
   <div class="sectionTitle">
-    <b>📋 PRICE ARRIVAL LOG</b>
-    <span class="badge">LIVE</span>
+    <b>📋 価格到達ログ</b>
+    <span class="badge">自動記録</span>
   </div>
 
   <div class="log" id="priceLog">
-    <div>COMMAND CORE 7.5 起動...</div>
+    <div>司令室7.5.1 起動...</div>
   </div>
 
 </div>
 
 <div class="footer">
-  XRP COMMAND CENTER 7.5 · LIVE MONITOR · NO SOUND
+  XRP司令室 7.5.1 ・ リアルタイム監視 ・ 音なし
 </div>
 
 </div>
@@ -819,7 +809,6 @@ const TARGET = 2750000;
 const XRP_AMOUNT = 10000;
 
 let lastPrice = null;
-let previousPrice = null;
 let priceHistory = [];
 let lastLogPrice = null;
 let currentUsdJpy = 150;
@@ -874,7 +863,6 @@ async function getXRP(){
     const low=Number(t.low);
     const open=Number(t.open);
 
-    previousPrice=lastPrice;
     lastPrice=price;
 
     $("xrpPrice").textContent=num(price,3);
@@ -920,7 +908,7 @@ async function getXRP(){
       lastLogPrice=price;
 
       addLog(
-        `XRP ${num(price,3)}円 — LIVE監視開始`
+        `XRP ${num(price,3)}円 ・監視開始`
       );
 
     }else if(Math.abs(price-lastLogPrice)>=0.5){
@@ -936,13 +924,15 @@ async function getXRP(){
     updateCommand(price);
 
     if(currentUsdJpy){
+
       $("xrpUsd").textContent=
         "$"+(price/currentUsdJpy).toFixed(3);
+
     }
 
   }catch(e){
 
-    console.log("XRP error",e);
+    console.log("XRP取得エラー",e);
 
   }
 }
@@ -967,21 +957,21 @@ async function getBTC(){
 
     if(btc>=80000){
 
-      $("btcSignal").textContent="STRONG";
+      $("btcSignal").textContent="強い";
 
     }else if(btc>=75000){
 
-      $("btcSignal").textContent="NEUTRAL";
+      $("btcSignal").textContent="中立";
 
     }else{
 
-      $("btcSignal").textContent="WEAK";
+      $("btcSignal").textContent="弱い";
 
     }
 
   }catch(e){
 
-    console.log("BTC error",e);
+    console.log("BTC取得エラー",e);
 
   }
 }
@@ -1025,16 +1015,9 @@ async function getFX(){
       $("usdJpy").textContent=
         num(currentUsdJpy,2);
 
-      if(lastPrice){
-
-        $("xrpUsd").textContent=
-          "$"+(lastPrice/currentUsdJpy).toFixed(3);
-
-      }
-
     }catch(e2){
 
-      console.log("FX error",e2);
+      console.log("為替取得エラー",e2);
 
     }
 
@@ -1043,7 +1026,7 @@ async function getFX(){
 
 function updateEngine(price,high,low){
 
-  let momentum="NEUTRAL";
+  let momentum="中立";
 
   if(priceHistory.length>=5){
 
@@ -1052,13 +1035,14 @@ function updateEngine(price,high,low){
 
     if(price>old*1.002){
 
-      momentum="▲ UP";
+      momentum="▲ 上昇";
 
     }else if(price<old*0.998){
 
-      momentum="▼ DOWN";
+      momentum="▼ 下降";
 
     }
+
   }
 
   $("momentum").textContent=momentum;
@@ -1068,19 +1052,19 @@ function updateEngine(price,high,low){
 
   if(price>=275){
 
-    $("priceZone").textContent="🎯 TARGET";
+    $("priceZone").textContent="🎯 目標圏";
 
   }else if(price>=250){
 
-    $("priceZone").textContent="🚀 BREAKOUT";
+    $("priceZone").textContent="🚀 突破監視";
 
   }else if(price>=225){
 
-    $("priceZone").textContent="🛡️ DEFENSE";
+    $("priceZone").textContent="🛡️ 防衛圏";
 
   }else{
 
-    $("priceZone").textContent="⚠️ ALERT";
+    $("priceZone").textContent="⚠️ 警戒";
 
   }
 }
@@ -1090,7 +1074,7 @@ function updateCommand(price){
   if(price>=275){
 
     $("commandMain").textContent=
-      "🎯 TARGET ZONE";
+      "🎯 目標圏突入";
 
     $("commandSub").textContent=
       "275円到達。ミッション圏内。";
@@ -1098,7 +1082,7 @@ function updateCommand(price){
   }else if(price>=250){
 
     $("commandMain").textContent=
-      "🚀 BREAKOUT WATCH";
+      "🚀 上昇突破を監視";
 
     $("commandSub").textContent=
       "250円突破圏。275円への上昇を監視。";
@@ -1106,15 +1090,15 @@ function updateCommand(price){
   }else if(price>=225){
 
     $("commandMain").textContent=
-      "🛡️ DEFENSE HOLD";
+      "🛡️ 防衛ライン維持";
 
     $("commandSub").textContent=
-      "225円以上。防衛ライン維持。";
+      "225円以上。重要防衛ラインを維持。";
 
   }else{
 
     $("commandMain").textContent=
-      "⚠️ DEFENSE ALERT";
+      "⚠️ 防衛ライン警戒";
 
     $("commandSub").textContent=
       "225円割れ。重要防衛ラインを警戒。";
