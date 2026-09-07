@@ -435,7 +435,7 @@ body:before{
  border-radius:18px;
  border:1px solid rgba(170,120,255,.45);
  background:
- linear-gradient(
+  linear-gradient(
  145deg,
  rgba(38,19,65,.92),
  rgba(5,10,21,.98)
@@ -1350,7 +1350,7 @@ body:before{
   </div>
 
   <div class="small">
-   BTC/JPY → USD
+   DIRECT BTC/USD
   </div>
 
  </div>
@@ -1364,7 +1364,7 @@ body:before{
   </div>
 
   <div class="small">
-   reference rate
+   DIRECT REFERENCE RATE
   </div>
 
  </div>
@@ -1378,7 +1378,7 @@ body:before{
   </div>
 
   <div class="small">
-   calculated
+   DIRECT XRP/USD
   </div>
 
  </div>
@@ -2046,6 +2046,9 @@ let btcJpy=0;
 let btcPrice=0;
 let previousBtcPrice=0;
 
+/* XRP/USDを直接取得した値 */
+let xrpUsdPrice=0;
+
 let priceHistory=[];
 let candlePrices=[];
 
@@ -2221,18 +2224,180 @@ function updateXRP(data){
   "● SYSTEM ONLINE / XRP LIVE";
 }
 
+/*
+ XRP/USDはXRP/JPY ÷ USD/JPYではなく、
+ 直接取得したXRP/USDを表示。
+*/
+
 function updateXRPUSD(){
 
- if(currentPrice>0&&fx>0){
-
-  const usd=currentPrice/fx;
+ if(
+  xrpUsdPrice>0&&
+  Number.isFinite(xrpUsdPrice)
+ ){
 
   $("xrpusd").textContent=
-   "$"+usd.toFixed(4);
+   "$"+
+   xrpUsdPrice.toFixed(3);
 
-  $("xrpusd").className="value blue";
+  $("xrpusd").className=
+   "value blue";
+
+ }else{
+
+  $("xrpusd").textContent=
+   "---";
  }
 }
+
+/* ================= DIRECT XRP/USD ================= */
+
+async function getXRPUSD(){
+
+ const urls=[
+
+  /* Coinbase XRP/USD */
+  "https://api.coinbase.com/v2/prices/XRP-USD/spot",
+
+  /* Kraken XRP/USD */
+  "https://api.kraken.com/0/public/Ticker?pair=XRPUSD",
+
+  /* CoinGecko XRP/USD */
+  "https://api.coingecko.com/api/v3/simple/price?ids=ripple&vs_currencies=usd"
+
+ ];
+
+ for(const url of urls){
+
+  try{
+
+   const r=await fetch(
+    url+
+    (url.includes("?")?"&":"?")+
+    "_="+Date.now(),
+    {
+     cache:"no-store"
+    }
+   );
+
+   if(!r.ok)
+    continue;
+
+   const d=await r.json();
+
+   let price=0;
+
+   /*
+    Coinbase
+   */
+
+   if(
+    d&&
+    d.data&&
+    d.data.amount
+   ){
+
+    price=
+     Number(d.data.amount);
+
+   /*
+    Kraken
+   */
+
+   }else if(
+    d&&
+    d.result
+   ){
+
+    const keys=
+     Object.keys(d.result);
+
+    if(keys.length){
+
+     const ticker=
+      d.result[keys[0]];
+
+     if(
+      ticker&&
+      ticker.c&&
+      ticker.c[0]
+     ){
+
+      price=
+       Number(ticker.c[0]);
+     }
+    }
+
+   /*
+    CoinGecko
+   */
+
+   }else if(
+    d&&
+    d.ripple&&
+    d.ripple.usd
+   ){
+
+    price=
+     Number(d.ripple.usd);
+   }
+
+   if(
+    price>0&&
+    Number.isFinite(price)
+   ){
+
+    return price;
+   }
+
+  }catch(e){
+
+   console.log(
+    "XRP/USD SOURCE ERROR",
+    url,
+    e
+   );
+  }
+ }
+
+ return 0;
+}
+
+async function loadXRPUSD(){
+
+ try{
+
+  const direct=
+   await getXRPUSD();
+
+  if(
+   direct>0&&
+   Number.isFinite(direct)
+  ){
+
+   xrpUsdPrice=
+    direct;
+
+   updateXRPUSD();
+  }
+
+ }catch(e){
+
+  console.log(
+   "XRP/USD ERROR",
+   e
+  );
+ }
+}
+
+loadXRPUSD();
+
+setInterval(
+ loadXRPUSD,
+ 5000
+);
+
+/* ================= TARGET ================= */
 
 function updateTarget(){
 
@@ -2552,7 +2717,7 @@ async function loadBTC(){
    await getBTCUSD();
 
   /*
-   直接取得できなかった場合は
+   直接取得できなかった場合のみ
    BTC/JPY ÷ USD/JPY
   */
 
@@ -2640,8 +2805,7 @@ async function loadBTC(){
    $("btc").textContent=
     "取得失敗";
   }
-}
-
+ }
 }
 
 loadBTC();
@@ -2653,14 +2817,33 @@ setInterval(
 
 /* ================= FX ================= */
 
+/*
+ USD/JPYはBTCやXRPから逆算しない。
+ 直接USD/JPYを取得する。
+*/
+
 async function getFX(){
 
  const urls=[
 
+  /*
+   Coinbase USD exchange rate
+  */
+  "https://api.coinbase.com/v2/exchange-rates?currency=USD",
+
+  /*
+   ExchangeRate API
+  */
   "https://open.er-api.com/v6/latest/USD",
 
+  /*
+   Frankfurter v2
+  */
   "https://api.frankfurter.dev/v2/rate/USD/JPY",
 
+  /*
+   Frankfurter v1
+  */
   "https://api.frankfurter.dev/v1/latest?base=USD&symbols=JPY"
 
  ];
@@ -2686,10 +2869,24 @@ async function getFX(){
    let rate=0;
 
    /*
-    ExchangeRate API
+    Coinbase
    */
 
    if(
+    d&&
+    d.data&&
+    d.data.rates&&
+    d.data.rates.JPY
+   ){
+
+    rate=
+     Number(d.data.rates.JPY);
+
+   /*
+    ExchangeRate API / Frankfurter v1
+   */
+
+   }else if(
     d&&
     d.rates&&
     d.rates.JPY
@@ -2722,16 +2919,14 @@ async function getFX(){
   }catch(e){
 
    console.log(
-    "FX ERROR",
+    "FX SOURCE ERROR",
     url,
     e
    );
   }
  }
 
- throw new Error(
-  "ALL FX SOURCES FAILED"
- );
+ return 0;
 }
 
 async function loadFX(){
@@ -2747,9 +2942,6 @@ async function loadFX(){
   ){
 
    fx=newFX;
-  }
-
-  if(fx>0){
 
    $("usdjpy").textContent=
     fx.toFixed(2)+
@@ -2842,7 +3034,7 @@ loadFX();
 
 setInterval(
  loadFX,
- 60000
+ 30000
 );
 
 /* ================= XRP SOCKET ================= */
