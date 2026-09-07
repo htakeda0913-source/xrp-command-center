@@ -2413,54 +2413,215 @@ function marketEngine(open,high,low){
 
 /* ================= BTC ================= */
 
+/*
+ BTC/USDはUSD/JPYに依存させない。
+ まず直接BTC/USDを取得し、
+ 失敗した場合だけBitbank BTC/JPY ÷ USD/JPYを使用。
+*/
+
+async function getBTCUSD(){
+
+ const urls=[
+
+  "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT",
+
+  "https://api.coinbase.com/v2/prices/BTC-USD/spot",
+
+  "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
+
+ ];
+
+ for(const url of urls){
+
+  try{
+
+   const r=await fetch(
+    url+
+    (url.includes("?")?"&":"?")+
+    "_="+Date.now(),
+    {
+     cache:"no-store"
+    }
+   );
+
+   if(!r.ok)
+    continue;
+
+   const d=await r.json();
+
+   let price=0;
+
+   if(
+    d&&
+    d.price
+   ){
+
+    price=Number(d.price);
+
+   }else if(
+    d&&
+    d.data&&
+    d.data.amount
+   ){
+
+    price=Number(d.data.amount);
+
+   }else if(
+    d&&
+    d.bitcoin&&
+    d.bitcoin.usd
+   ){
+
+    price=Number(d.bitcoin.usd);
+   }
+
+   if(
+    price>0&&
+    Number.isFinite(price)
+   ){
+
+    return price;
+   }
+
+  }catch(e){
+
+   console.log(
+    "BTC DIRECT SOURCE ERROR",
+    url,
+    e
+   );
+  }
+ }
+
+ return 0;
+}
+
 async function loadBTC(){
 
  try{
 
-  const r=await fetch(
-   "https://public.bitbank.cc/btc_jpy/ticker?_="+Date.now(),
-   {cache:"no-store"}
+  /*
+   Bitbank BTC/JPYは履歴・フォールバック用として取得
+  */
+
+  try{
+
+   const rJPY=await fetch(
+    "https://public.bitbank.cc/btc_jpy/ticker?_="+Date.now(),
+    {
+     cache:"no-store"
+    }
+   );
+
+   if(rJPY.ok){
+
+    const jJPY=await rJPY.json();
+
+    if(
+     jJPY&&
+     jJPY.success&&
+     jJPY.data
+    ){
+
+     const pJPY=
+      Number(jJPY.data.last);
+
+     if(
+      pJPY>0&&
+      Number.isFinite(pJPY)
+     ){
+
+      btcJpy=pJPY;
+     }
+    }
+   }
+
+  }catch(e){
+
+   console.log(
+    "BTC JPY ERROR",
+    e
+   );
+  }
+
+  /*
+   まずBTC/USDを直接取得
+  */
+
+  let directBTC=
+   await getBTCUSD();
+
+  /*
+   直接取得できなかった場合は
+   BTC/JPY ÷ USD/JPY
+  */
+
+  if(
+   !directBTC&&
+   btcJpy>0&&
+   fx>0
+  ){
+
+   directBTC=
+    btcJpy/fx;
+  }
+
+  if(
+   !directBTC||
+   !Number.isFinite(directBTC)
+  ){
+
+   throw new Error(
+    "BTC USD PRICE UNAVAILABLE"
+   );
+  }
+
+  previousBtcPrice=
+   btcPrice;
+
+  btcPrice=
+   directBTC;
+
+  btcHistory.push({
+   price:btcPrice,
+   time:Date.now()
+  });
+
+  if(btcHistory.length>120)
+   btcHistory.shift();
+
+  $("btc").textContent=
+   "$"+
+   btcPrice.toLocaleString(
+    "en-US",
+    {
+     maximumFractionDigits:0
+    }
+   );
+
+  $("btc").className=
+   "value blue";
+
+  checkBTCShock();
+
+  marketEngine();
+
+  updateBattle();
+
+  updateScenario();
+
+ }catch(e){
+
+  console.log(
+   "BTC ERROR",
+   e
   );
 
-  if(!r.ok)
-   throw new Error(
-    "BTC HTTP "+r.status
-   );
+  /*
+   最後に取得できたBTC価格を保持
+  */
 
-  const j=await r.json();
-
-  if(
-   !j||
-   !j.success||
-   !j.data
-  )
-   throw new Error(
-    "BTC DATA ERROR"
-   );
-
-  btcJpy=Number(j.data.last);
-
-  if(
-   !btcJpy||
-   !Number.isFinite(btcJpy)
-  )
-   throw new Error(
-    "BTC PRICE ERROR"
-   );
-
-  if(fx>0){
-
-   previousBtcPrice=btcPrice;
-
-   btcPrice=btcJpy/fx;
-
-   btcHistory.push({
-    price:btcPrice,
-    time:Date.now()
-   });
-
-   if(btcHistory.length>120)
-    btcHistory.shift();
+  if(btcPrice>0){
 
    $("btc").textContent=
     "$"+
@@ -2471,24 +2632,16 @@ async function loadBTC(){
      }
     );
 
-   $("btc").className="value blue";
+   $("btc").className=
+    "value blue";
 
-   checkBTCShock();
+  }else{
 
-   updateScenario();
+   $("btc").textContent=
+    "取得失敗";
   }
+}
 
-  marketEngine();
-
-  updateBattle();
-
- }catch(e){
-
-  console.log("BTC ERROR",e);
-
-  if(!btcPrice)
-   $("btc").textContent="取得失敗";
- }
 }
 
 loadBTC();
@@ -2504,6 +2657,8 @@ async function getFX(){
 
  const urls=[
 
+  "https://open.er-api.com/v6/latest/USD",
+
   "https://api.frankfurter.dev/v2/rate/USD/JPY",
 
   "https://api.frankfurter.dev/v1/latest?base=USD&symbols=JPY"
@@ -2518,7 +2673,9 @@ async function getFX(){
     url+
     (url.includes("?")?"&":"?")+
     "_="+Date.now(),
-    {cache:"no-store"}
+    {
+     cache:"no-store"
+    }
    );
 
    if(!r.ok)
@@ -2528,32 +2685,45 @@ async function getFX(){
 
    let rate=0;
 
+   /*
+    ExchangeRate API
+   */
+
    if(
-    d&&
-    typeof d.rate==="number"
-   ){
-
-    rate=Number(d.rate);
-
-   }else if(
     d&&
     d.rates&&
     d.rates.JPY
    ){
 
-    rate=Number(d.rates.JPY);
+    rate=
+     Number(d.rates.JPY);
+
+   /*
+    Frankfurter v2
+   */
+
+   }else if(
+    d&&
+    typeof d.rate==="number"
+   ){
+
+    rate=
+     Number(d.rate);
    }
 
    if(
-    rate&&
+    rate>0&&
     Number.isFinite(rate)
-   )
+   ){
+
     return rate;
+   }
 
   }catch(e){
 
    console.log(
     "FX ERROR",
+    url,
     e
    );
   }
@@ -2568,22 +2738,47 @@ async function loadFX(){
 
  try{
 
-  fx=await getFX();
+  const newFX=
+   await getFX();
 
-  $("usdjpy").textContent=
-   fx.toFixed(2)+
-   " 円";
+  if(
+   newFX>0&&
+   Number.isFinite(newFX)
+  ){
 
-  $("usdjpy").className=
-   "value green";
+   fx=newFX;
+  }
+
+  if(fx>0){
+
+   $("usdjpy").textContent=
+    fx.toFixed(2)+
+    " 円";
+
+   $("usdjpy").className=
+    "value green";
+  }
 
   updateXRPUSD();
 
-  if(btcJpy>0){
+  /*
+   BTCは直接取得済みなら
+   その値を優先。
+   直接値がまだ無い場合のみ
+   BTC/JPY ÷ FXで補完。
+  */
 
-   previousBtcPrice=btcPrice;
+  if(
+   btcJpy>0&&
+   fx>0&&
+   !btcPrice
+  ){
 
-   btcPrice=btcJpy/fx;
+   previousBtcPrice=
+    btcPrice;
+
+   btcPrice=
+    btcJpy/fx;
 
    $("btc").textContent=
     "$"+
@@ -2597,12 +2792,20 @@ async function loadFX(){
    $("btc").className=
     "value blue";
 
-   marketEngine();
+   btcHistory.push({
+    price:btcPrice,
+    time:Date.now()
+   });
 
-   updateBattle();
-
-   updateScenario();
+   if(btcHistory.length>120)
+    btcHistory.shift();
   }
+
+  marketEngine();
+
+  updateBattle();
+
+  updateScenario();
 
  }catch(e){
 
@@ -2611,14 +2814,27 @@ async function loadFX(){
    e
   );
 
-  if(!fx){
+  /*
+   FXが失敗しても
+   前回の値を消さない。
+  */
+
+  if(fx>0){
+
+   $("usdjpy").textContent=
+    fx.toFixed(2)+
+    " 円";
+
+   $("usdjpy").className=
+    "value green";
+
+  }else{
 
    $("usdjpy").textContent=
     "取得失敗";
-
-   $("xrpusd").textContent=
-    "---";
   }
+
+  updateXRPUSD();
  }
 }
 
@@ -2784,8 +3000,8 @@ async function loadDepth(){
     Math.abs(
      p-currentPrice
     )/
-    currentPrice<
-    .03
+     currentPrice<
+     .03
    ){
 
     asks+=a;
@@ -3935,9 +4151,6 @@ function updateScenario(){
    )
   );
 
- /*
-  シグナル一致度
-  */
  const signs=[
   Math.sign(ema.score),
   Math.sign(mom.score),
@@ -3968,9 +4181,6 @@ function updateScenario(){
    signs.length
    :0;
 
- /*
-  レンジ度
-  */
  let rangeScore=0;
 
  if(
@@ -3995,9 +4205,6 @@ function updateScenario(){
  )
   rangeScore+=1;
 
- /*
-  上下方向の素点
-  */
  let upScore=
   Math.max(
    1,
@@ -4018,9 +4225,6 @@ function updateScenario(){
    rangeScore
   );
 
- /*
-  近い抵抗・支持で極端な方向を抑える
-  */
  if(
   structure.text==="抵抗線接近"
  )
@@ -4078,9 +4282,6 @@ function updateScenario(){
   up-
   down;
 
- /*
-  最終方向
-  */
  let main="";
  let cls="yellow";
 
@@ -4119,9 +4320,6 @@ function updateScenario(){
   "scenarioMain "+
   cls;
 
- /*
-  レベル
-  */
  const support=
   lv.support
    ?yen(lv.support.p)
@@ -4172,9 +4370,6 @@ function updateScenario(){
  $("scenarioTarget").textContent=
   target;
 
- /*
-  構造
-  */
  let structureText=
   "レンジ";
 
@@ -4214,9 +4409,6 @@ function updateScenario(){
  $("scenarioStructure").textContent=
   structureText;
 
- /*
-  条件付きパス
-  */
  let path="";
 
  if(
@@ -4277,9 +4469,6 @@ function updateScenario(){
  $("scenarioPath").textContent=
   path;
 
- /*
-  理由
-  */
  $("reasonEMA").textContent=
   ema.text;
 
@@ -4300,9 +4489,6 @@ function updateScenario(){
  $("reasonOrder").textContent=
   order.text;
 
- /*
-  NEXT LEVEL
-  */
  if(
   lv.resistance
  ){
@@ -4351,9 +4537,6 @@ function updateScenario(){
  $("scenarioDownPct").textContent=
   down+"%";
 
- /*
-  信頼度
-  */
  const dataCount=
   [
    ema.score!==0,
