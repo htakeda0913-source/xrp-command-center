@@ -2,854 +2,2059 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<meta name="theme-color" content="#05070d">
-<title>XRP司令室 ORBIT 6.1</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#030712">
+<title>XRP司令室 ORBIT 6.0</title>
 
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:#05070d;color:#eaf2ff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans JP",sans-serif}
-body{padding:12px;min-height:100vh}
 
-:root{
- --bg:#05070d;
- --panel:#0b101b;
- --panel2:#0e1522;
- --line:#1d2b40;
- --cyan:#00eaff;
- --gold:#ffd84d;
- --green:#35f58a;
- --red:#ff4f68;
- --purple:#a97cff;
- --orange:#ff9d45;
- --muted:#8190a7;
+html,body{
+ margin:0;padding:0;background:#030712;color:#eaf8ff;
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
 }
 
-.container{max-width:1100px;margin:auto}
+body{
+ min-height:100vh;
+ overflow-x:hidden;
+ background:
+ radial-gradient(circle at 50% -10%,rgba(0,220,255,.20),transparent 32%),
+ radial-gradient(circle at 100% 25%,rgba(130,0,255,.13),transparent 28%),
+ #030712
+}
 
-header{
- background:linear-gradient(135deg,#0b111d,#101827);
- border:1px solid #22334b;
- border-radius:18px;
- padding:18px;
- margin-bottom:12px;
- box-shadow:0 0 35px rgba(0,234,255,.08);
+body:before{
+ content:"";
+ position:fixed;
+ inset:0;
+ pointer-events:none;
+ opacity:.09;
+ background:repeating-linear-gradient(
+  0deg,
+  transparent 0,
+  transparent 3px,
+  rgba(255,255,255,.03) 4px
+ )
+}
+
+.container{
+ width:min(1100px,100%);
+ margin:auto;
+ padding:12px
+}
+
+.header{
  position:relative;
- overflow:hidden
+ overflow:hidden;
+ padding:17px;
+ margin-bottom:12px;
+ border:1px solid rgba(255,205,65,.65);
+ border-radius:20px;
+ background:linear-gradient(145deg,rgba(57,40,7,.98),rgba(12,10,5,.98));
+ box-shadow:
+ 0 0 40px rgba(255,190,0,.13),
+ inset 0 0 30px rgba(255,190,0,.05)
 }
-header:before{
+
+.header:after{
  content:"";
  position:absolute;
- width:260px;height:260px;
- right:-100px;top:-150px;
- border-radius:50%;
- border:1px solid rgba(0,234,255,.15)
-}
-.title{
- font-size:clamp(22px,5vw,34px);
- font-weight:900;
- letter-spacing:2px
-}
-.subtitle{
- color:var(--cyan);
- font-size:11px;
- letter-spacing:2px;
- margin-top:4px
-}
-.topline{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:10px;
- margin-top:12px
-}
-.badge{
- padding:7px 11px;
- border:1px solid rgba(0,234,255,.35);
- border-radius:999px;
- color:var(--cyan);
- font-size:11px;
- font-weight:800;
- background:rgba(0,234,255,.05)
-}
-.status{
- font-size:11px;
- color:var(--green);
- text-align:right
+ left:-20%;
+ right:-20%;
+ bottom:0;
+ height:2px;
+ background:linear-gradient(
+  90deg,
+  transparent,
+  #ffd34d,
+  #fff2a6,
+  #ffd34d,
+  transparent
+ );
+ box-shadow:0 0 18px #ffd34d
 }
 
-.section{
- background:linear-gradient(145deg,var(--panel),#080d16);
- border:1px solid var(--line);
- border-radius:16px;
- padding:14px;
- margin-bottom:12px;
- box-shadow:0 8px 30px rgba(0,0,0,.22)
+.brand{
+ display:flex;
+ align-items:center;
+ gap:12px
 }
-.sectionTitle{
- font-size:12px;
- color:var(--cyan);
- font-weight:900;
+
+.logo{
+ width:46px;
+ height:46px;
+ border-radius:50%;
+ display:grid;
+ place-items:center;
+ border:2px solid #ffd34d;
+ background:radial-gradient(circle,#10202a,#05090e);
+ box-shadow:0 0 18px rgba(255,211,77,.35)
+}
+
+.logo svg{
+ width:30px;
+ height:30px
+}
+
+.title{
+ font-size:25px;
+ font-weight:950;
  letter-spacing:1.5px;
- margin-bottom:12px
+ color:#fff5c4;
+ text-shadow:0 0 18px rgba(255,211,77,.45)
+}
+
+.subtitle{
+ margin-top:4px;
+ color:#bda95f;
+ font-size:9px;
+ letter-spacing:2px
+}
+
+.awaken{
+ margin-top:10px;
+ display:inline-block;
+ padding:5px 9px;
+ border:1px solid rgba(255,211,77,.55);
+ border-radius:20px;
+ color:#ffd34d;
+ font-size:8px;
+ font-weight:950;
+ letter-spacing:1.5px
+}
+
+.status{
+ margin-top:11px;
+ display:flex;
+ align-items:center;
+ gap:8px;
+ font-size:10px;
+ color:#9e9161
+}
+
+.dot{
+ width:8px;
+ height:8px;
+ border-radius:50%;
+ background:#00ff9d;
+ box-shadow:0 0 13px #00ff9d
 }
 
 .grid{
  display:grid;
- grid-template-columns:repeat(4,1fr);
+ grid-template-columns:repeat(2,minmax(0,1fr));
  gap:10px
 }
-.grid3{grid-template-columns:repeat(3,1fr)}
-.grid2{grid-template-columns:repeat(2,1fr)}
+
+@media(min-width:800px){
+ .grid{
+  grid-template-columns:repeat(4,minmax(0,1fr))
+ }
+}
 
 .card{
- background:linear-gradient(145deg,#0c1421,#080d15);
- border:1px solid #1b2b40;
- border-radius:13px;
- padding:12px;
- min-width:0
+ position:relative;
+ overflow:hidden;
+ padding:14px;
+ border:1px solid rgba(100,190,225,.20);
+ border-radius:17px;
+ background:linear-gradient(
+ 145deg,
+ rgba(10,25,42,.95),
+ rgba(4,10,20,.96)
+ );
+ box-shadow:0 7px 25px rgba(0,0,0,.20)
 }
-.label{
- font-size:10px;
- color:var(--muted);
- letter-spacing:1px;
- margin-bottom:6px
-}
-.value{
- font-size:22px;
- font-weight:900;
- font-variant-numeric:tabular-nums
-}
-.smallValue{font-size:16px}
-.green{color:var(--green)}
-.red{color:var(--red)}
-.cyan{color:var(--cyan)}
-.gold{color:var(--gold)}
-.purple{color:var(--purple)}
-.orange{color:var(--orange)}
-.muted{color:var(--muted)}
 
-.priceHero{
- text-align:center;
- padding:18px 12px;
- border-radius:15px;
- background:
- radial-gradient(circle at 50% 0%,rgba(0,234,255,.11),transparent 50%),
- linear-gradient(145deg,#0d1725,#080d15);
- border:1px solid #24415b
+.card:before{
+ content:"";
+ position:absolute;
+ left:0;
+ right:0;
+ top:0;
+ height:1px;
+ background:linear-gradient(
+ 90deg,
+ transparent,
+ rgba(0,225,255,.65),
+ transparent
+ )
 }
-.priceHero .label{margin-bottom:2px}
+
+.hero{
+ grid-column:1/-1;
+ text-align:center;
+ padding:24px 12px;
+ border-color:rgba(0,235,255,.42);
+ box-shadow:
+ 0 0 45px rgba(0,200,255,.10),
+ inset 0 0 40px rgba(0,200,255,.04)
+}
+
+.label{
+ margin-bottom:7px;
+ color:#638a9d;
+ font-size:9px;
+ letter-spacing:1.5px
+}
+
 .heroPrice{
- font-size:clamp(38px,10vw,68px);
+ font-size:48px;
  line-height:1;
  font-weight:950;
- letter-spacing:-2px;
- color:#fff;
- text-shadow:0 0 25px rgba(0,234,255,.18)
-}
-.change{font-size:14px;font-weight:800;margin-top:8px}
-
-.progress{
- height:10px;
- border-radius:99px;
- background:#151e2c;
- overflow:hidden;
- margin-top:9px
-}
-.progress>div{
- height:100%;
- background:linear-gradient(90deg,var(--purple),var(--cyan),var(--gold));
- border-radius:99px;
- transition:.5s
+ color:#00eaff;
+ text-shadow:
+ 0 0 14px rgba(0,235,255,.55),
+ 0 0 35px rgba(0,235,255,.20)
 }
 
-.battle{
- border:1px solid rgba(0,234,255,.22);
- background:
- radial-gradient(circle at 100% 0%,rgba(169,124,255,.12),transparent 40%),
- linear-gradient(145deg,#0b111d,#080d15)
+@media(max-width:420px){
+ .heroPrice{
+  font-size:39px
+ }
 }
-.battleState{
- font-size:24px;
- font-weight:950;
- margin-bottom:6px
-}
-.alert{
- border-color:rgba(255,79,104,.5);
- box-shadow:0 0 25px rgba(255,79,104,.08)
-}
-.alertBox{
- display:none;
- margin-top:10px;
- padding:10px;
- border-radius:10px;
- border:1px solid rgba(255,79,104,.45);
- background:rgba(255,79,104,.08);
- color:#ff8798;
- font-weight:800;
+
+.unit{
+ color:#75a3b4;
  font-size:12px
 }
 
-.threat{
- display:flex;
- align-items:center;
- gap:14px
-}
-.threatCircle{
- width:86px;height:86px;
- border-radius:50%;
- display:flex;
- flex-direction:column;
- align-items:center;
- justify-content:center;
- border:2px solid var(--cyan);
- background:rgba(0,234,255,.04);
- flex:none
-}
-.threatCircle strong{font-size:22px}
-.threatCircle span{font-size:9px;color:var(--muted)}
-.threatText{min-width:0}
-.threatLevel{font-size:25px;font-weight:950}
-.threatCount{font-size:11px;color:var(--muted);margin-top:4px}
-
-.scenarioMain{
- border:1px solid rgba(169,124,255,.3);
- background:
- radial-gradient(circle at 0% 0%,rgba(169,124,255,.12),transparent 45%),
- linear-gradient(145deg,#0c1220,#080c14)
-}
-.scenarioHeadline{
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:10px;
- flex-wrap:wrap
-}
-.scenarioBig{
- font-size:clamp(25px,6vw,40px);
- font-weight:950
-}
-.confidence{
- font-size:12px;
- color:var(--muted);
- text-align:right
-}
-.confidence strong{
- display:block;
- color:var(--gold);
- font-size:22px
-}
-
-.nextMove{
- margin-top:12px;
- padding:14px;
- border-radius:13px;
- border:1px solid rgba(0,234,255,.3);
- background:linear-gradient(135deg,rgba(0,234,255,.08),rgba(169,124,255,.06));
-}
-.nextMoveTitle{
- font-size:10px;
- letter-spacing:2px;
- color:var(--cyan);
- font-weight:900
-}
-.nextMoveText{
- margin-top:5px;
- font-size:19px;
- font-weight:950
-}
-.nextMoveMeta{
- margin-top:7px;
- color:var(--muted);
- font-size:11px;
- line-height:1.6
-}
-
-.scenarioPaths{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:10px;
- margin-top:12px
-}
-.scenarioPathCard{
- border:1px solid #213047;
- border-radius:13px;
- padding:13px;
- background:#09101a;
- min-height:180px
-}
-.scenarioPathCard.up{border-color:rgba(53,245,138,.32)}
-.scenarioPathCard.range{border-color:rgba(255,216,77,.28)}
-.scenarioPathCard.down{border-color:rgba(255,79,104,.32)}
-.scenarioPathHead{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:8px;
- margin-bottom:10px
-}
-.scenarioPathName{font-weight:900;font-size:14px}
-.scenarioPct{
- font-size:19px;
- font-weight:950
-}
-.scenarioPath{
- font-size:15px;
+.value{
+ font-size:21px;
  font-weight:900;
- line-height:1.5;
- min-height:48px
-}
-.scenarioTrigger,.scenarioInvalid{
- margin-top:10px;
- padding:8px;
- border-radius:8px;
- font-size:10px;
- line-height:1.5
-}
-.scenarioTrigger{
- background:rgba(53,245,138,.06);
- color:#a7ffc9
-}
-.scenarioInvalid{
- background:rgba(255,79,104,.05);
- color:#ff9baa
-}
-.scenarioTrigger b,.scenarioInvalid b{
- display:block;
- margin-bottom:2px;
- letter-spacing:1px
-}
-
-.factorGrid{
- display:grid;
- grid-template-columns:repeat(5,1fr);
- gap:8px;
- margin-top:12px
-}
-.factor{
- border:1px solid #1d2a3e;
- border-radius:10px;
- padding:9px;
- background:#090f18
-}
-.factorName{
- font-size:9px;
- color:var(--muted);
- letter-spacing:.8px
-}
-.factorVal{
- margin-top:5px;
- font-size:12px;
- font-weight:900
-}
-
-.levelDistance{
- font-size:10px;
- color:var(--muted);
- margin-top:4px
-}
-
-.level{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:8px;
- padding:10px;
- margin-bottom:7px;
- border-radius:10px;
- border:1px solid #1b293c;
- background:#090f18
-}
-.level.active{
- border-color:var(--cyan);
- box-shadow:0 0 15px rgba(0,234,255,.08)
-}
-.level .p{font-size:18px;font-weight:950}
-.level .l{font-size:10px;color:var(--muted);text-align:right}
-
-.meter{
- height:9px;
- border-radius:99px;
- background:#161f2e;
- overflow:hidden;
- margin-top:8px
-}
-.meterFill{
- height:100%;
- transition:.5s
-}
-
-.chart{
- width:100%;
- height:210px;
- display:block;
- border:1px solid #18263a;
- border-radius:12px;
- background:#070c14
-}
-
-.signalRow{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:8px;
- padding:9px 0;
- border-bottom:1px solid #172337;
- font-size:12px
-}
-.signalRow:last-child{border-bottom:0}
-.signalDot{
- width:9px;height:9px;
- border-radius:50%;
- display:inline-block;
- margin-right:6px;
- background:#46566d
-}
-.on{background:var(--green);box-shadow:0 0 9px rgba(53,245,138,.5)}
-.warn{background:var(--gold)}
-.danger{background:var(--red)}
-
-.orderBars{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:12px
-}
-.barBox{min-width:0}
-.barLabel{
- display:flex;
- justify-content:space-between;
- font-size:10px;
- color:var(--muted);
- margin-bottom:5px
-}
-.bar{
- height:12px;
- border-radius:99px;
- background:#151e2c;
- overflow:hidden
-}
-.bar div{height:100%;transition:.5s}
-.bidfill{background:linear-gradient(90deg,#176c47,var(--green))}
-.askfill{background:linear-gradient(90deg,#9d263c,var(--red))}
-
-.event{
- display:flex;
- justify-content:space-between;
- gap:10px;
- align-items:center;
- padding:11px;
- border-radius:10px;
- background:#090f18;
- border:1px solid #1b293c
-}
-.eventName{font-weight:900;font-size:13px}
-.eventMeta{font-size:10px;color:var(--muted);margin-top:3px}
-.eventPriority{
- padding:4px 7px;
- border-radius:999px;
- font-size:9px;
- font-weight:900;
- background:rgba(255,216,77,.1);
- color:var(--gold);
  white-space:nowrap
 }
 
-.log{
- max-height:280px;
- overflow:auto;
- font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+.small{
+ margin-top:6px;
+ color:#607f8e;
  font-size:10px
 }
-.logLine{
- padding:7px 0;
- border-bottom:1px solid #121c2a;
- color:#aebbd0
+
+.xrp{color:#00eaff}
+.green{color:#00ff9d}
+.red{color:#ff5577}
+.blue{color:#61b5ff}
+.yellow{color:#ffd34d}
+.orange{color:#ff9f43}
+.purple{color:#c78cff}
+
+.section{
+ margin-top:12px;
+ padding:15px;
+ border:1px solid rgba(100,190,225,.20);
+ border-radius:18px;
+ background:linear-gradient(
+ 145deg,
+ rgba(8,21,36,.96),
+ rgba(3,9,18,.97)
+ )
+}
+
+.sectionTitle{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ margin-bottom:13px
+}
+
+.sectionTitle b{
+ font-size:13px;
+ letter-spacing:1px
+}
+
+.badge{
+ padding:4px 7px;
+ border:1px solid rgba(0,220,255,.25);
+ border-radius:20px;
+ color:#62bfd5;
+ font-size:8px
+}
+
+/* ================= BATTLE ================= */
+
+.battle{
+ position:relative;
+ overflow:hidden;
+ padding:16px;
+ border-radius:17px;
+ border:1px solid rgba(255,211,77,.32);
+ background:linear-gradient(
+ 145deg,
+ rgba(35,27,7,.92),
+ rgba(4,10,18,.97)
+ );
+ box-shadow:
+ 0 0 30px rgba(255,211,77,.07),
+ inset 0 0 30px rgba(255,211,77,.025)
+}
+
+.battleTop{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px
+}
+
+.battleTitle{
+ font-size:11px;
+ color:#bca85c;
+ letter-spacing:1.5px;
+ font-weight:900
+}
+
+.battleState{
+ font-size:20px;
+ font-weight:950;
+ letter-spacing:1px
+}
+
+.battleGrid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:7px;
+ margin-top:12px
+}
+
+.battleItem{
+ padding:9px;
+ border-radius:10px;
+ border:1px solid rgba(100,190,225,.10);
+ background:rgba(0,0,0,.18)
+}
+
+.battleItem .k{
+ color:#607f8e;
+ font-size:8px
+}
+
+.battleItem .v{
+ margin-top:4px;
+ font-size:11px;
+ font-weight:900
+}
+
+.battlePulse{
+ animation:pulseBattle 1.2s infinite
+}
+
+@keyframes pulseBattle{
+ 50%{
+  box-shadow:0 0 25px rgba(255,211,77,.22)
+ }
+}
+
+/* ================= THREAT ================= */
+
+.threat{
+ margin-top:12px;
+ padding:13px;
+ border-radius:15px;
+ border:1px solid rgba(0,220,255,.25);
+ background:linear-gradient(
+ 145deg,
+ rgba(3,24,38,.90),
+ rgba(3,10,18,.95)
+ );
+ transition:.3s
+}
+
+.threat.normal{
+ border-color:rgba(0,255,157,.35)
+}
+
+.threat.caution{
+ border-color:rgba(255,211,77,.55);
+ box-shadow:0 0 22px rgba(255,211,77,.08)
+}
+
+.threat.emergency{
+ border-color:rgba(255,60,100,.75);
+ box-shadow:0 0 30px rgba(255,60,100,.15);
+ animation:emergencyPulse 1s infinite
+}
+
+@keyframes emergencyPulse{
+ 50%{
+  box-shadow:0 0 38px rgba(255,60,100,.28)
+ }
+}
+
+.threatTop{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:8px
+}
+
+.threatLevel{
+ font-size:18px;
+ font-weight:950
+}
+
+.threatCount{
+ color:#7893a0;
+ font-size:9px
+}
+
+.signalList{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:6px;
+ margin-top:9px
+}
+
+.signal{
+ padding:7px;
+ border-radius:8px;
+ background:rgba(0,0,0,.20);
+ border:1px solid rgba(100,190,225,.08);
+ font-size:9px;
+ color:#698895
+}
+
+.signal.on{
+ color:#fff;
+ border-color:rgba(255,211,77,.35)
+}
+
+.signal.on.redSignal{
+ border-color:rgba(255,85,119,.45)
+}
+
+.signal.on.greenSignal{
+ border-color:rgba(0,255,157,.35)
+}
+
+/* ================= SCENARIO ENGINE ================= */
+
+.scenario{
+ position:relative;
+ overflow:hidden;
+ padding:16px;
+ border-radius:18px;
+ border:1px solid rgba(170,120,255,.45);
+ background:
+ linear-gradient(
+ 145deg,
+ rgba(38,19,65,.92),
+ rgba(5,10,21,.98)
+ );
+ box-shadow:
+ 0 0 35px rgba(150,80,255,.10),
+ inset 0 0 35px rgba(150,80,255,.035)
+}
+
+.scenario:before{
+ content:"";
+ position:absolute;
+ top:0;
+ left:-30%;
+ width:160%;
+ height:1px;
+ background:linear-gradient(
+ 90deg,
+ transparent,
+ #c78cff,
+ #fff,
+ #c78cff,
+ transparent
+ );
+ opacity:.8
+}
+
+.scenarioTop{
+ display:flex;
+ justify-content:space-between;
+ align-items:flex-start;
+ gap:10px
+}
+
+.scenarioTitle{
+ color:#caa8ff;
+ font-size:12px;
+ letter-spacing:1.7px;
+ font-weight:950
+}
+
+.scenarioSub{
+ margin-top:4px;
+ color:#718c9a;
+ font-size:9px
+}
+
+.scenarioMain{
+ margin-top:12px;
+ font-size:25px;
+ font-weight:950;
+ letter-spacing:.5px
+}
+
+.scenarioNext{
+ margin-top:6px;
+ color:#a5c4d2;
+ font-size:10px
+}
+
+.scenarioBars{
+ display:grid;
+ gap:7px;
+ margin-top:14px
+}
+
+.scenarioRow{
+ display:grid;
+ grid-template-columns:76px 1fr 42px;
+ align-items:center;
+ gap:7px
+}
+
+.scenarioName{
+ font-size:9px;
+ font-weight:900
+}
+
+.scenarioTrack{
+ height:12px;
+ border-radius:20px;
+ overflow:hidden;
+ background:#07111b;
+ border:1px solid rgba(100,190,225,.10)
+}
+
+.scenarioFill{
+ height:100%;
+ width:0%;
+ transition:width .6s ease
+}
+
+.scenarioUp{
+ background:#00ff9d;
+ box-shadow:0 0 12px rgba(0,255,157,.35)
+}
+
+.scenarioRange{
+ background:#ffd34d;
+ box-shadow:0 0 12px rgba(255,211,77,.25)
+}
+
+.scenarioDown{
+ background:#ff5577;
+ box-shadow:0 0 12px rgba(255,85,119,.25)
+}
+
+.scenarioPct{
+ text-align:right;
+ font-size:10px;
+ font-weight:950
+}
+
+.scenarioGrid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:7px;
+ margin-top:13px
+}
+
+.scenarioCard{
+ padding:10px;
+ border-radius:11px;
+ border:1px solid rgba(100,190,225,.10);
+ background:rgba(0,0,0,.18)
+}
+
+.scenarioCard .k{
+ color:#658392;
+ font-size:8px
+}
+
+.scenarioCard .v{
+ margin-top:5px;
+ font-size:11px;
+ font-weight:950
+}
+
+.pathBox{
+ margin-top:10px;
+ padding:11px;
+ border-radius:11px;
+ border:1px solid rgba(0,220,255,.14);
+ background:rgba(0,0,0,.20)
+}
+
+.pathTitle{
+ color:#638b9c;
+ font-size:8px;
+ letter-spacing:1.3px;
+ font-weight:900
+}
+
+.pathText{
+ margin-top:5px;
+ font-size:10px;
+ font-weight:850;
+ line-height:1.55
+}
+
+.reasonBox{
+ margin-top:10px;
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:6px
+}
+
+.reason{
+ padding:8px;
+ border-radius:9px;
+ border:1px solid rgba(100,190,225,.08);
+ background:rgba(0,0,0,.16);
+ font-size:8px;
+ color:#7793a0
+}
+
+.reason b{
+ display:block;
+ margin-top:3px;
+ font-size:9px;
+ color:#eaf8ff
+}
+
+.conditionBox{
+ margin-top:10px;
+ padding:10px;
+ border-radius:11px;
+ border:1px solid rgba(255,211,77,.16);
+ background:rgba(255,211,77,.025);
+ font-size:9px;
+ line-height:1.5;
+ color:#8da3ad
+}
+
+.conditionBox b{
+ color:#ffd34d
+}
+
+.confidence{
+ margin-top:10px;
+ padding:10px;
+ border-radius:10px;
+ background:rgba(0,0,0,.18);
+ text-align:center;
+ color:#7893a0;
+ font-size:9px
+}
+
+.confidence b{
+ color:#fff;
+ font-size:14px
+}
+
+/* ================= LEVELS ================= */
+
+.levels{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:7px
+}
+
+.level{
+ padding:10px 5px;
+ border:1px solid rgba(100,190,225,.14);
+ border-radius:11px;
+ text-align:center;
+ background:rgba(0,0,0,.16);
+ transition:.25s
+}
+
+.level.active{
+ border-color:#00eaff;
+ box-shadow:0 0 15px rgba(0,235,255,.15)
+}
+
+.level.target{
+ border-color:#ffd34d;
+ box-shadow:0 0 15px rgba(255,211,77,.12)
+}
+
+.level.broken{
+ border-color:#ff5577;
+ box-shadow:0 0 15px rgba(255,85,119,.15)
+}
+
+.levelPrice{
+ font-size:14px;
+ font-weight:900
+}
+
+.levelLabel{
+ margin-top:3px;
+ color:#60818f;
+ font-size:8px
+}
+
+/* ================= TARGET ================= */
+
+.meter{
+ height:14px;
+ overflow:hidden;
+ border-radius:20px;
+ background:#07111b;
+ border:1px solid rgba(100,190,225,.14)
+}
+
+.meterFill{
+ width:0%;
+ height:100%;
+ background:linear-gradient(90deg,#00bfff,#00ff9d);
+ box-shadow:0 0 14px rgba(0,220,255,.40);
+ transition:width .5s
+}
+
+.range{
+ display:flex;
+ justify-content:space-between;
+ margin-top:5px;
+ color:#5e7c8a;
+ font-size:9px
+}
+
+/* ================= ENGINE ================= */
+
+.engine{
+ display:grid;
+ gap:7px
+}
+
+.engineRow{
+ display:flex;
+ justify-content:space-between;
+ gap:10px;
+ padding:10px;
+ border:1px solid rgba(100,190,225,.10);
+ border-radius:10px;
+ background:rgba(0,0,0,.15)
+}
+
+.engineRow span:first-child{
+ color:#668a9a;
+ font-size:10px
+}
+
+.engineRow span:last-child{
+ font-size:11px;
+ font-weight:850;
+ text-align:right
+}
+
+/* ================= FEAR & GREED ================= */
+
+.fgWrap{
+ text-align:center
+}
+
+.fgGauge{
+ width:180px;
+ height:90px;
+ margin:8px auto 0;
+ position:relative;
+ border-radius:180px 180px 0 0;
+ background:conic-gradient(
+  from 270deg,
+  #ff5577 0 20%,
+  #ff9f43 20% 40%,
+  #ffd34d 40% 60%,
+  #9cff57 60% 80%,
+  #00ff9d 80% 100%
+ );
+ overflow:hidden
+}
+
+.fgGauge:after{
+ content:"";
+ position:absolute;
+ left:20px;
+ right:20px;
+ bottom:0;
+ height:70px;
+ border-radius:100px 100px 0 0;
+ background:#07111b
+}
+
+.fgNeedle{
+ position:absolute;
+ z-index:3;
+ left:50%;
+ bottom:3px;
+ width:3px;
+ height:73px;
+ background:#fff;
+ transform-origin:bottom center;
+ transform:translateX(-50%) rotate(-65deg);
+ box-shadow:0 0 8px #fff;
+ transition:transform .7s
+}
+
+.fgCenter{
+ position:absolute;
+ z-index:4;
+ bottom:8px;
+ left:0;
+ right:0;
+ font-size:23px;
+ font-weight:950
+}
+
+.fgText{
+ margin-top:7px;
+ font-size:10px;
+ color:#7893a0
+}
+
+/* ================= CHART ================= */
+
+.chart{
+ width:100%;
+ height:240px;
+ display:block;
+ border:1px solid rgba(100,190,225,.12);
+ border-radius:12px;
+ background:#020811
+}
+
+.legend{
+ display:flex;
+ justify-content:center;
+ gap:14px;
+ margin-top:8px;
+ font-size:9px;
+ color:#7393a2
+}
+
+.legend span{
+ font-weight:800
+}
+
+/* ================= ORDER ================= */
+
+.orderGrid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:8px
+}
+
+.orderBox{
+ padding:12px;
+ border:1px solid rgba(100,190,225,.11);
+ border-radius:12px;
+ background:rgba(0,0,0,.15)
+}
+
+.orderValue{
+ font-size:17px;
+ font-weight:900
+}
+
+.bar{
+ height:8px;
+ margin-top:7px;
+ overflow:hidden;
+ border-radius:10px;
+ background:#07111b
+}
+
+.bidBar{
+ width:50%;
+ height:100%;
+ background:#00ff9d;
+ transition:width .3s
+}
+
+.askBar{
+ width:50%;
+ height:100%;
+ background:#ff5577;
+ transition:width .3s
+}
+
+/* ================= EVENTS ================= */
+
+.eventSummary{
+ margin-bottom:10px;
+ padding:11px;
+ border-radius:12px;
+ border:1px solid rgba(255,211,77,.30);
+ background:linear-gradient(
+ 145deg,
+ rgba(48,37,8,.60),
+ rgba(4,12,20,.80)
+ )
+}
+
+.nextLabel{
+ color:#8d7b43;
+ font-size:8px;
+ letter-spacing:1.4px;
+ font-weight:900
+}
+
+.nextEvent{
+ margin-top:4px;
+ font-size:15px;
+ font-weight:950
+}
+
+.nextMeta{
+ margin-top:4px;
+ color:#7893a0;
+ font-size:9px
+}
+
+.events{
+ display:grid;
+ gap:7px
+}
+
+.event{
+ display:grid;
+ grid-template-columns:1fr auto;
+ gap:8px;
+ align-items:center;
+ padding:11px;
+ border-radius:12px;
+ border:1px solid rgba(100,190,225,.12);
+ background:rgba(0,0,0,.16)
+}
+
+.eventName{
+ font-size:11px;
+ font-weight:900
+}
+
+.eventRank{
+ margin-top:3px;
+ color:#678592;
+ font-size:8px
+}
+
+.eventMeta{
+ margin-top:6px;
+ color:#89a5b2;
+ font-size:8px
+}
+
+.priority{
+ min-width:48px;
+ text-align:center;
+ padding:5px 6px;
+ border-radius:8px;
+ font-size:8px;
+ font-weight:950
+}
+
+.p1{
+ color:#ff8098;
+ border:1px solid rgba(255,85,119,.45);
+ background:rgba(255,60,100,.08)
+}
+
+.p2{
+ color:#ffd86a;
+ border:1px solid rgba(255,211,77,.35);
+ background:rgba(255,211,77,.06)
+}
+
+.p3{
+ color:#70d9ff;
+ border:1px solid rgba(0,220,255,.28);
+ background:rgba(0,220,255,.05)
+}
+
+/* ================= ALERT ================= */
+
+.alertBox{
+ display:none;
+ margin-top:10px;
+ padding:11px;
+ border-radius:11px;
+ border:1px solid rgba(255,85,119,.4);
+ background:rgba(80,5,20,.25);
+ color:#ff8099;
+ font-size:10px;
+ font-weight:900;
+ text-align:center
+}
+
+.alertBox.show{
+ display:block;
+ animation:alertFlash 1s infinite
+}
+
+@keyframes alertFlash{
+ 50%{
+  box-shadow:0 0 20px rgba(255,85,119,.16)
+ }
+}
+
+/* ================= LOG ================= */
+
+.log{
+ max-height:220px;
+ overflow:auto;
+ font-family:ui-monospace,monospace;
+ font-size:9px
+}
+
+.logItem{
+ padding:6px 0;
+ border-bottom:1px solid rgba(100,190,225,.07);
+ color:#688896
+}
+
+.logItem b{
+ color:#d7f8ff
 }
 
 .footer{
+ padding:18px 0 25px;
  text-align:center;
- color:#52637b;
- font-size:9px;
- letter-spacing:1px;
- padding:14px
+ color:#405e6b;
+ font-size:8px;
+ letter-spacing:1px
 }
 
-@media(max-width:800px){
- body{padding:8px}
- .grid,.grid3,.grid2{grid-template-columns:repeat(2,1fr)}
- .factorGrid{grid-template-columns:repeat(2,1fr)}
- .scenarioPaths{grid-template-columns:1fr}
- .heroPrice{font-size:48px}
+.flash{
+ animation:flash .4s ease
 }
-@media(max-width:480px){
- .grid{grid-template-columns:1fr 1fr}
- .value{font-size:18px}
- .smallValue{font-size:14px}
- .battleState{font-size:20px}
- .threatCircle{width:72px;height:72px}
- .threatLevel{font-size:20px}
+
+@keyframes flash{
+ 50%{
+  transform:scale(1.025)
+ }
 }
 </style>
 </head>
 
 <body>
+
 <div class="container">
 
-<header>
- <div class="title">XRP司令室 ORBIT</div>
- <div class="subtitle">REAL-TIME XRP COMMAND CENTER / 6.1</div>
- <div class="topline">
-  <div class="badge">ORBIT 6.1</div>
-  <div id="status" class="status">SYSTEM INITIALIZING...</div>
+<header class="header">
+
+ <div class="brand">
+
+  <div class="logo">
+   <svg viewBox="0 0 100 100" fill="none">
+    <circle cx="50" cy="50" r="47" stroke="#ffd34d" stroke-width="3"/>
+    <path d="M25 25h10l15 20 15-20h10L55 53v22H45V53L25 25Z"
+      fill="#00eaff"/>
+    <path d="M25 75h10l15-20 15 20h10L55 47v-22H45v22L25 75Z"
+      fill="#fff"/>
+   </svg>
+  </div>
+
+  <div>
+   <div class="title">⚡ XRP司令室 ORBIT</div>
+   <div class="subtitle">REAL-TIME XRP COMMAND CENTER / 6.0</div>
+   <div class="awaken">◈ AWAKEN MODE / SCENARIO ENGINE ONLINE ◈</div>
+  </div>
+
  </div>
+
+ <div class="status">
+  <span class="dot"></span>
+  <span id="status">SYSTEM STARTING...</span>
+ </div>
+
 </header>
 
-<section class="section priceHero">
- <div class="label">XRP / JPY</div>
- <div id="xrpPrice" class="heroPrice">---.---</div>
- <div id="xrpChange" class="change muted">24H ---</div>
-</section>
+<!-- ================= BATTLE ================= -->
 
-<section class="section">
- <div class="sectionTitle">CURRENT BATTLE STATUS</div>
- <div id="battleBox" class="card battle">
-  <div id="battleState" class="battleState">ANALYZING...</div>
-  <div class="grid grid2">
-   <div>
-    <div class="label">XRP</div>
-    <div id="battleXRP" class="smallValue">---</div>
-   </div>
-   <div>
-    <div class="label">BTC</div>
-    <div id="battleBTC" class="smallValue">---</div>
-   </div>
-   <div>
-    <div class="label">EMA</div>
-    <div id="battleEMA" class="smallValue">---</div>
-   </div>
-   <div>
-    <div class="label">ORDER</div>
-    <div id="battleOrder" class="smallValue">---</div>
-   </div>
-  </div>
-  <div id="alertBox" class="alertBox"></div>
- </div>
-</section>
+<section class="battle" id="battleBox">
 
-<section class="section">
- <div class="sectionTitle">ORBIT THREAT LEVEL</div>
- <div id="threatBox" class="threat card">
-  <div class="threatCircle">
-   <strong id="threatLevel">---</strong>
-   <span>THREAT</span>
-  </div>
-  <div class="threatText">
-   <div id="threatCount" class="threatLevel">ANALYZING</div>
-   <div class="grid grid2">
-    <div>
-     <div class="label">PRICE SIGNAL</div>
-     <div id="sigPrice">---</div>
-    </div>
-    <div>
-     <div class="label">BTC SIGNAL</div>
-     <div id="sigBTC">---</div>
-    </div>
-    <div>
-     <div class="label">ORDER SIGNAL</div>
-     <div id="sigOrder">---</div>
-    </div>
-    <div>
-     <div class="label">EMA SIGNAL</div>
-     <div id="sigEMA">---</div>
-    </div>
-   </div>
-  </div>
- </div>
-</section>
+ <div class="battleTop">
 
-<section class="section scenarioMain">
- <div class="sectionTitle">ORBIT SCENARIO ENGINE / 6.1</div>
-
- <div class="scenarioHeadline">
   <div>
-   <div class="label">CURRENT SCENARIO</div>
-   <div id="scenarioMain" class="scenarioBig">ANALYZING...</div>
-   <div id="scenarioNext" class="muted">データ収集中...</div>
+   <div class="battleTitle">⚡ CURRENT BATTLE STATUS</div>
+   <div id="battleState" class="battleState yellow">
+    SYSTEM ANALYZING
+   </div>
   </div>
-  <div class="confidence">
-   CONFIDENCE
-   <strong id="scenarioConfidence">--%</strong>
-   <span id="scenarioConfidenceText">分析中</span>
-  </div>
+
+  <div class="badge">ORBIT 6.0</div>
+
  </div>
 
- <div class="nextMove">
-  <div class="nextMoveTitle">🎯 NEXT MOVE / 次の一手</div>
-  <div id="nextMoveText" class="nextMoveText">分析中...</div>
-  <div id="nextMoveMeta" class="nextMoveMeta">XRPのリアルタイムデータを蓄積中。</div>
+ <div class="battleGrid">
+
+  <div class="battleItem">
+   <div class="k">XRP POSITION</div>
+   <div id="battleXRP" class="v xrp">---</div>
+  </div>
+
+  <div class="battleItem">
+   <div class="k">BTC</div>
+   <div id="battleBTC" class="v blue">---</div>
+  </div>
+
+  <div class="battleItem">
+   <div class="k">EMA TREND</div>
+   <div id="battleEMA" class="v yellow">---</div>
+  </div>
+
+  <div class="battleItem">
+   <div class="k">ORDER FLOW</div>
+   <div id="battleOrder" class="v yellow">---</div>
+  </div>
+
  </div>
 
- <div class="scenarioPaths">
-  <div class="scenarioPathCard up">
-   <div class="scenarioPathHead">
-    <div class="scenarioPathName">🟢 上昇シナリオ</div>
-    <div id="scenarioUpPct" class="scenarioPct green">--%</div>
-   </div>
-   <div id="scenarioUp" class="scenarioPath">分析中...</div>
-   <div id="scenarioUpTrigger" class="scenarioTrigger">
-    <b>TRIGGER</b>分析中
-   </div>
-   <div id="scenarioUpInvalid" class="scenarioInvalid">
-    <b>INVALIDATION</b>分析中
-   </div>
-  </div>
+ <div id="alertBox" class="alertBox"></div>
 
-  <div class="scenarioPathCard range">
-   <div class="scenarioPathHead">
-    <div class="scenarioPathName">🟡 レンジシナリオ</div>
-    <div id="scenarioRangePct" class="scenarioPct gold">--%</div>
-   </div>
-   <div id="scenarioRange" class="scenarioPath">分析中...</div>
-   <div id="scenarioRangeTrigger" class="scenarioTrigger">
-    <b>TRIGGER</b>分析中
-   </div>
-   <div id="scenarioRangeInvalid" class="scenarioInvalid">
-    <b>INVALIDATION</b>分析中
-   </div>
-  </div>
-
-  <div class="scenarioPathCard down">
-   <div class="scenarioPathHead">
-    <div class="scenarioPathName">🔴 下落シナリオ</div>
-    <div id="scenarioDownPct" class="scenarioPct red">--%</div>
-   </div>
-   <div id="scenarioDown" class="scenarioPath">分析中...</div>
-   <div id="scenarioDownTrigger" class="scenarioTrigger">
-    <b>TRIGGER</b>分析中
-   </div>
-   <div id="scenarioDownInvalid" class="scenarioInvalid">
-    <b>INVALIDATION</b>分析中
-   </div>
-  </div>
- </div>
-
- <div class="factorGrid">
-  <div class="factor">
-   <div class="factorName">EMA</div>
-   <div id="reasonEMA" class="factorVal">---</div>
-  </div>
-  <div class="factor">
-   <div class="factorName">MOMENTUM</div>
-   <div id="reasonMomentum" class="factorVal">---</div>
-  </div>
-  <div class="factor">
-   <div class="factorName">BTC</div>
-   <div id="reasonBTC" class="factorVal">---</div>
-  </div>
-  <div class="factor">
-   <div class="factorName">ORDER</div>
-   <div id="reasonOrder" class="factorVal">---</div>
-  </div>
-  <div class="factor">
-   <div class="factorName">PRICE LEVEL</div>
-   <div id="scenarioStructure" class="factorVal">---</div>
-  </div>
- </div>
-
- <div id="scenarioPath" class="card" style="margin-top:10px;font-size:12px;line-height:1.6">
-  条件付きルートを計算中...
- </div>
 </section>
 
+<!-- ================= THREAT ================= -->
+
+<section id="threatBox" class="threat normal">
+
+ <div class="threatTop">
+
+  <div>
+   <div class="battleTitle">🚨 ORBIT THREAT LEVEL</div>
+   <div id="threatLevel" class="threatLevel green">
+    🟢 NORMAL
+   </div>
+  </div>
+
+  <div id="threatCount" class="threatCount">
+   0 SIGNALS
+  </div>
+
+ </div>
+
+ <div class="signalList">
+
+  <div id="sigPrice" class="signal">
+   🎯 PRICE BREAKOUT — 待機
+  </div>
+
+  <div id="sigBTC" class="signal">
+   ₿ BTC SHOCK — 待機
+  </div>
+
+  <div id="sigOrder" class="signal">
+   🐋 ORDER BOOK — 待機
+  </div>
+
+  <div id="sigEMA" class="signal">
+   📈 EMA CROSS — 待機
+  </div>
+
+ </div>
+
+</section>
+
+<!-- ================= SCENARIO ENGINE ================= -->
+
+<section class="scenario">
+
+ <div class="scenarioTop">
+
+  <div>
+
+   <div class="scenarioTitle">
+    🧠 ORBIT SCENARIO ENGINE
+   </div>
+
+   <div class="scenarioSub">
+    REAL-TIME CONDITIONAL MARKET ANALYSIS
+   </div>
+
+  </div>
+
+  <div class="badge">
+   LIVE
+  </div>
+
+ </div>
+
+ <div id="scenarioMain" class="scenarioMain yellow">
+  データ収集中...
+ </div>
+
+ <div id="scenarioNext" class="scenarioNext">
+  XRP / BTC / EMA / ORDER FLOW / PRICE LEVEL を統合分析
+ </div>
+
+ <div class="scenarioBars">
+
+  <div class="scenarioRow">
+
+   <div class="scenarioName green">
+    🟢 上昇
+   </div>
+
+   <div class="scenarioTrack">
+    <div id="scenarioUp" class="scenarioFill scenarioUp"></div>
+   </div>
+
+   <div id="scenarioUpPct" class="scenarioPct green">
+    0%
+   </div>
+
+  </div>
+
+  <div class="scenarioRow">
+
+   <div class="scenarioName yellow">
+    🟡 レンジ
+   </div>
+
+   <div class="scenarioTrack">
+    <div id="scenarioRange" class="scenarioFill scenarioRange"></div>
+   </div>
+
+   <div id="scenarioRangePct" class="scenarioPct yellow">
+    0%
+   </div>
+
+  </div>
+
+  <div class="scenarioRow">
+
+   <div class="scenarioName red">
+    🔴 下落
+   </div>
+
+   <div class="scenarioTrack">
+    <div id="scenarioDown" class="scenarioFill scenarioDown"></div>
+   </div>
+
+   <div id="scenarioDownPct" class="scenarioPct red">
+    0%
+   </div>
+
+  </div>
+
+ </div>
+
+ <div class="scenarioGrid">
+
+  <div class="scenarioCard">
+   <div class="k">SUPPORT</div>
+   <div id="scenarioSupport" class="v green">---</div>
+  </div>
+
+  <div class="scenarioCard">
+   <div class="k">NEXT RESISTANCE</div>
+   <div id="scenarioResistance" class="v red">---</div>
+  </div>
+
+  <div class="scenarioCard">
+   <div class="k">NEXT TARGET</div>
+   <div id="scenarioTarget" class="v xrp">---</div>
+  </div>
+
+  <div class="scenarioCard">
+   <div class="k">STRUCTURE</div>
+   <div id="scenarioStructure" class="v yellow">---</div>
+  </div>
+
+ </div>
+
+ <div class="pathBox">
+
+  <div class="pathTitle">
+   ⚡ CONDITIONAL PATH
+  </div>
+
+  <div id="scenarioPath" class="pathText">
+   条件を検出中...
+  </div>
+
+ </div>
+
+ <div class="reasonBox">
+
+  <div class="reason">
+   EMA
+   <b id="reasonEMA">---</b>
+  </div>
+
+  <div class="reason">
+   MOMENTUM
+   <b id="reasonMomentum">---</b>
+  </div>
+
+  <div class="reason">
+   BTC
+   <b id="reasonBTC">---</b>
+  </div>
+
+  <div class="reason">
+   ORDER
+   <b id="reasonOrder">---</b>
+  </div>
+
+ </div>
+
+ <div class="conditionBox">
+  <b>判定ルール：</b>
+  これは未来を断定する予言ではなく、
+  現在の市場データから算出した「条件付きシナリオ」。
+ </div>
+
+ <div class="confidence">
+
+  司令室分析信頼度　
+
+  <b id="scenarioConfidence">--%</b>
+
+  <span id="scenarioConfidenceText">
+   / 分析中
+  </span>
+
+ </div>
+
+</section>
+
+<!-- ================= PRICE ================= -->
+
+<div class="grid" style="margin-top:12px">
+
+ <div class="card hero">
+
+  <div class="label">
+   XRP / JPY LIVE PRICE
+  </div>
+
+  <span id="xrpPrice" class="heroPrice">
+   ---
+  </span>
+
+  <span class="unit">
+   JPY
+  </span>
+
+  <div id="xrpChange" class="small">
+   24H ---
+  </div>
+
+ </div>
+
+ <div class="card">
+
+  <div class="label">BTC / USD</div>
+
+  <div id="btc" class="value blue">
+   ---
+  </div>
+
+  <div class="small">
+   BTC/JPY → USD
+  </div>
+
+ </div>
+
+ <div class="card">
+
+  <div class="label">USD / JPY</div>
+
+  <div id="usdjpy" class="value green">
+   ---
+  </div>
+
+  <div class="small">
+   reference rate
+  </div>
+
+ </div>
+
+ <div class="card">
+
+  <div class="label">XRP / USD</div>
+
+  <div id="xrpusd" class="value blue">
+   ---
+  </div>
+
+  <div class="small">
+   calculated
+  </div>
+
+ </div>
+
+ <div class="card">
+
+  <div class="label">24H VOLUME</div>
+
+  <div id="volume" class="value">
+   ---
+  </div>
+
+  <div class="small">
+   XRP
+  </div>
+
+ </div>
+
+ <div class="card">
+
+  <div class="label">10,000 XRP</div>
+
+  <div id="position" class="value xrp">
+   ---
+  </div>
+
+  <div class="small">
+   current value
+  </div>
+
+ </div>
+
+ <div class="card">
+
+  <div class="label">24H HIGH</div>
+
+  <div id="high" class="value green">
+   ---
+  </div>
+
+ </div>
+
+ <div class="card">
+
+  <div class="label">24H LOW</div>
+
+  <div id="low" class="value red">
+   ---
+  </div>
+
+ </div>
+
+</div>
+
+<!-- ================= TARGET ================= -->
+
 <section class="section">
- <div class="sectionTitle">MARKET DATA</div>
+
+ <div class="sectionTitle">
+
+  <b>🎯 275万円 MISSION</b>
+
+  <span class="badge">
+   TARGET ¥2,750,000
+  </span>
+
+ </div>
+
  <div class="grid">
+
   <div class="card">
-   <div class="label">BTC / JPY</div>
-   <div id="btc" class="value">---</div>
+
+   <div class="label">
+    CURRENT VALUE
+   </div>
+
+   <div id="targetCurrent" class="value xrp">
+    ---
+   </div>
+
   </div>
+
   <div class="card">
-   <div class="label">USD / JPY</div>
-   <div id="usdjpy" class="value">---</div>
+
+   <div class="label">
+    DISTANCE TO TARGET
+   </div>
+
+   <div id="targetDistance" class="value yellow">
+    ---
+   </div>
+
   </div>
-  <div class="card">
-   <div class="label">XRP / USD</div>
-   <div id="xrpusd" class="value">---</div>
-  </div>
-  <div class="card">
-   <div class="label">24H VOLUME</div>
-   <div id="volume" class="value smallValue">---</div>
-  </div>
-  <div class="card">
-   <div class="label">10,000 XRP</div>
-   <div id="position" class="value gold">---</div>
-  </div>
-  <div class="card">
-   <div class="label">24H HIGH</div>
-   <div id="high" class="value smallValue">---</div>
-  </div>
-  <div class="card">
-   <div class="label">24H LOW</div>
-   <div id="low" class="value smallValue">---</div>
-  </div>
+
  </div>
-</section>
 
-<section class="section">
- <div class="sectionTitle">💰 275万円 MISSION</div>
- <div class="grid grid2">
-  <div class="card">
-   <div class="label">CURRENT VALUE</div>
-   <div id="targetCurrent" class="value gold">---</div>
+ <div style="margin-top:13px">
+
+  <div class="meter">
+   <div id="targetMeter" class="meterFill"></div>
   </div>
-  <div class="card">
-   <div class="label">DISTANCE TO TARGET</div>
-   <div id="targetDistance" class="value">---</div>
+
+  <div class="range">
+
+   <span>¥0</span>
+
+   <span id="targetPct">
+    0.0%
+   </span>
+
+   <span>¥2,750,000</span>
+
   </div>
+
  </div>
- <div class="progress"><div id="targetMeter" style="width:0%"></div></div>
- <div id="targetPct" class="muted" style="font-size:10px;margin-top:6px">0%</div>
+
 </section>
 
-<section class="section">
- <div class="sectionTitle">IMPORTANT XRP LEVELS</div>
- <div id="levels"></div>
-</section>
+<!-- ================= LEVELS ================= -->
 
 <section class="section">
- <div class="sectionTitle">EMA / LIVE SAMPLE TREND</div>
+
+ <div class="sectionTitle">
+
+  <b>⚔️ XRP IMPORTANT LEVELS</b>
+
+  <span class="badge">
+   BREAKOUT MONITOR
+  </span>
+
+ </div>
+
+ <div id="levels" class="levels"></div>
+
+</section>
+
+<!-- ================= EMA ================= -->
+
+<section class="section">
+
+ <div class="sectionTitle">
+
+  <b>📈 XRP TREND ENGINE</b>
+
+  <span class="badge">
+   EMA 7 / 25 / 75
+  </span>
+
+ </div>
+
  <canvas id="emaChart" class="chart"></canvas>
- <div class="grid grid2" style="margin-top:10px">
-  <div class="card">
-   <div class="label">EMA 7</div>
-   <div id="ema7" class="value cyan">---</div>
-  </div>
-  <div class="card">
-   <div class="label">EMA 25</div>
-   <div id="ema25" class="value purple">---</div>
-  </div>
-  <div class="card">
-   <div class="label">EMA 75</div>
-   <div id="ema75" class="value gold">---</div>
-  </div>
-  <div class="card">
-   <div class="label">EMA SIGNAL</div>
-   <div id="emaSignal" class="value smallValue">---</div>
-  </div>
+
+ <div class="legend">
+
+  <span class="xrp">PRICE</span>
+  <span class="green">EMA7</span>
+  <span class="yellow">EMA25</span>
+  <span class="red">EMA75</span>
+
  </div>
+
+ <div class="engine" style="margin-top:10px">
+
+  <div class="engineRow">
+   <span>EMA7</span>
+   <span id="ema7" class="green">---</span>
+  </div>
+
+  <div class="engineRow">
+   <span>EMA25</span>
+   <span id="ema25" class="yellow">---</span>
+  </div>
+
+  <div class="engineRow">
+   <span>EMA75</span>
+   <span id="ema75" class="red">---</span>
+  </div>
+
+  <div class="engineRow">
+   <span>トレンド</span>
+   <span id="emaSignal" class="yellow">---</span>
+  </div>
+
+ </div>
+
 </section>
+
+<!-- ================= FEAR GREED ================= -->
 
 <section class="section">
- <div class="sectionTitle">FEAR & GREED</div>
- <div class="card" style="text-align:center">
-  <div id="fgCenter" class="value" style="font-size:42px">---</div>
-  <div id="fgText" class="muted">データ取得中...</div>
-  <div class="progress" style="margin-top:14px">
-   <div id="fgNeedle" style="width:0%"></div>
-  </div>
+
+ <div class="sectionTitle">
+
+  <b>😱 FEAR & GREED</b>
+
+  <span class="badge">
+   MARKET SENTIMENT
+  </span>
+
  </div>
+
+ <div class="fgWrap">
+
+  <div class="fgGauge">
+
+   <div id="fgNeedle" class="fgNeedle"></div>
+
+   <div id="fgCenter" class="fgCenter">
+    ---
+   </div>
+
+  </div>
+
+  <div id="fgText" class="fgText">
+   SENTIMENT LOADING...
+  </div>
+
+ </div>
+
 </section>
+
+<!-- ================= MARKET ENGINE ================= -->
 
 <section class="section">
- <div class="sectionTitle">MARKET ENGINE</div>
- <div class="grid grid2">
-  <div class="card">
-   <div class="label">XRP MOMENTUM</div>
-   <div id="momentum" class="value smallValue">---</div>
-  </div>
-  <div class="card">
-   <div class="label">BTC SIGNAL</div>
-   <div id="btcSignal" class="value smallValue">---</div>
-  </div>
-  <div class="card">
-   <div class="label">RANGE SIGNAL</div>
-   <div id="rangeSignal" class="value smallValue">---</div>
-  </div>
-  <div class="card">
-   <div class="label">COMMAND</div>
-   <div id="commandSignal" class="value smallValue">---</div>
-  </div>
+
+ <div class="sectionTitle">
+
+  <b>🧠 MARKET ENGINE</b>
+
+  <span class="badge">
+   AUTO
+  </span>
+
  </div>
+
+ <div class="engine">
+
+  <div class="engineRow">
+
+   <span>短期モメンタム</span>
+
+   <span id="momentum">
+    ---
+   </span>
+
+  </div>
+
+  <div class="engineRow">
+
+   <span>BTCシグナル</span>
+
+   <span id="btcSignal">
+    ---
+   </span>
+
+  </div>
+
+  <div class="engineRow">
+
+   <span>24Hレンジ</span>
+
+   <span id="rangeSignal">
+    ---
+   </span>
+
+  </div>
+
+  <div class="engineRow">
+
+   <span>司令室判定</span>
+
+   <span id="commandSignal">
+    ---
+   </span>
+
+  </div>
+
+ </div>
+
 </section>
+
+<!-- ================= ORDER BOOK ================= -->
 
 <section class="section">
- <div class="sectionTitle">ORDER BOOK</div>
- <div class="orderBars">
-  <div class="barBox">
-   <div class="barLabel"><span>BID</span><b id="bid">---</b></div>
-   <div class="bar"><div id="bidbar" class="bidfill" style="width:50%"></div></div>
-  </div>
-  <div class="barBox">
-   <div class="barLabel"><span>ASK</span><b id="ask">---</b></div>
-   <div class="bar"><div id="askbar" class="askfill" style="width:50%"></div></div>
-  </div>
+
+ <div class="sectionTitle">
+
+  <b>🐋 大口板監視</b>
+
+  <span class="badge">
+   ORDER BOOK
+  </span>
+
  </div>
- <div class="grid grid2" style="margin-top:10px">
-  <div class="card">
-   <div class="label">DEPTH BALANCE</div>
-   <div id="balance" class="value smallValue">---</div>
+
+ <div class="orderGrid">
+
+  <div class="orderBox">
+
+   <div class="label">BID</div>
+
+   <div id="bid" class="orderValue green">
+    ---
+   </div>
+
+   <div class="bar">
+    <div id="bidbar" class="bidBar"></div>
+   </div>
+
   </div>
-  <div class="card">
-   <div class="label">ORDER SIGNAL</div>
-   <div id="orderSignal" class="value smallValue">---</div>
+
+  <div class="orderBox">
+
+   <div class="label">ASK</div>
+
+   <div id="ask" class="orderValue red">
+    ---
+   </div>
+
+   <div class="bar">
+    <div id="askbar" class="askBar"></div>
+   </div>
+
   </div>
+
  </div>
+
+ <div style="text-align:center;margin-top:10px">
+
+  <div id="balance" class="small">
+   --- / ---
+  </div>
+
+  <div
+   id="orderSignal"
+   class="value yellow"
+   style="font-size:13px;margin-top:4px"
+  >
+   通信待機
+  </div>
+
+ </div>
+
 </section>
+
+<!-- ================= EVENT RADAR ================= -->
 
 <section class="section">
- <div class="sectionTitle">EVENT RADAR</div>
- <div class="event">
-  <div>
-   <div id="nextEvent" class="eventName">CLARITY Act</div>
-   <div id="nextEventMeta" class="eventMeta">最重要規制材料 / XRP関連</div>
+
+ <div class="sectionTitle">
+
+  <b>🚨 EVENT RADAR</b>
+
+  <span class="badge">
+   LIVE PRIORITY
+  </span>
+
+ </div>
+
+ <div class="eventSummary">
+
+  <div class="nextLabel">
+   NEXT MAJOR CATALYST
   </div>
-  <div class="eventPriority">HIGH</div>
+
+  <div id="nextEvent" class="nextEvent">
+   監視中...
+  </div>
+
+  <div id="nextEventMeta" class="nextMeta">
+   XRP市場への影響を監視
+  </div>
+
  </div>
- <div class="grid grid2" style="margin-top:10px">
-  <div class="card"><div class="label">REGULATION</div><div class="smallValue">CLARITY Act</div></div>
-  <div class="card"><div class="label">ETF</div><div class="smallValue">XRP Spot ETF</div></div>
-  <div class="card"><div class="label">SEC / RIPPLE</div><div class="smallValue">重要材料</div></div>
-  <div class="card"><div class="label">FRB / FOMC</div><div class="smallValue">金融政策</div></div>
-  <div class="card"><div class="label">MACRO</div><div class="smallValue">CPI / NFP / PCE</div></div>
-  <div class="card"><div class="label">FLOWS</div><div class="smallValue">BTC / XRP ETF</div></div>
+
+ <div class="events">
+
+  <div class="event">
+
+   <div>
+
+    <div class="eventName">
+     🔴 CLARITY Act
+    </div>
+
+    <div class="eventRank">
+     米国暗号資産市場構造・規制 / XRP最重要
+    </div>
+
+    <div class="eventMeta">
+     IMPACT: ★★★★★　方向: ⚡ 大
+    </div>
+
+   </div>
+
+   <div class="priority p1">
+    最重要
+   </div>
+
+  </div>
+
+  <div class="event">
+
+   <div>
+
+    <div class="eventName">
+     🔴 XRP Spot ETF
+    </div>
+
+    <div class="eventRank">
+     承認・資金流入・運用会社関連
+    </div>
+
+    <div class="eventMeta">
+     IMPACT: ★★★★★　方向: 📈 強材料
+    </div>
+
+   </div>
+
+   <div class="priority p1">
+    最重要
+   </div>
+
+  </div>
+
+  <div class="event">
+
+   <div>
+
+    <div class="eventName">
+     🟠 SEC / Ripple
+    </div>
+
+    <div class="eventRank">
+     XRP規制・訴訟・SEC方針
+    </div>
+
+    <div class="eventMeta">
+     IMPACT: ★★★★★　方向: ↕️ 両方向
+    </div>
+
+   </div>
+
+   <div class="priority p2">
+    重要
+   </div>
+
+  </div>
+
+  <div class="event">
+
+   <div>
+
+    <div class="eventName">
+     🟠 FRB / FOMC
+    </div>
+
+    <div class="eventRank">
+     金利・ドル・リスク資産
+    </div>
+
+    <div class="eventMeta">
+     IMPACT: ★★★★☆　方向: ↕️ マクロ
+    </div>
+
+   </div>
+
+   <div class="priority p2">
+    重要
+   </div>
+
+  </div>
+
+  <div class="event">
+
+   <div>
+
+    <div class="eventName">
+     🟠 米CPI
+    </div>
+
+    <div class="eventRank">
+     インフレ・利下げ期待
+    </div>
+
+    <div class="eventMeta">
+     IMPACT: ★★★★☆　方向: ↕️ マクロ
+    </div>
+
+   </div>
+
+   <div class="priority p2">
+    重要
+   </div>
+
+  </div>
+
+  <div class="event">
+
+   <div>
+
+    <div class="eventName">
+     🟡 米雇用統計 / NFP
+    </div>
+
+    <div class="eventRank">
+     雇用・金利見通し
+    </div>
+
+    <div class="eventMeta">
+     IMPACT: ★★★☆☆　方向: ↕️ マクロ
+    </div>
+
+   </div>
+
+   <div class="priority p3">
+    監視
+   </div>
+
+  </div>
+
+  <div class="event">
+
+   <div>
+
+    <div class="eventName">
+     🟡 米PCE
+    </div>
+
+    <div class="eventRank">
+     FRBが重視するインフレ指標
+    </div>
+
+    <div class="eventMeta">
+     IMPACT: ★★★☆☆　方向: ↕️ マクロ
+    </div>
+
+   </div>
+
+   <div class="priority p3">
+    監視
+   </div>
+
+  </div>
+
+  <div class="event">
+
+   <div>
+
+    <div class="eventName">
+     🟡 BTC ETF FLOW
+    </div>
+
+    <div class="eventRank">
+     暗号資産市場への資金流入・流出
+    </div>
+
+    <div class="eventMeta">
+     IMPACT: ★★★★☆　方向: 📊 資金フロー
+    </div>
+
+   </div>
+
+   <div class="priority p3">
+    監視
+   </div>
+
+  </div>
+
+  <div class="event">
+
+   <div>
+
+    <div class="eventName">
+     🟡 XRP ETF FLOW
+    </div>
+
+    <div class="eventRank">
+     XRPへの機関投資・資金流入
+    </div>
+
+    <div class="eventMeta">
+     IMPACT: ★★★★★　方向: 📊 資金フロー
+    </div>
+
+   </div>
+
+   <div class="priority p3">
+    監視
+   </div>
+
+  </div>
+
  </div>
+
 </section>
+
+<!-- ================= ALERT HISTORY ================= -->
 
 <section class="section">
- <div class="sectionTitle">ALERT HISTORY</div>
- <div id="alertHistory" class="log"></div>
+
+ <div class="sectionTitle">
+
+  <b>🚨 ALERT HISTORY</b>
+
+  <span class="badge">
+   THREAT LOG
+  </span>
+
+ </div>
+
+ <div id="alertHistory" class="log">
+
+  <div class="logItem">
+   警戒システム起動...
+  </div>
+
+ </div>
+
 </section>
+
+<!-- ================= PRICE LOG ================= -->
 
 <section class="section">
- <div class="sectionTitle">PRICE ARRIVAL LOG</div>
- <div id="log" class="log"></div>
+
+ <div class="sectionTitle">
+
+  <b>📡 PRICE ARRIVAL LOG</b>
+
+  <span class="badge">
+   LIVE
+  </span>
+
+ </div>
+
+ <div id="log" class="log">
+
+  <div class="logItem">
+   司令室起動...
+  </div>
+
+ </div>
+
 </section>
 
-<div class="footer">XRP司令室 ORBIT 6.1 / NO SOUND / REAL-TIME SCENARIO ENGINE</div>
+<div class="footer">
+
+ XRP COMMAND CENTER ORBIT 6.0<br>
+ REAL-TIME MARKET MONITOR / CONDITIONAL SCENARIO ENGINE
+
+</div>
 
 </div>
 
 <script>
-"use strict";
 
-/* =========================
-   ORBIT 6.1 CORE
-========================= */
+const $=id=>document.getElementById(id);
 
 let currentPrice=0;
 let previousPrice=0;
 
 let fx=0;
+
 let btcJpy=0;
 let btcPrice=0;
 let previousBtcPrice=0;
 
 let priceHistory=[];
 let candlePrices=[];
+
 let btcHistory=[];
 
 let lastLogPrice=0;
+
 let lastOrderBias="";
+
 let previousBid=0;
 let previousAsk=0;
 
@@ -882,708 +2087,1462 @@ const LEVELS=[
  {p:500,label:"MOON ZONE"}
 ];
 
-const WS_URL="wss://stream.bitbank.cc/socket.io/?EIO=4&transport=websocket";
+/* ================= UTIL ================= */
 
-function $(id){
- return document.getElementById(id);
+function yen(n){
+
+ if(!Number.isFinite(n))
+  return"---";
+
+ return"¥"+Math.round(n).toLocaleString("ja-JP");
 }
 
-function num(v){
- const n=Number(v);
- return Number.isFinite(n)?n:0;
+function integer(n){
+
+ if(!Number.isFinite(n))
+  return"---";
+
+ return Math.round(n).toLocaleString("ja-JP");
 }
 
-function fmt(v,d=2){
- if(!Number.isFinite(v)) return "---";
- return v.toLocaleString("ja-JP",{
-  minimumFractionDigits:d,
-  maximumFractionDigits:d
- });
+function price3(n){
+
+ return Number.isFinite(n)
+  ?n.toFixed(3)
+  :"---";
 }
 
-function pct(v,d=2){
- if(!Number.isFinite(v)) return "---";
- return (v>=0?"+":"")+v.toFixed(d)+"%";
-}
+function nowTime(){
 
-function clamp(v,min,max){
- return Math.max(min,Math.min(max,v));
-}
-
-function signClass(v){
- return v>0?"green":v<0?"red":"gold";
-}
-
-function setText(id,text){
- const el=$(id);
- if(el) el.textContent=text;
-}
-
-function addLog(text,type=""){
- const el=$("log");
- if(!el) return;
-
- const now=new Date();
- const t=now.toLocaleTimeString("ja-JP",{hour12:false});
-
- const row=document.createElement("div");
- row.className="logLine";
- row.textContent="["+t+"] "+text;
-
- if(type==="up") row.style.color="#35f58a";
- if(type==="down") row.style.color="#ff6c7e";
- if(type==="warn") row.style.color="#ffd84d";
-
- el.prepend(row);
-
- while(el.children.length>80){
-  el.removeChild(el.lastChild);
- }
-}
-
-function addAlert(text){
- const el=$("alertHistory");
- if(!el) return;
-
- const now=new Date();
- const t=now.toLocaleTimeString("ja-JP",{hour12:false});
-
- const row=document.createElement("div");
- row.className="logLine";
- row.textContent="["+t+"] "+text;
- el.prepend(row);
-
- while(el.children.length>50){
-  el.removeChild(el.lastChild);
- }
-}
-
-/* =========================
-   XRP WEBSOCKET
-========================= */
-
-function connectXRP(){
-
- const ws=new WebSocket(WS_URL);
-
- ws.onopen=()=>{
-  setText("status","● XRP STREAM ONLINE");
-  $("status").style.color="#35f58a";
-
-  try{
-   ws.send("40");
-   setTimeout(()=>{
-    if(ws.readyState===WebSocket.OPEN){
-     ws.send('42["join-room","ticker_xrp_jpy"]');
-    }
-   },500);
-  }catch(e){}
- };
-
- ws.onmessage=e=>{
-
-  if(e.data==="2"){
-   try{ws.send("3")}catch(err){}
-   return;
+ return new Date().toLocaleTimeString(
+  "ja-JP",
+  {
+   hour:"2-digit",
+   minute:"2-digit",
+   second:"2-digit"
   }
-
-  if(typeof e.data!=="string") return;
-  if(!e.data.startsWith("42")) return;
-
-  try{
-
-   const p=JSON.parse(e.data.slice(2));
-
-   if(
-    Array.isArray(p) &&
-    p[0]==="message" &&
-    p[1] &&
-    p[1].data
-   ){
-    updateXRP(p[1].data);
-   }
-
-  }catch(err){}
- };
-
- ws.onerror=()=>{
-  setText("status","● XRP STREAM ERROR");
-  $("status").style.color="#ff4f68";
- };
-
- ws.onclose=()=>{
-  setText("status","● XRP STREAM RECONNECTING...");
-  $("status").style.color="#ffd84d";
-
-  setTimeout(connectXRP,3000);
- };
+ );
 }
 
-connectXRP();
-
-/* =========================
-   XRP DATA
-========================= */
+/* ================= XRP ================= */
 
 function updateXRP(data){
 
- if(!data) return;
+ const price=Number(data.last);
 
- let price=
-  num(data.last) ||
-  num(data.close) ||
-  num(data.price);
-
- if(!price) return;
+ if(!price)
+  return;
 
  previousPrice=currentPrice;
  currentPrice=price;
 
- const volume=
-  num(data.volume) ||
-  num(data.vol);
+ const el=$("xrpPrice");
 
- const high=
-  num(data.high) ||
-  num(data.highest);
+ el.textContent=price3(price);
 
- const low=
-  num(data.low) ||
-  num(data.lowest);
+ el.classList.remove("flash");
 
- const change=
-  num(data.change) ||
-  num(data.changeRate);
+ void el.offsetWidth;
 
- const now=Date.now();
+ el.classList.add("flash");
+
+ const vol=Number(data.vol);
+
+ $("volume").textContent=
+  Number.isFinite(vol)
+   ?integer(vol)
+   :"---";
+
+ $("position").textContent=
+  yen(price*XRP_AMOUNT);
+
+ const high=Number(data.high);
+ const low=Number(data.low);
+
+ $("high").textContent=
+  Number.isFinite(high)
+   ?price3(high)
+   :"---";
+
+ $("low").textContent=
+  Number.isFinite(low)
+   ?price3(low)
+   :"---";
+
+ const open=Number(data.open);
+
+ if(open){
+
+  const change=
+   ((price-open)/open)*100;
+
+  $("xrpChange").textContent=
+   "24H "+
+   (change>=0?"+":"")+
+   change.toFixed(2)+
+   "%";
+
+  $("xrpChange").className=
+   "small "+
+   (change>=0?"green":"red");
+ }
 
  priceHistory.push({
-  price:currentPrice,
-  time:now
+  price:price,
+  time:Date.now()
  });
 
- candlePrices.push(currentPrice);
-
- if(priceHistory.length>600){
+ if(priceHistory.length>240)
   priceHistory.shift();
- }
 
- if(candlePrices.length>300){
+ candlePrices.push(price);
+
+ if(candlePrices.length>180)
   candlePrices.shift();
- }
-
- setText("xrpPrice",fmt(currentPrice,3));
-
- const changeEl=$("xrpChange");
- if(changeEl){
-  let c=change;
-
-  if(Math.abs(c)<1){
-   c=c*100;
-  }
-
-  changeEl.textContent="24H "+pct(c,2);
-  changeEl.className="change "+signClass(c);
- }
-
- setText("volume",volume?fmt(volume,0):"---");
- setText("position",currentPrice? "¥"+fmt(currentPrice*XRP_AMOUNT,0):"---");
- setText("high",high? "¥"+fmt(high,3):"---");
- setText("low",low? "¥"+fmt(low,3):"---");
 
  updateXRPUSD();
  updateTarget();
  renderLevels();
- updateMarketEngine();
+
+ marketEngine(open,high,low);
+
  updateEMA();
  drawChart();
+
  updateBattle();
+
  checkPriceCross();
+
  updateScenario();
 
- if(
-  previousPrice &&
-  Math.abs(currentPrice-previousPrice)/previousPrice>0.002
- ){
-  addLog(
-   "XRP "+fmt(previousPrice,3)+" → "+fmt(currentPrice,3),
-   currentPrice>previousPrice?"up":"down"
-  );
- }
+ addLog(price);
 
- if(!lastLogPrice){
-  lastLogPrice=currentPrice;
- }
-
- if(
-  lastLogPrice &&
-  Math.abs(currentPrice-lastLogPrice)>=1
- ){
-  addLog("価格到達 ¥"+fmt(currentPrice,3));
-  lastLogPrice=currentPrice;
- }
+ $("status").textContent=
+  "● SYSTEM ONLINE / XRP LIVE";
 }
-
-/* =========================
-   XRP USD
-========================= */
 
 function updateXRPUSD(){
 
- if(!currentPrice || !fx){
-  setText("xrpusd","---");
-  return;
- }
+ if(currentPrice>0&&fx>0){
 
- setText("xrpusd","$"+(currentPrice/fx).toFixed(4));
+  const usd=currentPrice/fx;
+
+  $("xrpusd").textContent=
+   "$"+usd.toFixed(4);
+
+  $("xrpusd").className="value blue";
+ }
 }
 
-/* =========================
-   BTC
-========================= */
+function updateTarget(){
+
+ if(!currentPrice)
+  return;
+
+ const value=currentPrice*XRP_AMOUNT;
+
+ const distance=TARGET-value;
+
+ $("targetCurrent").textContent=
+  yen(value);
+
+ $("targetDistance").textContent=
+  yen(Math.abs(distance));
+
+ $("targetDistance").className=
+  "value "+
+  (distance<=0?"green":"yellow");
+
+ const pct=Math.max(
+  0,
+  Math.min(
+   100,
+   value/TARGET*100
+  )
+ );
+
+ $("targetMeter").style.width=
+  pct+"%";
+
+ $("targetPct").textContent=
+  pct.toFixed(1)+"%";
+}
+
+/* ================= LEVELS ================= */
+
+function renderLevels(){
+
+ const box=$("levels");
+
+ box.innerHTML="";
+
+ LEVELS.forEach(l=>{
+
+  let cls="level";
+
+  if(
+   currentPrice&&
+   Math.abs(currentPrice-l.p)/l.p<.012
+  ){
+   cls+=" active";
+  }
+
+  if(l.p===275)
+   cls+=" target";
+
+  if(
+   currentPrice&&
+   l.p===225&&
+   currentPrice<225
+  ){
+   cls+=" broken";
+  }
+
+  box.innerHTML+=`
+
+   <div class="${cls}">
+
+    <div class="levelPrice">
+     ¥${l.p.toFixed(3)}
+    </div>
+
+    <div class="levelLabel">
+     ${l.label}
+    </div>
+
+   </div>
+
+  `;
+ });
+}
+
+/* ================= MARKET ENGINE ================= */
+
+function marketEngine(open,high,low){
+
+ if(previousPrice&&currentPrice){
+
+  if(currentPrice>previousPrice){
+
+   $("momentum").textContent="🟢 上向き";
+   $("momentum").className="green";
+
+  }else if(currentPrice<previousPrice){
+
+   $("momentum").textContent="🔴 下向き";
+   $("momentum").className="red";
+
+  }else{
+
+   $("momentum").textContent="⚪ 横ばい";
+   $("momentum").className="yellow";
+  }
+ }
+
+ if(btcPrice){
+
+  if(btcPrice>=82000){
+
+   $("btcSignal").textContent="🟢 BTC強気";
+   $("btcSignal").className="green";
+
+  }else if(btcPrice<=78000){
+
+   $("btcSignal").textContent="🔴 BTC警戒";
+   $("btcSignal").className="red";
+
+  }else{
+
+   $("btcSignal").textContent="🟡 BTC中立";
+   $("btcSignal").className="yellow";
+  }
+ }
+
+ if(high&&low&&high>low){
+
+  const p=
+   ((currentPrice-low)/(high-low))*100;
+
+  if(p>=70){
+
+   $("rangeSignal").textContent="🔥 高値圏";
+   $("rangeSignal").className="red";
+
+  }else if(p<=30){
+
+   $("rangeSignal").textContent="🟢 安値圏";
+   $("rangeSignal").className="green";
+
+  }else{
+
+   $("rangeSignal").textContent="⚪ 中間";
+   $("rangeSignal").className="yellow";
+  }
+ }
+
+ const mom=$("momentum").textContent;
+
+ if(
+  mom.includes("上向き")&&
+  btcPrice>=80000
+ ){
+
+  $("commandSignal").textContent=
+   "🟢 上昇優勢";
+
+  $("commandSignal").className="green";
+
+ }else if(
+  mom.includes("下向き")&&
+  btcPrice<80000
+ ){
+
+  $("commandSignal").textContent=
+   "🔴 警戒";
+
+  $("commandSignal").className="red";
+
+ }else{
+
+  $("commandSignal").textContent=
+   "🟡 様子見";
+
+  $("commandSignal").className="yellow";
+ }
+}
+
+/* ================= BTC ================= */
 
 async function loadBTC(){
 
  try{
 
   const r=await fetch(
-   "https://public.bitbank.cc/btc_jpy/ticker?_"+Date.now(),
+   "https://public.bitbank.cc/btc_jpy/ticker?_="+Date.now(),
    {cache:"no-store"}
   );
 
+  if(!r.ok)
+   throw new Error(
+    "BTC HTTP "+r.status
+   );
+
   const j=await r.json();
 
-  if(!j.data) return;
+  if(
+   !j||
+   !j.success||
+   !j.data
+  )
+   throw new Error(
+    "BTC DATA ERROR"
+   );
 
-  previousBtcPrice=btcPrice;
+  btcJpy=Number(j.data.last);
 
-  const raw=num(j.data.last);
+  if(
+   !btcJpy||
+   !Number.isFinite(btcJpy)
+  )
+   throw new Error(
+    "BTC PRICE ERROR"
+   );
 
-  btcJpy=raw;
+  if(fx>0){
 
-  if(fx){
-   btcPrice=raw/fx;
+   previousBtcPrice=btcPrice;
+
+   btcPrice=btcJpy/fx;
+
+   btcHistory.push({
+    price:btcPrice,
+    time:Date.now()
+   });
+
+   if(btcHistory.length>120)
+    btcHistory.shift();
+
+   $("btc").textContent=
+    "$"+
+    btcPrice.toLocaleString(
+     "en-US",
+     {
+      maximumFractionDigits:0
+     }
+    );
+
+   $("btc").className="value blue";
+
+   checkBTCShock();
+
+   updateScenario();
   }
 
-  btcHistory.push({
-   price:btcJpy,
-   time:Date.now()
-  });
+  marketEngine();
 
-  if(btcHistory.length>300){
-   btcHistory.shift();
-  }
-
-  setText("btc",btcJpy?"¥"+fmt(btcJpy,0):"---");
-
-  updateMarketEngine();
   updateBattle();
-  updateScenario();
 
- }catch(e){}
+ }catch(e){
+
+  console.log("BTC ERROR",e);
+
+  if(!btcPrice)
+   $("btc").textContent="取得失敗";
+ }
 }
 
-/* =========================
-   FX
-========================= */
+loadBTC();
+
+setInterval(
+ loadBTC,
+ 5000
+);
+
+/* ================= FX ================= */
+
+async function getFX(){
+
+ const urls=[
+
+  "https://api.frankfurter.dev/v2/rate/USD/JPY",
+
+  "https://api.frankfurter.dev/v1/latest?base=USD&symbols=JPY"
+
+ ];
+
+ for(const url of urls){
+
+  try{
+
+   const r=await fetch(
+    url+
+    (url.includes("?")?"&":"?")+
+    "_="+Date.now(),
+    {cache:"no-store"}
+   );
+
+   if(!r.ok)
+    continue;
+
+   const d=await r.json();
+
+   let rate=0;
+
+   if(
+    d&&
+    typeof d.rate==="number"
+   ){
+
+    rate=Number(d.rate);
+
+   }else if(
+    d&&
+    d.rates&&
+    d.rates.JPY
+   ){
+
+    rate=Number(d.rates.JPY);
+   }
+
+   if(
+    rate&&
+    Number.isFinite(rate)
+   )
+    return rate;
+
+  }catch(e){
+
+   console.log(
+    "FX ERROR",
+    e
+   );
+  }
+ }
+
+ throw new Error(
+  "ALL FX SOURCES FAILED"
+ );
+}
 
 async function loadFX(){
 
  try{
 
-  let r=await fetch(
-   "https://api.frankfurter.dev/v2/rate/USD/JPY?_"+Date.now(),
-   {cache:"no-store"}
-  );
+  fx=await getFX();
 
-  if(r.ok){
+  $("usdjpy").textContent=
+   fx.toFixed(2)+
+   " 円";
 
-   const j=await r.json();
-
-   fx=num(j.rate);
-
-  }else{
-
-   r=await fetch(
-    "https://api.frankfurter.dev/v1/latest?base=USD&symbols=JPY&_"+Date.now(),
-    {cache:"no-store"}
-   );
-
-   const j=await r.json();
-
-   fx=num(j.rates?.JPY);
-  }
-
-  setText("usdjpy",fx?fmt(fx,2):"---");
+  $("usdjpy").className=
+   "value green";
 
   updateXRPUSD();
-  updateScenario();
 
- }catch(e){}
+  if(btcJpy>0){
+
+   previousBtcPrice=btcPrice;
+
+   btcPrice=btcJpy/fx;
+
+   $("btc").textContent=
+    "$"+
+    btcPrice.toLocaleString(
+     "en-US",
+     {
+      maximumFractionDigits:0
+     }
+    );
+
+   $("btc").className=
+    "value blue";
+
+   marketEngine();
+
+   updateBattle();
+
+   updateScenario();
+  }
+
+ }catch(e){
+
+  console.log(
+   "USDJPY ERROR",
+   e
+  );
+
+  if(!fx){
+
+   $("usdjpy").textContent=
+    "取得失敗";
+
+   $("xrpusd").textContent=
+    "---";
+  }
+ }
 }
 
-/* =========================
-   ORDER BOOK
-========================= */
+loadFX();
+
+setInterval(
+ loadFX,
+ 60000
+);
+
+/* ================= XRP SOCKET ================= */
+
+const WS_URL=
+ "wss://stream.bitbank.cc/socket.io/?EIO=4&transport=websocket";
+
+function connectXRP(){
+
+ const ws=new WebSocket(
+  WS_URL
+ );
+
+ ws.onopen=()=>{
+
+  $("status").textContent=
+   "● XRP CONNECTION / JOINING";
+
+  ws.send("40");
+
+  setTimeout(()=>{
+
+   if(
+    ws.readyState===
+    WebSocket.OPEN
+   ){
+
+    ws.send(
+     '42["join-room","ticker_xrp_jpy"]'
+    );
+   }
+
+  },300);
+ };
+
+ ws.onmessage=e=>{
+
+  if(e.data==="2"){
+
+   ws.send("3");
+
+   return;
+  }
+
+  if(
+   typeof e.data==="string"&&
+   e.data.startsWith(
+    '42["message"'
+   )
+  ){
+
+   try{
+
+    const j=
+     JSON.parse(
+      e.data.substring(2)
+     );
+
+    const p=j[1];
+
+    if(
+     p&&
+     p.message&&
+     p.message.data
+    ){
+
+     updateXRP(
+      p.message.data
+     );
+    }
+
+   }catch(err){
+
+    console.log(
+     "XRP PARSE ERROR",
+     err
+    );
+   }
+  }
+ };
+
+ ws.onerror=()=>{
+
+  $("status").textContent=
+   "● XRP CONNECTION ERROR";
+ };
+
+ ws.onclose=()=>{
+
+  $("status").textContent=
+   "● XRP RECONNECTING...";
+
+  setTimeout(
+   connectXRP,
+   3000
+  );
+ };
+}
+
+connectXRP();
+
+/* ================= ORDER BOOK ================= */
 
 async function loadDepth(){
 
  try{
 
   const r=await fetch(
-   "https://public.bitbank.cc/xrp_jpy/depth?_"+Date.now(),
+   "https://public.bitbank.cc/xrp_jpy/depth?t="+Date.now(),
    {cache:"no-store"}
   );
 
+  if(!r.ok)
+   throw new Error(
+    "DEPTH HTTP "+r.status
+   );
+
   const j=await r.json();
 
-  if(!j.data) return;
+  if(!j.success)
+   throw new Error(
+    "DEPTH API ERROR"
+   );
 
-  const bids=(j.data.bids||[]).slice(0,20);
-  const asks=(j.data.asks||[]).slice(0,20);
+  const d=j.data;
 
-  let bidTotal=0;
-  let askTotal=0;
+  let bids=0;
+  let asks=0;
 
-  bids.forEach(x=>{
-   bidTotal+=num(x[1]);
-  });
+  d.bids.forEach(x=>{
 
-  asks.forEach(x=>{
-   askTotal+=num(x[1]);
-  });
+   const p=Number(x[0]);
+   const a=Number(x[1]);
 
-  const total=bidTotal+askTotal;
+   if(
+    !currentPrice||
+    Math.abs(
+     p-currentPrice
+    )/
+    currentPrice<
+    .03
+   ){
 
-  if(total<=0) return;
-
-  previousBid=bidPercent;
-  previousAsk=askPercent;
-
-  bidPercent=bidTotal/total*100;
-  askPercent=askTotal/total*100;
-
-  setText("bid",bidPercent.toFixed(1)+"%");
-  setText("ask",askPercent.toFixed(1)+"%");
-
-  $("bidbar").style.width=clamp(bidPercent,0,100)+"%";
-  $("askbar").style.width=clamp(askPercent,0,100)+"%";
-
-  const balance=bidPercent-askPercent;
-
-  setText(
-   "balance",
-   (balance>=0?"+":"")+balance.toFixed(1)+"%"
-  );
-
-  $("balance").className=
-   "value smallValue "+signClass(balance);
-
-  let order="均衡";
-
-  if(balance>=12) order="買い優勢";
-  else if(balance>=5) order="やや買い優勢";
-  else if(balance<=-12) order="売り優勢";
-  else if(balance<=-5) order="やや売り優勢";
-
-  setText("orderSignal",order);
-
-  if(order!==lastOrderBias){
-   if(lastOrderBias){
-    addLog("ORDER FLOW → "+order,"warn");
+    bids+=a;
    }
-   lastOrderBias=order;
+  });
+
+  d.asks.forEach(x=>{
+
+   const p=Number(x[0]);
+   const a=Number(x[1]);
+
+   if(
+    !currentPrice||
+    Math.abs(
+     p-currentPrice
+    )/
+    currentPrice<
+    .03
+   ){
+
+    asks+=a;
+   }
+  });
+
+  $("bid").textContent=
+   integer(bids)+
+   " XRP";
+
+  $("ask").textContent=
+   integer(asks)+
+   " XRP";
+
+  const total=
+   bids+asks;
+
+  if(total){
+
+   bidPercent=
+    bids/total*100;
+
+   askPercent=
+    asks/total*100;
+
+   $("bidbar").style.width=
+    bidPercent+"%";
+
+   $("askbar").style.width=
+    askPercent+"%";
+
+   $("balance").textContent=
+    bidPercent.toFixed(1)+
+    "% / "+
+    askPercent.toFixed(1)+
+    "%";
+
+   let bias="";
+
+   if(bidPercent>55){
+
+    bias="🟢 買い優勢";
+
+    $("orderSignal").textContent=
+     bias;
+
+    $("orderSignal").className=
+     "value green";
+
+   }else if(askPercent>55){
+
+    bias="🔴 売り優勢";
+
+    $("orderSignal").textContent=
+     bias;
+
+    $("orderSignal").className=
+     "value red";
+
+   }else{
+
+    bias="⚪ 拮抗";
+
+    $("orderSignal").textContent=
+     bias;
+
+    $("orderSignal").className=
+     "value yellow";
+   }
+
+   if(
+    previousBid>0&&
+    previousAsk>0
+   ){
+
+    const bidChange=
+     Math.abs(
+      bids-previousBid
+     )/
+     previousBid*100;
+
+    const askChange=
+     Math.abs(
+      asks-previousAsk
+     )/
+     previousAsk*100;
+
+    if(
+     bidChange>=25||
+     askChange>=25||
+     (
+      lastOrderBias&&
+      lastOrderBias!==bias
+     )
+    ){
+
+     const direction=
+      bids/
+      Math.max(
+       asks,
+       1
+      )>1
+       ?"買い板急変"
+       :"売り板急変";
+
+     triggerSignal(
+      "order",
+      "🐋 ORDER BOOK",
+      direction+
+      " / BID "+
+      bidChange.toFixed(0)+
+      "% / ASK "+
+      askChange.toFixed(0)+
+      "%"
+     );
+    }
+   }
+
+   previousBid=bids;
+   previousAsk=asks;
+
+   if(
+    lastOrderBias&&
+    lastOrderBias!==bias
+   ){
+
+    addLog(
+     "ORDER FLOW "+
+     bias
+    );
+   }
+
+   lastOrderBias=bias;
+
+   updateBattle();
+
+   updateScenario();
   }
 
-  updateMarketEngine();
-  updateBattle();
-  updateScenario();
+ }catch(e){
 
- }catch(e){}
+  console.log(
+   "DEPTH ERROR",
+   e
+  );
+
+  $("bid").textContent=
+   "取得失敗";
+
+  $("ask").textContent=
+   "取得失敗";
+ }
 }
 
-/* =========================
-   FEAR & GREED
-========================= */
+loadDepth();
+
+setInterval(
+ loadDepth,
+ 5000
+);
+
+/* ================= FEAR GREED ================= */
 
 async function loadFearGreed(){
 
  try{
 
   const r=await fetch(
-   "https://api.alternative.me/fng/?limit=1&_"+Date.now(),
+   "https://api.alternative.me/fng/?limit=1&_="+Date.now(),
    {cache:"no-store"}
   );
 
+  if(!r.ok)
+   throw new Error(
+    "FNG HTTP "+r.status
+   );
+
   const j=await r.json();
 
-  if(!j.data || !j.data[0]) return;
+  const item=
+   j.data&&
+   j.data[0];
 
-  const value=num(j.data[0].value);
-  const text=j.data[0].value_classification||"";
+  if(!item)
+   throw new Error(
+    "FNG DATA ERROR"
+   );
 
-  setText("fgCenter",value);
-  setText("fgText",text);
+  const score=
+   Number(item.value);
 
-  $("fgNeedle").style.width=clamp(value,0,100)+"%";
+  $("fgCenter").textContent=
+   score;
 
- }catch(e){}
-}
+  $("fgText").textContent=
+   item.value_classification||
+   "UNKNOWN";
 
-/* =========================
-   TIME MOMENTUM
-========================= */
+  const deg=
+   -65+
+   (score/100)*130;
 
-function getMove(history,ms){
+  $("fgNeedle").style.transform=
+   "translateX(-50%) rotate("+
+   deg+
+   "deg)";
 
- if(history.length<2) return null;
+ }catch(e){
 
- const now=Date.now();
- const target=now-ms;
+  console.log(
+   "FNG ERROR",
+   e
+  );
 
- let old=null;
+  $("fgCenter").textContent=
+   "--";
 
- for(let i=history.length-1;i>=0;i--){
-
-  if(history[i].time<=target){
-   old=history[i];
-   break;
-  }
+  $("fgText").textContent=
+   "SENTIMENT UNAVAILABLE";
  }
-
- if(!old){
-  old=history[0];
- }
-
- const latest=history[history.length-1];
-
- if(!old || !latest || !old.price) return null;
-
- return {
-  abs:latest.price-old.price,
-  pct:(latest.price-old.price)/old.price*100,
-  seconds:(latest.time-old.time)/1000
- };
 }
 
-function getXrpMomentum(){
+loadFearGreed();
 
- const m15=getMove(priceHistory,15000);
- const m30=getMove(priceHistory,30000);
- const m60=getMove(priceHistory,60000);
+setInterval(
+ loadFearGreed,
+ 300000
+);
 
- if(!m15 && !m30) return null;
-
- return {
-  m15,
-  m30,
-  m60
- };
-}
-
-function getBtcMomentum(){
-
- const m30=getMove(btcHistory,30000);
- const m60=getMove(btcHistory,60000);
-
- return {m30,m60};
-}
-
-/* =========================
-   EMA
-========================= */
+/* ================= EMA ================= */
 
 function calcEMA(values,period){
 
- if(values.length<period){
-  return null;
- }
+ if(!values.length)
+  return 0;
 
- const k=2/(period+1);
+ const k=
+  2/(period+1);
 
- let ema=values
-  .slice(0,period)
-  .reduce((a,b)=>a+b,0)/period;
+ let ema=
+  values[0];
 
- for(let i=period;i<values.length;i++){
-  ema=values[i]*k+ema*(1-k);
+ for(
+  let i=1;
+  i<values.length;
+  i++
+ ){
+
+  ema=
+   values[i]*k+
+   ema*(1-k);
  }
 
  return ema;
 }
 
-function updateEMA(){
+function buildEMA(values,period){
 
- if(candlePrices.length<10){
+ if(!values.length)
+  return[];
 
-  setText("ema7","---");
-  setText("ema25","---");
-  setText("ema75","---");
-  setText("emaSignal","データ蓄積中");
+ const out=[];
 
-  return;
+ const k=
+  2/(period+1);
+
+ let ema=
+  values[0];
+
+ out.push(ema);
+
+ for(
+  let i=1;
+  i<values.length;
+  i++
+ ){
+
+  ema=
+   values[i]*k+
+   ema*(1-k);
+
+  out.push(ema);
  }
 
- const e7=calcEMA(candlePrices,7);
- const e25=calcEMA(candlePrices,25);
- const e75=calcEMA(candlePrices,75);
-
- setText("ema7",e7?"¥"+fmt(e7,3):"---");
- setText("ema25",e25?"¥"+fmt(e25,3):"---");
- setText("ema75",e75?"¥"+fmt(e75,3):"---");
-
- let signal="中立";
-
- if(e7 && e25){
-
-  if(e7>e25){
-
-   signal=e75 && e25>e75
-    ?"強気"
-    :"上向き";
-
-  }else{
-
-   signal=e75 && e25<e75
-    ?"弱気"
-    :"下向き";
-  }
-
-  previousEMA7=e7;
-  previousEMA25=e25;
- }
-
- setText("emaSignal",signal);
-
- $("emaSignal").className=
-  "value smallValue "+
-  (
-   signal==="強気"||signal==="上向き"
-    ?"green"
-    :
-   signal==="弱気"||signal==="下向き"
-    ?"red"
-    :"gold"
-  );
+ return out;
 }
 
-/* =========================
-   CHART
-========================= */
+function updateEMA(){
+
+ if(candlePrices.length<5)
+  return;
+
+ const e7=
+  calcEMA(
+   candlePrices,
+   7
+  );
+
+ const e25=
+  calcEMA(
+   candlePrices,
+   25
+  );
+
+ const e75=
+  calcEMA(
+   candlePrices,
+   75
+  );
+
+ $("ema7").textContent=
+  price3(e7);
+
+ $("ema25").textContent=
+  price3(e25);
+
+ $("ema75").textContent=
+  price3(e75);
+
+ if(
+  e7>e25&&
+  e25>e75
+ ){
+
+  $("emaSignal").textContent=
+   "🟢 強い上昇トレンド";
+
+  $("emaSignal").className=
+   "green";
+
+ }else if(
+  e7<e25&&
+  e25<e75
+ ){
+
+  $("emaSignal").textContent=
+   "🔴 強い下降トレンド";
+
+  $("emaSignal").className=
+   "red";
+
+ }else{
+
+  $("emaSignal").textContent=
+   "🟡 混合・転換警戒";
+
+  $("emaSignal").className=
+   "yellow";
+ }
+
+ if(
+  previousEMA7&&
+  previousEMA25
+ ){
+
+  const before=
+   previousEMA7>
+   previousEMA25;
+
+  const after=
+   e7>
+   e25;
+
+  if(before!==after){
+
+   const cross=
+    after
+     ?"🟢 ゴールデンクロス"
+     :"🔴 デッドクロス";
+
+   triggerSignal(
+    "ema",
+    "📈 EMA CROSS",
+    cross+
+    " / EMA7 "+
+    price3(e7)+
+    " / EMA25 "+
+    price3(e25)
+   );
+  }
+ }
+
+ previousEMA7=e7;
+ previousEMA25=e25;
+
+ updateBattle();
+
+ updateScenario();
+}
+
+/* ================= CHART ================= */
 
 function drawChart(){
 
- const canvas=$("emaChart");
- if(!canvas) return;
+ const canvas=
+  $("emaChart");
 
- const rect=canvas.getBoundingClientRect();
+ const rect=
+  canvas.getBoundingClientRect();
 
- if(rect.width<=0) return;
+ const dpr=
+  window.devicePixelRatio||
+  1;
 
- const dpr=window.devicePixelRatio||1;
+ canvas.width=
+  Math.max(
+   1,
+   rect.width*dpr
+  );
 
- canvas.width=rect.width*dpr;
- canvas.height=210*dpr;
+ canvas.height=
+  Math.max(
+   1,
+   rect.height*dpr
+  );
 
- const ctx=canvas.getContext("2d");
+ const ctx=
+  canvas.getContext("2d");
 
- ctx.scale(dpr,dpr);
+ ctx.setTransform(
+  dpr,
+  0,
+  0,
+  dpr,
+  0,
+  0
+ );
 
- const w=rect.width;
- const h=210;
+ const w=
+  rect.width;
 
- ctx.clearRect(0,0,w,h);
+ const h=
+  rect.height;
 
- if(candlePrices.length<2) return;
+ ctx.clearRect(
+  0,
+  0,
+  w,
+  h
+ );
 
- const vals=candlePrices.slice(-100);
+ const data=
+  candlePrices.slice(-100);
 
- let min=Math.min(...vals);
- let max=Math.max(...vals);
+ if(data.length<2)
+  return;
+
+ const ema7=
+  buildEMA(
+   data,
+   7
+  );
+
+ const ema25=
+  buildEMA(
+   data,
+   25
+  );
+
+ const ema75=
+  buildEMA(
+   data,
+   75
+  );
+
+ let min=
+  Math.min(
+   ...data,
+   ...ema7,
+   ...ema25,
+   ...ema75
+  );
+
+ let max=
+  Math.max(
+   ...data,
+   ...ema7,
+   ...ema25,
+   ...ema75
+  );
 
  if(max===min){
+
   max+=1;
   min-=1;
  }
 
- ctx.strokeStyle="rgba(80,110,145,.16)";
+ const padX=8;
+ const padY=15;
+
+ const x=i=>
+  padX+
+  i*
+  (w-padX*2)/
+  (data.length-1);
+
+ const y=v=>
+  h-
+  padY-
+  (v-min)/
+  (max-min)*
+  (h-padY*2);
+
  ctx.lineWidth=1;
 
- for(let i=1;i<5;i++){
+ for(
+  let i=0;
+  i<5;
+  i++
+ ){
 
-  const y=i*h/5;
+  const gy=
+   padY+
+   i*
+   (h-padY*2)/
+   4;
 
   ctx.beginPath();
-  ctx.moveTo(0,y);
-  ctx.lineTo(w,y);
+
+  ctx.moveTo(
+   0,
+   gy
+  );
+
+  ctx.lineTo(
+   w,
+   gy
+  );
+
+  ctx.strokeStyle=
+   "rgba(100,190,225,.10)";
+
   ctx.stroke();
  }
 
- function plot(values,fn){
+ function line(
+  arr,
+  color,
+  width
+ ){
 
-  if(values.length<fn) return;
+  ctx.beginPath();
 
-  const data=[];
+  arr.forEach(
+   (v,i)=>{
 
-  for(let i=0;i<values.length;i++){
-
-   const subset=values.slice(0,i+1);
-   const e=calcEMA(subset,fn);
-
-   if(e!==null){
-    data.push({i,e});
+    if(i===0)
+     ctx.moveTo(
+      x(i),
+      y(v)
+     );
+    else
+     ctx.lineTo(
+      x(i),
+      y(v)
+     );
    }
-  }
+  );
 
-  if(data.length<2) return;
+  ctx.lineWidth=
+   width;
 
-  ctx.beginPath();
+  ctx.strokeStyle=
+   color;
 
-  data.forEach((p,n)=>{
-
-   const x=p.i/(values.length-1)*w;
-   const y=h-(p.e-min)/(max-min)*h;
-
-   if(n===0) ctx.moveTo(x,y);
-   else ctx.lineTo(x,y);
-  });
-
-  if(fn===7) ctx.strokeStyle="#00eaff";
-  if(fn===25) ctx.strokeStyle="#a97cff";
-  if(fn===75) ctx.strokeStyle="#ffd84d";
-
-  ctx.lineWidth=1.7;
   ctx.stroke();
  }
 
- plot(vals,7);
- plot(vals,25);
- plot(vals,75);
+ line(
+  data,
+  "#00eaff",
+  2.2
+ );
 
- ctx.beginPath();
+ line(
+  ema7,
+  "#00ff9d",
+  1.8
+ );
 
- vals.forEach((v,i)=>{
+ line(
+  ema25,
+  "#ffd34d",
+  1.6
+ );
 
-  const x=i/(vals.length-1)*w;
-  const y=h-(v-min)/(max-min)*h;
-
-  if(i===0) ctx.moveTo(x,y);
-  else ctx.lineTo(x,y);
- });
-
- ctx.strokeStyle="rgba(255,255,255,.28)";
- ctx.lineWidth=1;
- ctx.stroke();
+ line(
+  ema75,
+  "#ff5577",
+  1.6
+ );
 }
 
-/* =========================
-   LEVEL ENGINE
-========================= */
+/* ================= BATTLE ================= */
+
+function updateBattle(){
+
+ if(currentPrice){
+
+  $("battleXRP").textContent=
+   "¥"+
+   price3(currentPrice);
+ }
+
+ if(btcPrice){
+
+  $("battleBTC").textContent=
+   "$"+
+   btcPrice.toLocaleString(
+    "en-US",
+    {
+     maximumFractionDigits:0
+    }
+   );
+ }
+
+ const emaText=
+  $("emaSignal").textContent;
+
+ if(
+  emaText.includes("上昇")
+ ){
+
+  $("battleEMA").textContent=
+   "🟢 上昇";
+
+ }else if(
+  emaText.includes("下降")
+ ){
+
+  $("battleEMA").textContent=
+   "🔴 下降";
+
+ }else{
+
+  $("battleEMA").textContent=
+   "🟡 混合";
+ }
+
+ const orderText=
+  $("orderSignal").textContent;
+
+ $("battleOrder").textContent=
+  orderText||
+  "---";
+
+ let score=0;
+
+ if(
+  emaText.includes("上昇")
+ )
+  score+=2;
+
+ if(
+  emaText.includes("下降")
+ )
+  score-=2;
+
+ if(
+  $("momentum").textContent
+   .includes("上向き")
+ )
+  score++;
+
+ if(
+  $("momentum").textContent
+   .includes("下向き")
+ )
+  score--;
+
+ if(
+  orderText.includes("買い")
+ )
+  score++;
+
+ if(
+  orderText.includes("売り")
+ )
+  score--;
+
+ if(
+  btcPrice>=82000
+ )
+  score++;
+
+ if(
+  btcPrice>0&&
+  btcPrice<=78000
+ )
+  score--;
+
+ let state=
+  "🟡 様子見";
+
+ $("battleState").className=
+  "battleState yellow";
+
+ if(score>=3){
+
+  state=
+   "🟢 上昇優勢";
+
+  $("battleState").className=
+   "battleState green";
+
+ }else if(score<=-3){
+
+  state=
+   "🔴 警戒";
+
+  $("battleState").className=
+   "battleState red";
+
+ }else if(score>0){
+
+  state=
+   "🟢 やや強気";
+
+  $("battleState").className=
+   "battleState green";
+
+ }else if(score<0){
+
+  state=
+   "🔴 やや弱気";
+
+  $("battleState").className=
+   "battleState red";
+ }
+
+ $("battleState").textContent=
+  state;
+
+ if(
+  score>=3||
+  score<=-3
+ ){
+
+  $("battleBox")
+   .classList
+   .add("battlePulse");
+
+ }else{
+
+  $("battleBox")
+   .classList
+   .remove("battlePulse");
+ }
+}
+
+/* ================= SCENARIO ENGINE ================= */
 
 function getNearestLevels(){
 
  if(!currentPrice){
-  return {
+
+  return{
    support:null,
    resistance:null,
    nextUp:null,
@@ -1591,1019 +3550,1424 @@ function getNearestLevels(){
   };
  }
 
- const below=LEVELS
-  .filter(x=>x.p<=currentPrice)
-  .sort((a,b)=>b.p-a.p);
+ const above=
+  LEVELS
+   .filter(
+    l=>l.p>currentPrice
+   )
+   .sort(
+    (a,b)=>a.p-b.p
+   );
 
- const above=LEVELS
-  .filter(x=>x.p>currentPrice)
-  .sort((a,b)=>a.p-b.p);
+ const below=
+  LEVELS
+   .filter(
+    l=>l.p<currentPrice
+   )
+   .sort(
+    (a,b)=>b.p-a.p
+   );
 
- return {
-  support:below[0]||null,
-  nextDown:below[1]||null,
-  resistance:above[0]||null,
-  nextUp:above[1]||null
+ return{
+
+  support:
+   below[0]||null,
+
+  resistance:
+   above[0]||null,
+
+  nextUp:
+   above[1]||null,
+
+  nextDown:
+   below[1]||null
  };
 }
 
-function distancePct(level){
+function getMomentumScore(){
 
- if(!level || !currentPrice) return null;
+ if(priceHistory.length<5)
+  return{
+   score:0,
+   text:"データ不足",
+   pct:0
+  };
 
- return (level.p-currentPrice)/currentPrice*100;
-}
+ const n=
+  priceHistory.length;
 
-function renderLevels(){
+ const pNow=
+  priceHistory[n-1].price;
 
- const el=$("levels");
- if(!el || !currentPrice) return;
+ const pShort=
+  priceHistory[
+   Math.max(
+    0,
+    n-6
+   )
+  ].price;
 
- el.innerHTML="";
+ const pLong=
+  priceHistory[
+   Math.max(
+    0,
+    n-20
+   )
+  ].price;
 
- LEVELS.forEach(x=>{
+ const shortPct=
+  (pNow-pShort)/
+  pShort*
+  100;
 
-  const diff=(currentPrice-x.p)/x.p*100;
+ const longPct=
+  (pNow-pLong)/
+  pLong*
+  100;
 
-  const row=document.createElement("div");
-  row.className="level"+(
-   Math.abs(currentPrice-x.p)/x.p<0.008
-    ?" active"
-    :""
+ let score=0;
+
+ score+=
+  Math.max(
+   -3,
+   Math.min(
+    3,
+    shortPct*4
+   )
   );
 
-  const left=document.createElement("div");
-
-  const p=document.createElement("div");
-  p.className="p";
-  p.textContent="¥"+fmt(x.p,3);
-
-  const d=document.createElement("div");
-  d.className="levelDistance";
-  d.textContent=
-   diff===0
-    ?"NOW"
-    :(diff>0?"+"+diff.toFixed(2)+"%":"-"+Math.abs(diff).toFixed(2)+"%");
-
-  left.appendChild(p);
-  left.appendChild(d);
-
-  const right=document.createElement("div");
-  right.className="l";
-  right.textContent=x.label;
-
-  row.appendChild(left);
-  row.appendChild(right);
-
-  el.appendChild(row);
- });
-}
-
-/* =========================
-   MARKET ENGINE
-========================= */
-
-function updateMarketEngine(){
-
- const mom=getXrpMomentum();
-
- let momText="データ不足";
- let momScore=0;
-
- if(mom){
-
-  const m30=mom.m30||mom.m15;
-
-  if(m30){
-
-   momScore=clamp(m30.pct*18,-4,4);
-
-   if(m30.pct>0.35) momText="強い上向き";
-   else if(m30.pct>0.08) momText="上向き";
-   else if(m30.pct<-0.35) momText="強い下向き";
-   else if(m30.pct<-0.08) momText="下向き";
-   else momText="ほぼ横ばい";
-  }
- }
-
- setText("momentum",momText);
-
- $("momentum").className=
-  "value smallValue "+
-  (momScore>1?"green":momScore<-1?"red":"gold");
-
- const bm=getBtcMomentum();
-
- let btcScore=0;
- let btcText="データ不足";
-
- if(bm.m30){
-
-  btcScore=clamp(bm.m30.pct*10,-3,3);
-
-  if(bm.m30.pct>0.15) btcText="BTC上向き";
-  else if(bm.m30.pct<-0.15) btcText="BTC下向き";
-  else btcText="BTC横ばい";
- }
-
- setText("btcSignal",btcText);
-
- $("btcSignal").className=
-  "value smallValue "+
-  (btcScore>0.5?"green":btcScore<-0.5?"red":"gold");
-
- const levels=getNearestLevels();
-
- let rangeText="データ不足";
-
- if(levels.support&&levels.resistance){
-
-  const range=levels.resistance.p-levels.support.p;
-
-  const pos=(currentPrice-levels.support.p)/range;
-
-  if(pos<0.25) rangeText="支持線付近";
-  else if(pos>0.75) rangeText="抵抗線付近";
-  else rangeText="レンジ中央";
- }
-
- setText("rangeSignal",rangeText);
-
- let command="WAIT";
-
- if(momScore>1.5 && btcScore>-0.5) command="UP BIAS";
- else if(momScore<-1.5 && btcScore<0.5) command="DOWN BIAS";
- else command="RANGE / WAIT";
-
- setText("commandSignal",command);
-
- $("commandSignal").className=
-  "value smallValue "+
-  (
-   command==="UP BIAS"
-    ?"green"
-    :
-   command==="DOWN BIAS"
-    ?"red"
-    :"gold"
+ score+=
+  Math.max(
+   -2,
+   Math.min(
+    2,
+    longPct*2
+   )
   );
+
+ let text=
+  "横ばい";
+
+ if(score>1.5)
+  text="上向き";
+
+ else if(score<-1.5)
+  text="下向き";
+
+ return{
+  score:score,
+  text:text,
+  pct:shortPct
+ };
 }
 
-/* =========================
-   BATTLE
-========================= */
+function getEMAScore(){
 
-function updateBattle(){
+ if(
+  candlePrices.length<10
+ )
+  return{
+   score:0,
+   text:"データ不足"
+  };
 
- if(!currentPrice) return;
+ const e7=
+  calcEMA(
+   candlePrices,
+   7
+  );
 
- const mom=getXrpMomentum();
- const bm=getBtcMomentum();
- const levels=getNearestLevels();
+ const e25=
+  calcEMA(
+   candlePrices,
+   25
+  );
 
- let emaText="中立";
+ const e75=
+  calcEMA(
+   candlePrices,
+   75
+  );
 
- if(candlePrices.length>=25){
+ let score=0;
 
-  const e7=calcEMA(candlePrices,7);
-  const e25=calcEMA(candlePrices,25);
-  const e75=calcEMA(candlePrices,75);
-
-  if(e7>e25 && (!e75||e25>e75)) emaText="強気";
-  else if(e7<e25 && (!e75||e25<e75)) emaText="弱気";
-  else if(e7>e25) emaText="上向き";
-  else if(e7<e25) emaText="下向き";
- }
-
- let xrpText="横ばい";
-
- if(mom?.m30){
-
-  if(mom.m30.pct>0.2) xrpText="上昇";
-  else if(mom.m30.pct<-0.2) xrpText="下落";
- }
-
- let btcText="中立";
-
- if(bm.m30){
-
-  if(bm.m30.pct>0.1) btcText="上向き";
-  else if(bm.m30.pct<-0.1) btcText="下向き";
- }
-
- let orderText="均衡";
- const balance=bidPercent-askPercent;
-
- if(balance>8) orderText="買い優勢";
- else if(balance<-8) orderText="売り優勢";
-
- setText("battleXRP",xrpText);
- setText("battleBTC",btcText);
- setText("battleEMA",emaText);
- setText("battleOrder",orderText);
-
- let state="⚪ WATCH / 状況確認";
-
- if(xrpText==="上昇" && (emaText==="強気"||emaText==="上向き")){
-  state="🟢 ATTACK / 上昇優勢";
- }
- else if(xrpText==="下落" && (emaText==="弱気"||emaText==="下向き")){
-  state="🔴 DEFENSE / 下落警戒";
- }
- else if(
-  levels.resistance &&
-  currentPrice>=levels.resistance.p*0.99 &&
-  xrpText!=="上昇"
+ if(
+  e7>e25&&
+  e25>e75
  ){
-  state="🟡 RESISTANCE / 上値攻防";
- }
- else if(
-  levels.support &&
-  currentPrice<=levels.support.p*1.01 &&
-  xrpText!=="下落"
+
+  score=4;
+
+ }else if(
+  e7<e25&&
+  e25<e75
  ){
-  state="🟢 SUPPORT / 防衛確認";
+
+  score=-4;
+
+ }else if(
+  e7>e25
+ ){
+
+  score=1.5;
+
+ }else if(
+  e7<e25
+ ){
+
+  score=-1.5;
  }
 
- setText("battleState",state);
+ return{
+  score:score,
+  text:
+   score>=3
+    ?"強い上昇"
+    :score<=-3
+     ?"強い下降"
+     :score>0
+      ?"上向き"
+      :score<0
+       ?"下向き"
+       :"混合"
+  };
 }
 
-/* =========================
-   PRICE CROSS ALERT
-========================= */
+function getBTCScore(){
 
-function checkPriceCross(){
+ if(
+  btcHistory.length<2||
+  !btcPrice
+ )
+  return{
+   score:0,
+   text:"データ不足"
+  };
 
- if(!previousPrice || !currentPrice) return;
+ const last=
+  btcHistory[
+   btcHistory.length-1
+  ].price;
 
- LEVELS.forEach(level=>{
+ const old=
+  btcHistory[
+   Math.max(
+    0,
+    btcHistory.length-6
+   )
+  ].price;
 
-  const crossedUp=
-   previousPrice<level.p &&
-   currentPrice>=level.p;
+ const pct=
+  (last-old)/
+  old*
+  100;
 
-  const crossedDown=
-   previousPrice>level.p &&
-   currentPrice<=level.p;
+ let score=0;
 
-  const key=
-   (crossedUp?"UP":"DOWN")+":"+level.p;
+ if(pct>=.20)
+  score=2;
 
-  if((crossedUp||crossedDown) && key!==lastAlertKey){
+ else if(pct>=.05)
+  score=1;
 
-   lastAlertKey=key;
+ else if(pct<=-.20)
+  score=-2;
 
-   const text=
-    crossedUp
-     ?"🚀 ¥"+fmt(level.p,3)+" 突破 → "+level.label
-     :"⚠️ ¥"+fmt(level.p,3)+" 割れ → "+level.label;
+ else if(pct<=-.05)
+  score=-1;
 
-   addAlert(text);
+ if(
+  btcPrice>=82000
+ )
+  score+=1;
 
-   const box=$("alertBox");
-   box.style.display="block";
-   box.textContent=text;
+ if(
+  btcPrice<=78000
+ )
+  score-=1;
 
-   setTimeout(()=>{
-    box.style.display="none";
-   },7000);
+ score=
+  Math.max(
+   -3,
+   Math.min(
+    3,
+    score
+   )
+  );
 
-   if(crossedUp){
-    recentSignals.push({
-     type:"up",
-     time:Date.now(),
-     level:level.p
-    });
-   }else{
-    recentSignals.push({
-     type:"down",
-     time:Date.now(),
-     level:level.p
-    });
-   }
-  }
- });
-
- recentSignals=recentSignals.filter(x=>Date.now()-x.time<120000);
+ return{
+  score:score,
+  text:
+   score>=2
+    ?"強気"
+    :score<=-2
+     ?"弱気"
+     :"中立",
+  pct:pct
+ };
 }
 
-/* =========================
-   SCENARIO ENGINE 6.1
-========================= */
+function getOrderScore(){
+
+ if(
+  bidPercent<=0||
+  askPercent<=0
+ )
+  return{
+   score:0,
+   text:"データ不足"
+  };
+
+ const diff=
+  bidPercent-
+  askPercent;
+
+ let score=0;
+
+ if(diff>=14)
+  score=2;
+
+ else if(diff>=6)
+  score=1;
+
+ else if(diff<=-14)
+  score=-2;
+
+ else if(diff<=-6)
+  score=-1;
+
+ return{
+  score:score,
+  text:
+   score>0
+    ?"買い優勢"
+    :score<0
+     ?"売り優勢"
+     :"拮抗"
+ };
+}
+
+function getStructureScore(){
+
+ const lv=
+  getNearestLevels();
+
+ let score=0;
+
+ if(
+  !lv.resistance||
+  !lv.support
+ )
+  return{
+   score:0,
+   text:"中間"
+  };
+
+ const rd=
+  Math.abs(
+   lv.resistance.p-
+   currentPrice
+  )/
+  currentPrice*
+  100;
+
+ const sd=
+  Math.abs(
+   currentPrice-
+   lv.support.p
+  )/
+  currentPrice*
+  100;
+
+ if(sd<1.0)
+  score+=1;
+
+ if(rd<1.0)
+  score-=1;
+
+ return{
+  score:score,
+  text:
+   rd<1
+    ?"抵抗線接近"
+    :sd<1
+     ?"支持線接近"
+     :"中間"
+ };
+}
 
 function updateScenario(){
 
- if(!currentPrice){
-
-  setText("scenarioMain","ANALYZING...");
-  setText("scenarioConfidence","--%");
-  setText("scenarioConfidenceText","分析中");
-
+ if(!currentPrice)
   return;
- }
 
- const enough=
-  priceHistory.length>=8 &&
-  candlePrices.length>=25;
+ const ema=
+  getEMAScore();
 
- if(!enough){
+ const mom=
+  getMomentumScore();
 
-  setText("scenarioMain","🛰️ ANALYZING");
-  setText("scenarioNext","リアルタイムデータ蓄積中...");
-  setText("scenarioConfidence","--%");
-  setText("scenarioConfidenceText","データ不足");
+ const btc=
+  getBTCScore();
 
-  setText("nextMoveText","データ蓄積中...");
-  setText(
-   "nextMoveMeta",
-   "価格・BTC・注文板・EMAの同期が揃うまでシナリオ確率を抑制します。"
+ const order=
+  getOrderScore();
+
+ const structure=
+  getStructureScore();
+
+ const lv=
+  getNearestLevels();
+
+ let directional=
+  ema.score+
+  mom.score+
+  btc.score+
+  order.score+
+  structure.score;
+
+ directional=
+  Math.max(
+   -12,
+   Math.min(
+    12,
+    directional
+   )
   );
 
-  return;
- }
-
- const levels=getNearestLevels();
-
- const e7=calcEMA(candlePrices,7);
- const e25=calcEMA(candlePrices,25);
- const e75=calcEMA(candlePrices,75);
-
- /* EMA score */
- let emaScore=0;
- let emaText="中立";
-
- if(e7&&e25){
-
-  if(e7>e25){
-   emaScore+=2;
-   emaText="EMA7 > EMA25";
-  }else{
-   emaScore-=2;
-   emaText="EMA7 < EMA25";
-  }
-
-  if(e75){
-
-   if(e7>e25&&e25>e75){
-    emaScore+=2;
-    emaText="強気配列";
-   }
-
-   if(e7<e25&&e25<e75){
-    emaScore-=2;
-    emaText="弱気配列";
-   }
-  }
- }
-
- /* XRP momentum */
- const mom=getXrpMomentum();
-
- let momentumScore=0;
- let momentumText="横ばい";
-
- if(mom){
-
-  const m30=mom.m30||mom.m15;
-
-  if(m30){
-
-   momentumScore=clamp(m30.pct*18,-4,4);
-
-   if(m30.pct>0.45) momentumText="強い上昇";
-   else if(m30.pct>0.12) momentumText="上昇";
-   else if(m30.pct<-0.45) momentumText="強い下落";
-   else if(m30.pct<-0.12) momentumText="下落";
-   else momentumText="横ばい";
-  }
- }
-
- /* BTC */
- const bm=getBtcMomentum();
-
- let btcScore=0;
- let btcText="中立";
-
- if(bm.m30){
-
-  btcScore=clamp(bm.m30.pct*10,-3,3);
-
-  if(bm.m30.pct>0.25) btcText="BTC上昇";
-  else if(bm.m30.pct>0.08) btcText="BTCやや強";
-  else if(bm.m30.pct<-0.25) btcText="BTC下落";
-  else if(bm.m30.pct<-0.08) btcText="BTCやや弱";
-  else btcText="BTC横ばい";
- }
-
- /* ORDER */
- const orderBalance=bidPercent-askPercent;
-
- let orderScore=clamp(orderBalance/6,-3,3);
-
- let orderText="均衡";
-
- if(orderBalance>=12) orderText="買い優勢";
- else if(orderBalance>=5) orderText="やや買い優勢";
- else if(orderBalance<=-12) orderText="売り優勢";
- else if(orderBalance<=-5) orderText="やや売り優勢";
-
- /* LEVEL / STRUCTURE */
- let levelScore=0;
- let structure="🟡 レンジ";
-
- let supportDist=null;
- let resistanceDist=null;
-
- if(levels.support){
-  supportDist=(currentPrice-levels.support.p)/currentPrice*100;
- }
-
- if(levels.resistance){
-  resistanceDist=(levels.resistance.p-currentPrice)/currentPrice*100;
- }
-
- if(levels.support&&levels.resistance){
-
-  const range=levels.resistance.p-levels.support.p;
-  const position=(currentPrice-levels.support.p)/range;
-
-  const nearSupport=
-   Math.abs(currentPrice-levels.support.p)/levels.support.p<0.009;
-
-  const nearResistance=
-   Math.abs(levels.resistance.p-currentPrice)/levels.resistance.p<0.009;
-
-  if(nearResistance){
-
-   levelScore-=0.8;
-
-   if(momentumScore>1.5){
-    levelScore+=0.8;
-   }
-
-  }else if(nearSupport){
-
-   levelScore+=0.8;
-
-   if(momentumScore<-1.5){
-    levelScore-=0.8;
-   }
-
-  }else if(position>0.25&&position<0.75){
-
-   levelScore+=0;
-  }
-
-  if(
-   recentSignals.some(
-    x=>x.type==="up" &&
-    Date.now()-x.time<90000
-   )
-  ){
-   levelScore+=1.2;
-  }
-
-  if(
-   recentSignals.some(
-    x=>x.type==="down" &&
-    Date.now()-x.time<90000
-   )
-  ){
-   levelScore-=1.2;
-  }
-
-  const emaBull=emaScore>1;
-  const emaBear=emaScore<-1;
-
-  if(momentumScore>1.5&&emaBull){
-   structure="🟢 上昇トレンド";
-  }else if(momentumScore>0.6&&emaBull){
-   structure="🟢 上昇転換";
-  }else if(momentumScore<-1.5&&emaBear){
-   structure="🔴 下落トレンド";
-  }else if(momentumScore<-0.6&&emaBear){
-   structure="🔴 下落転換";
-  }else{
-   structure="🟡 レンジ";
-  }
- }
-
- /* TOTAL DIRECTION */
- const directional=
-  emaScore+
-  momentumScore+
-  btcScore+
-  orderScore+
-  levelScore;
-
- /* agreement */
+ /*
+  シグナル一致度
+  */
  const signs=[
-  emaScore,
-  momentumScore,
-  btcScore,
-  orderScore
- ].filter(x=>Math.abs(x)>0.35);
+  Math.sign(ema.score),
+  Math.sign(mom.score),
+  Math.sign(btc.score),
+  Math.sign(order.score)
+ ].filter(
+  x=>x!==0
+ );
 
- let positive=0;
- let negative=0;
+ let bullish=0;
+ let bearish=0;
 
- signs.forEach(x=>{
-  if(x>0) positive++;
-  if(x<0) negative++;
+ signs.forEach(s=>{
+
+  if(s>0)
+   bullish++;
+
+  if(s<0)
+   bearish++;
  });
 
  const agreement=
   signs.length
-   ? Math.max(positive,negative)/signs.length
-   : 0;
+   ?Math.max(
+    bullish,
+    bearish
+   )/
+   signs.length
+   :0;
 
- /* RANGE */
- let rangeScore=1.5;
-
- if(Math.abs(directional)<2.5) rangeScore+=2;
- if(Math.abs(momentumScore)<0.8) rangeScore+=1.2;
- if(positive>0&&negative>0) rangeScore+=1.5;
+ /*
+  レンジ度
+  */
+ let rangeScore=0;
 
  if(
-  levels.support&&
-  levels.resistance&&
-  resistanceDist!==null&&
-  supportDist!==null&&
-  resistanceDist<2 &&
-  supportDist<2
- ){
+  Math.abs(directional)<=2
+ )
+  rangeScore+=5;
+
+ if(
+  Math.abs(
+   mom.pct||0
+  )<.08
+ )
+  rangeScore+=2;
+
+ if(
+  agreement<.60
+ )
+  rangeScore+=2;
+
+ if(
+  structure.text==="中間"
+ )
   rangeScore+=1;
- }
 
- if(
-  levels.support&&
-  levels.resistance
- ){
-  const mid=(levels.support.p+levels.resistance.p)/2;
-  const midDist=Math.abs(currentPrice-mid)/(levels.resistance.p-levels.support.p);
-
-  if(midDist<0.25){
-   rangeScore+=0.7;
-  }
- }
-
+ /*
+  上下方向の素点
+  */
  let upScore=
-  5+
-  Math.max(directional,0)*2+
-  Math.max(momentumScore,0)*0.7;
+  Math.max(
+   1,
+   6+
+   directional
+  );
 
  let downScore=
-  5+
-  Math.max(-directional,0)*2+
-  Math.max(-momentumScore,0)*0.7;
+  Math.max(
+   1,
+   6-
+   directional
+  );
 
- upScore+=rangeScore*0.15;
- downScore+=rangeScore*0.15;
+ let rangeWeight=
+  Math.max(
+   2,
+   rangeScore
+  );
 
- if(nearLevelResistance(levels)){
-  upScore-=0.7;
- }
-
- if(nearLevelSupport(levels)){
-  downScore-=0.7;
- }
-
- const raw=[
-  Math.max(upScore,1),
-  Math.max(rangeScore,1),
-  Math.max(downScore,1)
- ];
-
- const total=raw.reduce((a,b)=>a+b,0);
-
- let upPct=raw[0]/total*100;
- let rangePct=raw[1]/total*100;
- let downPct=raw[2]/total*100;
-
- /* Prevent fake certainty */
- let probs=[upPct,rangePct,downPct];
-
- probs=probs.map(x=>clamp(x,7,86));
-
- const pTotal=probs.reduce((a,b)=>a+b,0);
-
- probs=probs.map(x=>x/pTotal*100);
-
- upPct=probs[0];
- rangePct=probs[1];
- downPct=probs[2];
-
- /* Confidence */
- let confidence=38;
-
- confidence+=Math.min(priceHistory.length/5,12);
- confidence+=agreement*18;
-
- if(candlePrices.length>=75) confidence+=7;
-
- if(btcHistory.length>=8) confidence+=5;
-
- if(Math.abs(directional)>4) confidence+=8;
-
- if(positive>0&&negative>0) confidence-=7;
-
- confidence=clamp(confidence,35,92);
-
- /* main scenario */
- let main="🟡 レンジ";
- let mainPct=rangePct;
-
- if(upPct>rangePct&&upPct>downPct){
-  main="🟢 上昇シナリオ";
-  mainPct=upPct;
- }
-
- if(downPct>upPct&&downPct>rangePct){
-  main="🔴 下落シナリオ";
-  mainPct=downPct;
- }
-
- setText("scenarioMain",main);
- setText(
-  "scenarioNext",
-  "次の優先シナリオ "+main+" / "+mainPct.toFixed(1)+"%"
- );
-
- setText("scenarioConfidence",confidence.toFixed(0)+"%");
- setText(
-  "scenarioConfidenceText",
-  confidence>=75
-   ?"シグナル一致度 高"
-   :
-  confidence>=55
-   ?"シグナル一致度 中"
-   :"シグナル一致度 低"
- );
-
- setText("scenarioUpPct",upPct.toFixed(1)+"%");
- setText("scenarioRangePct",rangePct.toFixed(1)+"%");
- setText("scenarioDownPct",downPct.toFixed(1)+"%");
-
- /* paths */
- const support=levels.support;
- const resistance=levels.resistance;
- const nextUp=levels.nextUp;
- const nextDown=levels.nextDown;
-
- let upPath="上値ブレイク待ち";
- let upTrigger="抵抗線を明確に突破";
- let upInvalid="抵抗線で反落＋モメンタム低下";
-
- if(resistance){
-
-  const target=nextUp?nextUp.p:resistance.p;
-
-  upPath=
-   "¥"+fmt(resistance.p,3)+
-   " 突破 → ¥"+fmt(target,3)+" チャレンジ";
-
-  upTrigger=
-   "¥"+fmt(resistance.p,3)+
-   "突破 ＋ XRPモメンタム上向き";
-
-  upInvalid=
-   "¥"+fmt(resistance.p,3)+
-   "付近で反落";
- }
-
- let rangePath="支持線〜抵抗線の攻防";
- let rangeTrigger="方向シグナルが拮抗";
- let rangeInvalid="どちらかの主要ラインを明確に突破";
-
- if(support&&resistance){
-
-  rangePath=
-   "¥"+fmt(support.p,3)+
-   " 〜 ¥"+fmt(resistance.p,3)+" 攻防";
-
-  rangeTrigger=
-   "¥"+fmt(support.p,3)+
-   "防衛 ＋ ¥"+fmt(resistance.p,3)+"未突破";
-
-  rangeInvalid=
-   "支持線割れ / 抵抗線突破";
- }
-
- let downPath="下値テスト待ち";
- let downTrigger="支持線を明確に割る";
- let downInvalid="支持線回復＋モメンタム改善";
-
- if(support){
-
-  const target=nextDown?nextDown.p:support.p;
-
-  downPath=
-   "¥"+fmt(support.p,3)+
-   " 割れ → ¥"+fmt(target,3)+" 再テスト";
-
-  downTrigger=
-   "¥"+fmt(support.p,3)+
-   "割れ ＋ XRPモメンタム悪化";
-
-  downInvalid=
-   "¥"+fmt(support.p,3)+
-   "を回復";
- }
-
- setText("scenarioUp",upPath);
- setText("scenarioRange",rangePath);
- setText("scenarioDown",downPath);
-
- setText("scenarioUpTrigger", "");
- setText("scenarioRangeTrigger","");
- setText("scenarioDownTrigger","");
-
- $("scenarioUpTrigger").innerHTML=
-  "<b>TRIGGER</b>"+upTrigger;
-
- $("scenarioRangeTrigger").innerHTML=
-  "<b>TRIGGER</b>"+rangeTrigger;
-
- $("scenarioDownTrigger").innerHTML=
-  "<b>TRIGGER</b>"+downTrigger;
-
- $("scenarioUpInvalid").innerHTML=
-  "<b>INVALIDATION</b>"+upInvalid;
-
- $("scenarioRangeInvalid").innerHTML=
-  "<b>INVALIDATION</b>"+rangeInvalid;
-
- $("scenarioDownInvalid").innerHTML=
-  "<b>INVALIDATION</b>"+downInvalid;
-
- /* factor cards */
- setText("reasonEMA",emaText);
- setText(
-  "reasonMomentum",
-  momentumText+
-  (
-   mom?.m30
-    ?" "+pct(mom.m30.pct,2)
-    :""
-  )
- );
- setText("reasonBTC",btcText);
- setText("reasonOrder",orderText);
- setText("scenarioStructure",structure);
-
- /* path summary */
- let route="";
-
- if(main==="🟢 上昇シナリオ"){
-
-  route=
-   "🟢 条件付き上昇ルート："+
-   (resistance
-    ?"¥"+fmt(resistance.p,3)+"突破"
-    :"上値突破")+
-   " → "+
-   (nextUp
-    ?"¥"+fmt(nextUp.p,3)+"チャレンジ"
-    :"次の抵抗帯テスト")+
-   "。";
-
- }else if(main==="🔴 下落シナリオ"){
-
-  route=
-   "🔴 条件付き下落ルート："+
-   (support
-    ?"¥"+fmt(support.p,3)+"割れ"
-    :"支持帯割れ")+
-   " → "+
-   (nextDown
-    ?"¥"+fmt(nextDown.p,3)+"再テスト"
-    :"次の支持帯テスト")+
-   "。";
-
- }else{
-
-  route=
-   "🟡 条件付きレンジルート："+
-   (support?"¥"+fmt(support.p,3):"支持帯")+
-   "〜"+
-   (resistance?"¥"+fmt(resistance.p,3):"抵抗帯")+
-   "で攻防。ブレイク方向を確認。";
- }
-
- setText("scenarioPath",route);
-
- /* NEXT MOVE */
- let nextText="";
- let nextMeta="";
+ /*
+  近い抵抗・支持で極端な方向を抑える
+  */
+ if(
+  structure.text==="抵抗線接近"
+ )
+  upScore*=.80;
 
  if(
-  main==="🟢 上昇シナリオ" &&
-  resistance
+  structure.text==="支持線接近"
+ )
+  downScore*=.80;
+
+ const total=
+  upScore+
+  downScore+
+  rangeWeight;
+
+ let up=
+  Math.round(
+   upScore/
+   total*
+   100
+  );
+
+ let range=
+  Math.round(
+   rangeWeight/
+   total*
+   100
+  );
+
+ let down=
+  100-
+  up-
+  range;
+
+ up=
+  Math.max(
+   5,
+   Math.min(
+    85,
+    up
+   )
+  );
+
+ down=
+  Math.max(
+   5,
+   Math.min(
+    85,
+    down
+   )
+  );
+
+ range=
+  100-
+  up-
+  down;
+
+ /*
+  最終方向
+  */
+ let main="";
+ let cls="yellow";
+
+ if(
+  up>=down&&
+  up>=range
  ){
 
-  nextText=
-   "突破なら ¥"+fmt(resistance.p,3)+
-   " → "+(nextUp?"¥"+fmt(nextUp.p,3):"次の抵抗帯");
+  main=
+   "🟢 上昇シナリオ優勢";
 
-  nextMeta=
-   "抵抗線まで "+
-   (resistanceDist>=0?"+":"")+
-   resistanceDist.toFixed(2)+"%"+
-   " / EMA="+emaText+
-   " / XRP="+momentumText+
-   " / BTC="+btcText;
+  cls="green";
 
  }else if(
-  main==="🔴 下落シナリオ" &&
-  support
+  down>=up&&
+  down>=range
  ){
 
-  nextText=
-   "反落なら ¥"+fmt(support.p,3)+
-   " → "+(nextDown?"¥"+fmt(nextDown.p,3):"次の支持帯");
+  main=
+   "🔴 下落シナリオ優勢";
 
-  nextMeta=
-   "支持線まで "+
-   (supportDist>=0?"+":"")+
-   supportDist.toFixed(2)+"%"+
-   " / EMA="+emaText+
-   " / XRP="+momentumText+
-   " / BTC="+btcText;
+  cls="red";
 
  }else{
 
-  nextText=
-   "¥"+(support?fmt(support.p,3):"---")+
-   " ⇄ ¥"+(resistance?fmt(resistance.p,3):"---")+
-   " の攻防";
+  main=
+   "🟡 レンジ・方向感待ち";
 
-  nextMeta=
-   "方向感がまだ決定的ではない。"+
-   "次のブレイクとBTC・注文板の一致を監視。";
+  cls="yellow";
  }
 
- setText("nextMoveText",nextText);
- setText("nextMoveMeta",nextMeta);
+ $("scenarioMain").textContent=
+  main;
 
- /* signals */
- activeSignals.price=Math.abs(momentumScore)>1;
- activeSignals.btc=Math.abs(btcScore)>0.7;
- activeSignals.order=Math.abs(orderScore)>1;
- activeSignals.ema=Math.abs(emaScore)>1;
+ $("scenarioMain").className=
+  "scenarioMain "+
+  cls;
 
- setText(
+ /*
+  レベル
+  */
+ const support=
+  lv.support
+   ?yen(lv.support.p)
+   :"---";
+
+ const resistance=
+  lv.resistance
+   ?yen(lv.resistance.p)
+   :"---";
+
+ let target=
+  "---";
+
+ if(
+  up>=down&&
+  lv.resistance
+ ){
+
+  target=
+   lv.nextUp
+    ?yen(lv.nextUp.p)
+    :yen(lv.resistance.p);
+
+ }else if(
+  down>up&&
+  lv.support
+ ){
+
+  target=
+   lv.nextDown
+    ?yen(lv.nextDown.p)
+    :yen(lv.support.p);
+
+ }else{
+
+  target=
+   lv.resistance
+    ?yen(lv.resistance.p)
+    :"---";
+ }
+
+ $("scenarioSupport").textContent=
+  support;
+
+ $("scenarioResistance").textContent=
+  resistance;
+
+ $("scenarioTarget").textContent=
+  target;
+
+ /*
+  構造
+  */
+ let structureText=
+  "レンジ";
+
+ if(
+  ema.score>=3&&
+  mom.score>0
+ ){
+
+  structureText=
+   "上昇トレンド";
+
+ }else if(
+  ema.score<=-3&&
+  mom.score<0
+ ){
+
+  structureText=
+   "下降トレンド";
+
+ }else if(
+  ema.score>0&&
+  mom.score>0
+ ){
+
+  structureText=
+   "上昇転換";
+
+ }else if(
+  ema.score<0&&
+  mom.score<0
+ ){
+
+  structureText=
+   "下落転換";
+ }
+
+ $("scenarioStructure").textContent=
+  structureText;
+
+ /*
+  条件付きパス
+  */
+ let path="";
+
+ if(
+  lv.resistance&&
+  lv.nextUp
+ ){
+
+  path=
+   "上昇条件："+
+   "¥"+
+   price3(lv.resistance.p)+
+   " を突破 → "+
+   "¥"+
+   price3(lv.nextUp.p)+
+   " → 次の上値ゾーン";
+
+ }else if(
+  lv.resistance
+ ){
+
+  path=
+   "上昇条件："+
+   "¥"+
+   price3(lv.resistance.p)+
+   " を明確に突破";
+
+ }else{
+
+  path=
+   "上値レベルを監視中";
+ }
+
+ if(
+  lv.support&&
+  lv.nextDown
+ ){
+
+  path+=
+   "　｜　下落条件："+
+   "¥"+
+   price3(lv.support.p)+
+   " 割れ → "+
+   "¥"+
+   price3(lv.nextDown.p)+
+   " 再テスト";
+
+ }else if(
+  lv.support
+ ){
+
+  path+=
+   "　｜　下落条件："+
+   "¥"+
+   price3(lv.support.p)+
+   " 割れ";
+ }
+
+ $("scenarioPath").textContent=
+  path;
+
+ /*
+  理由
+  */
+ $("reasonEMA").textContent=
+  ema.text;
+
+ $("reasonMomentum").textContent=
+  mom.text+
+  (
+   Number.isFinite(mom.pct)
+    ?" / "+
+     (mom.pct>=0?"+":"")+
+     mom.pct.toFixed(2)+
+     "%"
+    :""
+  );
+
+ $("reasonBTC").textContent=
+  btc.text;
+
+ $("reasonOrder").textContent=
+  order.text;
+
+ /*
+  NEXT LEVEL
+  */
+ if(
+  lv.resistance
+ ){
+
+  $("scenarioNext").textContent=
+   "次の重要抵抗線：¥"+
+   price3(
+    lv.resistance.p
+   )+
+   " / 現在：¥"+
+   price3(
+    currentPrice
+   );
+
+ }else if(
+  lv.support
+ ){
+
+  $("scenarioNext").textContent=
+   "現在の下側重要ライン：¥"+
+   price3(
+    lv.support.p
+   )+
+   " / 現在：¥"+
+   price3(
+    currentPrice
+   );
+
+ }
+
+ $("scenarioUp").style.width=
+  up+"%";
+
+ $("scenarioRange").style.width=
+  range+"%";
+
+ $("scenarioDown").style.width=
+  down+"%";
+
+ $("scenarioUpPct").textContent=
+  up+"%";
+
+ $("scenarioRangePct").textContent=
+  range+"%";
+
+ $("scenarioDownPct").textContent=
+  down+"%";
+
+ /*
+  信頼度
+  */
+ const dataCount=
+  [
+   ema.score!==0,
+   mom.text!=="データ不足",
+   btc.text!=="データ不足",
+   order.text!=="データ不足"
+  ].filter(Boolean).length;
+
+ let confidence=
+  40+
+  Math.abs(
+   directional
+  )*
+  2+
+  agreement*
+  15+
+  dataCount*
+  4;
+
+ if(
+  range>=45
+ )
+  confidence-=8;
+
+ confidence=
+  Math.round(
+   Math.max(
+    35,
+    Math.min(
+     90,
+     confidence
+    )
+   )
+  );
+
+ $("scenarioConfidence").textContent=
+  confidence+
+  "%";
+
+ $("scenarioConfidenceText").textContent=
+  confidence>=75
+   ?" / シグナル強度 HIGH"
+   :confidence>=60
+    ?" / シグナル強度 MEDIUM"
+    :" / シグナル強度 LOW";
+}
+
+/* ================= PRICE BREAK ================= */
+
+function checkPriceCross(){
+
+ if(
+  !previousPrice||
+  !currentPrice
+ )
+  return;
+
+ LEVELS.forEach(
+  level=>{
+
+   const p=
+    level.p;
+
+   if(
+    previousPrice<p&&
+    currentPrice>=p
+   ){
+
+    triggerSignal(
+     "price",
+     "🎯 PRICE BREAKOUT",
+     "¥"+
+     p.toFixed(3)+
+     " を上抜け / "+
+     level.label
+    );
+
+   }else if(
+    previousPrice>p&&
+    currentPrice<=p
+   ){
+
+    triggerSignal(
+     "price",
+     "🎯 PRICE BREAKDOWN",
+     "¥"+
+     p.toFixed(3)+
+     " を下抜け / "+
+     level.label
+    );
+   }
+
+  }
+ );
+}
+
+/* ================= BTC SHOCK ================= */
+
+function checkBTCShock(){
+
+ if(
+  !previousBtcPrice||
+  !btcPrice
+ )
+  return;
+
+ const change=
+  (btcPrice-previousBtcPrice)/
+  previousBtcPrice*
+  100;
+
+ if(
+  Math.abs(change)>=.5
+ ){
+
+  triggerSignal(
+   "btc",
+   "₿ BTC SHOCK",
+   (change>=0?"+":"")+
+   change.toFixed(2)+
+   "% / $"+
+   btcPrice.toLocaleString(
+    "en-US",
+    {
+     maximumFractionDigits:0
+    }
+   )
+  );
+ }
+}
+
+/* ================= SIGNAL ================= */
+
+function triggerSignal(
+ type,
+ title,
+ text
+){
+
+ const key=
+  type+
+  "_"+
+  text;
+
+ const now=
+  Date.now();
+
+ if(
+  lastAlertKey===key&&
+  now-lastEmergency<15000
+ )
+  return;
+
+ lastAlertKey=
+  key;
+
+ activeSignals[type]=
+  true;
+
+ recentSignals.push({
+  type:type,
+  time:now
+ });
+
+ recentSignals=
+  recentSignals.filter(
+   s=>
+    now-s.time<=60000
+  );
+
+ showAlert(
+  title+
+  " / "+
+  text
+ );
+
+ addAlertHistory(
+  title+
+  " / "+
+  text
+ );
+
+ addLog(
+  "🚨 "+
+  title+
+  " / "+
+  text
+ );
+
+ updateThreat();
+
+ setTimeout(
+  ()=>{
+
+   activeSignals[type]=
+    false;
+
+   updateThreat();
+
+  },
+  60000
+ );
+}
+
+/* ================= THREAT ================= */
+
+function updateThreat(){
+
+ const now=
+  Date.now();
+
+ recentSignals=
+  recentSignals.filter(
+   s=>
+    now-s.time<=60000
+  );
+
+ const count=
+  new Set(
+   recentSignals.map(
+    s=>s.type
+   )
+  ).size;
+
+ $("threatCount").textContent=
+  count+
+  " SIGNAL"+
+  (count===1?"":"S")+
+  " / 60SEC";
+
+ const box=
+  $("threatBox");
+
+ const level=
+  $("threatLevel");
+
+ box.className=
+  "threat";
+
+ if(count>=2){
+
+  box.classList.add(
+   "emergency"
+  );
+
+  level.textContent=
+   "🚨 EMERGENCY";
+
+  level.className=
+   "threatLevel red";
+
+  if(
+   now-lastEmergency>
+   15000
+  ){
+
+   lastEmergency=
+    now;
+
+   showAlert(
+    "🚨 緊急警戒 / 複数シグナル同時発生"
+   );
+
+   addAlertHistory(
+    "🚨 緊急警戒 / "+
+    count+
+    "種類のシグナル"
+   );
+  }
+
+ }else if(
+  count===1
+ ){
+
+  box.classList.add(
+   "caution"
+  );
+
+  level.textContent=
+   "🟡 CAUTION";
+
+  level.className=
+   "threatLevel yellow";
+
+ }else{
+
+  box.classList.add(
+   "normal"
+  );
+
+  level.textContent=
+   "🟢 NORMAL";
+
+  level.className=
+   "threatLevel green";
+ }
+
+ updateSignalUI(
   "sigPrice",
-  activeSignals.price
-   ?momentumScore>0?"UP":"DOWN"
-   :"WAIT"
+  activeSignals.price,
+  "🎯 PRICE BREAKOUT"
  );
 
- setText(
+ updateSignalUI(
   "sigBTC",
-  activeSignals.btc
-   ?btcScore>0?"UP":"DOWN"
-   :"WAIT"
+  activeSignals.btc,
+  "₿ BTC SHOCK"
  );
 
- setText(
+ updateSignalUI(
   "sigOrder",
-  activeSignals.order
-   ?orderScore>0?"BUY":"SELL"
-   :"BALANCE"
+  activeSignals.order,
+  "🐋 ORDER BOOK"
  );
 
- setText(
+ updateSignalUI(
   "sigEMA",
-  activeSignals.ema
-   ?emaScore>0?"BULL":"BEAR"
-   :"NEUTRAL"
+  activeSignals.ema,
+  "📈 EMA CROSS"
+ );
+}
+
+function updateSignalUI(
+ id,
+ active,
+ title
+){
+
+ const el=
+  $(id);
+
+ if(active){
+
+  el.classList.add(
+   "on"
+  );
+
+  if(
+   id==="sigBTC"||
+   id==="sigPrice"||
+   id==="sigOrder"
+  ){
+
+   el.classList.add(
+    "redSignal"
+   );
+
+  }else{
+
+   el.classList.add(
+    "greenSignal"
+   );
+  }
+
+  el.textContent=
+   "⚡ "+
+   title+
+   " — ACTIVE";
+
+ }else{
+
+  el.classList.remove(
+   "on",
+   "redSignal",
+   "greenSignal"
+  );
+
+  el.textContent=
+   title+
+   " — 待機";
+ }
+}
+
+/* ================= ALERT ================= */
+
+function showAlert(text){
+
+ const box=
+  $("alertBox");
+
+ box.textContent=
+  text;
+
+ box.classList.add(
+  "show"
  );
 
- const activeCount=
-  Object.values(activeSignals).filter(Boolean).length;
-
- setText(
-  "threatCount",
-  activeCount+
-  " / 4 SIGNALS ACTIVE"
+ clearTimeout(
+  window.__orbitAlert
  );
 
- let threat="LOW";
+ window.__orbitAlert=
+  setTimeout(
+   ()=>{
 
- if(activeCount>=3) threat="HIGH";
- else if(activeCount>=2) threat="MEDIUM";
+    box.classList.remove(
+     "show"
+    );
 
- setText("threatLevel",threat);
+   },
+   7000
+  );
+}
 
- const threatBox=$("threatBox");
+function addAlertHistory(
+ text
+){
 
- threatBox.classList.remove("alert");
+ const div=
+  document.createElement(
+   "div"
+  );
 
- if(threat==="HIGH"){
-  threatBox.classList.add("alert");
-  $("threatLevel").style.color="#ff4f68";
- }else if(threat==="MEDIUM"){
-  $("threatLevel").style.color="#ffd84d";
- }else{
-  $("threatLevel").style.color="#35f58a";
+ div.className=
+  "logItem";
+
+ div.innerHTML=
+  "["+
+  nowTime()+
+  "] <b>"+
+  text+
+  "</b>";
+
+ $("alertHistory")
+  .prepend(div);
+
+ while(
+  $("alertHistory")
+   .children.length>
+  30
+ ){
+
+  $("alertHistory")
+   .lastChild
+   .remove();
+ }
+}
+
+/* ================= LOG ================= */
+
+function addLog(price){
+
+ if(
+  typeof price==="string"
+ ){
+
+  const div=
+   document.createElement(
+    "div"
+   );
+
+  div.className=
+   "logItem";
+
+  div.innerHTML=
+   "["+
+   nowTime()+
+   "] "+
+   price;
+
+  $("log")
+   .prepend(div);
+
+  while(
+   $("log")
+    .children.length>
+   20
+  ){
+
+   $("log")
+    .lastChild
+    .remove();
+  }
+
+  return;
  }
 
+ if(!price)
+  return;
+
+ if(
+  !lastLogPrice||
+  Math.abs(
+   price-lastLogPrice
+  )>=.5
+ ){
+
+  lastLogPrice=
+   price;
+
+  const div=
+   document.createElement(
+    "div"
+   );
+
+  div.className=
+   "logItem";
+
+  div.innerHTML=
+   "["+
+   nowTime()+
+   "] XRP <b>¥"+
+   price3(price)+
+   "</b>";
+
+  $("log")
+   .prepend(div);
+
+  while(
+   $("log")
+    .children.length>
+   20
+  ){
+
+   $("log")
+    .lastChild
+    .remove();
+  }
+ }
 }
 
-/* =========================
-   HELPERS
-========================= */
+/* ================= EVENT RADAR ================= */
 
-function nearLevelResistance(levels){
+const eventData=[
 
- if(!levels.resistance||!currentPrice) return false;
+ {
+  name:"CLARITY Act",
+  rank:"XRP市場構造・規制",
+  priority:"最重要"
+ },
 
- return Math.abs(
-  currentPrice-levels.resistance.p
- )/levels.resistance.p<0.009;
-}
+ {
+  name:"XRP Spot ETF",
+  rank:"承認・資金流入",
+  priority:"最重要"
+ },
 
-function nearLevelSupport(levels){
+ {
+  name:"SEC / Ripple",
+  rank:"規制・訴訟・政策",
+  priority:"重要"
+ },
 
- if(!levels.support||!currentPrice) return false;
+ {
+  name:"FRB / FOMC",
+  rank:"金利・ドル",
+  priority:"重要"
+ },
 
- return Math.abs(
-  currentPrice-levels.support.p
- )/levels.support.p<0.009;
-}
-
-/* =========================
-   TARGET
-========================= */
-
-function updateTarget(){
-
- if(!currentPrice) return;
-
- const value=currentPrice*XRP_AMOUNT;
- const distance=TARGET-value;
- const progress=clamp(value/TARGET*100,0,100);
-
- setText("targetCurrent","¥"+fmt(value,0));
-
- if(distance>0){
-  setText(
-   "targetDistance",
-   "あと ¥"+fmt(distance,0)
-  );
- }else{
-  setText(
-   "targetDistance",
-   "MISSION +¥"+fmt(Math.abs(distance),0)
-  );
+ {
+  name:"米CPI",
+  rank:"インフレ",
+  priority:"重要"
  }
 
- $("targetDistance").className=
-  "value "+(distance<=0?"green":"gold");
+];
 
- $("targetMeter").style.width=progress+"%";
- setText("targetPct",progress.toFixed(2)+"%");
+let eventIndex=0;
 
+function rotateEventRadar(){
+
+ const e=
+  eventData[
+   eventIndex%
+   eventData.length
+  ];
+
+ $("nextEvent").textContent=
+  "⚡ "+
+  e.name;
+
+ $("nextEventMeta").textContent=
+  e.priority+
+  " / "+
+  e.rank+
+  " / XRP市場への影響を監視";
+
+ eventIndex++;
 }
 
-/* =========================
-   RESIZE
-========================= */
+rotateEventRadar();
 
-window.addEventListener("resize",()=>{
- drawChart();
-});
+setInterval(
+ rotateEventRadar,
+ 10000
+);
 
-/* =========================
-   STARTUP
-========================= */
+/* ================= START ================= */
 
-loadBTC();
-loadFX();
-loadDepth();
-loadFearGreed();
+renderLevels();
 
-setInterval(loadBTC,5000);
-setInterval(loadDepth,5000);
-setInterval(loadFX,60000);
-setInterval(loadFearGreed,300000);
+setTimeout(
+ ()=>{
 
-setInterval(()=>{
- updateScenario();
- updateBattle();
-},2000);
+  updateEMA();
 
-setInterval(()=>{
- updateTarget();
- renderLevels();
- drawChart();
-},3000);
+  drawChart();
 
-addLog("ORBIT 6.1 BOOT");
-addLog("Scenario Engine ONLINE");
-addLog("XRP native WebSocket connecting...");
-addLog("NO SOUND MODE");
+  updateBattle();
+
+  updateThreat();
+
+  updateScenario();
+
+ },
+ 500
+);
+
+window.addEventListener(
+ "resize",
+ drawChart
+);
 
 </script>
+
 </body>
 </html>
