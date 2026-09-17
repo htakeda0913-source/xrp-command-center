@@ -2,8 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>XRP ORBIT COMMAND CENTER</title>
 
 <style>
@@ -13,386 +12,709 @@
   padding:0;
 }
 
-html,body{
-  width:100%;
-  min-height:100%;
-  background:#05070b;
-  color:#f4f4f4;
+:root{
+  --bg:#05070a;
+  --panel:#0b0f14;
+  --panel2:#0e1319;
+  --line:#202832;
+  --text:#e8edf2;
+  --muted:#71808f;
+  --cyan:#63e6ff;
+  --green:#55f0a5;
+  --gold:#e5bd61;
+  --red:#ff6378;
+  --blue:#6ea8ff;
+}
+
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 50% -10%,#18242e 0%,#080b0f 42%,#030405 100%);
+  color:var(--text);
   font-family:
+    Inter,
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
-}
-
-body{
   overflow-x:hidden;
 }
 
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.18;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+
 /* =========================
-   COMMAND CENTER
-   ========================= */
+   APP
+========================= */
 
 #app{
-  width:100%;
-  min-height:100vh;
-  padding:18px;
-  background:
-    radial-gradient(
-      circle at 50% 0%,
-      rgba(255,190,60,.08),
-      transparent 35%
-    ),
-    linear-gradient(
-      180deg,
-      #070a10 0%,
-      #030508 100%
-    );
+  width:min(1500px,96vw);
+  margin:auto;
+  padding:22px 0 35px;
 }
 
 /* =========================
    HEADER
-   ========================= */
+========================= */
 
 .header{
   display:flex;
   align-items:center;
   justify-content:space-between;
-
-  width:100%;
-  padding:16px 20px;
-  margin-bottom:16px;
-
-  border:1px solid rgba(255,190,60,.25);
-  border-radius:14px;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,255,255,.045),
-      rgba(255,255,255,.012)
-    );
-
-  box-shadow:
-    0 0 30px rgba(0,0,0,.45),
-    inset 0 0 25px rgba(255,190,60,.025);
+  padding:4px 4px 18px;
+  border-bottom:1px solid rgba(255,255,255,.07);
 }
-
-/* LEFT */
 
 .brand{
   display:flex;
   align-items:center;
-  gap:12px;
+  gap:14px;
 }
 
 .brand-mark{
-  width:42px;
-  height:42px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
+  width:45px;
+  height:45px;
+  border:1px solid rgba(99,230,255,.45);
   border-radius:50%;
-
-  border:1px solid rgba(255,190,60,.65);
-
-  color:#f4c35b;
-  font-size:22px;
+  display:grid;
+  place-items:center;
+  color:var(--cyan);
   font-weight:800;
-
+  font-size:20px;
   box-shadow:
-    0 0 15px rgba(255,190,60,.15);
-}
-
-.brand-text{
-  display:flex;
-  flex-direction:column;
-  gap:2px;
+    0 0 20px rgba(99,230,255,.12),
+    inset 0 0 14px rgba(99,230,255,.06);
 }
 
 .brand-title{
-  font-size:17px;
-  font-weight:800;
-  letter-spacing:2px;
+  font-size:22px;
+  letter-spacing:4px;
+  font-weight:700;
 }
 
 .brand-sub{
-  color:#8d929c;
-  font-size:10px;
-  letter-spacing:2px;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:9px;
+  letter-spacing:4px;
 }
-
-/* RIGHT */
 
 .header-status{
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:9px;
+  font-size:10px;
+  letter-spacing:2px;
+  color:var(--green);
 }
 
 .live-dot{
-  width:8px;
-  height:8px;
+  width:7px;
+  height:7px;
   border-radius:50%;
-  background:#64ff9b;
-
-  box-shadow:
-    0 0 10px rgba(100,255,155,.8);
-}
-
-.live-text{
-  color:#64ff9b;
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:2px;
+  background:var(--green);
+  box-shadow:0 0 12px var(--green);
 }
 
 /* =========================
    GRID
-   ========================= */
+========================= */
 
 .dashboard-grid{
   display:grid;
-
-  grid-template-columns:
-    minmax(0,1.35fr)
-    minmax(260px,.65fr);
-
-  gap:16px;
+  grid-template-columns:2fr 1fr;
+  gap:14px;
+  margin-top:14px;
 }
 
-/* =========================
-   CARD
-   ========================= */
+.lower-grid{
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:14px;
+  margin-top:14px;
+}
 
 .card{
-  position:relative;
-
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:14px;
-
   background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.045),
-      rgba(255,255,255,.012)
-    );
-
-  box-shadow:
-    0 12px 35px rgba(0,0,0,.35),
-    inset 0 0 30px rgba(255,255,255,.012);
-
+    linear-gradient(145deg,
+      rgba(18,24,31,.98),
+      rgba(7,10,14,.98));
+  border:1px solid var(--line);
+  border-radius:12px;
+  position:relative;
   overflow:hidden;
+  box-shadow:
+    0 18px 50px rgba(0,0,0,.28),
+    inset 0 1px rgba(255,255,255,.025);
 }
 
-.card::before{
+.card:after{
   content:"";
   position:absolute;
-
-  left:0;
-  top:0;
-
-  width:100%;
-  height:1px;
-
+  inset:0;
+  pointer-events:none;
   background:
     linear-gradient(
-      90deg,
-      transparent,
-      rgba(255,190,60,.5),
-      transparent
+      110deg,
+      transparent 0%,
+      rgba(255,255,255,.025) 45%,
+      transparent 60%
     );
-}
-
-.card-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  padding:13px 16px;
-
-  border-bottom:
-    1px solid rgba(255,255,255,.06);
-}
-
-.card-title{
-  color:#aeb3bc;
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:2px;
-}
-
-.card-tag{
-  color:#777d87;
-  font-size:9px;
-  letter-spacing:1px;
 }
 
 /* =========================
-   MAIN XRP PANEL
-   ========================= */
+   MAIN XRP
+========================= */
 
 .xrp-main{
-  min-height:330px;
+  min-height:255px;
+  padding:27px;
 }
 
-.xrp-content{
-  padding:24px;
-}
-
-.xrp-label{
-  color:#8c929d;
-  font-size:11px;
+.eyebrow{
+  color:var(--muted);
+  font-size:9px;
   letter-spacing:3px;
-  margin-bottom:8px;
 }
 
 .xrp-price{
-  font-size:
-    clamp(42px,7vw,76px);
-
+  margin-top:10px;
+  font-size:clamp(46px,6vw,76px);
   line-height:1;
-
-  font-weight:800;
-  letter-spacing:-2px;
-
-  color:#ffffff;
-
-  text-shadow:
-    0 0 25px rgba(255,255,255,.08);
+  font-weight:700;
+  letter-spacing:-3px;
+  text-shadow:0 0 28px rgba(99,230,255,.08);
 }
 
-.xrp-unit{
-  margin-left:7px;
+.xrp-price .yen{
+  font-size:.42em;
+  color:var(--muted);
+  vertical-align:middle;
+  letter-spacing:0;
+  margin-right:6px;
+}
 
-  color:#858b95;
-  font-size:16px;
-  font-weight:500;
+.xrp-usd{
+  color:var(--cyan);
+  margin-top:9px;
+  font-size:14px;
   letter-spacing:1px;
 }
 
-.xrp-sub{
-  display:flex;
-  flex-wrap:wrap;
-  gap:18px;
-
-  margin-top:16px;
-}
-
-.metric{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
+.main-bottom{
+  position:absolute;
+  left:27px;
+  right:27px;
+  bottom:23px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
 }
 
 .metric-label{
-  color:#737984;
-  font-size:9px;
-  letter-spacing:1.5px;
+  color:var(--muted);
+  font-size:8px;
+  letter-spacing:2px;
+  margin-bottom:5px;
 }
 
 .metric-value{
-  color:#e8e9ec;
-  font-size:13px;
-  font-weight:700;
+  font-size:14px;
+  font-weight:600;
 }
 
 /* =========================
-   POSITION
-   ========================= */
+   MACRO
+========================= */
 
-.position-grid{
+.macro-card{
+  padding:25px;
+}
+
+.macro-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.macro-grid{
+  margin-top:23px;
   display:grid;
-  grid-template-columns:
-    repeat(3,1fr);
-
-  gap:10px;
-
-  margin-top:22px;
+  gap:22px;
 }
 
-.position-box{
-  padding:12px;
+.macro-item{
+  border-bottom:1px solid rgba(255,255,255,.06);
+  padding-bottom:15px;
+}
 
-  border-radius:10px;
+.macro-value{
+  margin-top:5px;
+  font-size:28px;
+  font-weight:650;
+}
 
+.connection{
+  margin-top:17px;
+  font-size:8px;
+  letter-spacing:2px;
+  color:var(--green);
+}
+
+/* =========================
+   CHART
+========================= */
+
+.chart-card{
+  min-height:390px;
+}
+
+.chart-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 20px 12px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.chart-title{
+  font-size:10px;
+  letter-spacing:3px;
+  color:var(--muted);
+}
+
+.chart-current{
+  color:var(--cyan);
+  font-size:17px;
+  font-weight:650;
+}
+
+.chart-body{
+  padding:12px 16px 16px;
+}
+
+.chart-wrap{
+  position:relative;
+  height:260px;
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:8px;
+  overflow:hidden;
   background:
-    rgba(255,255,255,.025);
-
-  border:
-    1px solid rgba(255,255,255,.06);
+    linear-gradient(
+      180deg,
+      rgba(15,25,32,.8),
+      rgba(4,7,10,.9)
+    );
 }
 
-.position-label{
-  color:#6f7580;
+#xrpChart{
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+/* =========================
+   RADAR
+========================= */
+
+.radar{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:5px;
+  margin-top:10px;
+}
+
+.radar-item{
+  text-align:center;
+  padding:8px 2px;
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:5px;
+}
+
+.radar-item span{
+  display:block;
+  color:var(--muted);
+  font-size:7px;
+  letter-spacing:1px;
+}
+
+.radar-item strong{
+  display:block;
+  margin-top:3px;
+  font-size:11px;
+}
+
+/* =========================
+   MARKET
+========================= */
+
+.market-card{
+  padding:20px;
+}
+
+.section-title{
+  color:var(--muted);
+  font-size:9px;
+  letter-spacing:3px;
+}
+
+.market-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-top:15px;
+}
+
+.market-box{
+  background:rgba(255,255,255,.018);
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:7px;
+  padding:13px;
+}
+
+.market-box .label{
+  color:var(--muted);
   font-size:8px;
   letter-spacing:1px;
-  margin-bottom:6px;
 }
 
-.position-value{
-  font-size:15px;
-  font-weight:800;
+.market-box .value{
+  margin-top:6px;
+  font-size:18px;
+  font-weight:650;
+}
+
+/* =========================
+   FEAR GREED
+========================= */
+
+.fg-card{
+  padding:20px;
+}
+
+.fg-main{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  margin-top:17px;
+}
+
+.fg-number{
+  font-size:47px;
+  font-weight:700;
+}
+
+.fg-label{
+  color:var(--gold);
+  font-size:10px;
+  letter-spacing:2px;
+}
+
+.fg-track{
+  margin-top:17px;
+  height:6px;
+  background:#171d24;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+#fearGreedBar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(
+    90deg,
+    var(--red),
+    var(--gold),
+    var(--green)
+  );
+  transition:width .5s ease;
+}
+
+/* =========================
+   TARGETS
+========================= */
+
+.targets-card{
+  padding:20px;
+  margin-top:14px;
+}
+
+.targets{
+  margin-top:13px;
+  display:grid;
+  gap:7px;
+}
+
+.target-row{
+  display:grid;
+  grid-template-columns:1.5fr .7fr .8fr;
+  align-items:center;
+  padding:9px 10px;
+  background:rgba(255,255,255,.018);
+  border:1px solid rgba(255,255,255,.04);
+  border-radius:5px;
+}
+
+.target-name{
+  font-size:9px;
+  color:var(--muted);
+  letter-spacing:1px;
+}
+
+.target-price{
+  text-align:center;
+  font-size:12px;
+  font-weight:650;
+}
+
+.target-distance{
+  text-align:right;
+  color:var(--cyan);
+  font-size:10px;
+}
+
+.target-row.mission{
+  border-color:rgba(229,189,97,.38);
+  background:rgba(229,189,97,.045);
+}
+
+.target-row.mission .target-name,
+.target-row.mission .target-price{
+  color:var(--gold);
+}
+
+/* =========================
+   MISSION
+========================= */
+
+.mission-card{
+  margin-top:14px;
+  padding:20px;
+}
+
+.mission-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+}
+
+.mission-title{
+  color:var(--gold);
+  font-size:11px;
+  letter-spacing:3px;
+}
+
+.mission-goal{
+  font-size:10px;
+  color:var(--muted);
+}
+
+.mission-value{
+  margin-top:12px;
+  font-size:32px;
+  font-weight:700;
+}
+
+.mission-value small{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.mission-track{
+  height:8px;
+  background:#171b20;
+  border-radius:10px;
+  margin-top:13px;
+  overflow:hidden;
+}
+
+#missionBar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(
+    90deg,
+    #88703b,
+    var(--gold)
+  );
+  transition:width .6s ease;
+}
+
+.mission-percent{
+  margin-top:7px;
+  text-align:right;
+  color:var(--gold);
+  font-size:10px;
+}
+
+/* =========================
+   ORDER BOOK
+========================= */
+
+.order-card{
+  margin-top:14px;
+  padding:20px;
+}
+
+.order-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+  margin-top:14px;
+}
+
+.book-title{
+  color:var(--muted);
+  font-size:8px;
+  letter-spacing:2px;
+  margin-bottom:7px;
+}
+
+.book-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  padding:7px 8px;
+  font-size:10px;
+  border-bottom:1px solid rgba(255,255,255,.035);
+}
+
+.bids .book-row:first-of-type{
+  color:var(--green);
+}
+
+.asks .book-row:first-of-type{
+  color:var(--red);
+}
+
+.book-row span:last-child{
+  text-align:right;
+  color:var(--muted);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+  display:flex;
+  justify-content:space-between;
+  margin-top:15px;
+  padding:0 5px;
+  color:#4f5a65;
+  font-size:8px;
+  letter-spacing:1.5px;
 }
 
 /* =========================
    RESPONSIVE
-   ========================= */
+========================= */
 
-@media(max-width:800px){
+@media(max-width:900px){
 
-  #app{
-    padding:10px;
-  }
-
-  .dashboard-grid{
+  .dashboard-grid,
+  .lower-grid{
     grid-template-columns:1fr;
   }
 
-  .header{
-    padding:13px 14px;
+  .main-bottom{
+    position:static;
+    margin-top:35px;
+  }
+
+  .xrp-main{
+    min-height:290px;
+  }
+
+}
+
+@media(max-width:600px){
+
+  #app{
+    width:94vw;
+    padding-top:12px;
   }
 
   .brand-title{
-    font-size:14px;
+    font-size:17px;
+    letter-spacing:3px;
   }
 
-  .position-grid{
-    grid-template-columns:1fr 1fr;
+  .brand-sub{
+    font-size:7px;
+  }
+
+  .brand-mark{
+    width:38px;
+    height:38px;
+  }
+
+  .xrp-main{
+    padding:20px;
+  }
+
+  .xrp-price{
+    font-size:49px;
+  }
+
+  .main-bottom{
+    grid-template-columns:1fr 1fr 1fr;
+    gap:7px;
+  }
+
+  .metric-value{
+    font-size:11px;
+  }
+
+  .radar{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .target-row{
+    grid-template-columns:1.25fr .7fr .8fr;
+  }
+
+  .order-grid{
+    gap:8px;
   }
 
 }
 
-@media(max-width:480px){
+/* =========================
+   LOADING
+========================= */
 
-  .xrp-content{
-    padding:18px;
-  }
+.loading{
+  color:var(--muted);
+}
 
-  .position-grid{
-    grid-template-columns:1fr;
-  }
-
+.error{
+  color:var(--red)!important;
 }
 </style>
 </head>
+
 
 <body>
 
 <div id="app">
 
-  <!-- HEADER -->
+  <!-- ================= HEADER ================= -->
+
   <header class="header">
 
     <div class="brand">
 
-      <div class="brand-mark">
-        X
-      </div>
+      <div class="brand-mark">X</div>
 
-      <div class="brand-text">
+      <div>
         <div class="brand-title">
           XRP ORBIT
         </div>
@@ -405,737 +727,106 @@ body{
     </div>
 
     <div class="header-status">
-
       <span class="live-dot"></span>
-
-      <span class="live-text">
-        LIVE
-      </span>
-
+      <span class="live-text">LIVE</span>
     </div>
 
   </header>
 
 
-  <!-- MAIN GRID -->
-  <main class="dashboard-grid">
+  <!-- ================= TOP ================= -->
 
-    <!-- XRP MAIN -->
-    <section class="card xrp-main">
+  <section class="dashboard-grid">
 
-      <div class="card-header">
+    <!-- XRP -->
 
-        <span class="card-title">
-          XRP / JPY
-        </span>
+    <div class="card xrp-main">
 
-        <span class="card-tag">
-          BITBANK
-        </span>
-
+      <div class="eyebrow">
+        XRP / JPY · BITBANK
       </div>
 
-      <div class="xrp-content">
+      <div class="xrp-price">
+        <span class="yen">¥</span><span id="xrpPrice">---</span>
+      </div>
 
-        <div class="xrp-label">
-          XRP PRICE
+      <div class="xrp-usd" id="xrpUsd">
+        $---
+      </div>
+
+      <div class="main-bottom">
+
+        <div>
+          <div class="metric-label">
+            POSITION
+          </div>
+          <div class="metric-value" id="positionAmount">
+            10,000 XRP
+          </div>
         </div>
 
         <div>
-          <span
-            id="xrpPrice"
-            class="xrp-price"
-          >
-            ¥---
-          </span>
-
-          <span class="xrp-unit">
-            JPY
-          </span>
+          <div class="metric-label">
+            AVG ENTRY
+          </div>
+          <div class="metric-value" id="positionAverage">
+            ¥183
+          </div>
         </div>
 
-
-        <div class="xrp-sub">
-
-          <div class="metric">
-
-            <span class="metric-label">
-              XRP / USD
-            </span>
-
-            <span
-              id="xrpUsd"
-              class="metric-value"
-            >
-              $---
-            </span>
-
+        <div>
+          <div class="metric-label">
+            VOLUME
           </div>
-
-
-          <div class="metric">
-
-            <span class="metric-label">
-              VOLUME
-            </span>
-
-            <span
-              id="xrpVolume"
-              class="metric-value"
-            >
-              ---
-            </span>
-
-          </div>
-
-        </div>
-
-
-        <!-- POSITION -->
-
-        <div class="position-grid">
-
-          <div class="position-box">
-
-            <div class="position-label">
-              HOLDING
-            </div>
-
-            <div
-              id="positionAmount"
-              class="position-value"
-            >
-              10,000 XRP
-            </div>
-
-          </div>
-
-
-          <div class="position-box">
-
-            <div class="position-label">
-              AVG PRICE
-            </div>
-
-            <div
-              id="positionAverage"
-              class="position-value"
-            >
-              ¥183
-            </div>
-
-          </div>
-
-
-          <div class="position-box">
-
-            <div class="position-label">
-              MISSION
-            </div>
-
-            <div
-              id="missionTarget"
-              class="position-value"
-            >
-              ¥275
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- MACRO -->
-    <section class="card">
-
-      <div class="card-header">
-
-        <span class="card-title">
-          MACRO
-        </span>
-
-        <span class="card-tag">
-          LIVE DATA
-        </span>
-
-      </div>
-
-      <div class="xrp-content">
-
-        <div class="metric">
-
-          <span class="metric-label">
-            BTC / USD
-          </span>
-
-          <span
-            id="btcPrice"
-            class="metric-value"
-            style="font-size:24px"
-          >
-            $---
-          </span>
-
-        </div>
-
-
-        <div
-          style="
-            height:1px;
-            background:rgba(255,255,255,.06);
-            margin:20px 0;
-          "
-        ></div>
-
-
-        <div class="metric">
-
-          <span class="metric-label">
-            USD / JPY
-          </span>
-
-          <span
-            id="usdJpy"
-            class="metric-value"
-            style="font-size:24px"
-          >
+          <div class="metric-value" id="xrpVolume">
             ---
-          </span>
-
-        </div>
-
-
-        <div
-          style="
-            height:1px;
-            background:rgba(255,255,255,.06);
-            margin:20px 0;
-          "
-        ></div>
-
-
-        <div class="metric">
-
-          <span class="metric-label">
-            SYSTEM
-          </span>
-
-          <span
-            id="connectionStatus"
-            class="metric-value"
-          >
-            CONNECTING
-          </span>
-
+          </div>
         </div>
 
       </div>
-
-    </section>
-
-  </main>
-
-</div>
-
-</body>
-</html>
-<!-- ==================================================
-     PART 2 / DASHBOARD PANELS
-     ================================================== -->
-
-<style>
-
-/* =========================
-   LOWER DASHBOARD
-   ========================= */
-
-.lower-grid{
-  display:grid;
-
-  grid-template-columns:
-    minmax(0,1fr)
-    minmax(0,1fr);
-
-  gap:16px;
-
-  margin-top:16px;
-}
-
-
-/* =========================
-   MARKET CARD
-   ========================= */
-
-.market-card{
-  min-height:230px;
-}
-
-.market-body{
-  padding:18px;
-}
-
-.market-row{
-  display:grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap:10px;
-
-  margin-bottom:10px;
-}
-
-.market-item{
-  padding:14px;
-
-  border-radius:10px;
-
-  background:
-    rgba(255,255,255,.025);
-
-  border:
-    1px solid rgba(255,255,255,.055);
-}
-
-.market-item-label{
-  color:#707681;
-  font-size:8px;
-  letter-spacing:1.5px;
-  margin-bottom:7px;
-}
-
-.market-item-value{
-  color:#e9eaed;
-  font-size:16px;
-  font-weight:800;
-}
-
-
-/* =========================
-   FEAR & GREED
-   ========================= */
-
-.fg-card{
-  min-height:230px;
-}
-
-.fg-body{
-  padding:20px;
-}
-
-.fg-number{
-  display:flex;
-  align-items:baseline;
-  gap:8px;
-}
-
-#fearGreedValue{
-  font-size:46px;
-  line-height:1;
-  font-weight:900;
-}
-
-#fearGreedLabel{
-  color:#9096a0;
-  font-size:11px;
-  letter-spacing:1px;
-}
-
-.fg-track{
-  width:100%;
-  height:8px;
-
-  margin-top:22px;
-
-  border-radius:10px;
-
-  background:
-    rgba(255,255,255,.07);
-
-  overflow:hidden;
-}
-
-#fearGreedBar{
-  width:0%;
-  height:100%;
-
-  border-radius:10px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #d94b4b,
-      #e7c85c,
-      #64d98b
-    );
-
-  transition:
-    width .4s ease;
-}
-
-
-/* =========================
-   TARGETS
-   ========================= */
-
-.targets-card{
-  grid-column:1 / -1;
-}
-
-.targets-body{
-  padding:18px;
-}
-
-.targets-grid{
-  display:grid;
-
-  grid-template-columns:
-    repeat(6,1fr);
-
-  gap:8px;
-}
-
-.target{
-  position:relative;
-
-  min-height:100px;
-
-  padding:12px;
-
-  border-radius:10px;
-
-  background:
-    rgba(255,255,255,.025);
-
-  border:
-    1px solid rgba(255,255,255,.06);
-
-  overflow:hidden;
-}
-
-.target::after{
-  content:"";
-
-  position:absolute;
-
-  left:0;
-  bottom:0;
-
-  width:100%;
-  height:2px;
-
-  background:
-    rgba(255,190,60,.45);
-}
-
-.target-label{
-  color:#737984;
-
-  font-size:8px;
-  letter-spacing:1px;
-
-  margin-bottom:8px;
-}
-
-.target-price{
-  color:#f0f1f3;
-
-  font-size:20px;
-  font-weight:900;
-}
-
-.target-distance{
-  margin-top:7px;
-
-  color:#a8adb5;
-
-  font-size:9px;
-}
-
-
-/* =========================
-   MISSION BAR
-   ========================= */
-
-.mission-card{
-  grid-column:1 / -1;
-}
-
-.mission-body{
-  padding:18px;
-}
-
-.mission-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  margin-bottom:10px;
-}
-
-.mission-name{
-  color:#f0c45b;
-
-  font-size:11px;
-  font-weight:800;
-
-  letter-spacing:2px;
-}
-
-#missionPercent{
-  color:#9ca1aa;
-
-  font-size:10px;
-}
-
-.mission-track{
-  width:100%;
-  height:7px;
-
-  border-radius:10px;
-
-  background:
-    rgba(255,255,255,.07);
-
-  overflow:hidden;
-}
-
-#missionBar{
-  width:0%;
-  height:100%;
-
-  border-radius:10px;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255,190,60,.45),
-      rgba(255,210,90,.95)
-    );
-
-  box-shadow:
-    0 0 12px rgba(255,190,60,.25);
-
-  transition:
-    width .4s ease;
-}
-
-
-/* =========================
-   ORDER BOOK
-   ========================= */
-
-.order-card{
-  min-height:260px;
-}
-
-.order-body{
-  padding:14px;
-}
-
-.order-grid{
-  display:grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap:10px;
-}
-
-.order-side{
-  padding:12px;
-
-  border-radius:10px;
-
-  background:
-    rgba(255,255,255,.018);
-
-  border:
-    1px solid rgba(255,255,255,.05);
-}
-
-.order-side-title{
-  font-size:9px;
-  letter-spacing:2px;
-
-  margin-bottom:10px;
-}
-
-.bid-title{
-  color:#65d99a;
-}
-
-.ask-title{
-  color:#e77a7a;
-}
-
-.order-line{
-  display:flex;
-
-  justify-content:space-between;
-
-  padding:7px 0;
-
-  border-bottom:
-    1px solid rgba(255,255,255,.035);
-
-  font-size:10px;
-}
-
-.order-price{
-  color:#dfe2e6;
-}
-
-.order-size{
-  color:#777d87;
-}
-
-
-/* =========================
-   FOOTER
-   ========================= */
-
-.footer{
-  display:flex;
-
-  justify-content:space-between;
-  align-items:center;
-
-  margin-top:16px;
-  padding:12px 4px;
-
-  color:#555b65;
-
-  font-size:8px;
-  letter-spacing:1.5px;
-}
-
-
-/* =========================
-   RESPONSIVE
-   ========================= */
-
-@media(max-width:900px){
-
-  .targets-grid{
-    grid-template-columns:
-      repeat(3,1fr);
-  }
-
-}
-
-@media(max-width:650px){
-
-  .lower-grid{
-    grid-template-columns:1fr;
-  }
-
-  .targets-card,
-  .mission-card{
-    grid-column:auto;
-  }
-
-  .targets-grid{
-    grid-template-columns:
-      repeat(2,1fr);
-  }
-
-}
-
-</style>
-
-
-<!-- =========================
-     LOWER DASHBOARD
-     ========================= -->
-
-<div class="lower-grid">
-
-
-  <!-- MARKET -->
-
-  <section class="card market-card">
-
-    <div class="card-header">
-
-      <span class="card-title">
-        MARKET DATA
-      </span>
-
-      <span class="card-tag">
-        REALTIME
-      </span>
 
     </div>
 
-    <div class="market-body">
 
-      <div class="market-row">
+    <!-- MACRO -->
 
-        <div class="market-item">
+    <div class="card macro-card">
 
-          <div class="market-item-label">
-            XRP / JPY
-          </div>
+      <div class="macro-title">
 
-          <div
-            id="marketXrp"
-            class="market-item-value"
-          >
-            ---
-          </div>
-
+        <div class="section-title">
+          MACRO / BTC
         </div>
 
-        <div class="market-item">
-
-          <div class="market-item-label">
-            XRP / USD
-          </div>
-
-          <div
-            id="marketXrpUsd"
-            class="market-item-value"
-          >
-            ---
-          </div>
-
+        <div class="eyebrow">
+          USD
         </div>
 
       </div>
 
+      <div class="macro-grid">
 
-      <div class="market-row">
+        <div class="macro-item">
 
-        <div class="market-item">
-
-          <div class="market-item-label">
-            BTC / USD
+          <div class="metric-label">
+            BITCOIN
           </div>
 
-          <div
-            id="marketBtc"
-            class="market-item-value"
-          >
-            ---
+          <div class="macro-value"
+               id="btcPrice">
+            $---
           </div>
 
         </div>
 
-        <div class="market-item">
+        <div class="macro-item">
 
-          <div class="market-item-label">
+          <div class="metric-label">
             USD / JPY
           </div>
 
-          <div
-            id="marketUsdJpy"
-            class="market-item-value"
-          >
+          <div class="macro-value"
+               id="usdJpy">
             ---
           </div>
 
@@ -1143,18 +834,70 @@ body{
 
       </div>
 
+      <div class="connection"
+           id="connectionStatus">
+        CONNECTING
+      </div>
 
-      <div class="market-item">
+    </div>
 
-        <div class="market-item-label">
-          XRP VOLUME
+  </section>
+
+
+  <!-- ================= CHART ================= -->
+
+  <section class="card chart-card"
+           style="margin-top:14px;">
+
+    <div class="chart-head">
+
+      <div class="chart-title">
+        XRP / JPY · LIVE ORBIT
+      </div>
+
+      <div class="chart-current"
+           id="chartCurrentPrice">
+        ¥---
+      </div>
+
+    </div>
+
+    <div class="chart-body">
+
+      <div class="chart-wrap">
+        <canvas id="xrpChart"></canvas>
+      </div>
+
+      <div class="radar">
+
+        <div class="radar-item">
+          <span>DEFENSE</span>
+          <strong>¥225</strong>
         </div>
 
-        <div
-          id="marketVolume"
-          class="market-item-value"
-        >
-          ---
+        <div class="radar-item">
+          <span>RECOVERY</span>
+          <strong>¥250</strong>
+        </div>
+
+        <div class="radar-item">
+          <span>MISSION</span>
+          <strong>¥300</strong>
+        </div>
+
+        <div class="radar-item">
+          <span>ACCELERATION</span>
+          <strong>¥300+</strong>
+        </div>
+
+        <div class="radar-item">
+          <span>BULL</span>
+          <strong>¥400</strong>
+        </div>
+
+        <div class="radar-item">
+          <span>MOON</span>
+          <strong>¥500</strong>
         </div>
 
       </div>
@@ -1164,40 +907,83 @@ body{
   </section>
 
 
-  <!-- FEAR & GREED -->
+  <!-- ================= LOWER ================= -->
 
-  <section class="card fg-card">
+  <section class="lower-grid">
 
-    <div class="card-header">
+    <!-- MARKET -->
 
-      <span class="card-title">
-        FEAR & GREED
-      </span>
+    <div class="card market-card">
 
-      <span class="card-tag">
-        CRYPTO SENTIMENT
-      </span>
+      <div class="section-title">
+        MARKET MATRIX
+      </div>
+
+      <div class="market-grid">
+
+        <div class="market-box">
+          <div class="label">XRP / JPY</div>
+          <div class="value" id="marketXrp">---</div>
+        </div>
+
+        <div class="market-box">
+          <div class="label">XRP / USD</div>
+          <div class="value" id="marketXrpUsd">---</div>
+        </div>
+
+        <div class="market-box">
+          <div class="label">BTC / USD</div>
+          <div class="value" id="marketBtc">---</div>
+        </div>
+
+        <div class="market-box">
+          <div class="label">USD / JPY</div>
+          <div class="value" id="marketUsdJpy">---</div>
+        </div>
+
+        <div class="market-box">
+          <div class="label">XRP VOLUME</div>
+          <div class="value" id="marketVolume">---</div>
+        </div>
+
+      </div>
 
     </div>
 
-    <div class="fg-body">
 
-      <div class="fg-number">
+    <!-- FEAR GREED -->
 
-        <span id="fearGreedValue">
+    <div class="card fg-card">
+
+      <div class="section-title">
+        CRYPTO FEAR & GREED
+      </div>
+
+      <div class="fg-main">
+
+        <div class="fg-number"
+             id="fearGreedValue">
           --
-        </span>
+        </div>
 
-        <span id="fearGreedLabel">
-          WAITING
-        </span>
+        <div>
+
+          <div class="fg-label"
+               id="fearGreedLabel">
+            WAITING
+          </div>
+
+          <div class="eyebrow"
+               style="margin-top:6px;">
+            MARKET SENTIMENT
+          </div>
+
+        </div>
 
       </div>
 
       <div class="fg-track">
-
         <div id="fearGreedBar"></div>
-
       </div>
 
     </div>
@@ -1205,182 +991,79 @@ body{
   </section>
 
 
-  <!-- TARGETS -->
+  <!-- ================= TARGETS ================= -->
 
   <section class="card targets-card">
 
-    <div class="card-header">
-
-      <span class="card-title">
-        XRP TARGET LEVELS
-      </span>
-
-      <span class="card-tag">
-        MISSION RADAR
-      </span>
-
+    <div class="section-title">
+      PRICE TARGET RADAR
     </div>
 
-    <div class="targets-body">
+    <div class="targets">
 
-      <div class="targets-grid">
-
-
-        <div class="target">
-
-          <div
-            id="targetLabel0"
-            class="target-label"
-          >
-            防衛ライン
-          </div>
-
-          <div
-            id="targetPrice0"
-            class="target-price"
-          >
-            ¥225
-          </div>
-
-          <div
-            id="targetDistance0"
-            class="target-distance"
-          >
-            ---
-          </div>
-
+      <div class="target-row">
+        <div class="target-name">
+          DEFENSE LINE
         </div>
-
-
-        <div class="target">
-
-          <div
-            id="targetLabel1"
-            class="target-label"
-          >
-            回復ゾーン
-          </div>
-
-          <div
-            id="targetPrice1"
-            class="target-price"
-          >
-            ¥250
-          </div>
-
-          <div
-            id="targetDistance1"
-            class="target-distance"
-          >
-            ---
-          </div>
-
+        <div class="target-price">
+          ¥225
         </div>
-
-
-        <div class="target">
-
-          <div
-            id="targetLabel2"
-            class="target-label"
-          >
-            MISSION
-          </div>
-
-          <div
-            id="targetPrice2"
-            class="target-price"
-          >
-            ¥275
-          </div>
-
-          <div
-            id="targetDistance2"
-            class="target-distance"
-          >
-            ---
-          </div>
-
+        <div class="target-distance"
+             id="targetDistance0">
+          ---
         </div>
+      </div>
 
-
-        <div class="target">
-
-          <div
-            id="targetLabel3"
-            class="target-label"
-          >
-            上昇加速
-          </div>
-
-          <div
-            id="targetPrice3"
-            class="target-price"
-          >
-            ¥300
-          </div>
-
-          <div
-            id="targetDistance3"
-            class="target-distance"
-          >
-            ---
-          </div>
-
+      <div class="target-row">
+        <div class="target-name">
+          RECOVERY ZONE
         </div>
-
-
-        <div class="target">
-
-          <div
-            id="targetLabel4"
-            class="target-label"
-          >
-            強気領域
-          </div>
-
-          <div
-            id="targetPrice4"
-            class="target-price"
-          >
-            ¥400
-          </div>
-
-          <div
-            id="targetDistance4"
-            class="target-distance"
-          >
-            ---
-          </div>
-
+        <div class="target-price">
+          ¥250
         </div>
-
-
-        <div class="target">
-
-          <div
-            id="targetLabel5"
-            class="target-label"
-          >
-            MOON ZONE
-          </div>
-
-          <div
-            id="targetPrice5"
-            class="target-price"
-          >
-            ¥500
-          </div>
-
-          <div
-            id="targetDistance5"
-            class="target-distance"
-          >
-            ---
-          </div>
-
+        <div class="target-distance"
+             id="targetDistance1">
+          ---
         </div>
+      </div>
 
+      <div class="target-row mission">
+        <div class="target-name">
+          ★ MISSION
+        </div>
+        <div class="target-price">
+          ¥300
+        </div>
+        <div class="target-distance"
+             id="targetDistance2">
+          ---
+        </div>
+      </div>
+
+      <div class="target-row">
+        <div class="target-name">
+          BULL ACCELERATION
+        </div>
+        <div class="target-price">
+          ¥400
+        </div>
+        <div class="target-distance"
+             id="targetDistance3">
+          ---
+        </div>
+      </div>
+
+      <div class="target-row">
+        <div class="target-name">
+          MOON ZONE
+        </div>
+        <div class="target-price">
+          ¥500
+        </div>
+        <div class="target-distance"
+             id="targetDistance4">
+          ---
+        </div>
       </div>
 
     </div>
@@ -1388,113 +1071,99 @@ body{
   </section>
 
 
-  <!-- MISSION -->
+  <!-- ================= MISSION ================= -->
 
   <section class="card mission-card">
 
-    <div class="card-header">
+    <div class="mission-head">
 
-      <span class="card-title">
-        275 MISSION
-      </span>
+      <div class="mission-title">
+        AWAKEN MODE
+      </div>
 
-      <span class="card-tag">
-        XRP / JPY
-      </span>
+      <div class="mission-goal">
+        GOAL ¥3,000,000
+      </div>
 
     </div>
 
-    <div class="mission-body">
+    <div class="mission-value">
 
-      <div class="mission-top">
+      <span id="missionCurrentValue">
+        ¥0
+      </span>
 
-        <span class="mission-name">
-          AWAKEN MODE
-        </span>
+      <small>
+        / ¥3,000,000
+      </small>
 
-        <span id="missionPercent">
-          0%
-        </span>
+    </div>
 
-      </div>
+    <div class="mission-track">
+      <div id="missionBar"></div>
+    </div>
 
-      <div class="mission-track">
-
-        <div id="missionBar"></div>
-
-      </div>
-
+    <div class="mission-percent"
+         id="missionPercent">
+      0.0%
     </div>
 
   </section>
 
 
-  <!-- ORDER BOOK -->
+  <!-- ================= ORDER BOOK ================= -->
 
   <section class="card order-card">
 
-    <div class="card-header">
-
-      <span class="card-title">
-        ORDER BOOK
-      </span>
-
-      <span class="card-tag">
-        BITBANK
-      </span>
-
+    <div class="section-title">
+      BITBANK ORDER BOOK · XRP/JPY
     </div>
 
-    <div class="order-body">
+    <div class="order-grid">
 
-      <div class="order-grid">
+      <div class="bids">
 
-
-        <div class="order-side">
-
-          <div class="order-side-title bid-title">
-            BID
-          </div>
-
-          <div class="order-line">
-            <span class="order-price" id="bid1">---</span>
-            <span class="order-size" id="bidSize1">---</span>
-          </div>
-
-          <div class="order-line">
-            <span class="order-price" id="bid2">---</span>
-            <span class="order-size" id="bidSize2">---</span>
-          </div>
-
-          <div class="order-line">
-            <span class="order-price" id="bid3">---</span>
-            <span class="order-size" id="bidSize3">---</span>
-          </div>
-
+        <div class="book-title">
+          BID
         </div>
 
+        <div class="book-row">
+          <span id="bid1">---</span>
+          <span id="bidSize1">---</span>
+        </div>
 
-        <div class="order-side">
+        <div class="book-row">
+          <span id="bid2">---</span>
+          <span id="bidSize2">---</span>
+        </div>
 
-          <div class="order-side-title ask-title">
-            ASK
-          </div>
+        <div class="book-row">
+          <span id="bid3">---</span>
+          <span id="bidSize3">---</span>
+        </div>
 
-          <div class="order-line">
-            <span class="order-price" id="ask1">---</span>
-            <span class="order-size" id="askSize1">---</span>
-          </div>
+      </div>
 
-          <div class="order-line">
-            <span class="order-price" id="ask2">---</span>
-            <span class="order-size" id="askSize2">---</span>
-          </div>
 
-          <div class="order-line">
-            <span class="order-price" id="ask3">---</span>
-            <span class="order-size" id="askSize3">---</span>
-          </div>
+      <div class="asks">
 
+        <div class="book-title">
+          ASK
+        </div>
+
+        <div class="book-row">
+          <span id="ask1">---</span>
+          <span id="askSize1">---</span>
+        </div>
+
+        <div class="book-row">
+          <span id="ask2">---</span>
+          <span id="askSize2">---</span>
+        </div>
+
+        <div class="book-row">
+          <span id="ask3">---</span>
+          <span id="askSize3">---</span>
         </div>
 
       </div>
@@ -1502,626 +1171,88 @@ body{
     </div>
 
   </section>
+
+
+  <!-- ================= FOOTER ================= -->
+
+  <footer class="footer">
+
+    <span>
+      XRP ORBIT COMMAND CENTER
+    </span>
+
+    <span id="lastUpdated">
+      UPDATED --
+    </span>
+
+  </footer>
 
 </div>
 
 
-<!-- FOOTER -->
-
-<footer class="footer">
-
-  <span>
-    XRP ORBIT COMMAND CENTER
-  </span>
-
-  <span>
-    <span id="lastUpdated">--:--:--</span>
-  </span>
-
-</footer>
-<!-- ==================================================
-     PART 3 / CHART + PRICE RADAR
-     ================================================== -->
-
-<style>
-
-/* =========================
-   CHART CARD
-   ========================= */
-
-.chart-card{
-  grid-column:1 / -1;
-  min-height:330px;
-}
-
-.chart-body{
-  padding:16px;
-}
-
-.chart-wrap{
-  position:relative;
-
-  width:100%;
-  height:250px;
-
-  border-radius:10px;
-
-  overflow:hidden;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255,255,255,.025),
-      rgba(255,255,255,.008)
-    );
-
-  border:
-    1px solid rgba(255,255,255,.05);
-}
-
-#xrpChart{
-  width:100%;
-  height:100%;
-  display:block;
-}
-
-
-/* =========================
-   PRICE RADAR
-   ========================= */
-
-.radar{
-  display:grid;
-
-  grid-template-columns:
-    repeat(6,1fr);
-
-  gap:7px;
-
-  margin-top:14px;
-}
-
-.radar-item{
-  padding:9px 7px;
-
-  text-align:center;
-
-  border-radius:8px;
-
-  background:
-    rgba(255,255,255,.018);
-
-  border:
-    1px solid rgba(255,255,255,.05);
-}
-
-.radar-item span{
-  display:block;
-}
-
-.radar-name{
-  color:#666d78;
-  font-size:7px;
-  letter-spacing:1px;
-
-  margin-bottom:4px;
-}
-
-.radar-price{
-  color:#dfe1e5;
-  font-size:11px;
-  font-weight:800;
-}
-
-
-/* =========================
-   CURRENT PRICE MARKER
-   ========================= */
-
-.current-marker{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  margin-bottom:12px;
-}
-
-.current-label{
-  color:#737983;
-  font-size:9px;
-  letter-spacing:1.5px;
-}
-
-.current-value{
-  color:#f2f3f5;
-  font-size:14px;
-  font-weight:800;
-}
-
-
-/* =========================
-   MOBILE
-   ========================= */
-
-@media(max-width:650px){
-
-  .radar{
-    grid-template-columns:
-      repeat(3,1fr);
-  }
-
-  .chart-card{
-    min-height:290px;
-  }
-
-  .chart-wrap{
-    height:210px;
-  }
-
-}
-
-</style>
-
-
-<!-- =========================
-     CHART CARD
-     ========================= -->
-
-<section class="card chart-card">
-
-  <div class="card-header">
-
-    <span class="card-title">
-      XRP / JPY CHART
-    </span>
-
-    <span class="card-tag">
-      5M • BITBANK
-    </span>
-
-  </div>
-
-
-  <div class="chart-body">
-
-    <div class="current-marker">
-
-      <span class="current-label">
-        CURRENT XRP
-      </span>
-
-      <span
-        id="chartCurrentPrice"
-        class="current-value"
-      >
-        ¥---
-      </span>
-
-    </div>
-
-
-    <div class="chart-wrap">
-
-      <canvas
-        id="xrpChart"
-      ></canvas>
-
-    </div>
-
-
-    <div class="radar">
-
-      <div class="radar-item">
-
-        <span class="radar-name">
-          DEFENSE
-        </span>
-
-        <span class="radar-price">
-          ¥225
-        </span>
-
-      </div>
-
-
-      <div class="radar-item">
-
-        <span class="radar-name">
-          RECOVERY
-        </span>
-
-        <span class="radar-price">
-          ¥250
-        </span>
-
-      </div>
-
-
-      <div class="radar-item">
-
-        <span class="radar-name">
-          MISSION
-        </span>
-
-        <span class="radar-price">
-          ¥275
-        </span>
-
-      </div>
-
-
-      <div class="radar-item">
-
-        <span class="radar-name">
-          ACCELERATION
-        </span>
-
-        <span class="radar-price">
-          ¥300
-        </span>
-
-      </div>
-
-
-      <div class="radar-item">
-
-        <span class="radar-name">
-          BULL
-        </span>
-
-        <span class="radar-price">
-          ¥400
-        </span>
-
-      </div>
-
-
-      <div class="radar-item">
-
-        <span class="radar-name">
-          MOON
-        </span>
-
-        <span class="radar-price">
-          ¥500
-        </span>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
 <script>
 
-/* =========================
-   SIMPLE XRP CHART
-   ========================= */
-
-const chartCanvas =
-  document.getElementById("xrpChart");
-
-const chartCtx =
-  chartCanvas
-    ? chartCanvas.getContext("2d")
-    : null;
-
-let chartHistory = [];
-
-
-/* =========================
-   ADD PRICE
-   ========================= */
-
-function addChartPrice(price){
-
-  if (
-    !Number.isFinite(price) ||
-    price <= 0
-  ) {
-    return;
-  }
-
-  chartHistory.push({
-    time: Date.now(),
-    price: price
-  });
-
-  /*
-    最大120ポイント
-    → 5秒更新なら約10分
-  */
-
-  if (chartHistory.length > 120){
-
-    chartHistory.shift();
-
-  }
-
-  drawXRPChart();
-}
-
-
-/* =========================
-   DRAW
-   ========================= */
-
-function drawXRPChart(){
-
-  if (!chartCanvas || !chartCtx) {
-    return;
-  }
-
-  const rect =
-    chartCanvas.getBoundingClientRect();
-
-  const dpr =
-    window.devicePixelRatio || 1;
-
-  chartCanvas.width =
-    rect.width * dpr;
-
-  chartCanvas.height =
-    rect.height * dpr;
-
-  chartCtx.setTransform(
-    dpr,
-    0,
-    0,
-    dpr,
-    0,
-    0
-  );
-
-
-  const width =
-    rect.width;
-
-  const height =
-    rect.height;
-
-
-  chartCtx.clearRect(
-    0,
-    0,
-    width,
-    height
-  );
-
-
-  if (chartHistory.length < 2){
-
-    chartCtx.fillStyle =
-      "rgba(255,255,255,.35)";
-
-    chartCtx.font =
-      "11px sans-serif";
-
-    chartCtx.fillText(
-      "WAITING FOR XRP DATA...",
-      16,
-      24
-    );
-
-    return;
-  }
-
-
-  const prices =
-    chartHistory.map(
-      item => item.price
-    );
-
-
-  let min =
-    Math.min(...prices);
-
-  let max =
-    Math.max(...prices);
-
-
-  const padding =
-    Math.max(
-      (max - min) * .2,
-      .5
-    );
-
-  min -= padding;
-  max += padding;
-
-
-  const left = 12;
-  const right = width - 12;
-  const top = 12;
-  const bottom = height - 16;
-
-
-  /* GRID */
-
-  chartCtx.strokeStyle =
-    "rgba(255,255,255,.05)";
-
-  chartCtx.lineWidth = 1;
-
-
-  for (
-    let i = 0;
-    i <= 4;
-    i++
-  ){
-
-    const y =
-      top +
-      ((bottom - top) / 4) * i;
-
-    chartCtx.beginPath();
-
-    chartCtx.moveTo(
-      left,
-      y
-    );
-
-    chartCtx.lineTo(
-      right,
-      y
-    );
-
-    chartCtx.stroke();
-  }
-
-
-  /* LINE */
-
-  chartCtx.beginPath();
-
-
-  chartHistory.forEach(
-    (point,index) => {
-
-      const x =
-        left +
-        ((right - left) /
-        (chartHistory.length - 1)) *
-        index;
-
-      const y =
-        bottom -
-        ((point.price - min) /
-        (max - min)) *
-        (bottom - top);
-
-
-      if (index === 0){
-
-        chartCtx.moveTo(
-          x,
-          y
-        );
-
-      } else {
-
-        chartCtx.lineTo(
-          x,
-          y
-        );
-
-      }
-
-    }
-  );
-
-
-  chartCtx.strokeStyle =
-    "#f0c45b";
-
-  chartCtx.lineWidth = 2;
-
-  chartCtx.stroke();
-
-
-  /* CURRENT POINT */
-
-  const last =
-    chartHistory[
-      chartHistory.length - 1
-    ];
-
-  const lastX =
-    right;
-
-  const lastY =
-    bottom -
-    ((last.price - min) /
-    (max - min)) *
-    (bottom - top);
-
-
-  chartCtx.beginPath();
-
-  chartCtx.arc(
-    lastX,
-    lastY,
-    3,
-    0,
-    Math.PI * 2
-  );
-
-  chartCtx.fillStyle =
-    "#ffffff";
-
-  chartCtx.fill();
-
-}
-
-
-/* =========================
-   RESIZE
-   ========================= */
-
-window.addEventListener(
-  "resize",
-  drawXRPChart
-);
-
-</script>
-<!-- ==================================================
-     PART 4 / BITBANK REALTIME API
-     ================================================== -->
-
-<script>
-
-/* =========================
-   BITBANK API
-   ========================= */
-
-const BITBANK = {
-
-  xrpTicker:
-    "https://public.bitbank.cc/xrp_jpy/ticker",
-
-  btcTicker:
-    "https://public.bitbank.cc/btc_jpy/ticker",
-
-  xrpDepth:
-    "https://public.bitbank.cc/xrp_jpy/depth"
-
+/* =================================================
+   MARKET STATE
+================================================= */
+
+const market = {
+  xrp:0,
+  xrpUsd:0,
+  xrpVolume:0,
+  btcJpy:0,
+  btcUsd:0,
+  usdJpy:0
 };
 
 
-/* =========================
-   SAFE FETCH
-   ========================= */
+/* =================================================
+   HELPERS
+================================================= */
+
+function setText(id,value){
+
+  const el =
+    document.getElementById(id);
+
+  if(el){
+    el.textContent = value;
+  }
+
+}
+
 
 async function getJSON(url){
 
   const response =
     await fetch(
-      url,
+      url + (
+        url.includes("?")
+        ? "&"
+        : "?"
+      ) +
+      "_=" +
+      Date.now(),
       {
         cache:"no-store"
       }
     );
 
-  if (!response.ok){
-
+  if(!response.ok){
     throw new Error(
       "HTTP " +
       response.status
     );
-
   }
 
-  return await response.json();
+  return response.json();
 
 }
 
 
-/* =========================
-   XRP TICKER
-   ========================= */
+/* =================================================
+   XRP
+================================================= */
 
 async function updateXRP(){
 
@@ -2129,30 +1260,28 @@ async function updateXRP(){
 
     const result =
       await getJSON(
-        BITBANK.xrpTicker
+        "https://public.bitbank.cc/xrp_jpy/ticker"
       );
 
-    const ticker =
+    const t =
       result.data;
 
     const price =
-      Number(ticker.last);
+      Number(t.last);
 
     const volume =
-      Number(ticker.volume);
+      Number(t.volume);
 
 
-    if (
+    if(
       Number.isFinite(price) &&
       price > 0
     ){
 
-      market.xrp =
-        price;
+      market.xrp = price;
 
       setText(
         "xrpPrice",
-        "¥" +
         price.toLocaleString(
           "ja-JP",
           {
@@ -2161,20 +1290,12 @@ async function updateXRP(){
           }
         )
       );
-
 
       setText(
         "marketXrp",
         "¥" +
-        price.toLocaleString(
-          "ja-JP",
-          {
-            minimumFractionDigits:3,
-            maximumFractionDigits:3
-          }
-        )
+        price.toFixed(3)
       );
-
 
       setText(
         "chartCurrentPrice",
@@ -2182,15 +1303,12 @@ async function updateXRP(){
         price.toFixed(3)
       );
 
-
-      addChartPrice(
-        price
-      );
+      addChartPrice(price);
 
     }
 
 
-    if (
+    if(
       Number.isFinite(volume)
     ){
 
@@ -2207,7 +1325,6 @@ async function updateXRP(){
         )
       );
 
-
       setText(
         "marketVolume",
         volume.toLocaleString(
@@ -2220,12 +1337,11 @@ async function updateXRP(){
 
     }
 
-
-  }catch(error){
+  }catch(e){
 
     console.warn(
-      "XRP ticker error:",
-      error
+      "XRP:",
+      e
     );
 
   }
@@ -2233,9 +1349,9 @@ async function updateXRP(){
 }
 
 
-/* =========================
-   BTC TICKER
-   ========================= */
+/* =================================================
+   BTC
+================================================= */
 
 async function updateBTC(){
 
@@ -2243,56 +1359,29 @@ async function updateBTC(){
 
     const result =
       await getJSON(
-        BITBANK.btcTicker
+        "https://public.bitbank.cc/btc_jpy/ticker"
       );
 
-    const ticker =
-      result.data;
-
     const price =
-      Number(ticker.last);
+      Number(
+        result.data.last
+      );
 
-
-    if (
+    if(
       Number.isFinite(price) &&
       price > 0
     ){
 
-      market.btc =
+      market.btcJpy =
         price;
 
-
-      setText(
-        "btcPrice",
-        "$" +
-        price.toLocaleString(
-          "en-US",
-          {
-            maximumFractionDigits:0
-          }
-        )
-      );
-
-
-      setText(
-        "marketBtc",
-        "$" +
-        price.toLocaleString(
-          "en-US",
-          {
-            maximumFractionDigits:0
-          }
-        )
-      );
-
     }
 
-
-  }catch(error){
+  }catch(e){
 
     console.warn(
-      "BTC ticker error:",
-      error
+      "BTC:",
+      e
     );
 
   }
@@ -2300,310 +1389,23 @@ async function updateBTC(){
 }
 
 
-/* =========================
-   XRP ORDER BOOK
-   ========================= */
-
-async function updateOrderBook(){
-
-  try{
-
-    const result =
-      await getJSON(
-        BITBANK.xrpDepth
-      );
-
-    const data =
-      result.data;
-
-
-    const bids =
-      data.bids || [];
-
-    const asks =
-      data.asks || [];
-
-
-    /* BID */
-
-    for(
-      let i = 0;
-      i < 3;
-      i++
-    ){
-
-      const row =
-        bids[i];
-
-      if (!row) continue;
-
-
-      setText(
-        "bid" + (i + 1),
-        "¥" +
-        Number(row[0]).toFixed(3)
-      );
-
-
-      setText(
-        "bidSize" + (i + 1),
-        Number(row[1]).toLocaleString(
-          "en-US",
-          {
-            maximumFractionDigits:2
-          }
-        )
-      );
-
-    }
-
-
-    /* ASK */
-
-    for(
-      let i = 0;
-      i < 3;
-      i++
-    ){
-
-      const row =
-        asks[i];
-
-      if (!row) continue;
-
-
-      setText(
-        "ask" + (i + 1),
-        "¥" +
-        Number(row[0]).toFixed(3)
-      );
-
-
-      setText(
-        "askSize" + (i + 1),
-        Number(row[1]).toLocaleString(
-          "en-US",
-          {
-            maximumFractionDigits:2
-          }
-        )
-      );
-
-    }
-
-
-  }catch(error){
-
-    console.warn(
-      "Order book error:",
-      error
-    );
-
-  }
-
-}
-
-
-/* =========================
-   MARKET DISPLAY
-   ========================= */
-
-function updateMarketDisplay(){
-
-  if (
-    market.xrp > 0 &&
-    market.usdJpy > 0
-  ){
-
-    market.xrpUsd =
-      market.xrp /
-      market.usdJpy;
-
-
-    setText(
-      "xrpUsd",
-      "$" +
-      market.xrpUsd.toFixed(4)
-    );
-
-
-    setText(
-      "marketXrpUsd",
-      "$" +
-      market.xrpUsd.toFixed(4)
-    );
-
-  }
-
-
-  if (
-    market.usdJpy > 0
-  ){
-
-    setText(
-      "usdJpy",
-      market.usdJpy.toFixed(2)
-    );
-
-
-    setText(
-      "marketUsdJpy",
-      market.usdJpy.toFixed(2)
-    );
-
-  }
-
-}
-
-
-/* =========================
-   POSITION DATA
-   ========================= */
-
-function updatePosition(){
-
-  const amount =
-    10000;
-
-  const average =
-    183;
-
-  const current =
-    Number(market.xrp) || 0;
-
-
-  setText(
-    "positionAmount",
-    amount.toLocaleString(
-      "ja-JP"
-    ) + " XRP"
-  );
-
-
-  setText(
-    "positionAverage",
-    "¥" +
-    average.toLocaleString(
-      "ja-JP"
-    )
-  );
-
-
-  /* MISSION */
-
-  const mission =
-    275;
-
-  let progress =
-    (
-      (current - average) /
-      (mission - average)
-    ) * 100;
-
-
-  progress =
-    Math.max(
-      0,
-      Math.min(
-        100,
-        progress
-      )
-    );
-
-
-  setText(
-    "missionPercent",
-    progress.toFixed(1) +
-    "%"
-  );
-
-
-  const bar =
-    document.getElementById(
-      "missionBar"
-    );
-
-  if(bar){
-
-    bar.style.width =
-      progress + "%";
-
-  }
-
-}
-
-
-/* =========================
-   INITIAL TEST
-   ========================= */
-
-updateXRP();
-updateBTC();
-updateOrderBook();
-
-</script>
-<!-- ==================================================
-     PART 5 / FX + BTC/USD + FEAR & GREED
-     ================================================== -->
-
-<script>
-
-/* =========================
-   MARKET STATE
-   ========================= */
-
-const market = {
-
-  xrp: 0,
-  xrpUsd: 0,
-  xrpVolume: 0,
-
-  btc: 0,
-  btcUsd: 0,
-
-  usdJpy: 0
-
-};
-
-
-/* =========================
-   SAFE TEXT UPDATE
-   ========================= */
-
-function setText(id, value){
-
-  const element =
-    document.getElementById(id);
-
-  if(element){
-
-    element.textContent =
-      value;
-
-  }
-
-}
-
-
-/* =========================
+/* =================================================
    USD / JPY
-   ========================= */
-
-const FX_ENDPOINTS = [
-
-  "https://api.frankfurter.app/latest?from=USD&to=JPY",
-
-  "https://open.er-api.com/v6/latest/USD",
-
-  "https://api.exchangerate-api.com/v4/latest/USD"
-
-];
-
+================================================= */
 
 async function updateUSDJPY(){
 
+  const sources = [
+
+    "https://open.er-api.com/v6/latest/USD",
+
+    "https://api.frankfurter.app/latest?from=USD&to=JPY"
+
+  ];
+
+
   for(
-    const url of FX_ENDPOINTS
+    const url of sources
   ){
 
     try{
@@ -2615,7 +1417,6 @@ async function updateUSDJPY(){
 
 
       if(
-        result &&
         result.rates &&
         result.rates.JPY
       ){
@@ -2636,17 +1437,14 @@ async function updateUSDJPY(){
         market.usdJpy =
           rate;
 
-        updateMarketDisplay();
-
         return;
 
       }
 
-    }catch(error){
+    }catch(e){
 
       console.warn(
-        "FX source failed:",
-        url
+        "FX source failed"
       );
 
     }
@@ -2656,43 +1454,80 @@ async function updateUSDJPY(){
 }
 
 
-/* =========================
-   BTC / USD
-   ========================= */
+/* =================================================
+   DERIVED USD PRICES
+================================================= */
 
-function updateBTCUSD(){
+function updateDerivedPrices(){
 
   if(
-    market.btc > 0 &&
     market.usdJpy > 0
   ){
 
-    market.btcUsd =
-      market.btc /
-      market.usdJpy;
+    if(
+      market.xrp > 0
+    ){
+
+      market.xrpUsd =
+        market.xrp /
+        market.usdJpy;
+
+      setText(
+        "xrpUsd",
+        "$" +
+        market.xrpUsd.toFixed(4)
+      );
+
+      setText(
+        "marketXrpUsd",
+        "$" +
+        market.xrpUsd.toFixed(4)
+      );
+
+    }
+
+
+    if(
+      market.btcJpy > 0
+    ){
+
+      market.btcUsd =
+        market.btcJpy /
+        market.usdJpy;
+
+      setText(
+        "btcPrice",
+        "$" +
+        market.btcUsd.toLocaleString(
+          "en-US",
+          {
+            maximumFractionDigits:0
+          }
+        )
+      );
+
+      setText(
+        "marketBtc",
+        "$" +
+        market.btcUsd.toLocaleString(
+          "en-US",
+          {
+            maximumFractionDigits:0
+          }
+        )
+      );
+
+    }
 
 
     setText(
-      "btcPrice",
-      "$" +
-      market.btcUsd.toLocaleString(
-        "en-US",
-        {
-          maximumFractionDigits:0
-        }
-      )
+      "usdJpy",
+      market.usdJpy.toFixed(2)
     );
 
-
     setText(
-      "marketBtc",
-      "$" +
-      market.btcUsd.toLocaleString(
-        "en-US",
-        {
-          maximumFractionDigits:0
-        }
-      )
+      "marketUsdJpy",
+      market.usdJpy.toFixed(2)
     );
 
   }
@@ -2700,9 +1535,9 @@ function updateBTCUSD(){
 }
 
 
-/* =========================
+/* =================================================
    FEAR & GREED
-   ========================= */
+================================================= */
 
 async function updateFearGreed(){
 
@@ -2713,73 +1548,52 @@ async function updateFearGreed(){
         "https://api.alternative.me/fng/?limit=1"
       );
 
-
-    if(
-      !result ||
-      !result.data ||
-      !result.data[0]
-    ){
-
-      return;
-
-    }
-
-
     const item =
       result.data[0];
-
 
     const value =
       Number(item.value);
 
 
     if(
-      !Number.isFinite(value)
+      Number.isFinite(value)
     ){
 
-      return;
-
-    }
-
-
-    setText(
-      "fearGreedValue",
-      value
-    );
-
-
-    setText(
-      "fearGreedLabel",
-      item.value_classification ||
-      "UNKNOWN"
-    );
-
-
-    const bar =
-      document.getElementById(
-        "fearGreedBar"
+      setText(
+        "fearGreedValue",
+        value
       );
 
+      setText(
+        "fearGreedLabel",
+        item.value_classification
+      );
 
-    if(bar){
+      const bar =
+        document.getElementById(
+          "fearGreedBar"
+        );
 
-      bar.style.width =
-        Math.max(
-          0,
-          Math.min(
-            100,
-            value
-          )
-        ) + "%";
+      if(bar){
+
+        bar.style.width =
+          Math.max(
+            0,
+            Math.min(
+              100,
+              value
+            )
+          ) + "%";
+
+      }
 
     }
 
-
-  }catch(error){
+  }catch(e){
 
     console.warn(
-      "Fear & Greed error:",
-      error
+      "Fear & Greed:",
+      e
     );
 
   }
@@ -2787,61 +1601,155 @@ async function updateFearGreed(){
 }
 
 
-/* =========================
-   TARGET DISTANCES
-   ========================= */
+/* =================================================
+   ORDER BOOK
+================================================= */
+
+async function updateOrderBook(){
+
+  try{
+
+    const result =
+      await getJSON(
+        "https://public.bitbank.cc/xrp_jpy/depth"
+      );
+
+    const data =
+      result.data;
+
+
+    const bids =
+      data.bids || [];
+
+    const asks =
+      data.asks || [];
+
+
+    for(
+      let i=0;
+      i<3;
+      i++
+    ){
+
+      if(bids[i]){
+
+        setText(
+          "bid" + (i+1),
+          "¥" +
+          Number(
+            bids[i][0]
+          ).toFixed(3)
+        );
+
+        setText(
+          "bidSize" + (i+1),
+          Number(
+            bids[i][1]
+          ).toLocaleString(
+            "en-US",
+            {
+              maximumFractionDigits:2
+            }
+          )
+        );
+
+      }
+
+
+      if(asks[i]){
+
+        setText(
+          "ask" + (i+1),
+          "¥" +
+          Number(
+            asks[i][0]
+          ).toFixed(3)
+        );
+
+        setText(
+          "askSize" + (i+1),
+          Number(
+            asks[i][1]
+          ).toLocaleString(
+            "en-US",
+            {
+              maximumFractionDigits:2
+            }
+          )
+        );
+
+      }
+
+    }
+
+  }catch(e){
+
+    console.warn(
+      "Order book:",
+      e
+    );
+
+  }
+
+}
+
+
+/* =================================================
+   TARGETS
+================================================= */
 
 function updateTargets(){
 
   const current =
-    Number(market.xrp) || 0;
-
+    market.xrp;
 
   const targets = [
-
     225,
     250,
-    275,
     300,
     400,
     500
-
   ];
 
 
   targets.forEach(
-    function(target, index){
+    (target,index)=>{
 
-      const distance =
-        target - current;
-
-
-      const element =
+      const el =
         document.getElementById(
           "targetDistance" +
           index
         );
 
-
-      if(!element){
-
+      if(!el){
         return;
-
       }
 
 
+      const diff =
+        target - current;
+
+
       if(
-        distance <= 0
+        !current ||
+        current <= 0
       ){
 
-        element.textContent =
+        el.textContent =
+          "---";
+
+      }else if(
+        diff <= 0
+      ){
+
+        el.textContent =
           "REACHED";
 
       }else{
 
-        element.textContent =
+        el.textContent =
           "¥" +
-          distance.toFixed(3);
+          diff.toFixed(3);
 
       }
 
@@ -2851,61 +1759,129 @@ function updateTargets(){
 }
 
 
-/* =========================
-   CONNECTION STATUS
-   ========================= */
+/* =================================================
+   300円 MISSION / 300万円 GOAL
+================================================= */
 
-function updateConnectionStatus(){
+function updateMission(){
 
-  const status =
-    document.getElementById(
-      "connectionStatus"
-    );
+  const current =
+    market.xrp;
+
+  const amount =
+    10000;
+
+  const goalPrice =
+    300;
+
+  const goalValue =
+    3000000;
 
 
-  if(!status){
+  if(
+    current <= 0
+  ){
 
     return;
 
   }
 
 
-  if(
-    market.xrp > 0 &&
-    market.btc > 0 &&
-    market.usdJpy > 0
-  ){
+  const currentValue =
+    current * amount;
 
-    status.textContent =
-      "LIVE";
 
-    status.style.color =
-      "#65ffb7";
+  const percent =
+    Math.max(
+      0,
+      Math.min(
+        100,
+        (currentValue /
+        goalValue) * 100
+      )
+    );
 
-  }else{
 
-    status.textContent =
-      "SYNCING";
+  setText(
+    "missionCurrentValue",
+    "¥" +
+    Math.round(
+      currentValue
+    ).toLocaleString(
+      "ja-JP"
+    )
+  );
 
-    status.style.color =
-      "#ffd76a";
+
+  setText(
+    "missionPercent",
+    percent.toFixed(2) +
+    "%"
+  );
+
+
+  const bar =
+    document.getElementById(
+      "missionBar"
+    );
+
+  if(bar){
+
+    bar.style.width =
+      percent + "%";
 
   }
+
+
+  const distance =
+    goalPrice - current;
+
+
+  setText(
+    "targetDistance2",
+    distance <= 0
+      ? "REACHED"
+      : "¥" +
+        distance.toFixed(3)
+  );
 
 }
 
 
-/* =========================
+/* =================================================
+   STATUS
+================================================= */
+
+function updateStatus(){
+
+  const ok =
+    market.xrp > 0 &&
+    market.btcJpy > 0 &&
+    market.usdJpy > 0;
+
+
+  setText(
+    "connectionStatus",
+    ok
+      ? "LIVE"
+      : "SYNCING"
+  );
+
+}
+
+
+/* =================================================
    CLOCK
-   ========================= */
+================================================= */
 
 function updateClock(){
 
   const now =
     new Date();
 
-
-  const time =
+  setText(
+    "lastUpdated",
+    "UPDATED " +
     now.toLocaleTimeString(
       "ja-JP",
       {
@@ -2913,185 +1889,408 @@ function updateClock(){
         minute:"2-digit",
         second:"2-digit"
       }
-    );
-
-
-  setText(
-    "lastUpdated",
-    "UPDATED " +
-    time
+    )
   );
 
 }
 
 
-/* =========================
-   COMPLETE DISPLAY UPDATE
-   ========================= */
+/* =================================================
+   FULL UPDATE
+================================================= */
 
-function updateDashboard(){
+async function refreshOrbit(){
 
-  updateMarketDisplay();
+  await Promise.allSettled([
 
-  updateBTCUSD();
+    updateXRP(),
+    updateBTC(),
+    updateUSDJPY(),
+    updateOrderBook(),
+    updateFearGreed()
 
-  updatePosition();
+  ]);
 
+
+  updateDerivedPrices();
   updateTargets();
-
-  updateConnectionStatus();
-
+  updateMission();
+  updateStatus();
   updateClock();
 
 }
 
 
-/* =========================
-   FIRST FULL SYNC
-   ========================= */
+/* =================================================
+   XRP CHART
+================================================= */
 
-async function firstSync(){
+const canvas =
+  document.getElementById(
+    "xrpChart"
+  );
 
-  try{
-
-    await Promise.allSettled([
-
-      updateXRP(),
-
-      updateBTC(),
-
-      updateUSDJPY(),
-
-      updateOrderBook(),
-
-      updateFearGreed()
-
-    ]);
+const ctx =
+  canvas.getContext("2d");
 
 
-    updateDashboard();
+let chartHistory = [];
 
-  }catch(error){
 
-    console.warn(
-      "Initial sync error:",
-      error
-    );
+function resizeCanvas(){
 
-  }
+  const rect =
+    canvas.getBoundingClientRect();
+
+  const dpr =
+    window.devicePixelRatio || 1;
+
+  canvas.width =
+    rect.width * dpr;
+
+  canvas.height =
+    rect.height * dpr;
+
+  ctx.setTransform(
+    dpr,
+    0,
+    0,
+    dpr,
+    0,
+    0
+  );
 
 }
 
 
-firstSync();
+function addChartPrice(price){
 
-</script>
-<!-- ==================================================
-     PART 6 / ORBIT AUTO SYNC ENGINE
-     ================================================== -->
-
-<script>
-
-/* =========================
-   ORBIT REFRESH ENGINE
-   ========================= */
-
-let orbitRefreshing = false;
-
-
-/* =========================
-   FULL MARKET REFRESH
-   ========================= */
-
-async function refreshOrbit(){
-
-  if(orbitRefreshing){
+  if(
+    !Number.isFinite(price) ||
+    price <= 0
+  ){
 
     return;
 
   }
 
-  orbitRefreshing = true;
+
+  chartHistory.push({
+    time:Date.now(),
+    price:price
+  });
 
 
-  try{
+  if(
+    chartHistory.length > 120
+  ){
 
-    /*
-      5秒ごとに全データを更新
-    */
-
-    await Promise.allSettled([
-
-      updateXRP(),
-
-      updateBTC(),
-
-      updateUSDJPY(),
-
-      updateOrderBook(),
-
-      updateFearGreed()
-
-    ]);
-
-
-    /*
-      XRP/USD
-      BTC/USD
-      TARGET
-      MISSION
-      STATUS
-      CLOCK
-    */
-
-    updateDashboard();
-
-
-    /*
-      最終更新時刻
-    */
-
-    setText(
-      "lastUpdated",
-      "UPDATED " +
-      new Date().toLocaleTimeString(
-        "ja-JP",
-        {
-          hour:"2-digit",
-          minute:"2-digit",
-          second:"2-digit"
-        }
-      )
-    );
-
-
-  }catch(error){
-
-    console.warn(
-      "ORBIT refresh error:",
-      error
-    );
-
-
-  }finally{
-
-    orbitRefreshing = false;
+    chartHistory.shift();
 
   }
+
+
+  drawChart();
 
 }
 
 
-/* =========================
-   FIRST REFRESH
-   ========================= */
+function drawChart(){
+
+  if(!canvas){
+    return;
+  }
+
+
+  const rect =
+    canvas.getBoundingClientRect();
+
+  const w =
+    rect.width;
+
+  const h =
+    rect.height;
+
+
+  resizeCanvas();
+
+
+  ctx.clearRect(
+    0,
+    0,
+    w,
+    h
+  );
+
+
+  /* grid */
+
+  ctx.strokeStyle =
+    "rgba(255,255,255,.055)";
+
+  ctx.lineWidth =
+    1;
+
+
+  for(
+    let i=1;
+    i<5;
+    i++
+  ){
+
+    const y =
+      (h / 5) * i;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      0,
+      y
+    );
+
+    ctx.lineTo(
+      w,
+      y
+    );
+
+    ctx.stroke();
+
+  }
+
+
+  for(
+    let i=1;
+    i<8;
+    i++
+  ){
+
+    const x =
+      (w / 8) * i;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      x,
+      0
+    );
+
+    ctx.lineTo(
+      x,
+      h
+    );
+
+    ctx.stroke();
+
+  }
+
+
+  if(
+    chartHistory.length < 2
+  ){
+
+    ctx.fillStyle =
+      "#596571";
+
+    ctx.font =
+      "11px sans-serif";
+
+    ctx.textAlign =
+      "center";
+
+    ctx.fillText(
+      "WAITING FOR XRP DATA...",
+      w / 2,
+      h / 2
+    );
+
+    return;
+
+  }
+
+
+  const values =
+    chartHistory.map(
+      x=>x.price
+    );
+
+
+  let min =
+    Math.min(...values);
+
+  let max =
+    Math.max(...values);
+
+
+  if(min === max){
+
+    min -= 1;
+    max += 1;
+
+  }
+
+
+  const pad =
+    (max - min) * .12;
+
+  min -= pad;
+  max += pad;
+
+
+  const points =
+    chartHistory.map(
+      (item,i)=>{
+
+        const x =
+          (i /
+          (chartHistory.length - 1))
+          * w;
+
+        const y =
+          h -
+          (
+            (item.price - min) /
+            (max - min)
+          ) * h;
+
+        return {
+          x:x,
+          y:y
+        };
+
+      }
+    );
+
+
+  /* area */
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    points[0].x,
+    h
+  );
+
+  points.forEach(
+    p=>{
+      ctx.lineTo(
+        p.x,
+        p.y
+      );
+    }
+  );
+
+  ctx.lineTo(
+    points[points.length-1].x,
+    h
+  );
+
+  ctx.closePath();
+
+  const gradient =
+    ctx.createLinearGradient(
+      0,
+      0,
+      0,
+      h
+    );
+
+  gradient.addColorStop(
+    0,
+    "rgba(99,230,255,.18)"
+  );
+
+  gradient.addColorStop(
+    1,
+    "rgba(99,230,255,0)"
+  );
+
+  ctx.fillStyle =
+    gradient;
+
+  ctx.fill();
+
+
+  /* line */
+
+  ctx.beginPath();
+
+  points.forEach(
+    (p,i)=>{
+
+      if(i===0){
+
+        ctx.moveTo(
+          p.x,
+          p.y
+        );
+
+      }else{
+
+        ctx.lineTo(
+          p.x,
+          p.y
+        );
+
+      }
+
+    }
+  );
+
+
+  ctx.strokeStyle =
+    "#63e6ff";
+
+  ctx.lineWidth =
+    2;
+
+  ctx.shadowColor =
+    "rgba(99,230,255,.45)";
+
+  ctx.shadowBlur =
+    8;
+
+  ctx.stroke();
+
+  ctx.shadowBlur =
+    0;
+
+
+  /* current point */
+
+  const last =
+    points[points.length-1];
+
+
+  ctx.beginPath();
+
+  ctx.arc(
+    last.x,
+    last.y,
+    4,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.fillStyle =
+    "#63e6ff";
+
+  ctx.fill();
+
+}
+
+
+/* =================================================
+   START
+================================================= */
+
+resizeCanvas();
+
+drawChart();
 
 refreshOrbit();
 
 
-/* =========================
-   5 SECOND AUTO UPDATE
-   ========================= */
+/* 5秒更新 */
 
 setInterval(
   refreshOrbit,
@@ -3099,74 +2298,32 @@ setInterval(
 );
 
 
-/* =========================
-   PAGE VISIBILITY
-   ========================= */
+/* Safari復帰時 */
 
 document.addEventListener(
   "visibilitychange",
-  function(){
-
-    /*
-      Safariでタブ復帰した瞬間に
-      最新データを取得
-    */
-
+  ()=>{
     if(
       document.visibilityState ===
       "visible"
     ){
-
       refreshOrbit();
-
     }
-
   }
 );
 
 
-/* =========================
-   RESIZE CHART
-   ========================= */
+/* resize */
 
 window.addEventListener(
   "resize",
-  function(){
-
-    if(
-      typeof drawXRPChart ===
-      "function"
-    ){
-
-      drawXRPChart();
-
-    }
-
+  ()=>{
+    resizeCanvas();
+    drawChart();
   }
 );
 
-
-/* =========================
-   ORBIT READY
-   ========================= */
-
-setTimeout(
-  function(){
-
-    const status =
-      document.querySelector(
-        ".live-text"
-      );
-
-    if(status){
-
-      status.textContent =
-        "LIVE";
-
-    }
-
-  },
-  1000
-);
-
 </script>
+
+</body>
+</html>
