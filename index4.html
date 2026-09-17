@@ -2,1310 +2,1160 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>XRP COMMAND CENTER</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>XRP COMMAND CENTER | ORBIT</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+ --bg:#040914;
+ --card:#071728;
+ --card2:#0b2138;
+ --line:#00d4ff;
+ --gold:#ffd54a;
+ --green:#00ff9d;
+ --red:#ff4567;
+ --text:#eef8ff;
+}
+
+*{
+ margin:0;
+ padding:0;
+ box-sizing:border-box;
+}
+
 body{
- background:#04070d;
- color:#fff;
- font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif;
- background-image:
- linear-gradient(rgba(0,220,255,.03) 1px,transparent 1px),
- linear-gradient(90deg,rgba(0,220,255,.03) 1px,transparent 1px);
- background-size:40px 40px;
-}
 
-.wrap{max-width:480px;margin:auto;padding:12px;}
+ font-family:"Noto Sans JP",sans-serif;
+ color:var(--text);
 
-.card{
- background:linear-gradient(145deg,#07111b,#03070d);
- border:1px solid #0aa9d8;
- border-radius:24px;
- padding:18px;
- margin-bottom:16px;
- box-shadow:0 0 25px rgba(0,170,255,.08);
-}
+ background:
+ radial-gradient(circle at top,#0a2853,#030711 70%);
 
-header{
- display:flex;
- justify-content:space-between;
- align-items:center;
- border:1px solid #0aa9d8;
- border-radius:18px;
- padding:12px 16px;
- margin-bottom:16px;
- background:#06111a;
-}
-
-.logo{
- width:52px;height:52px;
- border:2px solid #f5c84c;
- border-radius:50%;
- display:grid;place-items:center;
- color:#f5c84c;
- font-size:28px;
- font-weight:900;
-}
-
-.title{
- font-size:18px;
- font-weight:900;
- letter-spacing:2px;
-}
-
-.sub{
- color:#f5c84c;
- font-size:10px;
- letter-spacing:2px;
- margin-top:4px;
-}
-
-.timebox{
- text-align:right;
- border:1px solid #18d8ff;
- padding:8px 12px;
- border-radius:12px;
-}
-
-#clock{
- font-size:18px;
- font-weight:900;
-}
-
-.japan{
- color:#00ff9d;
- font-size:10px;
- letter-spacing:1px;
-}
-
-.price{
- font-size:58px;
- font-weight:900;
- margin-top:8px;
-}
-
-.price span{
- color:#18d8ff;
- font-size:26px;
-}
-
-#change{
- color:#ff5a76;
- font-size:18px;
- font-weight:900;
- margin-top:8px;
-}
-
-.grid{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:10px;
- margin-top:18px;
-}
-
-.box{
- border:1px solid #12324a;
- background:#02070d;
  padding:14px;
 }
 
-.box small{
- display:block;
- color:#7d93a8;
- margin-bottom:6px;
+.container{
+ max-width:720px;
+ margin:auto;
 }
 
-.box b{
- font-size:17px;
+.card{
+
+ background:rgba(8,24,42,.95);
+
+ border:2px solid rgba(0,212,255,.45);
+
+ border-radius:24px;
+
+ padding:18px;
+
+ margin-bottom:15px;
+
+ box-shadow:
+ 0 0 20px rgba(0,212,255,.20),
+ inset 0 0 22px rgba(0,170,255,.08);
+
 }
 
-.gold{border-color:#8a6d21}
-.green{border-color:#00b978}
+.header{
 
-.mission{
- margin-top:18px;
- border:1px solid #8a6d21;
- padding:16px;
- background:linear-gradient(90deg,rgba(245,200,76,.06),rgba(0,220,255,.03));
-}
-
-.mtop{
  display:flex;
+
  justify-content:space-between;
- font-weight:900;
+
+ align-items:center;
+
 }
 
-.bar{
- margin-top:10px;
- height:10px;
- background:#0d1824;
- border-radius:99px;
+.logo-area{
+
+ display:flex;
+
+ align-items:center;
+
+ gap:15px;
+
+}
+
+.logo{
+
+ width:72px;
+ height:72px;
+
+ border-radius:50%;
+
+ border:2px solid var(--gold);
+
+ display:flex;
+ align-items:center;
+ justify-content:center;
+
+ font-size:42px;
+
+ color:var(--gold);
+
+ box-shadow:
+ 0 0 18px rgba(255,213,74,.55);
+
+}
+
+.title{
+
+ font-family:Orbitron,sans-serif;
+
+ font-size:20px;
+
+ font-weight:900;
+
+ letter-spacing:1px;
+
+}
+
+.subtitle{
+
+ font-family:Orbitron,sans-serif;
+
+ color:var(--gold);
+
+ font-size:11px;
+
+ letter-spacing:1.5px;
+
+ margin-top:5px;
+
+}
+
+.time-box{
+
+ min-width:100px;
+
+ text-align:center;
+
+ border:2px solid var(--green);
+
+ border-radius:12px;
+
+ padding:10px;
+
+ box-shadow:0 0 15px rgba(0,255,157,.25);
+
+}
+
+#clock{
+
+ font-family:Orbitron;
+
+ font-size:30px;
+
+ font-weight:900;
+
+}
+
+.time-label{
+
+ font-family:Orbitron;
+
+ font-size:11px;
+
+ letter-spacing:1px;
+
+ margin-top:4px;
+
+}
+
+.section-title{
+
+ display:flex;
+
+ align-items:center;
+
+ gap:10px;
+
+ font-size:18px;
+
+ font-weight:800;
+
+ margin-bottom:15px;
+
+}
+
+.diamond{
+
+ width:12px;
+ height:12px;
+
+ background:var(--line);
+
+ transform:rotate(45deg);
+
+ box-shadow:0 0 10px var(--line);
+
+}
+
+.price-layout{
+
+ display:grid;
+
+ grid-template-columns:1.25fr .9fr;
+
+ gap:16px;
+
+}
+
+.big-price{
+
+ font-size:82px;
+
+ line-height:.9;
+
+ font-weight:900;
+
+}
+
+.yen{
+
+ font-size:42px;
+
+}
+
+.change{
+
+ margin-top:12px;
+
+ font-size:18px;
+
+ font-weight:900;
+
+}
+
+.red{color:var(--red);}
+.green{color:var(--green);}
+.gold{color:var(--gold);}
+
+.chart-box{
+
+ height:175px;
+
+ border-radius:14px;
+
  overflow:hidden;
+
+ border:2px solid rgba(0,212,255,.25);
+
+ background:#061321;
+
+ position:relative;
+
 }
 
-#missionFill{
- height:100%;
- width:65%;
- background:linear-gradient(90deg,#27d8ff,#f5c84c);
-}
+.chart-tabs{
 
-.note{
- margin-top:8px;
+ position:absolute;
+
+ top:8px;
+
+ right:8px;
+
  display:flex;
- justify-content:space-between;
- color:#6f8398;
- font-size:12px;
+
+ gap:6px;
+
+ z-index:2;
+
 }
 
-.sec{
- color:#18d8ff;
+.tab{
+
+ padding:3px 8px;
+
+ border-radius:8px;
+
+ border:1px solid rgba(0,212,255,.4);
+
+ font-size:10px;
+
+ font-family:Orbitron;
+
+ background:rgba(6,20,34,.85);
+
+}
+
+.tab.active{
+
+ background:var(--line);
+
+ color:#00131f;
+
  font-weight:900;
- margin-bottom:12px;
+
 }
 
-.sec::before{
- content:"◆ ";
- color:#18d8ff;
+canvas{
+ width:100%!important;
+ height:100%!important;
 }
+ .grid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:12px;
+ margin-top:16px;
+}
+
+.mini-card{
+ background:rgba(10,29,48,.95);
+ border:2px solid rgba(0,212,255,.25);
+ border-radius:14px;
+ padding:14px;
+ transition:.25s;
+}
+
+.mini-card:hover{
+ border-color:var(--line);
+ box-shadow:0 0 16px rgba(0,212,255,.22);
+}
+
+.label{
+ font-size:12px;
+ opacity:.9;
+ font-weight:700;
+}
+
+.value{
+ font-size:24px;
+ font-weight:900;
+ margin-top:6px;
+ font-family:Orbitron,sans-serif;
+}
+
+.sub-value{
+ margin-top:4px;
+ font-size:13px;
+ font-weight:700;
+}
+
+@media(max-width:640px){
+ .price-layout{
+  grid-template-columns:1fr;
+ }
+ .grid{
+  grid-template-columns:repeat(2,1fr);
+ }
+ .big-price{
+  font-size:68px;
+ }
+}
+
 </style>
 </head>
-
 <body>
-<div class="wrap">
 
-<header>
+<div class="container">
 
-<div style="display:flex;gap:12px;align-items:center">
+<!-- ===== HEADER ===== -->
+
+<div class="card header">
+
+<div class="logo-area">
 
 <div class="logo">✕</div>
 
 <div>
+
 <div class="title">XRP COMMAND CENTER</div>
-<div class="sub">ORBIT / AWAKEN MODE</div>
-</div>
+
+<div class="subtitle">ORBIT / AWAKEN MODE / COMMAND CENTER</div>
 
 </div>
 
-<div class="timebox">
+</div>
+
+<div class="time-box">
+
 <div id="clock">--:--</div>
-<div class="japan">JAPAN TIME</div>
+
+<div class="time-label">JAPAN TIME</div>
+
 </div>
 
-</header>
+</div>
+
+<!-- ===== PRICE ===== -->
 
 <div class="card">
 
-<div class="sec">XRP リアルタイム価格</div>
+<div class="section-title">
+<div class="diamond"></div>
+XRP リアルタイム価格
+</div>
 
-<div id="price" class="price">---</div>
+<div class="price-layout">
 
-<div id="change">取得中...</div>
+<div>
+
+<div class="big-price">
+<span id="xrpPrice">---</span><span class="yen">円</span>
+</div>
+
+<div id="priceChange" class="change">読み込み中...</div>
+
+</div>
+
+<div class="chart-box">
+
+<div class="chart-tabs">
+<div class="tab">1H</div>
+<div class="tab active">1D</div>
+<div class="tab">1W</div>
+<div class="tab">1M</div>
+</div>
+
+<canvas id="priceChart"></canvas>
+
+</div>
+
+</div>
 
 <div class="grid">
 
-<div class="box">
-<small>XRP / USD</small>
-<b id="xrpUsd">---</b>
+<div class="mini-card">
+<div class="label">XRP / USD</div>
+<div class="value" id="xrpUsd">--</div>
+<div class="sub-value" id="xrpUsdChange">--</div>
 </div>
 
-<div class="box">
-<small>BTC / USD</small>
-<b id="btcUsd">---</b>
+<div class="mini-card">
+<div class="label">BTC / USD</div>
+<div class="value" id="btcUsd">--</div>
+<div class="sub-value" id="btcChange">--</div>
 </div>
 
-<div class="box">
-<small>ドル円</small>
-<b id="usdJpy">---</b>
+<div class="mini-card">
+<div class="label">ドル円</div>
+<div class="value" id="usdJpy">--</div>
+<div class="sub-value" id="usdJpyChange">LIVE</div>
 </div>
 
-<div class="box">
-<small>24H 安値</small>
-<b id="low24">---</b>
+<div class="mini-card">
+<div class="label">24H 高値</div>
+<div class="value" id="high24">--</div>
+</div>
+
+<div class="mini-card">
+<div class="label">24H 安値</div>
+<div class="value" id="low24">--</div>
+</div>
+
+<div class="mini-card">
+<div class="label">24H 出来高</div>
+<div class="value" id="volume24">--</div>
+<div class="sub-value green">BITBANK</div>
 </div>
 
 </div>
 
 </div>
+<!-- ===== POSITION ===== -->
 
 <div class="card">
 
-<div class="sec">保有ポジション</div>
+  <div class="section-title">
+    <div class="diamond"></div>
+    保有ポジション
+  </div>
 
-<div class="grid">
+  <div class="grid">
 
-<div class="box gold">
-<small>保有数量</small>
-<b>10,000 XRP</b>
-</div>
+    <div class="mini-card" style="border-color:rgba(255,213,74,.45);">
+      <div class="label">保有数量</div>
+      <div class="value gold">10,000 XRP</div>
+    </div>
 
-<div class="box gold">
-<small>平均取得価格</small>
-<b>183円</b>
-</div>
+    <div class="mini-card" style="border-color:rgba(255,213,74,.45);">
+      <div class="label">平均取得価格</div>
+      <div class="value gold">183円</div>
+    </div>
 
-<div class="box">
-<small>現在評価額</small>
-<b id="value">---</b>
-</div>
+    <div class="mini-card">
+      <div class="label">現在評価額</div>
+      <div class="value" id="positionValue">--</div>
+    </div>
 
-<div class="box green">
-<small>含み損益</small>
-<b id="profit">---</b>
-</div>
+    <div class="mini-card" style="border-color:rgba(0,255,157,.45);">
+      <div class="label">含み益</div>
+      <div class="value green" id="profitValue">--</div>
+    </div>
 
-</div>
+    <div class="mini-card">
+      <div class="label">現在価格</div>
+      <div class="value" id="positionPrice">--</div>
+    </div>
 
-<div class="mission">
+    <div class="mini-card">
+      <div class="label">取得比</div>
+      <div class="value" id="profitRate">--</div>
+    </div>
 
-<div class="mtop">
-<div>★ MISSION / 300万円</div>
-<div id="missionPct">65.0%</div>
-</div>
+  </div>
 
-<div class="bar">
-<div id="missionFill"></div>
-</div>
+  <!-- MISSION -->
 
-<div class="note">
-<span>現在</span>
-<span>300円 / 300万円</span>
-</div>
+  <div style="
+      margin-top:18px;
+      padding:16px;
+      border:2px solid rgba(255,213,74,.45);
+      border-radius:16px;
+      background:rgba(16,37,58,.65);
+  ">
 
-</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;">
 
-</div>
-<div class="card">
+      <div style="font-weight:900;">
+        MISSION / 300万円
+      </div>
 
-<div class="sec">市場ダッシュボード</div>
+      <div id="missionPercent"
+           class="gold"
+           style="font-family:Orbitron;font-size:20px;font-weight:900;">
+        --%
+      </div>
 
-<div class="grid">
+    </div>
 
-<div class="box">
-<small>24H 高値</small>
-<b id="high24">---</b>
-</div>
+    <div style="
+        height:15px;
+        background:#10243d;
+        border-radius:999px;
+        overflow:hidden;
+        margin:14px 0;
+    ">
 
-<div class="box">
-<small>24H 出来高</small>
-<b id="volume24">---</b>
-</div>
+      <div id="missionBar"
+           style="
+             width:0%;
+             height:100%;
+             background:linear-gradient(90deg,#00d4ff,#ffd54a);
+             box-shadow:0 0 14px rgba(255,213,74,.55);
+             transition:.4s;
+      "></div>
 
-<div class="box">
-<small>Fear & Greed</small>
-<b id="fearGreed">---</b>
-</div>
+    </div>
 
-<div class="box">
-<small>市場状態</small>
-<b id="marketState">監視中</b>
-</div>
+    <div style="
+        display:flex;
+        justify-content:space-between;
+        font-size:13px;
+        opacity:.92;
+    ">
 
-</div>
+      <span id="missionNow">現在 --円</span>
+      <span>目標 3,000,000円</span>
 
-</div>
+    </div>
 
-<div class="card">
-
-<div class="sec">価格目標ライン</div>
-
-<div style="display:flex;flex-direction:column;gap:12px">
-
-<div>
-<div class="note"><span>225円 防衛ライン</span><span id="d225">---</span></div>
-<div class="bar"><div id="b225" style="height:100%;width:0%;background:#31d9ff"></div></div>
-</div>
-
-<div>
-<div class="note"><span>250円 回復ゾーン</span><span id="d250">---</span></div>
-<div class="bar"><div id="b250" style="height:100%;width:0%;background:#4dff9d"></div></div>
-</div>
-
-<div>
-<div class="note"><span>300円 MISSION</span><span id="d300">---</span></div>
-<div class="bar"><div id="b300" style="height:100%;width:0%;background:#f5c84c"></div></div>
-</div>
-
-<div>
-<div class="note"><span>400円 強気領域</span><span id="d400">---</span></div>
-<div class="bar"><div id="b400" style="height:100%;width:0%;background:#8f6cff"></div></div>
-</div>
-
-<div>
-<div class="note"><span>500円 MOON ZONE</span><span id="d500">---</span></div>
-<div class="bar"><div id="b500" style="height:100%;width:0%;background:#ff66d6"></div></div>
-</div>
+  </div>
 
 </div>
-
-</div>
+<!-- ===== MARKET DASHBOARD ===== -->
 
 <div class="card">
 
-<div class="sec">板情報（BITBANK）</div>
+  <div class="section-title">
+    <div class="diamond"></div>
+    市場ダッシュボード
+  </div>
 
-<div class="grid">
+  <div class="grid">
 
-<div class="box">
-<small>買い圧力</small>
-<b id="bidPower">---</b>
+    <div class="mini-card">
+      <div class="label">BTC 現在値</div>
+      <div class="value" id="dashBtc">--</div>
+      <div class="sub-value" id="dashBtcChange">--</div>
+    </div>
+
+    <div class="mini-card">
+      <div class="label">XRP/USD</div>
+      <div class="value" id="dashXrpUsd">--</div>
+      <div class="sub-value" id="dashXrpUsdChange">--</div>
+    </div>
+
+    <div class="mini-card">
+      <div class="label">ドル円</div>
+      <div class="value" id="dashUsdJpy">--</div>
+      <div class="sub-value">LIVE</div>
+    </div>
+
+    <div class="mini-card">
+      <div class="label">24H 高値</div>
+      <div class="value" id="dashHigh">--</div>
+    </div>
+
+    <div class="mini-card">
+      <div class="label">24H 安値</div>
+      <div class="value" id="dashLow">--</div>
+    </div>
+
+    <div class="mini-card">
+      <div class="label">24H 出来高</div>
+      <div class="value" id="dashVolume">--</div>
+      <div class="sub-value green">BITBANK</div>
+    </div>
+
+  </div>
+
 </div>
 
-<div class="box">
-<small>売り圧力</small>
-<b id="askPower">---</b>
-</div>
-
-</div>
-
-<div style="margin-top:14px">
-
-<div style="display:flex;justify-content:space-between;color:#00ff9d;font-size:12px;margin-bottom:6px">
-<span>BID</span><span>ASK</span>
-</div>
-
-<div id="orderBook"></div>
-
-</div>
-
-</div>
+<!-- ===== ORDER BOOK ===== -->
 
 <div class="card">
 
-<div class="sec">イベントレーダー</div>
+  <div class="section-title">
+    <div class="diamond"></div>
+    BITBANK 板取引
+  </div>
 
-<div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
+  <div style="
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+  ">
 
-<div class="note"><span>🕒 03:00 FOMC発表</span><span>最重要</span></div>
-<div class="note"><span>🕞 03:30 議長会見</span><span>本番</span></div>
-<div class="note"><span>📈 XRP ETF</span><span>監視</span></div>
-<div class="note"><span>⚖️ SEC / Ripple</span><span>監視</span></div>
+    <!-- BID -->
 
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="sec">司令室ログ</div>
-
-<div id="log" style="
-height:150px;
-overflow:auto;
-font-family:monospace;
-font-size:12px;
-color:#9ec8ff;
-background:#02060b;
-padding:10px;
-border:1px solid #10334a;
-"></div>
-
-</div>
-<script>
-const POS=10000,AVG=183,TARGET=3000000;
-const API="https://public.bitbank.cc";
-let usdjpy=155,lastPrice=0;
-
-function yen(n,d=0){
- return Number(n).toLocaleString("ja-JP",{minimumFractionDigits:d,maximumFractionDigits:d});
-}
-
-function log(msg){
- const el=document.getElementById("log");
- const t=new Date().toLocaleTimeString("ja-JP");
- el.innerHTML=`<div>[${t}] ${msg}</div>`+el.innerHTML;
-}
-
-function clock(){
- const t=new Date();
- document.getElementById("clock").textContent=
- t.toLocaleTimeString("ja-JP",{hour:"2-digit",minute:"2-digit"});
-}
-setInterval(clock,1000);
-clock();
-
-async function fx(){
- try{
-  const r=await fetch("https://open.er-api.com/v6/latest/USD");
-  const j=await r.json();
-  usdjpy=j.rates.JPY;
-  document.getElementById("usdJpy").textContent=yen(usdjpy,2)+"円";
- }catch(e){}
-}
-fx();
-setInterval(fx,600000);
-
-async function update(){
-
- try{
-
- const r=await fetch(API+"/xrp_jpy/ticker");
- const j=await r.json();
- const d=j.data;
-
- const price=Number(d.last);
-
- document.getElementById("price").innerHTML=yen(price,3)+"<span>円</span>";
-
- const ch=((price-d.open)/d.open*100).toFixed(2);
- document.getElementById("change").textContent="24時間変動 "+(ch>0?"+":"")+ch+"%";
- document.getElementById("change").style.color=ch>0?"#35e69a":"#ff5a76";
-
- document.getElementById("xrpUsd").textContent="$"+(price/usdjpy).toFixed(4);
- document.getElementById("high24").textContent=yen(d.high,3)+"円";
- document.getElementById("low24").textContent=yen(d.low,3)+"円";
- document.getElementById("volume24").textContent=Math.round(d.volume).toLocaleString()+" XRP";
-
- const value=price*POS;
- const profit=value-(AVG*POS);
-
- document.getElementById("value").textContent=yen(value)+"円";
-
- const p=document.getElementById("profit");
- p.textContent=(profit>0?"+":"")+yen(profit)+"円";
- p.style.color=profit>=0?"#35e69a":"#ff5a76";
-
- const pct=Math.min(100,value/TARGET*100);
- document.getElementById("missionPct").textContent=pct.toFixed(1)+"%";
- document.getElementById("missionFill").style.width=pct+"%";
-
- const targets=[225,250,300,400,500];
- targets.forEach(t=>{
-   const diff=t-price;
-   document.getElementById("d"+t).textContent=
-     diff>0?diff.toFixed(3)+"円":"到達";
-   document.getElementById("b"+t).style.width=
-     Math.max(0,Math.min(100,(price-AVG)/(t-AVG)*100))+"%";
- });
-
- document.getElementById("marketState").textContent=
-   price>=250?"回復ゾーン":
-   price>=200?"監視中":
-   "重要サポート";
-
- if(lastPrice&&Math.abs(price-lastPrice)>=0.2){
-   log(`XRP ${yen(price,3)}円 (${price>lastPrice?"▲":"▼"} ${(price-lastPrice).toFixed(3)})`);
- }
- lastPrice=price;
-
- }catch(e){}
-}
-update();
-setInterval(update,5000);
-
-async function btc(){
- try{
-  const r=await fetch(API+"/btc_jpy/ticker");
-  const j=await r.json();
-  document.getElementById("btcUsd").textContent=
-    "$"+Math.round(j.data.last/usdjpy).toLocaleString();
- }catch(e){}
-}
-btc();
-setInterval(btc,10000);
-
-async function fear(){
- try{
-  const r=await fetch("https://api.alternative.me/fng/?limit=1");
-  const j=await r.json();
-  document.getElementById("fearGreed").textContent=
-    j.data[0].value+" ("+j.data[0].value_classification+")";
- }catch(e){
-  document.getElementById("fearGreed").textContent="取得中";
- }
-}
-fear();
-setInterval(fear,600000);
-
-async function book(){
- try{
- const r=await fetch(API+"/xrp_jpy/depth");
- const j=await r.json();
-
- const bids=j.data.bids.slice(0,5);
- const asks=j.data.asks.slice(0,5);
-
- let html="";
- let bp=0,ap=0;
-
- bids.forEach(v=>{
-  bp+=Number(v[1]);
-  html+=`<div class="note"><span style="color:#35e69a">${yen(v[0],3)}</span><span>${Number(v[1]).toFixed(1)}</span></div>`;
- });
-
- html+="<hr style='border-color:#12324a;margin:8px 0'>";
-
- asks.forEach(v=>{
-  ap+=Number(v[1]);
-  html+=`<div class="note"><span style="color:#ff5a76">${yen(v[0],3)}</span><span>${Number(v[1]).toFixed(1)}</span></div>`;
- });
-
- document.getElementById("orderBook").innerHTML=html;
- document.getElementById("bidPower").textContent=bp.toFixed(1);
- document.getElementById("askPower").textContent=ap.toFixed(1);
-
- }catch(e){}
-}
-book();
-setInterval(book,5000);
-
-log("XRP COMMAND CENTER 起動");
-</script>
-
-</body>
-</html>
-<!-- =========================
-     ORBIT 強化パネル
-========================= -->
-
-<div class="card">
-
-  <div class="sec">ORBIT STATUS</div>
-
-  <div style="display:grid;grid-template-columns:120px 1fr;gap:18px;align-items:center">
-
-    <!-- 円形 Fear & Greed -->
-    <div style="position:relative;width:110px;height:110px;margin:auto">
-
-      <svg viewBox="0 0 120 120" width="110" height="110">
-
-        <circle cx="60" cy="60" r="48"
-          stroke="#173247"
-          stroke-width="8"
-          fill="none"/>
-
-        <circle id="fearCircle"
-          cx="60" cy="60" r="48"
-          stroke="#31d9ff"
-          stroke-width="8"
-          fill="none"
-          stroke-linecap="round"
-          stroke-dasharray="302"
-          stroke-dashoffset="302"
-          transform="rotate(-90 60 60)"/>
-
-      </svg>
+    <div style="
+        border:2px solid rgba(0,255,157,.28);
+        border-radius:16px;
+        padding:14px;
+        background:rgba(7,28,30,.55);
+    ">
 
       <div style="
-        position:absolute;
-        inset:0;
-        display:grid;
-        place-items:center;
-        text-align:center">
+          display:flex;
+          justify-content:space-between;
+          margin-bottom:10px;
+          font-weight:900;
+          color:var(--green);
+      ">
 
-        <div>
-          <div id="fearValue2"
-            style="font-size:28px;font-weight:900;color:#fff">
-            --
-          </div>
+        <span>BID（買い）</span>
+        <span>数量</span>
 
-          <div style="font-size:10px;color:#8ea8c2">
-            Fear & Greed
-          </div>
+      </div>
+
+      <div id="bidBook" style="font-family:Orbitron;font-size:14px;">
+
+        <div style="display:flex;justify-content:space-between;padding:6px 0;">
+          <span>--</span><span>--</span>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;padding:6px 0;">
+          <span>--</span><span>--</span>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;padding:6px 0;">
+          <span>--</span><span>--</span>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;padding:6px 0;">
+          <span>--</span><span>--</span>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;padding:6px 0;">
+          <span>--</span><span>--</span>
         </div>
 
       </div>
 
     </div>
 
-    <!-- 状態 -->
-    <div>
+    <!-- ASK -->
+
+    <div style="
+        border:2px solid rgba(255,69,103,.28);
+        border-radius:16px;
+        padding:14px;
+        background:rgba(36,8,18,.55);
+    ">
 
       <div style="
-        color:#f5c84c;
-        font-weight:900;
-        margin-bottom:8px;
-        letter-spacing:1px">
+          display:flex;
+          justify-content:space-between;
+          margin-bottom:10px;
+          font-weight:900;
+          color:var(--red);
+      ">
 
-        COMMAND STATUS
-
-      </div>
-
-      <div id="commandStatus"
-        style="
-        font-size:18px;
-        font-weight:900;
-        color:#35e69a">
-
-        STANDBY
+        <span>ASK（売り）</span>
+        <span>数量</span>
 
       </div>
 
-      <div style="
-        margin-top:12px;
-        display:flex;
-        gap:8px;
-        flex-wrap:wrap">
+      <div id="askBook" style="font-family:Orbitron;font-size:14px;">
 
-        <span style="
-          border:1px solid #35e69a;
-          color:#35e69a;
-          padding:4px 8px;
-          font-size:11px">
-          LIVE
-        </span>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;">
+          <span>--</span><span>--</span>
+        </div>
 
-        <span style="
-          border:1px solid #31d9ff;
-          color:#31d9ff;
-          padding:4px 8px;
-          font-size:11px">
-          XRP
-        </span>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;">
+          <span>--</span><span>--</span>
+        </div>
 
-        <span style="
-          border:1px solid #f5c84c;
-          color:#f5c84c;
-          padding:4px 8px;
-          font-size:11px">
-          MISSION
-        </span>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;">
+          <span>--</span><span>--</span>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;padding:6px 0;">
+          <span>--</span><span>--</span>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;padding:6px 0;">
+          <span>--</span><span>--</span>
+        </div>
 
       </div>
 
     </div>
-
-  </div>
-
-</div>
-
-<!-- =========================
-     横スクロール価格バー
-========================= -->
-
-<div style="
-overflow:hidden;
-border:1px solid #12324a;
-border-radius:16px;
-background:#050b12;
-margin-bottom:16px">
-
-  <div id="ticker"
-    style="
-    display:flex;
-    gap:40px;
-    padding:12px;
-    white-space:nowrap;
-    animation:scrollTicker 18s linear infinite;
-    font-weight:900">
-
-    <span style="color:#31d9ff">XRP ●</span>
-    <span style="color:#35e69a">MISSION 300円</span>
-    <span style="color:#f5c84c">10,000 XRP</span>
-    <span style="color:#31d9ff">平均183円</span>
-    <span style="color:#35e69a">300万円へ</span>
-
-  </div>
-
-</div>
-
-<style>
-
-@keyframes scrollTicker{
- from{transform:translateX(0)}
- to{transform:translateX(-35%)}
-}
-
-.card{
- transition:.25s;
-}
-
-.card:hover{
- box-shadow:
- 0 0 35px rgba(49,217,255,.14);
- transform:translateY(-2px);
-}
-
-.price{
- text-shadow:
- 0 0 12px rgba(49,217,255,.3);
-}
-
-#missionFill{
- box-shadow:
- 0 0 18px rgba(245,200,76,.35);
-}
-
-.logo{
- animation:orbitPulse 2.8s ease-in-out infinite;
-}
-
-@keyframes orbitPulse{
- 0%,100%{
-   box-shadow:0 0 10px rgba(245,200,76,.2);
- }
- 50%{
-   box-shadow:
-    0 0 24px rgba(49,217,255,.45);
- }
-}
-
-</style>
-
-<script>
-
-/* 円形 Fear & Greed */
-
-const fgText=document.getElementById("fearGreed");
-const fgCircle=document.getElementById("fearCircle");
-const fgValue2=document.getElementById("fearValue2");
-const cmd=document.getElementById("commandStatus");
-
-setInterval(()=>{
-
- if(!fgText)return;
-
- const m=fgText.textContent.match(/\d+/);
-
- if(!m)return;
-
- const value=Number(m[0]);
-
- fgValue2.textContent=value;
-
- const circumference=302;
- const offset=circumference-(value/100)*circumference;
-
- fgCircle.style.strokeDashoffset=offset;
-
- if(value>=70){
-   fgCircle.style.stroke="#35e69a";
- }else if(value>=40){
-   fgCircle.style.stroke="#f5c84c";
- }else{
-   fgCircle.style.stroke="#ff5a76";
- }
-
-},1000);
-
-/* COMMAND STATUS */
-
-setInterval(()=>{
-
- const priceText=document.getElementById("price").textContent;
- const price=parseFloat(priceText.replace(/,/g,""));
-
- if(!price)return;
-
- if(price>=300){
-   cmd.textContent="MISSION ZONE";
-   cmd.style.color="#35e69a";
- }else if(price>=250){
-   cmd.textContent="RECOVERY";
-   cmd.style.color="#35e69a";
- }else if(price>=200){
-   cmd.textContent="WATCH";
-   cmd.style.color="#f5c84c";
- }else{
-   cmd.textContent="DEFENSE";
-   cmd.style.color="#ff5a76";
- }
-
-},2000);
-
-</script>
-<!-- =========================
-     PART5 FINAL ORBIT
-========================= -->
-
-<div class="card" id="fomcCard">
-
-  <div class="sec">ORBIT LIVE STATUS</div>
-
-  <div style="display:flex;justify-content:space-between;align-items:center">
-
-    <div>
-      <div style="font-size:13px;color:#8ea8c2">次の重要イベント</div>
-      <div style="font-size:22px;font-weight:900;color:#31d9ff">
-        FOMC
-      </div>
-    </div>
-
-    <div style="text-align:right">
-      <div style="font-size:11px;color:#8ea8c2">カウント</div>
-      <div id="countdown" style="font-size:24px;font-weight:900;color:#f5c84c">
-        --
-      </div>
-    </div>
-
-  </div>
-
-</div>
-
-<footer style="
-margin:22px 0 10px;
-padding:18px;
-border-top:1px solid #15324a;
-text-align:center">
-
-  <div style="
-    color:#f5c84c;
-    font-weight:900;
-    letter-spacing:3px;
-    font-size:12px">
-
-    SMALL STEPS. BIG DREAMS.
 
   </div>
 
   <div style="
-    margin-top:8px;
-    color:#7f95aa;
-    font-size:12px">
-
-    — 300万円へ、まだ道はある —
-
+      margin-top:12px;
+      text-align:center;
+      font-size:12px;
+      opacity:.75;
+  ">
+    リアルタイム更新（Bitbank API）
   </div>
 
-</footer>
-
-<style>
-
-/* ===== 背景オーラ ===== */
-
-body::before{
- content:"";
- position:fixed;
- inset:0;
- pointer-events:none;
- background:
- radial-gradient(circle at 15% 10%,rgba(49,217,255,.08),transparent 30%),
- radial-gradient(circle at 90% 20%,rgba(245,200,76,.06),transparent 28%),
- radial-gradient(circle at 50% 100%,rgba(143,108,255,.05),transparent 35%);
- z-index:-1;
-}
-
-/* ===== グラス感 ===== */
-
-.card{
- backdrop-filter:blur(12px);
-}
-
-/* ===== FOMC発光 ===== */
-
-#fomcCard{
- animation:fomcPulse 2s ease-in-out infinite;
-}
-
-@keyframes fomcPulse{
-
- 0%,100%{
-   box-shadow:0 0 12px rgba(49,217,255,.10);
- }
-
- 50%{
-   box-shadow:
-    0 0 32px rgba(245,200,76,.20),
-    0 0 60px rgba(49,217,255,.08);
- }
-
-}
-
-/* ===== 値動きフラッシュ ===== */
-
-.flashUp{
- animation:flashGreen .5s;
-}
-
-.flashDown{
- animation:flashRed .5s;
-}
-
-@keyframes flashGreen{
- from{background:rgba(53,230,154,.20)}
- to{background:transparent}
-}
-
-@keyframes flashRed{
- from{background:rgba(255,82,109,.20)}
- to{background:transparent}
-}
-
-</style>
+</div>
+<!-- ==================================================
+     PART 5 / FEAR & GREED + TARGET LEVELS + FOOTER
+     ================================================== -->
 
 <script>
+/* =========================
+   FEAR & GREED
+   ========================= */
 
-/* ===== 値動きフラッシュ ===== */
+async function updateFearGreed() {
+  try {
+    const res = await fetch(
+      "https://api.alternative.me/fng/?limit=1",
+      { cache: "no-store" }
+    );
 
-let prev=0;
+    if (!res.ok) throw new Error("F&G API error");
 
-setInterval(()=>{
+    const data = await res.json();
 
- const txt=document.getElementById("price").textContent;
- const p=parseFloat(txt.replace(/,/g,""));
+    if (
+      data &&
+      data.data &&
+      data.data[0]
+    ) {
+      const fg = data.data[0];
 
- if(!p)return;
+      const value = Number(fg.value);
+      const classification = fg.value_classification || "--";
 
- const card=document.querySelector(".card");
+      setText(
+        "fearGreedValue",
+        Number.isFinite(value) ? value : "--"
+      );
 
- if(prev){
+      setText(
+        "fearGreedLabel",
+        classification
+      );
 
-   if(p>prev){
-     card.classList.add("flashUp");
-     setTimeout(()=>card.classList.remove("flashUp"),400);
-   }
+      const gauge =
+        document.getElementById("fearGreedBar");
 
-   if(p<prev){
-     card.classList.add("flashDown");
-     setTimeout(()=>card.classList.remove("flashDown"),400);
-   }
+      if (gauge && Number.isFinite(value)) {
+        gauge.style.width =
+          Math.max(0, Math.min(100, value)) + "%";
+      }
+    }
 
- }
-
- prev=p;
-
-},5000);
+  } catch (error) {
+    console.warn("Fear & Greed update failed:", error);
+  }
+}
 
 
-/* ===== FOMCカウントダウン ===== */
+/* =========================
+   XRP TARGET LEVELS
+   ========================= */
 
-function updateCountdown(){
+const XRP_TARGETS = [
+  {
+    price: 225,
+    label: "防衛ライン"
+  },
+  {
+    price: 250,
+    label: "回復ゾーン"
+  },
+  {
+    price: 275,
+    label: "MISSION"
+  },
+  {
+    price: 300,
+    label: "上昇加速"
+  },
+  {
+    price: 400,
+    label: "強気領域"
+  },
+  {
+    price: 500,
+    label: "MOON ZONE"
+  }
+];
 
- const now=new Date();
 
- const target=new Date();
- target.setHours(3,0,0,0);
+function updateTargetLevels() {
 
- if(now>target){
-   document.getElementById("countdown").textContent="LIVE";
-   return;
- }
+  const current =
+    Number(market.xrp) || 0;
 
- const diff=target-now;
+  XRP_TARGETS.forEach((target, index) => {
 
- const m=Math.floor(diff/60000);
- const s=Math.floor((diff%60000)/1000);
+    const price = target.price;
 
- document.getElementById("countdown").textContent=
-   `${m}:${String(s).padStart(2,"0")}`;
+    const distance =
+      price - current;
+
+    const priceEl =
+      document.getElementById(
+        "targetPrice" + index
+      );
+
+    const distanceEl =
+      document.getElementById(
+        "targetDistance" + index
+      );
+
+    const labelEl =
+      document.getElementById(
+        "targetLabel" + index
+      );
+
+    if (priceEl) {
+      priceEl.textContent =
+        "¥" + price.toLocaleString("ja-JP");
+    }
+
+    if (labelEl) {
+      labelEl.textContent =
+        target.label;
+    }
+
+    if (distanceEl) {
+
+      if (distance > 0) {
+
+        distanceEl.textContent =
+          "+" +
+          distance.toFixed(3) +
+          "円";
+
+      } else {
+
+        distanceEl.textContent =
+          "到達済";
+
+      }
+    }
+  });
+}
+
+
+/* =========================
+   MISSION 275
+   ========================= */
+
+function updateMissionStatus() {
+
+  const current =
+    Number(market.xrp) || 0;
+
+  const mission = 275;
+
+  const distance =
+    mission - current;
+
+  setText(
+    "missionTarget",
+    "¥275"
+  );
+
+  if (distance > 0) {
+
+    setText(
+      "missionDistance",
+      "+" + distance.toFixed(3) + "円"
+    );
+
+  } else {
+
+    setText(
+      "missionDistance",
+      "MISSION達成"
+    );
+  }
+}
+
+
+/* =========================
+   TARGET PROGRESS
+   ========================= */
+
+function updateTargetProgress() {
+
+  const current =
+    Number(market.xrp) || 0;
+
+  const base = 183;
+  const mission = 275;
+
+  let progress =
+    ((current - base) /
+    (mission - base)) * 100;
+
+  progress =
+    Math.max(0, Math.min(100, progress));
+
+  const bar =
+    document.getElementById(
+      "missionBar"
+    );
+
+  if (bar) {
+    bar.style.width =
+      progress + "%";
+  }
+
+  setText(
+    "missionPercent",
+    progress.toFixed(1) + "%"
+  );
+}
+
+
+/* =========================
+   FOOTER
+   ========================= */
+
+function updateFooterTime() {
+
+  const now =
+    new Date();
+
+  const time =
+    now.toLocaleTimeString(
+      "ja-JP",
+      {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      }
+    );
+
+  setText(
+    "lastUpdated",
+    time
+  );
+}
+
+
+/* =========================
+   MASTER UPDATE
+   ========================= */
+
+function updatePart5() {
+
+  updateTargetLevels();
+  updateMissionStatus();
+  updateTargetProgress();
+  updateFooterTime();
 
 }
 
-setInterval(updateCountdown,1000);
-updateCountdown();
 
+/* =========================
+   INITIALIZE
+   ========================= */
+
+updateFearGreed();
+updatePart5();
+
+
+/* =========================
+   INTERVALS
+   ========================= */
+
+setInterval(
+  updateFearGreed,
+  60000
+);
+
+setInterval(
+  updatePart5,
+  1000
+);
 </script>
-
-</body>
-</html>
-<!-- =========================
-     PART6 ORBIT PRO
-========================= -->
-
-<div class="card">
-
-  <div class="sec">XRP LIVE TREND</div>
-
-  <svg id="miniChart" viewBox="0 0 320 120"
-       width="100%" height="120">
-
-    <polyline id="chartLine"
-      fill="none"
-      stroke="#31d9ff"
-      stroke-width="3"
-      points=""/>
-
-  </svg>
-
-</div>
-
-<style>
-
-/* ネオン強化 */
-
-#miniChart{
- filter:drop-shadow(0 0 8px rgba(49,217,255,.35));
-}
-
-#chartLine{
- transition:.4s;
-}
-
-.card{
- border:1px solid rgba(49,217,255,.28);
-}
-
-.price{
- text-shadow:
- 0 0 10px rgba(49,217,255,.45),
- 0 0 24px rgba(49,217,255,.18);
-}
-
-/* iPhone最適化 */
-
-@media(max-width:480px){
-
- .wrap{
-   padding:10px;
- }
-
- .price{
-   font-size:54px;
- }
-
-}
-
-</style>
+<!-- ==================================================
+     PART 6 / FINAL REALTIME ENGINE
+     ALL DATA = 5 SECOND REFRESH
+     ================================================== -->
 
 <script>
+/* =========================
+   REALTIME ENGINE
+   ========================= */
 
-/* ===== ミニチャート ===== */
+const REFRESH_INTERVAL = 5000;
 
-const history=[];
 
-setInterval(()=>{
+/* =========================
+   CONNECTION STATUS
+   ========================= */
 
- const txt=document.getElementById("price").textContent;
- const p=parseFloat(txt.replace(/,/g,""));
+function setConnectionStatus(status) {
 
- if(!p)return;
+  const el =
+    document.getElementById("connectionStatus");
 
- history.push(p);
+  if (!el) return;
 
- if(history.length>30)history.shift();
+  el.textContent = status;
 
- const max=Math.max(...history);
- const min=Math.min(...history);
+  el.classList.remove(
+    "online",
+    "offline",
+    "loading"
+  );
 
- const pts=history.map((v,i)=>{
+  if (status === "LIVE") {
+    el.classList.add("online");
+  }
 
-   const x=i*(320/(history.length-1||1));
+  if (status === "OFFLINE") {
+    el.classList.add("offline");
+  }
 
-   const y=110-((v-min)/(max-min||1))*90;
-
-   return `${x},${y}`;
-
- }).join(" ");
-
- document.getElementById("chartLine")
-   .setAttribute("points",pts);
-
-},5000);
-
-/* ===== ステータス色変更 ===== */
-
-setInterval(()=>{
-
- const txt=document.getElementById("price").textContent;
- const p=parseFloat(txt.replace(/,/g,""));
-
- const status=document.getElementById("commandStatus");
-
- if(!status||!p)return;
-
- if(p>=300){
-
-   status.textContent="MISSION ZONE";
-   status.style.color="#35e69a";
-
- }else if(p>=200){
-
-   status.textContent="WATCH";
-   status.style.color="#31d9ff";
-
- }else if(p>=190){
-
-   status.textContent="DEFENSE";
-   status.style.color="#f5c84c";
-
- }else{
-
-   status.textContent="CRITICAL";
-   status.style.color="#ff5a76";
-
- }
-
-},2000);
-
-</script>
-<!-- =========================
-     PART7 FINAL POLISH
-========================= -->
-
-<div class="card">
-
-  <div class="sec">MISSION STATUS</div>
-
-  <div style="text-align:center">
-
-    <div style="font-size:12px;color:#8ea8c2">
-      300万円まで
-    </div>
-
-    <div id="remainingMoney"
-      style="
-      font-size:34px;
-      font-weight:900;
-      color:#f5c84c;
-      margin:8px 0">
-      ---
-    </div>
-
-    <div id="remainingPrice"
-      style="
-      font-size:15px;
-      color:#31d9ff">
-      ---
-    </div>
-
-  </div>
-
-</div>
-
-<div class="card">
-
-  <div class="sec">MARKET LINK</div>
-
-  <div style="
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px">
-
-    <div class="box">
-      <small>BTC連動</small>
-      <b id="btcLink">---</b>
-    </div>
-
-    <div class="box">
-      <small>勢い</small>
-      <b id="momentum">---</b>
-    </div>
-
-  </div>
-
-</div>
-
-<style>
-
-/* ===== 背景の流れる光 ===== */
-
-body::after{
- content:"";
- position:fixed;
- inset:-30%;
- pointer-events:none;
- background:
- linear-gradient(115deg,
- transparent 35%,
- rgba(49,217,255,.04) 50%,
- transparent 65%);
- animation:lightSweep 9s linear infinite;
- z-index:-1;
+  if (status === "CONNECTING") {
+    el.classList.add("loading");
+  }
 }
 
-@keyframes lightSweep{
- from{transform:translateX(-40%) rotate(12deg)}
- to{transform:translateX(40%) rotate(12deg)}
+
+/* =========================
+   ALL MARKET DATA
+   ========================= */
+
+async function refreshAllMarketData() {
+
+  setConnectionStatus("CONNECTING");
+
+  try {
+
+    await Promise.allSettled([
+      updateXRP(),
+      updateBTC(),
+      updateUSDJPY(),
+      updateFearGreed()
+    ]);
+
+    refreshDashboard();
+    updatePart5();
+
+    setConnectionStatus("LIVE");
+
+  } catch (error) {
+
+    console.warn(
+      "Market refresh failed:",
+      error
+    );
+
+    setConnectionStatus("OFFLINE");
+  }
 }
 
-/* ===== FOMC緊急モード ===== */
 
-.fomc-live{
- animation:fomcFlash 1s infinite;
+/* =========================
+   INITIAL LOAD
+   ========================= */
+
+refreshAllMarketData();
+
+
+/* =========================
+   EVERYTHING = 5 SECONDS
+   ========================= */
+
+setInterval(
+  refreshAllMarketData,
+  REFRESH_INTERVAL
+);
+
+
+/* =========================
+   CLOCK
+   ========================= */
+
+function updateClock() {
+
+  const el =
+    document.getElementById("clock");
+
+  if (!el) return;
+
+  const now =
+    new Date();
+
+  el.textContent =
+    now.toLocaleTimeString(
+      "ja-JP",
+      {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      }
+    );
 }
 
-@keyframes fomcFlash{
+updateClock();
 
- 0%,100%{
-  border-color:#31d9ff;
- }
+setInterval(
+  updateClock,
+  1000
+);
 
- 50%{
-  border-color:#ff5a76;
- }
 
-}
+/* =========================
+   REFRESH WHEN RETURNING
+   ========================= */
 
-</style>
+document.addEventListener(
+  "visibilitychange",
+  () => {
 
-<script>
+    if (
+      document.visibilityState ===
+      "visible"
+    ) {
+      refreshAllMarketData();
+    }
 
-/* ===== MISSION残り ===== */
-
-setInterval(()=>{
-
- const txt=document.getElementById("price").textContent;
- const price=parseFloat(txt.replace(/,/g,""));
-
- if(!price)return;
-
- const value=price*10000;
-
- const remain=Math.max(0,3000000-value);
-
- document.getElementById("remainingMoney").textContent=
-   remain.toLocaleString("ja-JP")+"円";
-
- document.getElementById("remainingPrice").textContent=
-   "300円まであと "+(300-price).toFixed(3)+"円";
-
-},3000);
-
-/* ===== BTC連動 ===== */
-
-let prevBTC=0;
-
-setInterval(()=>{
-
- const btc=document.getElementById("btcUsd").textContent;
- const num=parseFloat(btc.replace(/[$,]/g,""));
-
- if(!num)return;
-
- const link=document.getElementById("btcLink");
- const momentum=document.getElementById("momentum");
-
- if(prevBTC){
-
-   if(num>prevBTC){
-     link.textContent="追い風";
-     link.style.color="#35e69a";
-   }else if(num<prevBTC){
-     link.textContent="向かい風";
-     link.style.color="#ff5a76";
-   }else{
-     link.textContent="横ばい";
-     link.style.color="#f5c84c";
-   }
-
- }
-
- prevBTC=num;
-
- const price=parseFloat(
-   document.getElementById("price")
-   .textContent.replace(/,/g,"")
- );
-
- if(price>=250){
-   momentum.textContent="強気";
-   momentum.style.color="#35e69a";
- }else if(price>=200){
-   momentum.textContent="警戒";
-   momentum.style.color="#f5c84c";
- }else{
-   momentum.textContent="防衛";
-   momentum.style.color="#ff5a76";
- }
-
-},5000);
-
-/* ===== FOMCモード ===== */
-
-(function(){
-
- const card=document.getElementById("fomcCard");
-
- if(!card)return;
-
- const now=new Date();
- const hour=now.getHours();
-
- if(hour===3){
-   card.classList.add("fomc-live");
- }
-
-})();
-
+  }
+);
 </script>
