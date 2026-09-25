@@ -228,7 +228,7 @@ canvas{width:100%;height:100%;display:block}
     <div class="info-box"><div class="info-label">損益</div><div id="portHbarPnl" class="info-value">---</div></div>
   </div>
   <div id="portHbarPnlPct" style="margin-top:10px;font-size:11px;font-weight:900">---</div>
-  <div id="hbarStatus" class="alt-status">HBAR/JPY 取得待機</div>
+  <div id="hbarStatus" class="alt-status">HBAR/USD × USDJPY 待機</div>
 </div>
 
 <div class="asset">
@@ -242,7 +242,7 @@ canvas{width:100%;height:100%;display:block}
     <div class="info-box"><div class="info-label">損益</div><div id="portOndoPnl" class="info-value">---</div></div>
   </div>
   <div id="portOndoPnlPct" style="margin-top:10px;font-size:11px;font-weight:900">---</div>
-  <div id="ondoStatus" class="alt-status">ONDO/JPY 取得待機</div>
+  <div id="ondoStatus" class="alt-status">ONDO/USD × USDJPY 待機</div>
 </div>
 
 </div>
@@ -284,8 +284,10 @@ canvas{width:100%;height:100%;display:block}
     <div id="fxUpdated" class="macro-sub">接続待機</div>
   </div>
   <div class="macro-row">
-    <div class="macro-sub">HBAR / ONDOへの影響</div>
-    <div style="color:var(--green);font-size:11px;font-weight:800;margin-top:5px">完全分離済み</div>
+    <div class="macro-sub">HBAR / ONDOへの換算</div>
+    <div style="color:var(--green);font-size:11px;font-weight:800;margin-top:5px">
+      USD価格 × ドル円で連動
+    </div>
   </div>
 </section>
 
@@ -319,8 +321,14 @@ canvas{width:100%;height:100%;display:block}
 <section class="card">
   <div class="card-title">XRP ORDER BOOK</div>
   <div class="book">
-    <div><div class="book-head"><span>ASK</span><span>AMOUNT</span></div><div id="asks"></div></div>
-    <div><div class="book-head"><span>BID</span><span>AMOUNT</span></div><div id="bids"></div></div>
+    <div>
+      <div class="book-head"><span>ASK</span><span>AMOUNT</span></div>
+      <div id="asks"></div>
+    </div>
+    <div>
+      <div class="book-head"><span>BID</span><span>AMOUNT</span></div>
+      <div id="bids"></div>
+    </div>
   </div>
 </section>
 
@@ -365,7 +373,15 @@ let xrpPrice=null;
 let xrpPrevPrice=null;
 let btcJpy=null;
 let btcUsd=null;
+
+/* =====================================================
+   ★ 共通ドル円
+   HBAR / ONDOはこの値を使って円換算
+===================================================== */
 let usdJpy=null;
+
+let hbarUsd=null;
+let ondoUsd=null;
 let hbarPrice=null;
 let ondoPrice=null;
 
@@ -405,7 +421,9 @@ function setText(id,v){
 function setPnl(id,v){
   const e=document.getElementById(id);
   if(!e||!Number.isFinite(v))return;
+
   e.textContent=(v>=0?"+":"")+Y(v);
+
   e.classList.toggle("positive",v>0);
   e.classList.toggle("negative",v<0);
 }
@@ -413,7 +431,9 @@ function setPnl(id,v){
 function setPct(id,v){
   const e=document.getElementById(id);
   if(!e||!Number.isFinite(v))return;
+
   e.textContent=(v>=0?"+":"")+v.toFixed(2)+"%";
+
   e.classList.toggle("positive",v>0);
   e.classList.toggle("negative",v<0);
 }
@@ -455,7 +475,7 @@ async function getJSON(url,timeout=4000){
 
 /* =====================================================
    USDJPY
-   現在OKなので維持
+   ★ ここは元の正常な方式を維持
 ===================================================== */
 
 function applyUSDJPY(price,source="LIVE"){
@@ -480,6 +500,12 @@ function applyUSDJPY(price,source="LIVE"){
     "● "+source+" "+
     new Date().toLocaleTimeString("ja-JP")
   );
+
+  /*
+   * ★ ドル円が更新されたら
+   * HBAR / ONDOも即座に円換算
+   */
+  updateAltJPY();
 
   if(Number.isFinite(btcJpy)){
     btcUsd=btcJpy/usdJpy;
@@ -510,8 +536,18 @@ async function fetchUSDJPY(){
     console.warn("USDJPY:",e);
 
     if(Number.isFinite(usdJpy)){
-      setText("usdJpy",usdJpy.toFixed(3));
-      setText("fxUpdated","前回値保持");
+
+      setText(
+        "usdJpy",
+        usdJpy.toFixed(3)
+      );
+
+      setText(
+        "fxUpdated",
+        "前回値保持"
+      );
+
+      updateAltJPY();
     }
 
     return false;
@@ -523,8 +559,11 @@ async function connectUSDJPY(){
   try{
 
     if(typeof signalR==="undefined"){
+
       await fetchUSDJPY();
+
       scheduleFXFallback();
+
       return;
     }
 
@@ -537,26 +576,39 @@ async function connectUSDJPY(){
     fxConnection.on(
       "ReceiveTick",
       tick=>{
+
         if(
           tick &&
           String(tick.symbol).toUpperCase()==="USDJPY"
         ){
-          applyUSDJPY(tick.mid,"LIVE");
+
+          applyUSDJPY(
+            tick.mid,
+            "LIVE"
+          );
         }
       }
     );
 
-    fxConnection.onreconnected(async()=>{
-      try{
-        await fxConnection.invoke(
-          "Subscribe",
-          ["USDJPY"]
-        );
-      }catch(e){}
-    });
+    fxConnection.onreconnected(
+      async()=>{
+
+        try{
+
+          await fxConnection.invoke(
+            "Subscribe",
+            ["USDJPY"]
+          );
+
+        }catch(e){}
+
+      }
+    );
 
     fxConnection.onclose(()=>{
+
       scheduleFXFallback();
+
     });
 
     await fxConnection.start();
@@ -576,6 +628,7 @@ async function connectUSDJPY(){
     console.warn("USDJPY WS:",e);
 
     await fetchUSDJPY();
+
     scheduleFXFallback();
 
     setTimeout(
@@ -602,6 +655,191 @@ function scheduleFXFallback(){
     },
     5000
   );
+}
+
+
+/* =====================================================
+   ★ HBAR / ONDO
+   USD価格を取得
+   ↓
+   共通USDJPYを掛ける
+===================================================== */
+
+function updateAltJPY(){
+
+  /*
+   * HBAR/USD × USDJPY
+   */
+  if(
+    Number.isFinite(hbarUsd)&&
+    Number.isFinite(usdJpy)
+  ){
+
+    hbarPrice=
+      hbarUsd*usdJpy;
+
+    setText(
+      "portHbarPrice",
+      N(hbarPrice,4)
+    );
+
+    setText(
+      "hbarStatus",
+      "● HBAR/USD × USDJPY LIVE"
+    );
+
+    document
+      .getElementById("hbarStatus")
+      ?.classList.add("ok");
+  }
+
+  /*
+   * ONDO/USD × USDJPY
+   */
+  if(
+    Number.isFinite(ondoUsd)&&
+    Number.isFinite(usdJpy)
+  ){
+
+    ondoPrice=
+      ondoUsd*usdJpy;
+
+    setText(
+      "portOndoPrice",
+      N(ondoPrice,4)
+    );
+
+    setText(
+      "ondoStatus",
+      "● ONDO/USD × USDJPY LIVE"
+    );
+
+    document
+      .getElementById("ondoStatus")
+      ?.classList.add("ok");
+  }
+
+  updatePortfolio();
+}
+
+
+/* =====================================================
+   HBAR USD
+===================================================== */
+
+async function fetchHBAR(){
+
+  try{
+
+    const j=await getJSON(
+      "https://api.coinbase.com/v2/prices/HBAR-USD/spot?_="+Date.now(),
+      4000
+    );
+
+    const p=
+      Number(j?.data?.amount);
+
+    if(
+      !Number.isFinite(p)||
+      p<=0
+    ){
+
+      throw new Error(
+        "HBAR USD unavailable"
+      );
+    }
+
+    hbarUsd=p;
+
+    updateAltJPY();
+
+  }catch(e){
+
+    console.warn(
+      "HBAR USD:",
+      e
+    );
+
+    if(
+      Number.isFinite(hbarUsd)&&
+      Number.isFinite(usdJpy)
+    ){
+
+      updateAltJPY();
+
+      setText(
+        "hbarStatus",
+        "● HBAR 前回USD × USDJPY"
+      );
+
+    }else{
+
+      setText(
+        "hbarStatus",
+        "HBAR/USD 取得待機"
+      );
+    }
+  }
+}
+
+
+/* =====================================================
+   ONDO USD
+===================================================== */
+
+async function fetchONDO(){
+
+  try{
+
+    const j=await getJSON(
+      "https://api.coinbase.com/v2/prices/ONDO-USD/spot?_="+Date.now(),
+      4000
+    );
+
+    const p=
+      Number(j?.data?.amount);
+
+    if(
+      !Number.isFinite(p)||
+      p<=0
+    ){
+
+      throw new Error(
+        "ONDO USD unavailable"
+      );
+    }
+
+    ondoUsd=p;
+
+    updateAltJPY();
+
+  }catch(e){
+
+    console.warn(
+      "ONDO USD:",
+      e
+    );
+
+    if(
+      Number.isFinite(ondoUsd)&&
+      Number.isFinite(usdJpy)
+    ){
+
+      updateAltJPY();
+
+      setText(
+        "ondoStatus",
+        "● ONDO 前回USD × USDJPY"
+      );
+
+    }else{
+
+      setText(
+        "ondoStatus",
+        "ONDO/USD 取得待機"
+      );
+    }
+  }
 }
 
 
@@ -657,178 +895,6 @@ async function fetchBitbank(){
 
   updateXRP();
   updateMacro();
-}
-
-
-/* =====================================================
-   HBAR
-   ★ CoinGecko JPY直接
-   ★ USDJPYを一切使用しない
-===================================================== */
-
-async function fetchHBAR(){
-
-  try{
-
-    const j=await getJSON(
-      "https://api.coingecko.com/api/v3/simple/price"+
-      "?ids=hedera-hashgraph"+
-      "&vs_currencies=jpy"+
-      "&precision=4"+
-      "&_="+Date.now(),
-      5000
-    );
-
-    const p=
-      Number(
-        j?.["hedera-hashgraph"]?.jpy
-      );
-
-    if(
-      !Number.isFinite(p)||
-      p<=0
-    ){
-      throw new Error(
-        "HBAR JPY not found"
-      );
-    }
-
-    hbarPrice=p;
-
-    setText(
-      "portHbarPrice",
-      N(hbarPrice,2)
-    );
-
-    setText(
-      "hbarStatus",
-      "● HBAR/JPY LIVE"
-    );
-
-    document
-      .getElementById("hbarStatus")
-      ?.classList.add("ok");
-
-    updatePortfolio();
-
-  }catch(e){
-
-    console.warn(
-      "HBAR CoinGecko:",
-      e
-    );
-
-    if(Number.isFinite(hbarPrice)){
-
-      setText(
-        "portHbarPrice",
-        N(hbarPrice,2)
-      );
-
-      setText(
-        "hbarStatus",
-        "● HBAR 前回値"
-      );
-
-    }else{
-
-      setText(
-        "portHbarPrice",
-        "---"
-      );
-
-      setText(
-        "hbarStatus",
-        "HBAR 接続待機"
-      );
-    }
-  }
-}
-
-
-/* =====================================================
-   ONDO
-   ★ CoinGecko JPY直接
-   ★ USDJPYを一切使用しない
-===================================================== */
-
-async function fetchONDO(){
-
-  try{
-
-    const j=await getJSON(
-      "https://api.coingecko.com/api/v3/simple/price"+
-      "?ids=ondo-finance"+
-      "&vs_currencies=jpy"+
-      "&precision=4"+
-      "&_="+Date.now(),
-      5000
-    );
-
-    const p=
-      Number(
-        j?.["ondo-finance"]?.jpy
-      );
-
-    if(
-      !Number.isFinite(p)||
-      p<=0
-    ){
-      throw new Error(
-        "ONDO JPY not found"
-      );
-    }
-
-    ondoPrice=p;
-
-    setText(
-      "portOndoPrice",
-      N(ondoPrice,2)
-    );
-
-    setText(
-      "ondoStatus",
-      "● ONDO/JPY LIVE"
-    );
-
-    document
-      .getElementById("ondoStatus")
-      ?.classList.add("ok");
-
-    updatePortfolio();
-
-  }catch(e){
-
-    console.warn(
-      "ONDO CoinGecko:",
-      e
-    );
-
-    if(Number.isFinite(ondoPrice)){
-
-      setText(
-        "portOndoPrice",
-        N(ondoPrice,2)
-      );
-
-      setText(
-        "ondoStatus",
-        "● ONDO 前回値"
-      );
-
-    }else{
-
-      setText(
-        "portOndoPrice",
-        "---"
-      );
-
-      setText(
-        "ondoStatus",
-        "ONDO 接続待機"
-      );
-    }
-  }
 }
 
 
@@ -908,7 +974,6 @@ function updatePortfolio(){
     PORTFOLIO.ONDO
   );
 
-
   if(x){
 
     setText(
@@ -932,12 +997,11 @@ function updatePortfolio(){
     );
   }
 
-
   if(h){
 
     setText(
       "portHbarPrice",
-      N(hbarPrice,2)
+      N(hbarPrice,4)
     );
 
     setText(
@@ -956,12 +1020,11 @@ function updatePortfolio(){
     );
   }
 
-
   if(o){
 
     setText(
       "portOndoPrice",
-      N(ondoPrice,2)
+      N(ondoPrice,4)
     );
 
     setText(
@@ -980,13 +1043,11 @@ function updatePortfolio(){
     );
   }
 
-
   let total=0;
 
   if(x)total+=x.value;
   if(h)total+=h.value;
   if(o)total+=o.value;
-
 
   if(total>0){
 
@@ -1114,7 +1175,6 @@ function updateTargets(){
         e.classList.add("reached");
     });
 
-
   const next=
     [225,250,300,400,500]
     .find(t=>xrpPrice<t);
@@ -1232,7 +1292,6 @@ function drawChart(){
   const max=
     max0+range*.08;
 
-
   ctx.strokeStyle=
     "rgba(255,255,255,.06)";
 
@@ -1252,7 +1311,6 @@ function drawChart(){
 
     ctx.stroke();
   }
-
 
   ctx.beginPath();
 
@@ -1356,7 +1414,6 @@ function connectBitbank(){
       },500);
     };
 
-
     ws.onmessage=e=>{
 
       if(e.data==="2"){
@@ -1392,7 +1449,6 @@ function connectBitbank(){
       const room=b?.room_name;
       const d=b?.message?.data;
 
-
       if(
         room==="transactions_xrp_jpy"&&
         Array.isArray(d?.transactions)
@@ -1411,7 +1467,6 @@ function connectBitbank(){
         );
       }
 
-
       if(
         room==="depth_whole_xrp_jpy"
       ){
@@ -1429,7 +1484,6 @@ function connectBitbank(){
         );
       }
     };
-
 
     ws.onclose=()=>{
 
@@ -1531,6 +1585,10 @@ async function updateAll(){
 
   try{
 
+    /*
+     * HBAR / ONDOはUSD価格を取得。
+     * 円換算は現在のusdJpyを使用。
+     */
     await Promise.allSettled([
 
       fetchBitbank(),
@@ -1540,6 +1598,7 @@ async function updateAll(){
 
     ]);
 
+    updateAltJPY();
     updateXRP();
     updatePortfolio();
     updateMacro();
@@ -1567,16 +1626,23 @@ async function init(){
 
   connectBitbank();
 
-  /* ドル円は現在OKの方式を維持 */
+  /*
+   * ★ドル円は今動いている方式をそのまま使用
+   */
   await fetchUSDJPY();
 
   connectUSDJPY();
 
-  /* HBAR / ONDOは初回から独立取得 */
+  /*
+   * ★初回からHBAR/ONDO USD取得
+   * ★取得後、共通USDJPYで円換算
+   */
   await Promise.allSettled([
     fetchHBAR(),
     fetchONDO()
   ]);
+
+  updateAltJPY();
 
   await updateAll();
 
