@@ -207,7 +207,6 @@ canvas{width:100%;height:100%;display:block}
   </div>
 </section>
 
-
 <section class="card full">
 
 <div class="card-title">
@@ -258,7 +257,6 @@ style="margin-top:10px;font-size:11px;font-weight:900">
 
 </div>
 
-
 <div class="asset">
 
 <div class="asset-top">
@@ -303,7 +301,6 @@ HBAR/USD 接続待機
 </div>
 
 </div>
-
 
 <div class="asset">
 
@@ -352,7 +349,6 @@ ONDO/USD 接続待機
 
 </div>
 
-
 <div class="total-box">
 
 <div>
@@ -374,7 +370,6 @@ ONDO/USD 接続待機
 
 </section>
 
-
 <section class="card">
 
 <div class="card-title">
@@ -393,7 +388,6 @@ BTC / JPY <span class="live">● 5 SEC</span>
 </div>
 
 </section>
-
 
 <section class="card">
 
@@ -428,7 +422,6 @@ USD価格 × ドル円で連動
 </div>
 
 </section>
-
 
 <section class="card full">
 
@@ -466,7 +459,6 @@ XRP TARGET RADAR
 </div>
 </section>
 
-
 <section class="card full">
 
 <div class="card-title">
@@ -502,7 +494,6 @@ XRP価格を監視中...
 
 </section>
 
-
 <section class="card full">
 
 <div class="card-title">
@@ -514,7 +505,6 @@ XRP REALTIME CHART <span class="live">● LIVE</span>
 </div>
 
 </section>
-
 
 <section class="card">
 
@@ -543,7 +533,6 @@ XRP ORDER BOOK
 </div>
 </section>
 
-
 <section class="card">
 
 <div class="card-title">
@@ -559,7 +548,6 @@ WebSocket 約定データ
 </div>
 
 </section>
-
 
 <section class="card">
 
@@ -590,13 +578,11 @@ Market Sentiment
 
 </main>
 
-
 <div class="footer">
 XRP司令室 ORBIT｜XRP 9,000｜HBAR 7,500｜ONDO 1,540｜REALTIME
 </div>
 
 </div>
-
 
 <script>
 
@@ -879,6 +865,11 @@ function updateMarketConnectionText(){
 }
 
 
+/* =====================================================
+   MARKET TICK
+   HBAR / ONDO REALTIME
+===================================================== */
+
 function applyMarketTick(tick){
 
   if(!tick)
@@ -886,11 +877,20 @@ function applyMarketTick(tick){
 
   const symbol=
     String(
-      tick.symbol||""
+      tick.symbol ||
+      tick.instrument ||
+      tick.product ||
+      ""
     ).toUpperCase();
 
   const p=
-    Number(tick.mid);
+    Number(
+      tick.mid ??
+      tick.price ??
+      tick.last ??
+      tick.close ??
+      tick.value
+    );
 
   if(!Number.isFinite(p))
     return;
@@ -898,7 +898,10 @@ function applyMarketTick(tick){
 
   /* USDJPY */
 
-  if(symbol==="USDJPY"){
+  if(
+    symbol==="USDJPY" ||
+    symbol==="USD/JPY"
+  ){
 
     applyUSDJPY(
       p,
@@ -930,7 +933,11 @@ function applyMarketTick(tick){
 
   /* HBAR */
 
-  if(symbol==="HBARUSDT"){
+  if(
+    symbol==="HBARUSDT" ||
+    symbol==="HBAR/USDT" ||
+    symbol==="HBARUSD"
+  ){
 
     hbarUsd=p;
 
@@ -947,6 +954,8 @@ function applyMarketTick(tick){
       )
       ?.classList.add("ok");
 
+    updateMarketConnectionText();
+
     return;
 
   }
@@ -954,7 +963,11 @@ function applyMarketTick(tick){
 
   /* ONDO */
 
-  if(symbol==="ONDOUSDT"){
+  if(
+    symbol==="ONDOUSDT" ||
+    symbol==="ONDO/USDT" ||
+    symbol==="ONDOUSD"
+  ){
 
     ondoUsd=p;
 
@@ -970,6 +983,8 @@ function applyMarketTick(tick){
         "ondoStatus"
       )
       ?.classList.add("ok");
+
+    updateMarketConnectionText();
 
     return;
 
@@ -1041,7 +1056,7 @@ async function connectMarketFeed(){
 
     marketConnection.onreconnecting(
       ()=>{
-        
+
         setText(
           "hbarStatus",
           "HBAR/USD 再接続中..."
@@ -1123,9 +1138,7 @@ async function connectMarketFeed(){
 
     await marketConnection.start();
 
-
     await subscribeMarketFeed();
-
 
     await fetchMarketSnapshots();
 
@@ -1220,7 +1233,6 @@ async function subscribeMarketFeed(){
   )
     return;
 
-
   await marketConnection.invoke(
     "Subscribe",
     [
@@ -1235,7 +1247,6 @@ async function subscribeMarketFeed(){
 
 /* =====================================================
    INITIAL MARKET SNAPSHOT
-   WebSocket接続直後の空白防止
 ===================================================== */
 
 async function fetchMarketSnapshots(){
@@ -1271,7 +1282,12 @@ async function fetchMarketSnapshots(){
       results[0].value;
 
     const p=
-      Number(j?.mid);
+      Number(
+        j?.mid ??
+        j?.price ??
+        j?.last ??
+        j?.close
+      );
 
     if(Number.isFinite(p)){
 
@@ -1307,7 +1323,12 @@ async function fetchMarketSnapshots(){
       results[1].value;
 
     const p=
-      Number(j?.mid);
+      Number(
+        j?.mid ??
+        j?.price ??
+        j?.last ??
+        j?.close
+      );
 
     if(Number.isFinite(p)){
 
@@ -1343,7 +1364,12 @@ async function fetchMarketSnapshots(){
       results[2].value;
 
     const p=
-      Number(j?.mid);
+      Number(
+        j?.mid ??
+        j?.price ??
+        j?.last ??
+        j?.close
+      );
 
     if(Number.isFinite(p)){
 
@@ -1406,10 +1432,6 @@ function applyUSDJPY(
 }
 
 
-/*
-  旧Frankfurter取得は完全削除。
-  USDJPYはbiquote WebSocket / snapshotのみ。
-*/
 async function fetchUSDJPY(){
 
   try{
@@ -1421,7 +1443,12 @@ async function fetchUSDJPY(){
       );
 
     const p=
-      Number(j?.mid);
+      Number(
+        j?.mid ??
+        j?.price ??
+        j?.last ??
+        j?.close
+      );
 
     if(!Number.isFinite(p))
       throw new Error(
@@ -1481,8 +1508,6 @@ async function fetchUSDJPY(){
 
 /* =====================================================
    HBAR / ONDO
-   RESTは初期値・再接続時の補助のみ
-   通常時はWebSocket
 ===================================================== */
 
 async function fetchCoinbasePrice(
@@ -1531,12 +1556,6 @@ async function fetchCoinbasePrice(
 }
 
 
-/*
-  Coinbase RESTは通常の5秒更新から外した。
-  WebSocketの初期値取得はbiquoteを使用。
-  関数名は既存構造を壊さないため残す。
-*/
-
 async function fetchHBAR(){
 
   try{
@@ -1548,7 +1567,12 @@ async function fetchHBAR(){
       );
 
     const p=
-      Number(j?.mid);
+      Number(
+        j?.mid ??
+        j?.price ??
+        j?.last ??
+        j?.close
+      );
 
     if(!Number.isFinite(p))
       throw new Error(
@@ -1604,7 +1628,12 @@ async function fetchONDO(){
       );
 
     const p=
-      Number(j?.mid);
+      Number(
+        j?.mid ??
+        j?.price ??
+        j?.last ??
+        j?.close
+      );
 
     if(!Number.isFinite(p))
       throw new Error(
@@ -1665,7 +1694,7 @@ function updateAltJPY(){
 
     setText(
       "portHbarPrice",
-      N(hbarPrice,4)
+      N(hbarPrice,3)
     );
 
   }
@@ -1681,7 +1710,7 @@ function updateAltJPY(){
 
     setText(
       "portOndoPrice",
-      N(ondoPrice,4)
+      N(ondoPrice,3)
     );
 
   }
@@ -1859,9 +1888,10 @@ function updatePortfolio(){
 
   if(x){
 
+    /* XRP：小数点3桁 */
     setText(
       "portXrpPrice",
-      N(xrpPrice,2)
+      N(xrpPrice,3)
     );
 
     setText(
@@ -1884,9 +1914,10 @@ function updatePortfolio(){
 
   if(h){
 
+    /* HBAR：小数点3桁 */
     setText(
       "portHbarPrice",
-      N(hbarPrice,4)
+      N(hbarPrice,3)
     );
 
     setText(
@@ -1909,9 +1940,10 @@ function updatePortfolio(){
 
   if(o){
 
+    /* ONDO：小数点3桁 */
     setText(
       "portOndoPrice",
-      N(ondoPrice,4)
+      N(ondoPrice,3)
     );
 
     setText(
@@ -2152,7 +2184,7 @@ function checkAlerts(){
           "🚨 XRP "+
           level+
           "円到達｜現在 "+
-          N(xrpPrice,2)+
+          N(xrpPrice,3)+
           "円"
         );
 
@@ -2169,7 +2201,7 @@ function checkAlerts(){
                 "XRP "+
                 level+
                 "円到達｜現在 "+
-                N(xrpPrice,2)+
+                N(xrpPrice,3)+
                 "円"
             }
           );
@@ -2401,9 +2433,7 @@ function connectBitbank(){
 
       updateMarketConnectionText();
 
-
       ws.send("40");
-
 
       setTimeout(
         ()=>{
