@@ -10,602 +10,1528 @@
 
 <style>
 :root{
-  --bg:#02040a;--panel:#07101d;--line:rgba(0,234,255,.22);
-  --cyan:#00eaff;--blue:#268cff;--purple:#9b5cff;
-  --pink:#ff3dbd;--green:#00f5a0;--red:#ff4d6d;
-  --gold:#ffd166;--text:#edf8ff;--muted:#7690a8
+  --bg:#02040a;
+  --panel:#07101d;
+  --line:rgba(0,234,255,.22);
+  --cyan:#00eaff;
+  --blue:#268cff;
+  --purple:#9b5cff;
+  --pink:#ff3dbd;
+  --green:#00f5a0;
+  --red:#ff4d6d;
+  --gold:#ffd166;
+  --text:#edf8ff;
+  --muted:#7690a8
 }
+
 *{box-sizing:border-box}
+
 html,body{
-  margin:0;padding:0;background:
-  radial-gradient(circle at 10% 0%,rgba(0,234,255,.14),transparent 28%),
-  radial-gradient(circle at 90% 5%,rgba(155,92,255,.14),transparent 30%),
-  #02040a;color:var(--text);
+  margin:0;
+  padding:0;
+  background:
+    radial-gradient(circle at 10% 0%,rgba(0,234,255,.14),transparent 28%),
+    radial-gradient(circle at 90% 5%,rgba(155,92,255,.14),transparent 30%),
+    #02040a;
+  color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif
 }
+
 body{min-height:100vh}
+
 body:before{
-  content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.18;
   background:
     linear-gradient(rgba(0,234,255,.025) 1px,transparent 1px),
     linear-gradient(90deg,rgba(0,234,255,.025) 1px,transparent 1px);
   background-size:40px 40px
 }
-.app{width:min(1500px,96%);margin:auto;padding:20px 0 50px}
+
+.app{
+  width:min(1500px,96%);
+  margin:auto;
+  padding:20px 0 50px
+}
+
 .header,.card{
   border:1px solid var(--line);
-  background:linear-gradient(145deg,rgba(8,22,39,.97),rgba(3,8,17,.98));
-  box-shadow:0 0 12px rgba(0,234,255,.08),0 0 35px rgba(0,234,255,.045);
-  position:relative;overflow:hidden
+  background:
+    linear-gradient(145deg,rgba(8,22,39,.97),rgba(3,8,17,.98));
+  box-shadow:
+    0 0 12px rgba(0,234,255,.08),
+    0 0 35px rgba(0,234,255,.045);
+  position:relative;
+  overflow:hidden
 }
+
 .header{
-  display:flex;justify-content:space-between;align-items:center;
-  gap:15px;margin-bottom:18px;padding:18px 20px;border-radius:18px
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:18px;
+  padding:18px 20px;
+  border-radius:18px
 }
+
 .header:after,.card:after{
-  content:"";position:absolute;left:0;right:0;top:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--cyan),var(--purple),transparent)
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  height:1px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--cyan),
+      var(--purple),
+      transparent
+    )
 }
-.brand{display:flex;align-items:center;gap:13px}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:13px
+}
+
 .logo{
-  width:48px;height:48px;border-radius:14px;display:grid;place-items:center;
-  font-weight:950;font-size:20px;color:#001016;
-  background:linear-gradient(135deg,var(--cyan),var(--blue),var(--purple));
-  box-shadow:0 0 12px var(--cyan),0 0 28px rgba(0,234,255,.45)
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  font-weight:950;
+  font-size:20px;
+  color:#001016;
+  background:
+    linear-gradient(
+      135deg,
+      var(--cyan),
+      var(--blue),
+      var(--purple)
+    );
+  box-shadow:
+    0 0 12px var(--cyan),
+    0 0 28px rgba(0,234,255,.45)
 }
-.title{font-size:20px;font-weight:950;letter-spacing:.08em}
-.subtitle{color:var(--muted);font-size:11px;margin-top:3px;letter-spacing:.08em}
-.connection{display:flex;align-items:center;gap:8px;color:#9ab0c4;font-size:11px}
+
+.title{
+  font-size:20px;
+  font-weight:950;
+  letter-spacing:.08em
+}
+
+.subtitle{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:3px;
+  letter-spacing:.08em
+}
+
+.connection{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:#9ab0c4;
+  font-size:11px
+}
+
 .connection-dot{
-  width:9px;height:9px;border-radius:50%;background:var(--green);
-  box-shadow:0 0 8px var(--green),0 0 18px var(--green)
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:
+    0 0 8px var(--green),
+    0 0 18px var(--green)
 }
-.connection-dot.off{background:var(--red);box-shadow:0 0 8px var(--red)}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
-.card{min-width:0;border-radius:18px;padding:17px}
-.full{grid-column:1/4}
-.card-title{color:#8da9c0;font-size:11px;letter-spacing:.12em;font-weight:800;margin-bottom:12px}
-.live{color:var(--green);font-size:10px;margin-left:7px}
+
+.connection-dot.off{
+  background:var(--red);
+  box-shadow:
+    0 0 8px var(--red)
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:15px
+}
+
+.card{
+  min-width:0;
+  border-radius:18px;
+  padding:17px
+}
+
+.full{
+  grid-column:1/4
+}
+
+.card-title{
+  color:#8da9c0;
+  font-size:11px;
+  letter-spacing:.12em;
+  font-weight:800;
+  margin-bottom:12px
+}
+
+.live{
+  color:var(--green);
+  font-size:10px;
+  margin-left:7px
+}
+
 .mission{
   border-color:rgba(255,209,102,.32);
-  background:linear-gradient(145deg,rgba(30,22,8,.96),rgba(8,12,19,.98))
+  background:
+    linear-gradient(
+      145deg,
+      rgba(30,22,8,.96),
+      rgba(8,12,19,.98)
+    )
 }
-.mission-header{display:flex;justify-content:space-between;gap:15px}
-.mission-name{font-size:20px;font-weight:950;color:var(--gold)}
-.mission-target{color:#8e9eac;font-size:11px;margin-top:4px}
-.mission-current{text-align:right}
-.mission-current-label{color:#75899b;font-size:9px}
-.mission-current-value{font-size:27px;font-weight:950}
+
+.mission-header{
+  display:flex;
+  justify-content:space-between;
+  gap:15px
+}
+
+.mission-name{
+  font-size:20px;
+  font-weight:950;
+  color:var(--gold)
+}
+
+.mission-target{
+  color:#8e9eac;
+  font-size:11px;
+  margin-top:4px
+}
+
+.mission-current{
+  text-align:right
+}
+
+.mission-current-label{
+  color:#75899b;
+  font-size:9px
+}
+
+.mission-current-value{
+  font-size:27px;
+  font-weight:950
+}
+
 .progress-wrap{
-  height:12px;margin-top:18px;border-radius:99px;
-  background:#111b28;overflow:hidden
+  height:12px;
+  margin-top:18px;
+  border-radius:99px;
+  background:#111b28;
+  overflow:hidden
 }
+
 .progress{
-  height:100%;width:0;border-radius:99px;
-  background:linear-gradient(90deg,var(--cyan),var(--blue),var(--purple),var(--pink));
-  box-shadow:0 0 10px var(--cyan);transition:width .5s
+  height:100%;
+  width:0;
+  border-radius:99px;
+  background:
+    linear-gradient(
+      90deg,
+      var(--cyan),
+      var(--blue),
+      var(--purple),
+      var(--pink)
+    );
+  box-shadow:0 0 10px var(--cyan);
+  transition:width .5s
 }
+
 .mission-stats{
-  display:flex;justify-content:space-between;margin-top:9px;
-  font-size:10px;color:#71879b
+  display:flex;
+  justify-content:space-between;
+  margin-top:9px;
+  font-size:10px;
+  color:#71879b
 }
-.portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+
+.portfolio-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px
+}
+
 .asset{
-  border:1px solid rgba(0,234,255,.12);border-radius:15px;padding:15px;
+  border:1px solid rgba(0,234,255,.12);
+  border-radius:15px;
+  padding:15px;
   background:rgba(0,234,255,.025)
 }
-.asset:nth-child(2){border-color:rgba(155,92,255,.2)}
-.asset:nth-child(3){border-color:rgba(255,61,189,.2)}
-.asset-top{display:flex;justify-content:space-between;margin-bottom:12px}
-.asset-name{font-weight:900;letter-spacing:.08em}
-.asset-tag{font-size:9px;color:#6f879a}
-.asset-price{font-size:28px;font-weight:950}
-.asset-yen{font-size:11px;color:var(--cyan)}
-.asset-info{margin-top:11px;display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.info-box{background:rgba(0,0,0,.22);border-radius:9px;padding:8px}
-.info-label{font-size:9px;color:#6f8599}
-.info-value{font-size:12px;font-weight:800;margin-top:3px}
-.total-box{
-  margin-top:13px;padding:16px;border-radius:15px;
-  border:1px solid rgba(0,234,255,.3);
-  background:linear-gradient(135deg,rgba(0,234,255,.08),rgba(139,92,255,.08));
-  display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:12px
+
+.asset:nth-child(2){
+  border-color:rgba(155,92,255,.2)
 }
-.total-main-label,.total-small-label{color:#7e99ad;font-size:10px}
-.total-main{font-size:31px;font-weight:950}
-.total-small{font-size:18px;font-weight:900;margin-top:3px}
-.macro-price{font-size:27px;font-weight:900;margin:5px 0}
-.macro-sub{font-size:10px;color:var(--muted)}
-.macro-row{padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05)}
-.target-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}
-.target{text-align:center;padding:12px 7px;border-radius:13px;border:1px solid rgba(0,234,255,.1);background:rgba(255,255,255,.02)}
-.target-price{font-size:17px;font-weight:900}
-.target-label{font-size:9px;color:#70869a;margin-top:4px}
-.target.reached{border-color:rgba(0,245,160,.5);background:rgba(0,245,160,.06)}
-.target.reached .target-price{color:var(--green)}
-.target.next{border-color:rgba(255,209,102,.6)}
-.target.next .target-price{color:var(--gold)}
-.alert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.alert-level{padding:13px;border-radius:13px;text-align:center;border:1px solid rgba(0,234,255,.1);background:rgba(255,255,255,.025)}
-.alert-level strong{display:block;font-size:21px}
-.alert-level span{color:#6d8397;font-size:9px}
-.alert-level.hit{border-color:var(--green);background:rgba(0,245,160,.08)}
-.alert-level.hit strong{color:var(--green)}
-.alert-log{margin-top:11px;color:var(--gold);font-size:11px}
-.notify-btn{margin-top:10px;border:1px solid rgba(0,234,255,.3);color:var(--cyan);background:rgba(0,234,255,.05);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:10px}
-.chart-wrap{width:100%;height:260px}
-canvas{width:100%;height:100%;display:block}
-.book{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.book-head{color:#657c90;font-size:9px;display:flex;justify-content:space-between}
-.book-row{display:flex;justify-content:space-between;padding:5px 0;font-size:10px}
-.book-row.ask span:first-child{color:var(--red)}
-.book-row.bid span:first-child{color:var(--green)}
-.fear{display:flex;align-items:center;gap:15px}
-.fg-score{font-size:40px;font-weight:950}
-.fg-label{color:var(--gold);font-size:12px}
-.alt-status{margin-top:10px;font-size:9px;color:#6d8397}
-.alt-status.ok{color:var(--green)}
-.positive{color:var(--green)!important}
-.negative{color:var(--red)!important}
-.footer{text-align:center;margin-top:20px;color:#42576a;font-size:9px}
+
+.asset:nth-child(3){
+  border-color:rgba(255,61,189,.2)
+}
+
+.asset-top{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:12px
+}
+
+.asset-name{
+  font-weight:900;
+  letter-spacing:.08em
+}
+
+.asset-tag{
+  font-size:9px;
+  color:#6f879a
+}
+
+.asset-price{
+  font-size:28px;
+  font-weight:950;
+  min-height:34px
+}
+
+.asset-yen{
+  font-size:11px;
+  color:var(--cyan)
+}
+
+.asset-info{
+  margin-top:11px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px
+}
+
+.info-box{
+  background:rgba(0,0,0,.22);
+  border-radius:9px;
+  padding:8px
+}
+
+.info-label{
+  font-size:9px;
+  color:#6f8599
+}
+
+.info-value{
+  font-size:12px;
+  font-weight:800;
+  margin-top:3px
+}
+
+.total-box{
+  margin-top:13px;
+  padding:16px;
+  border-radius:15px;
+  border:1px solid rgba(0,234,255,.3);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0,234,255,.08),
+      rgba(139,92,255,.08)
+    );
+  display:grid;
+  grid-template-columns:1.3fr 1fr 1fr;
+  gap:12px
+}
+
+.total-main-label,
+.total-small-label{
+  color:#7e99ad;
+  font-size:10px
+}
+
+.total-main{
+  font-size:31px;
+  font-weight:950
+}
+
+.total-small{
+  font-size:18px;
+  font-weight:900;
+  margin-top:3px
+}
+
+.macro-price{
+  font-size:27px;
+  font-weight:900;
+  margin:5px 0
+}
+
+.macro-sub{
+  font-size:10px;
+  color:var(--muted)
+}
+
+.macro-row{
+  padding:12px 0;
+  border-bottom:1px solid rgba(255,255,255,.05)
+}
+
+.target-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:9px
+}
+
+.target{
+  text-align:center;
+  padding:12px 7px;
+  border-radius:13px;
+  border:1px solid rgba(0,234,255,.1);
+  background:rgba(255,255,255,.02)
+}
+
+.target-price{
+  font-size:17px;
+  font-weight:900
+}
+
+.target-label{
+  font-size:9px;
+  color:#70869a;
+  margin-top:4px
+}
+
+.target.reached{
+  border-color:rgba(0,245,160,.5);
+  background:rgba(0,245,160,.06)
+}
+
+.target.reached .target-price{
+  color:var(--green)
+}
+
+.target.next{
+  border-color:rgba(255,209,102,.6)
+}
+
+.target.next .target-price{
+  color:var(--gold)
+}
+
+.alert-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px
+}
+
+.alert-level{
+  padding:13px;
+  border-radius:13px;
+  text-align:center;
+  border:1px solid rgba(0,234,255,.1);
+  background:rgba(255,255,255,.025)
+}
+
+.alert-level strong{
+  display:block;
+  font-size:21px
+}
+
+.alert-level span{
+  color:#6d8397;
+  font-size:9px
+}
+
+.alert-level.hit{
+  border-color:var(--green);
+  background:rgba(0,245,160,.08)
+}
+
+.alert-level.hit strong{
+  color:var(--green)
+}
+
+.alert-log{
+  margin-top:11px;
+  color:var(--gold);
+  font-size:11px
+}
+
+.notify-btn{
+  margin-top:10px;
+  border:1px solid rgba(0,234,255,.3);
+  color:var(--cyan);
+  background:rgba(0,234,255,.05);
+  border-radius:10px;
+  padding:8px 12px;
+  cursor:pointer;
+  font-size:10px
+}
+
+.chart-wrap{
+  width:100%;
+  height:260px
+}
+
+canvas{
+  width:100%;
+  height:100%;
+  display:block
+}
+
+.book{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px
+}
+
+.book-head{
+  color:#657c90;
+  font-size:9px;
+  display:flex;
+  justify-content:space-between
+}
+
+.book-row{
+  display:flex;
+  justify-content:space-between;
+  padding:5px 0;
+  font-size:10px
+}
+
+.book-row.ask span:first-child{
+  color:var(--red)
+}
+
+.book-row.bid span:first-child{
+  color:var(--green)
+}
+
+.fear{
+  display:flex;
+  align-items:center;
+  gap:15px
+}
+
+.fg-score{
+  font-size:40px;
+  font-weight:950
+}
+
+.fg-label{
+  color:var(--gold);
+  font-size:12px
+}
+
+.alt-status{
+  margin-top:10px;
+  font-size:9px;
+  color:#6d8397
+}
+
+.alt-status.ok{
+  color:var(--green)
+}
+
+.positive{
+  color:var(--green)!important
+}
+
+.negative{
+  color:var(--red)!important
+}
+
+.footer{
+  text-align:center;
+  margin-top:20px;
+  color:#42576a;
+  font-size:9px
+}
 
 @media(max-width:1050px){
-.grid{grid-template-columns:repeat(2,1fr)}
-.full{grid-column:1/3}
+  .grid{
+    grid-template-columns:repeat(2,1fr)
+  }
+
+  .full{
+    grid-column:1/3
+  }
 }
+
 @media(max-width:700px){
-.grid{grid-template-columns:1fr}
-.full{grid-column:auto}
-.portfolio-grid,.total-box{grid-template-columns:1fr}
-.target-grid{grid-template-columns:repeat(3,1fr)}
-.alert-grid{grid-template-columns:1fr}
+  .grid{
+    grid-template-columns:1fr
+  }
+
+  .full{
+    grid-column:auto
+  }
+
+  .portfolio-grid,
+  .total-box{
+    grid-template-columns:1fr
+  }
+
+  .target-grid{
+    grid-template-columns:repeat(3,1fr)
+  }
+
+  .alert-grid{
+    grid-template-columns:1fr
+  }
 }
 </style>
 </head>
 
 <body>
+
 <div class="app">
 
 <header class="header">
+
   <div class="brand">
+
     <div class="logo">XRP</div>
+
     <div>
-      <div class="title">XRP 司令室｜ORBIT</div>
-      <div class="subtitle">MULTI ASSET REALTIME COMMAND CENTER</div>
+
+      <div class="title">
+        XRP 司令室｜ORBIT
+      </div>
+
+      <div class="subtitle">
+        MULTI ASSET REALTIME COMMAND CENTER
+      </div>
+
     </div>
+
   </div>
 
   <div class="connection">
-    <span id="connectionDot" class="connection-dot"></span>
-    <span id="connectionText">CONNECTING...</span>
+
+    <span
+      id="connectionDot"
+      class="connection-dot">
+    </span>
+
+    <span id="connectionText">
+      CONNECTING...
+    </span>
+
   </div>
+
 </header>
+
 
 <main class="grid">
 
+
+<!-- =====================================================
+     MISSION
+===================================================== -->
+
 <section class="card mission full">
+
   <div class="mission-header">
+
     <div>
-      <div class="card-title">MISSION</div>
-      <div class="mission-name">3,000,000円</div>
-      <div class="mission-target">XRP + HBAR + ONDO｜3銘柄合計</div>
+
+      <div class="card-title">
+        MISSION
+      </div>
+
+      <div class="mission-name">
+        3,000,000円
+      </div>
+
+      <div class="mission-target">
+        XRP + HBAR + ONDO｜3銘柄合計
+      </div>
+
     </div>
 
     <div class="mission-current">
-      <div class="mission-current-label">現在保有金額</div>
-      <div id="missionTotalValue" class="mission-current-value">---</div>
+
+      <div class="mission-current-label">
+        現在保有金額
+      </div>
+
+      <div
+        id="missionTotalValue"
+        class="mission-current-value">
+        ---
+      </div>
+
     </div>
+
   </div>
 
   <div class="progress-wrap">
-    <div id="missionProgress" class="progress"></div>
+
+    <div
+      id="missionProgress"
+      class="progress">
+    </div>
+
   </div>
 
   <div class="mission-stats">
-    <span id="missionPercent">進捗 --%</span>
-    <span id="missionRemaining">あと --- で300万円</span>
+
+    <span id="missionPercent">
+      進捗 --%
+    </span>
+
+    <span id="missionRemaining">
+      あと --- で300万円
+    </span>
+
   </div>
+
 </section>
+
+
+<!-- =====================================================
+     PORTFOLIO
+===================================================== -->
 
 <section class="card full">
 
-<div class="card-title">
-PORTFOLIO｜3銘柄保有状況
-<span class="live">● REALTIME</span>
-</div>
+  <div class="card-title">
 
-<div class="portfolio-grid">
+    PORTFOLIO｜3銘柄保有状況
 
-<div class="asset">
+    <span class="live">
+      ● REALTIME
+    </span>
 
-<div class="asset-top">
-<div class="asset-name">XRP</div>
-<div class="asset-tag">RIPPLE</div>
-</div>
+  </div>
 
-<div id="portXrpPrice" class="asset-price">---</div>
-<div class="asset-yen">JPY / XRP</div>
 
-<div class="asset-info">
+  <div class="portfolio-grid">
 
-<div class="info-box">
-<div class="info-label">保有数量</div>
-<div class="info-value">9,000 XRP</div>
-</div>
 
-<div class="info-box">
-<div class="info-label">平均取得</div>
-<div class="info-value">183円</div>
-</div>
+    <!-- XRP -->
 
-<div class="info-box">
-<div class="info-label">現在評価額</div>
-<div id="portXrpValue" class="info-value">---</div>
-</div>
+    <div class="asset">
 
-<div class="info-box">
-<div class="info-label">損益</div>
-<div id="portXrpPnl" class="info-value">---</div>
-</div>
+      <div class="asset-top">
 
-</div>
+        <div class="asset-name">
+          XRP
+        </div>
 
-<div id="portXrpPnlPct"
-style="margin-top:10px;font-size:11px;font-weight:900">
----
-</div>
+        <div class="asset-tag">
+          RIPPLE
+        </div>
 
-</div>
+      </div>
 
-<div class="asset">
+      <div
+        id="portXrpPrice"
+        class="asset-price">
+        ---
+      </div>
 
-<div class="asset-top">
-<div class="asset-name">HBAR</div>
-<div class="asset-tag">HEDERA</div>
-</div>
+      <div class="asset-yen">
+        JPY / XRP
+      </div>
 
-<div id="portHbarPrice" class="asset-price">---</div>
-<div class="asset-yen">JPY / HBAR</div>
+      <div class="asset-info">
 
-<div class="asset-info">
+        <div class="info-box">
 
-<div class="info-box">
-<div class="info-label">保有数量</div>
-<div class="info-value">7,500 HBAR</div>
-</div>
+          <div class="info-label">
+            保有数量
+          </div>
 
-<div class="info-box">
-<div class="info-label">平均取得</div>
-<div class="info-value">14.8円</div>
-</div>
+          <div class="info-value">
+            9,000 XRP
+          </div>
 
-<div class="info-box">
-<div class="info-label">現在評価額</div>
-<div id="portHbarValue" class="info-value">---</div>
-</div>
+        </div>
 
-<div class="info-box">
-<div class="info-label">損益</div>
-<div id="portHbarPnl" class="info-value">---</div>
-</div>
 
-</div>
+        <div class="info-box">
 
-<div id="portHbarPnlPct"
-style="margin-top:10px;font-size:11px;font-weight:900">
----
-</div>
+          <div class="info-label">
+            平均取得
+          </div>
 
-<div id="hbarStatus" class="alt-status">
-HBAR/USD 接続待機
-</div>
+          <div class="info-value">
+            183円
+          </div>
 
-</div>
+        </div>
 
-<div class="asset">
 
-<div class="asset-top">
-<div class="asset-name">ONDO</div>
-<div class="asset-tag">ONDO FINANCE</div>
-</div>
+        <div class="info-box">
 
-<div id="portOndoPrice" class="asset-price">---</div>
-<div class="asset-yen">JPY / ONDO</div>
+          <div class="info-label">
+            現在評価額
+          </div>
 
-<div class="asset-info">
+          <div
+            id="portXrpValue"
+            class="info-value">
+            ---
+          </div>
 
-<div class="info-box">
-<div class="info-label">保有数量</div>
-<div class="info-value">1,540 ONDO</div>
-</div>
+        </div>
 
-<div class="info-box">
-<div class="info-label">平均取得</div>
-<div class="info-value">87.4円</div>
-</div>
 
-<div class="info-box">
-<div class="info-label">現在評価額</div>
-<div id="portOndoValue" class="info-value">---</div>
-</div>
+        <div class="info-box">
 
-<div class="info-box">
-<div class="info-label">損益</div>
-<div id="portOndoPnl" class="info-value">---</div>
-</div>
+          <div class="info-label">
+            損益
+          </div>
 
-</div>
+          <div
+            id="portXrpPnl"
+            class="info-value">
+            ---
+          </div>
 
-<div id="portOndoPnlPct"
-style="margin-top:10px;font-size:11px;font-weight:900">
----
-</div>
+        </div>
 
-<div id="ondoStatus" class="alt-status">
-ONDO/USD 接続待機
-</div>
+      </div>
 
-</div>
 
-</div>
+      <div
+        id="portXrpPnlPct"
+        style="
+          margin-top:10px;
+          font-size:11px;
+          font-weight:900
+        ">
+        ---
+      </div>
 
-<div class="total-box">
+    </div>
 
-<div>
-<div class="total-main-label">現在保有金額｜3銘柄合計</div>
-<div id="totalAssets" class="total-main">---</div>
-</div>
 
-<div>
-<div class="total-small-label">総取得金額</div>
-<div class="total-small">1,892,596円</div>
-</div>
+    <!-- HBAR -->
 
-<div>
-<div class="total-small-label">総損益</div>
-<div id="totalPnl" class="total-small">---</div>
-</div>
+    <div class="asset">
 
-</div>
+      <div class="asset-top">
+
+        <div class="asset-name">
+          HBAR
+        </div>
+
+        <div class="asset-tag">
+          HEDERA
+        </div>
+
+      </div>
+
+      <div
+        id="portHbarPrice"
+        class="asset-price">
+        ---
+      </div>
+
+      <div class="asset-yen">
+        JPY / HBAR
+      </div>
+
+
+      <div class="asset-info">
+
+        <div class="info-box">
+
+          <div class="info-label">
+            保有数量
+          </div>
+
+          <div class="info-value">
+            7,500 HBAR
+          </div>
+
+        </div>
+
+
+        <div class="info-box">
+
+          <div class="info-label">
+            平均取得
+          </div>
+
+          <div class="info-value">
+            14.8円
+          </div>
+
+        </div>
+
+
+        <div class="info-box">
+
+          <div class="info-label">
+            現在評価額
+          </div>
+
+          <div
+            id="portHbarValue"
+            class="info-value">
+            ---
+          </div>
+
+        </div>
+
+
+        <div class="info-box">
+
+          <div class="info-label">
+            損益
+          </div>
+
+          <div
+            id="portHbarPnl"
+            class="info-value">
+            ---
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="portHbarPnlPct"
+        style="
+          margin-top:10px;
+          font-size:11px;
+          font-weight:900
+        ">
+        ---
+      </div>
+
+
+      <div
+        id="hbarStatus"
+        class="alt-status">
+        HBAR/USD 接続待機
+      </div>
+
+    </div>
+
+
+    <!-- ONDO -->
+
+    <div class="asset">
+
+      <div class="asset-top">
+
+        <div class="asset-name">
+          ONDO
+        </div>
+
+        <div class="asset-tag">
+          ONDO FINANCE
+        </div>
+
+      </div>
+
+      <div
+        id="portOndoPrice"
+        class="asset-price">
+        ---
+      </div>
+
+      <div class="asset-yen">
+        JPY / ONDO
+      </div>
+
+
+      <div class="asset-info">
+
+        <div class="info-box">
+
+          <div class="info-label">
+            保有数量
+          </div>
+
+          <div class="info-value">
+            1,540 ONDO
+          </div>
+
+        </div>
+
+
+        <div class="info-box">
+
+          <div class="info-label">
+            平均取得
+          </div>
+
+          <div class="info-value">
+            87.4円
+          </div>
+
+        </div>
+
+
+        <div class="info-box">
+
+          <div class="info-label">
+            現在評価額
+          </div>
+
+          <div
+            id="portOndoValue"
+            class="info-value">
+            ---
+          </div>
+
+        </div>
+
+
+        <div class="info-box">
+
+          <div class="info-label">
+            損益
+          </div>
+
+          <div
+            id="portOndoPnl"
+            class="info-value">
+            ---
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="portOndoPnlPct"
+        style="
+          margin-top:10px;
+          font-size:11px;
+          font-weight:900
+        ">
+        ---
+      </div>
+
+
+      <div
+        id="ondoStatus"
+        class="alt-status">
+        ONDO/USD 接続待機
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="total-box">
+
+    <div>
+
+      <div class="total-main-label">
+        現在保有金額｜3銘柄合計
+      </div>
+
+      <div
+        id="totalAssets"
+        class="total-main">
+        ---
+      </div>
+
+    </div>
+
+
+    <div>
+
+      <div class="total-small-label">
+        総取得金額
+      </div>
+
+      <div class="total-small">
+        1,892,596円
+      </div>
+
+    </div>
+
+
+    <div>
+
+      <div class="total-small-label">
+        総損益
+      </div>
+
+      <div
+        id="totalPnl"
+        class="total-small">
+        ---
+      </div>
+
+    </div>
+
+  </div>
 
 </section>
+
+
+<!-- =====================================================
+     BTC
+===================================================== -->
 
 <section class="card">
 
-<div class="card-title">
-BTC / JPY <span class="live">● 5 SEC</span>
-</div>
+  <div class="card-title">
+    BTC / JPY
+    <span class="live">
+      ● 5 SEC
+    </span>
+  </div>
 
-<div class="macro-row">
-<div class="macro-sub">BTC / JPY</div>
-<div id="btcPrice" class="macro-price">---</div>
-<div id="btcUpdated" class="macro-sub">更新待機</div>
-</div>
+  <div class="macro-row">
 
-<div class="macro-row">
-<div class="macro-sub">BTC / USD</div>
-<div id="btcUsd" class="macro-price">---</div>
-</div>
+    <div class="macro-sub">
+      BTC / JPY
+    </div>
+
+    <div
+      id="btcPrice"
+      class="macro-price">
+      ---
+    </div>
+
+    <div
+      id="btcUpdated"
+      class="macro-sub">
+      更新待機
+    </div>
+
+  </div>
+
+  <div class="macro-row">
+
+    <div class="macro-sub">
+      BTC / USD
+    </div>
+
+    <div
+      id="btcUsd"
+      class="macro-price">
+      ---
+    </div>
+
+  </div>
 
 </section>
+
+
+<!-- =====================================================
+     USDJPY
+===================================================== -->
 
 <section class="card">
 
-<div class="card-title">
-USD / JPY <span class="live">● REALTIME FX</span>
-</div>
+  <div class="card-title">
+    USD / JPY
+    <span class="live">
+      ● REALTIME FX
+    </span>
+  </div>
 
-<div class="macro-row">
+  <div class="macro-row">
 
-<div class="macro-sub">ドル円</div>
+    <div class="macro-sub">
+      ドル円
+    </div>
 
-<div id="usdJpy" class="macro-price">
----
-</div>
+    <div
+      id="usdJpy"
+      class="macro-price">
+      ---
+    </div>
 
-<div id="fxUpdated" class="macro-sub">
-接続待機
-</div>
+    <div
+      id="fxUpdated"
+      class="macro-sub">
+      接続待機
+    </div>
 
-</div>
+  </div>
 
-<div class="macro-row">
 
-<div class="macro-sub">
-HBAR / ONDOへの換算
-</div>
+  <div class="macro-row">
 
-<div style="color:var(--green);font-size:11px;font-weight:800;margin-top:5px">
-USD価格 × ドル円で連動
-</div>
+    <div class="macro-sub">
+      HBAR / ONDOへの換算
+    </div>
 
-</div>
+    <div
+      style="
+        color:var(--green);
+        font-size:11px;
+        font-weight:800;
+        margin-top:5px">
+      USD価格 × ドル円で連動
+    </div>
+
+  </div>
 
 </section>
+
+
+<!-- =====================================================
+     TARGET
+===================================================== -->
 
 <section class="card full">
 
-<div class="card-title">
-XRP TARGET RADAR
-</div>
+  <div class="card-title">
+    XRP TARGET RADAR
+  </div>
 
-<div class="target-grid">
+  <div class="target-grid">
 
-<div class="target" data-target="225">
-<div class="target-price">225円</div>
-<div class="target-label">TARGET 01</div>
-</div>
+    <div
+      class="target"
+      data-target="225">
 
-<div class="target" data-target="250">
-<div class="target-price">250円</div>
-<div class="target-label">TARGET 02</div>
-</div>
+      <div class="target-price">
+        225円
+      </div>
 
-<div class="target" data-target="300">
-<div class="target-price">300円</div>
-<div class="target-label">MISSION</div>
-</div>
+      <div class="target-label">
+        TARGET 01
+      </div>
 
-<div class="target" data-target="400">
-<div class="target-price">400円</div>
-<div class="target-label">TARGET 04</div>
-</div>
+    </div>
 
-<div class="target" data-target="500">
-<div class="target-price">500円</div>
-<div class="target-label">TARGET 05</div>
-</div>
 
-</div>
+    <div
+      class="target"
+      data-target="250">
+
+      <div class="target-price">
+        250円
+      </div>
+
+      <div class="target-label">
+        TARGET 02
+      </div>
+
+    </div>
+
+
+    <div
+      class="target"
+      data-target="300">
+
+      <div class="target-price">
+        300円
+      </div>
+
+      <div class="target-label">
+        MISSION
+      </div>
+
+    </div>
+
+
+    <div
+      class="target"
+      data-target="400">
+
+      <div class="target-price">
+        400円
+      </div>
+
+      <div class="target-label">
+        TARGET 04
+      </div>
+
+    </div>
+
+
+    <div
+      class="target"
+      data-target="500">
+
+      <div class="target-price">
+        500円
+      </div>
+
+      <div class="target-label">
+        TARGET 05
+      </div>
+
+    </div>
+
+  </div>
+
 </section>
+
+
+<!-- =====================================================
+     ALERT
+===================================================== -->
 
 <section class="card full">
 
-<div class="card-title">
-ALERT CENTER <span class="live">● XRP PRICE ALERT</span>
-</div>
+  <div class="card-title">
 
-<div class="alert-grid">
+    ALERT CENTER
+    <span class="live">
+      ● XRP PRICE ALERT
+    </span>
 
-<div class="alert-level" id="alertBox225">
-<strong>XRP 225円</strong>
-<span>到達通知</span>
-</div>
+  </div>
 
-<div class="alert-level" id="alertBox250">
-<strong>XRP 250円</strong>
-<span>到達通知</span>
-</div>
 
-<div class="alert-level" id="alertBox300">
-<strong>XRP 300円</strong>
-<span>MISSION通知</span>
-</div>
+  <div class="alert-grid">
 
-</div>
+    <div
+      class="alert-level"
+      id="alertBox225">
 
-<div id="alertLog" class="alert-log">
-XRP価格を監視中...
-</div>
+      <strong>
+        XRP 225円
+      </strong>
 
-<button id="notifyButton" class="notify-btn">
-🔔 ブラウザ通知をON
-</button>
+      <span>
+        到達通知
+      </span>
+
+    </div>
+
+
+    <div
+      class="alert-level"
+      id="alertBox250">
+
+      <strong>
+        XRP 250円
+      </strong>
+
+      <span>
+        到達通知
+      </span>
+
+    </div>
+
+
+    <div
+      class="alert-level"
+      id="alertBox300">
+
+      <strong>
+        XRP 300円
+      </strong>
+
+      <span>
+        MISSION通知
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <div
+    id="alertLog"
+    class="alert-log">
+    XRP価格を監視中...
+  </div>
+
+
+  <button
+    id="notifyButton"
+    class="notify-btn">
+    🔔 ブラウザ通知をON
+  </button>
 
 </section>
+
+
+<!-- =====================================================
+     CHART
+===================================================== -->
 
 <section class="card full">
 
-<div class="card-title">
-XRP REALTIME CHART <span class="live">● LIVE</span>
-</div>
+  <div class="card-title">
 
-<div class="chart-wrap">
-<canvas id="xrpChart"></canvas>
-</div>
+    XRP REALTIME CHART
+
+    <span class="live">
+      ● LIVE
+    </span>
+
+  </div>
+
+  <div class="chart-wrap">
+
+    <canvas id="xrpChart"></canvas>
+
+  </div>
 
 </section>
+
+
+<!-- =====================================================
+     ORDER BOOK
+===================================================== -->
 
 <section class="card">
 
-<div class="card-title">
-XRP ORDER BOOK
-</div>
+  <div class="card-title">
+    XRP ORDER BOOK
+  </div>
 
-<div class="book">
+  <div class="book">
 
-<div>
-<div class="book-head">
-<span>ASK</span>
-<span>AMOUNT</span>
-</div>
-<div id="asks"></div>
-</div>
+    <div>
 
-<div>
-<div class="book-head">
-<span>BID</span>
-<span>AMOUNT</span>
-</div>
-<div id="bids"></div>
-</div>
+      <div class="book-head">
+        <span>ASK</span>
+        <span>AMOUNT</span>
+      </div>
 
-</div>
+      <div id="asks"></div>
+
+    </div>
+
+
+    <div>
+
+      <div class="book-head">
+        <span>BID</span>
+        <span>AMOUNT</span>
+      </div>
+
+      <div id="bids"></div>
+
+    </div>
+
+  </div>
+
 </section>
+
+
+<!-- =====================================================
+     VOLUME
+===================================================== -->
 
 <section class="card">
 
-<div class="card-title">
-XRP VOLUME
-</div>
+  <div class="card-title">
+    XRP VOLUME
+  </div>
 
-<div id="volume" class="macro-price">
----
-</div>
+  <div
+    id="volume"
+    class="macro-price">
+    ---
+  </div>
 
-<div class="macro-sub">
-WebSocket 約定データ
-</div>
+  <div class="macro-sub">
+    WebSocket 約定データ
+  </div>
 
 </section>
+
+
+<!-- =====================================================
+     FEAR GREED
+===================================================== -->
 
 <section class="card">
 
-<div class="card-title">
-CRYPTO FEAR & GREED
-</div>
+  <div class="card-title">
+    CRYPTO FEAR & GREED
+  </div>
 
-<div class="fear">
+  <div class="fear">
 
-<div id="fgScore" class="fg-score">
---
-</div>
+    <div
+      id="fgScore"
+      class="fg-score">
+      --
+    </div>
 
-<div>
+    <div>
 
-<div id="fgLabel" class="fg-label">
-WAITING
-</div>
+      <div
+        id="fgLabel"
+        class="fg-label">
+        WAITING
+      </div>
 
-<div style="color:#60788c;font-size:9px;margin-top:4px">
-Market Sentiment
-</div>
+      <div
+        style="
+          color:#60788c;
+          font-size:9px;
+          margin-top:4px">
+        Market Sentiment
+      </div>
 
-</div>
+    </div>
 
-</div>
+  </div>
+
 </section>
+
 
 </main>
 
+
 <div class="footer">
-XRP司令室 ORBIT｜XRP 9,000｜HBAR 7,500｜ONDO 1,540｜REALTIME
+  XRP司令室 ORBIT｜XRP 9,000｜HBAR 7,500｜ONDO 1,540｜REALTIME
 </div>
 
 </div>
+
 
 <script>
 
+/* =====================================================
+   PORTFOLIO
+===================================================== */
+
 const PORTFOLIO={
+
   XRP:{
     amount:9000,
     avg:183,
     cost:1647000
   },
+
   HBAR:{
     amount:7500,
     avg:14.8,
     cost:111000
   },
+
   ONDO:{
     amount:1540,
     avg:87.4,
     cost:134596
   }
+
 };
 
 const TOTAL_COST=1892596;
 const MISSION_GOAL=3000000;
+
+
+/* =====================================================
+   STATE
+===================================================== */
 
 let xrpPrice=null;
 let xrpPrevPrice=null;
@@ -635,6 +1561,12 @@ let firstXrp=true;
 let updateRunning=false;
 
 
+/*
+  初回3銘柄同時表示制御
+*/
+let initialPortfolioRendered=false;
+
+
 /* =====================================================
    UTIL
 ===================================================== */
@@ -650,6 +1582,7 @@ function N(v,d=2){
         }
       )
     :"---";
+
 }
 
 
@@ -664,6 +1597,7 @@ function Y(v,d=0){
         }
       )+"円"
     :"---";
+
 }
 
 
@@ -673,6 +1607,7 @@ function setText(id,v){
 
   if(e)
     e.textContent=v;
+
 }
 
 
@@ -695,6 +1630,7 @@ function setPnl(id,v){
     "negative",
     v<0
   );
+
 }
 
 
@@ -718,10 +1654,14 @@ function setPct(id,v){
     "negative",
     v<0
   );
+
 }
 
 
-async function getJSON(url,timeout=5000){
+async function getJSON(
+  url,
+  timeout=5000
+){
 
   const controller=
     new AbortController();
@@ -763,47 +1703,55 @@ async function getJSON(url,timeout=5000){
 
 
 /* =====================================================
-   REALTIME MARKET FEED
-   HBARUSDT / ONDOUSDT / USDJPY
-   biquote SignalR
+   ★ 初回3銘柄一括表示
 ===================================================== */
 
-function marketStatus(text,ok=true){
+function renderInitialPortfolio(){
 
-  setText(
-    "hbarStatus",
-    text
-  );
+  if(initialPortfolioRendered)
+    return;
 
-  setText(
-    "ondoStatus",
-    text
-  );
+  if(
+    !Number.isFinite(xrpPrice) ||
+    !Number.isFinite(hbarPrice) ||
+    !Number.isFinite(ondoPrice)
+  ){
 
-  if(ok){
-
-    document
-      .getElementById("hbarStatus")
-      ?.classList.add("ok");
-
-    document
-      .getElementById("ondoStatus")
-      ?.classList.add("ok");
-
-  }else{
-
-    document
-      .getElementById("hbarStatus")
-      ?.classList.remove("ok");
-
-    document
-      .getElementById("ondoStatus")
-      ?.classList.remove("ok");
+    return;
 
   }
 
+
+  /*
+    ここで3銘柄を一度に描画
+  */
+
+  setText(
+    "portXrpPrice",
+    N(xrpPrice,3)
+  );
+
+  setText(
+    "portHbarPrice",
+    N(hbarPrice,3)
+  );
+
+  setText(
+    "portOndoPrice",
+    N(ondoPrice,3)
+  );
+
+
+  initialPortfolioRendered=true;
+
+  updatePortfolio();
+
 }
 
+
+/* =====================================================
+   REALTIME MARKET FEED
+===================================================== */
 
 function updateMarketConnectionText(){
 
@@ -827,6 +1775,7 @@ function updateMarketConnectionText(){
     marketConnection.state===
     "Connected";
 
+
   if(
     bitbankLive &&
     marketLive
@@ -840,7 +1789,7 @@ function updateMarketConnectionText(){
     );
 
   }else if(
-    bitbankLive ||
+    bitbankLive||
     marketLive
   ){
 
@@ -867,7 +1816,6 @@ function updateMarketConnectionText(){
 
 /* =====================================================
    MARKET TICK
-   HBAR / ONDO REALTIME
 ===================================================== */
 
 function applyMarketTick(tick){
@@ -875,31 +1823,32 @@ function applyMarketTick(tick){
   if(!tick)
     return;
 
+
   const symbol=
     String(
-      tick.symbol ||
-      tick.instrument ||
-      tick.product ||
+      tick.symbol||
+      tick.instrument||
+      tick.product||
       ""
     ).toUpperCase();
 
+
   const p=
     Number(
-      tick.mid ??
-      tick.price ??
-      tick.last ??
-      tick.close ??
+      tick.mid??
+      tick.price??
+      tick.last??
+      tick.close??
       tick.value
     );
+
 
   if(!Number.isFinite(p))
     return;
 
 
-  /* USDJPY */
-
   if(
-    symbol==="USDJPY" ||
+    symbol==="USDJPY"||
     symbol==="USD/JPY"
   ){
 
@@ -910,32 +1859,14 @@ function applyMarketTick(tick){
         :"FX LIVE"
     );
 
-    if(
-      tick.marketState==="closed"
-    ){
-
-      setText(
-        "fxUpdated",
-        "● FX MARKET CLOSED / LAST "+
-        new Date(
-          tick.timestamp
-            ?tick.timestamp
-            :Date.now()
-        ).toLocaleTimeString("ja-JP")
-      );
-
-    }
-
     return;
 
   }
 
 
-  /* HBAR */
-
   if(
-    symbol==="HBARUSDT" ||
-    symbol==="HBAR/USDT" ||
+    symbol==="HBARUSDT"||
+    symbol==="HBAR/USDT"||
     symbol==="HBARUSD"
   ){
 
@@ -949,9 +1880,7 @@ function applyMarketTick(tick){
     );
 
     document
-      .getElementById(
-        "hbarStatus"
-      )
+      .getElementById("hbarStatus")
       ?.classList.add("ok");
 
     updateMarketConnectionText();
@@ -961,11 +1890,9 @@ function applyMarketTick(tick){
   }
 
 
-  /* ONDO */
-
   if(
-    symbol==="ONDOUSDT" ||
-    symbol==="ONDO/USDT" ||
+    symbol==="ONDOUSDT"||
+    symbol==="ONDO/USDT"||
     symbol==="ONDOUSD"
   ){
 
@@ -979,9 +1906,7 @@ function applyMarketTick(tick){
     );
 
     document
-      .getElementById(
-        "ondoStatus"
-      )
+      .getElementById("ondoStatus")
       ?.classList.add("ok");
 
     updateMarketConnectionText();
@@ -993,12 +1918,17 @@ function applyMarketTick(tick){
 }
 
 
+/* =====================================================
+   SIGNALR
+===================================================== */
+
 async function connectMarketFeed(){
 
   if(marketConnecting)
     return;
 
   marketConnecting=true;
+
 
   try{
 
@@ -1045,35 +1975,8 @@ async function connectMarketFeed(){
     marketConnection.on(
       "ReceiveTick",
       tick=>{
-
         applyMarketTick(tick);
-
         updateMarketConnectionText();
-
-      }
-    );
-
-
-    marketConnection.onreconnecting(
-      ()=>{
-
-        setText(
-          "hbarStatus",
-          "HBAR/USD 再接続中..."
-        );
-
-        setText(
-          "ondoStatus",
-          "ONDO/USD 再接続中..."
-        );
-
-        setText(
-          "fxUpdated",
-          "FX 再接続中..."
-        );
-
-        updateMarketConnectionText();
-
       }
     );
 
@@ -1105,23 +2008,6 @@ async function connectMarketFeed(){
     marketConnection.onclose(
       ()=>{
 
-        setText(
-          "hbarStatus",
-          "HBAR/USD 接続待機"
-        );
-
-        setText(
-          "ondoStatus",
-          "ONDO/USD 接続待機"
-        );
-
-        setText(
-          "fxUpdated",
-          "FX 接続待機"
-        );
-
-        updateMarketConnectionText();
-
         clearTimeout(
           marketReconnectTimer
         );
@@ -1132,6 +2018,8 @@ async function connectMarketFeed(){
             5000
           );
 
+        updateMarketConnectionText();
+
       }
     );
 
@@ -1140,71 +2028,15 @@ async function connectMarketFeed(){
 
     await subscribeMarketFeed();
 
-    await fetchMarketSnapshots();
-
-
-    setText(
-      "hbarStatus",
-      "● HBAR/USD REALTIME"
-    );
-
-    setText(
-      "ondoStatus",
-      "● ONDO/USD REALTIME"
-    );
-
-
-    document
-      .getElementById(
-        "hbarStatus"
-      )
-      ?.classList.add("ok");
-
-    document
-      .getElementById(
-        "ondoStatus"
-      )
-      ?.classList.add("ok");
-
-
     updateMarketConnectionText();
 
 
   }catch(e){
 
-    console.error(
-      "REALTIME MARKET FEED:",
+    console.warn(
+      "Market feed:",
       e
     );
-
-    setText(
-      "hbarStatus",
-      "HBAR/USD 接続失敗"
-    );
-
-    setText(
-      "ondoStatus",
-      "ONDO/USD 接続失敗"
-    );
-
-    setText(
-      "fxUpdated",
-      "FX 接続失敗"
-    );
-
-    document
-      .getElementById(
-        "hbarStatus"
-      )
-      ?.classList.remove("ok");
-
-    document
-      .getElementById(
-        "ondoStatus"
-      )
-      ?.classList.remove("ok");
-
-    updateMarketConnectionText();
 
     clearTimeout(
       marketReconnectTimer
@@ -1233,6 +2065,7 @@ async function subscribeMarketFeed(){
   )
     return;
 
+
   await marketConnection.invoke(
     "Subscribe",
     [
@@ -1246,7 +2079,8 @@ async function subscribeMarketFeed(){
 
 
 /* =====================================================
-   INITIAL MARKET SNAPSHOT
+   ★ HBAR / ONDO / USDJPY
+   完全並列取得
 ===================================================== */
 
 async function fetchMarketSnapshots(){
@@ -1272,8 +2106,6 @@ async function fetchMarketSnapshots(){
     ]);
 
 
-  /* HBAR */
-
   if(
     results[0].status==="fulfilled"
   ){
@@ -1283,9 +2115,9 @@ async function fetchMarketSnapshots(){
 
     const p=
       Number(
-        j?.mid ??
-        j?.price ??
-        j?.last ??
+        j?.mid??
+        j?.price??
+        j?.last??
         j?.close
       );
 
@@ -1297,23 +2129,17 @@ async function fetchMarketSnapshots(){
 
       setText(
         "hbarStatus",
-        j?.stale
-          ?"● HBAR/USD LAST"
-          :"● HBAR/USD REALTIME"
+        "● HBAR/USD REALTIME"
       );
 
       document
-        .getElementById(
-          "hbarStatus"
-        )
+        .getElementById("hbarStatus")
         ?.classList.add("ok");
 
     }
 
   }
 
-
-  /* ONDO */
 
   if(
     results[1].status==="fulfilled"
@@ -1324,9 +2150,9 @@ async function fetchMarketSnapshots(){
 
     const p=
       Number(
-        j?.mid ??
-        j?.price ??
-        j?.last ??
+        j?.mid??
+        j?.price??
+        j?.last??
         j?.close
       );
 
@@ -1338,23 +2164,17 @@ async function fetchMarketSnapshots(){
 
       setText(
         "ondoStatus",
-        j?.stale
-          ?"● ONDO/USD LAST"
-          :"● ONDO/USD REALTIME"
+        "● ONDO/USD REALTIME"
       );
 
       document
-        .getElementById(
-          "ondoStatus"
-        )
+        .getElementById("ondoStatus")
         ?.classList.add("ok");
 
     }
 
   }
 
-
-  /* USDJPY */
 
   if(
     results[2].status==="fulfilled"
@@ -1365,9 +2185,9 @@ async function fetchMarketSnapshots(){
 
     const p=
       Number(
-        j?.mid ??
-        j?.price ??
-        j?.last ??
+        j?.mid??
+        j?.price??
+        j?.last??
         j?.close
       );
 
@@ -1375,14 +2195,20 @@ async function fetchMarketSnapshots(){
 
       applyUSDJPY(
         p,
-        j?.marketState==="closed"
-          ?"FX LAST"
-          :"FX LIVE"
+        "FX LIVE"
       );
 
     }
 
   }
+
+
+  /*
+    HBAR / ONDO / USDJPY
+    の取得完了後に初回表示判定
+  */
+
+  updateAltJPY();
 
 }
 
@@ -1405,281 +2231,32 @@ function applyUSDJPY(
   )
     return;
 
+
   usdJpy=p;
+
 
   setText(
     "usdJpy",
     p.toFixed(3)
   );
 
+
   setText(
     "fxUpdated",
-    "● "+source+" "+
+    "● "+
+    source+
+    " "+
     new Date().toLocaleTimeString("ja-JP")
   );
 
+
   updateAltJPY();
 
-  if(Number.isFinite(btcJpy)){
-
-    btcUsd=
-      btcJpy/usdJpy;
-
-    updateMacro();
-
-  }
-
-}
-
-
-async function fetchUSDJPY(){
-
-  try{
-
-    const j=
-      await getJSON(
-        "https://biquote.io/api/USDJPY",
-        5000
-      );
-
-    const p=
-      Number(
-        j?.mid ??
-        j?.price ??
-        j?.last ??
-        j?.close
-      );
-
-    if(!Number.isFinite(p))
-      throw new Error(
-        "USDJPY unavailable"
-      );
-
-    applyUSDJPY(
-      p,
-      j?.marketState==="closed"
-        ?"FX LAST"
-        :"FX LIVE"
-    );
-
-    return true;
-
-  }catch(e){
-
-    console.warn(
-      "USDJPY:",
-      e
-    );
-
-    if(Number.isFinite(usdJpy)){
-
-      setText(
-        "usdJpy",
-        usdJpy.toFixed(3)
-      );
-
-      setText(
-        "fxUpdated",
-        "前回値保持"
-      );
-
-      updateAltJPY();
-
-    }else{
-
-      setText(
-        "usdJpy",
-        "---"
-      );
-
-      setText(
-        "fxUpdated",
-        "USDJPY 取得失敗"
-      );
-
-    }
-
-    return false;
-
-  }
-
 }
 
 
 /* =====================================================
-   HBAR / ONDO
-===================================================== */
-
-async function fetchCoinbasePrice(
-  productId
-){
-
-  const j=
-    await getJSON(
-      "https://api.coinbase.com/api/v3/brokerage/market/products/"+
-      productId+
-      "/ticker",
-      5000
-    );
-
-  let p=
-    Number(j?.price);
-
-  if(!Number.isFinite(p)){
-
-    const trades=
-      Array.isArray(j?.trades)
-        ?j.trades
-        :[];
-
-    if(trades.length){
-
-      p=
-        Number(
-          trades[0]?.price
-        );
-
-    }
-
-  }
-
-  if(
-    !Number.isFinite(p)||
-    p<=0
-  )
-    throw new Error(
-      productId+" price unavailable"
-    );
-
-  return p;
-
-}
-
-
-async function fetchHBAR(){
-
-  try{
-
-    const j=
-      await getJSON(
-        "https://biquote.io/api/HBARUSDT",
-        5000
-      );
-
-    const p=
-      Number(
-        j?.mid ??
-        j?.price ??
-        j?.last ??
-        j?.close
-      );
-
-    if(!Number.isFinite(p))
-      throw new Error(
-        "HBARUSDT unavailable"
-      );
-
-    hbarUsd=p;
-
-    updateAltJPY();
-
-    setText(
-      "hbarStatus",
-      j?.stale
-        ?"● HBAR/USD LAST"
-        :"● HBAR/USD REALTIME"
-    );
-
-    document
-      .getElementById(
-        "hbarStatus"
-      )
-      ?.classList.add("ok");
-
-    return true;
-
-  }catch(e){
-
-    console.warn(
-      "HBAR:",
-      e
-    );
-
-    setText(
-      "hbarStatus",
-      "HBAR/USD 取得失敗"
-    );
-
-    return false;
-
-  }
-
-}
-
-
-async function fetchONDO(){
-
-  try{
-
-    const j=
-      await getJSON(
-        "https://biquote.io/api/ONDOUSDT",
-        5000
-      );
-
-    const p=
-      Number(
-        j?.mid ??
-        j?.price ??
-        j?.last ??
-        j?.close
-      );
-
-    if(!Number.isFinite(p))
-      throw new Error(
-        "ONDOUSDT unavailable"
-      );
-
-    ondoUsd=p;
-
-    updateAltJPY();
-
-    setText(
-      "ondoStatus",
-      j?.stale
-        ?"● ONDO/USD LAST"
-        :"● ONDO/USD REALTIME"
-    );
-
-    document
-      .getElementById(
-        "ondoStatus"
-      )
-      ?.classList.add("ok");
-
-    return true;
-
-  }catch(e){
-
-    console.warn(
-      "ONDO:",
-      e
-    );
-
-    setText(
-      "ondoStatus",
-      "ONDO/USD 取得失敗"
-    );
-
-    return false;
-
-  }
-
-}
-
-
-/* =====================================================
-   USD → JPY
+   ALT JPY
 ===================================================== */
 
 function updateAltJPY(){
@@ -1692,11 +2269,6 @@ function updateAltJPY(){
     hbarPrice=
       hbarUsd*usdJpy;
 
-    setText(
-      "portHbarPrice",
-      N(hbarPrice,3)
-    );
-
   }
 
 
@@ -1708,20 +2280,43 @@ function updateAltJPY(){
     ondoPrice=
       ondoUsd*usdJpy;
 
+  }
+
+
+  /*
+    ★ ここでは単独表示しない
+    XRPも揃ってから一括表示
+  */
+
+  renderInitialPortfolio();
+
+
+  /*
+    初回表示後のリアルタイム更新
+  */
+
+  if(initialPortfolioRendered){
+
+    setText(
+      "portHbarPrice",
+      N(hbarPrice,3)
+    );
+
     setText(
       "portOndoPrice",
       N(ondoPrice,3)
     );
 
-  }
+    updatePortfolio();
 
-  updatePortfolio();
+  }
 
 }
 
 
 /* =====================================================
-   XRP / BTC
+   XRP + BTC
+   完全並列取得
 ===================================================== */
 
 async function fetchBitbank(){
@@ -1753,10 +2348,10 @@ async function fetchBitbank(){
 
     if(Number.isFinite(p)){
 
-      xrpPrevPrice=
-        xrpPrice;
+      xrpPrevPrice=xrpPrice;
 
       xrpPrice=p;
+
 
       if(!firstXrp)
         checkAlerts();
@@ -1785,6 +2380,13 @@ async function fetchBitbank(){
   }
 
 
+  /*
+    XRPが取得できても
+    HBAR / ONDOが揃うまで表示しない
+  */
+
+  renderInitialPortfolio();
+
   updateXRP();
   updateMacro();
 
@@ -1805,26 +2407,15 @@ async function fetchBTCUSD(){
         4000
       );
 
-    let p=
+    const p=
       Number(j?.price);
-
-    if(!Number.isFinite(p)){
-
-      p=
-        Number(
-          j?.trades?.[0]?.price
-        );
-
-    }
 
     if(Number.isFinite(p))
       btcUsd=p;
 
-    updateMacro();
-
-  }catch(e){
 
     if(
+      !Number.isFinite(btcUsd)&&
       Number.isFinite(btcJpy)&&
       Number.isFinite(usdJpy)
     ){
@@ -1832,11 +2423,12 @@ async function fetchBTCUSD(){
       btcUsd=
         btcJpy/usdJpy;
 
-      updateMacro();
-
     }
 
-  }
+
+    updateMacro();
+
+  }catch(e){}
 
 }
 
@@ -1845,16 +2437,21 @@ async function fetchBTCUSD(){
    PORTFOLIO
 ===================================================== */
 
-function calc(price,a){
+function calc(
+  price,
+  a
+){
 
   if(!Number.isFinite(price))
     return null;
+
 
   const value=
     price*a.amount;
 
   const pnl=
     value-a.cost;
+
 
   return{
     value,
@@ -1866,6 +2463,22 @@ function calc(price,a){
 
 
 function updatePortfolio(){
+
+  /*
+    ★ 3銘柄が揃うまでは
+    評価額も一緒に表示しない
+  */
+
+  if(
+    !Number.isFinite(xrpPrice)||
+    !Number.isFinite(hbarPrice)||
+    !Number.isFinite(ondoPrice)
+  ){
+
+    return;
+
+  }
+
 
   const x=
     calc(
@@ -1886,208 +2499,149 @@ function updatePortfolio(){
     );
 
 
-  if(x){
+  /*
+    XRP
+    ★ 3桁
+  */
 
-    /* XRP：小数点3桁 */
-    setText(
-      "portXrpPrice",
-      N(xrpPrice,3)
-    );
+  setText(
+    "portXrpPrice",
+    N(xrpPrice,3)
+  );
 
-    setText(
-      "portXrpValue",
-      Y(x.value)
-    );
+  setText(
+    "portXrpValue",
+    Y(x.value)
+  );
 
-    setPnl(
-      "portXrpPnl",
-      x.pnl
-    );
+  setPnl(
+    "portXrpPnl",
+    x.pnl
+  );
 
-    setPct(
-      "portXrpPnlPct",
-      x.pct
-    );
-
-  }
-
-
-  if(h){
-
-    /* HBAR：小数点3桁 */
-    setText(
-      "portHbarPrice",
-      N(hbarPrice,3)
-    );
-
-    setText(
-      "portHbarValue",
-      Y(h.value)
-    );
-
-    setPnl(
-      "portHbarPnl",
-      h.pnl
-    );
-
-    setPct(
-      "portHbarPnlPct",
-      h.pct
-    );
-
-  }
+  setPct(
+    "portXrpPnlPct",
+    x.pct
+  );
 
 
-  if(o){
+  /*
+    HBAR
+    ★ 3桁
+  */
 
-    /* ONDO：小数点3桁 */
-    setText(
-      "portOndoPrice",
-      N(ondoPrice,3)
-    );
+  setText(
+    "portHbarPrice",
+    N(hbarPrice,3)
+  );
 
-    setText(
-      "portOndoValue",
-      Y(o.value)
-    );
+  setText(
+    "portHbarValue",
+    Y(h.value)
+  );
 
-    setPnl(
-      "portOndoPnl",
-      o.pnl
-    );
+  setPnl(
+    "portHbarPnl",
+    h.pnl
+  );
 
-    setPct(
-      "portOndoPnlPct",
-      o.pct
-    );
-
-  }
-
-
-  let total=0;
-
-  if(x)
-    total+=x.value;
-
-  if(h)
-    total+=h.value;
-
-  if(o)
-    total+=o.value;
+  setPct(
+    "portHbarPnlPct",
+    h.pct
+  );
 
 
-  if(total>0){
+  /*
+    ONDO
+    ★ 3桁
+  */
 
-    const pnl=
-      total-TOTAL_COST;
+  setText(
+    "portOndoPrice",
+    N(ondoPrice,3)
+  );
 
-    setText(
-      "totalAssets",
-      Y(total)
-    );
+  setText(
+    "portOndoValue",
+    Y(o.value)
+  );
 
-    setPnl(
-      "totalPnl",
-      pnl
-    );
+  setPnl(
+    "portOndoPnl",
+    o.pnl
+  );
 
-    setText(
-      "missionTotalValue",
-      Y(total)
-    );
-
-
-    const pct=
-      Math.min(
-        100,
-        total/MISSION_GOAL*100
-      );
+  setPct(
+    "portOndoPnlPct",
+    o.pct
+  );
 
 
-    const bar=
-      document.getElementById(
-        "missionProgress"
-      );
-
-    if(bar)
-      bar.style.width=
-        pct+"%";
+  const total=
+    x.value+
+    h.value+
+    o.value;
 
 
-    setText(
-      "missionPercent",
-      "進捗 "+
-      pct.toFixed(1)+"%"
+  const pnl=
+    total-TOTAL_COST;
+
+
+  setText(
+    "totalAssets",
+    Y(total)
+  );
+
+  setPnl(
+    "totalPnl",
+    pnl
+  );
+
+  setText(
+    "missionTotalValue",
+    Y(total)
+  );
+
+
+  const pct=
+    Math.min(
+      100,
+      total/MISSION_GOAL*100
     );
 
 
-    const remain=
-      Math.max(
-        0,
-        MISSION_GOAL-total
-      );
-
-
-    setText(
-      "missionRemaining",
-
-      remain===0
-        ?"🎉 MISSION COMPLETE"
-        :"あと "+Y(remain)+" で300万円"
-
+  const bar=
+    document.getElementById(
+      "missionProgress"
     );
 
-  }
+  if(bar)
+    bar.style.width=
+      pct+"%";
 
-}
+
+  setText(
+    "missionPercent",
+    "進捗 "+
+    pct.toFixed(1)+"%"
+  );
 
 
-/* =====================================================
-   MACRO
-===================================================== */
-
-function updateMacro(){
-
-  if(Number.isFinite(btcJpy)){
-
-    setText(
-      "btcPrice",
-      Y(btcJpy)
+  const remain=
+    Math.max(
+      0,
+      MISSION_GOAL-total
     );
 
-  }
 
+  setText(
+    "missionRemaining",
 
-  if(Number.isFinite(btcUsd)){
+    remain===0
+      ?"🎉 MISSION COMPLETE"
+      :"あと "+Y(remain)+" で300万円"
 
-    setText(
-      "btcUsd",
-      "$"+
-      btcUsd.toLocaleString(
-        "en-US",
-        {
-          maximumFractionDigits:0
-        }
-      )
-    );
-
-  }
-
-
-  if(
-    Number.isFinite(btcJpy)||
-    Number.isFinite(btcUsd)
-  ){
-
-    setText(
-      "btcUpdated",
-      "更新 "+
-      new Date().toLocaleTimeString(
-        "ja-JP"
-      )
-    );
-
-  }
+  );
 
 }
 
@@ -2114,17 +2668,23 @@ function updateTargets(){
     .forEach(e=>{
 
       const t=
-        Number(e.dataset.target);
+        Number(
+          e.dataset.target
+        );
 
       e.classList.remove(
         "reached",
         "next"
       );
 
-      if(xrpPrice>=t)
+
+      if(xrpPrice>=t){
+
         e.classList.add(
           "reached"
         );
+
+      }
 
     });
 
@@ -2212,6 +2772,56 @@ function checkAlerts(){
 
     }
   );
+
+}
+
+
+/* =====================================================
+   MACRO
+===================================================== */
+
+function updateMacro(){
+
+  if(Number.isFinite(btcJpy)){
+
+    setText(
+      "btcPrice",
+      Y(btcJpy)
+    );
+
+  }
+
+
+  if(Number.isFinite(btcUsd)){
+
+    setText(
+      "btcUsd",
+      "$"+
+      btcUsd.toLocaleString(
+        "en-US",
+        {
+          maximumFractionDigits:0
+        }
+      )
+    );
+
+  }
+
+
+  if(
+    Number.isFinite(btcJpy)||
+    Number.isFinite(btcUsd)
+  ){
+
+    setText(
+      "btcUpdated",
+      "更新 "+
+      new Date().toLocaleTimeString(
+        "ja-JP"
+      )
+    );
+
+  }
 
 }
 
@@ -2352,15 +2962,9 @@ function drawChart(){
 
 
       if(i===0)
-        ctx.moveTo(
-          xx,
-          yy
-        );
+        ctx.moveTo(xx,yy);
       else
-        ctx.lineTo(
-          xx,
-          yy
-        );
+        ctx.lineTo(xx,yy);
 
     }
   );
@@ -2434,6 +3038,7 @@ function connectBitbank(){
       updateMarketConnectionText();
 
       ws.send("40");
+
 
       setTimeout(
         ()=>{
@@ -2597,9 +3202,6 @@ function connectBitbank(){
     };
 
 
-    ws.onerror=()=>{};
-
-
   }catch(e){
 
     console.warn(
@@ -2686,7 +3288,7 @@ document
 
 
 /* =====================================================
-   MASTER
+   MASTER UPDATE
 ===================================================== */
 
 async function updateAll(){
@@ -2700,17 +3302,24 @@ async function updateAll(){
 
   try{
 
+    /*
+      XRP/BTC と HBAR/ONDO/USDJPYを
+      同じタイミングで取得
+    */
+
     await Promise.allSettled([
 
       fetchBitbank(),
+
+      fetchMarketSnapshots(),
+
       fetchBTCUSD()
 
     ]);
 
 
-    updateAltJPY();
-    updateXRP();
     updatePortfolio();
+    updateXRP();
     updateMacro();
 
 
@@ -2733,47 +3342,64 @@ async function updateAll(){
 
 /* =====================================================
    INIT
+   ★ 起動直後から完全並列
 ===================================================== */
 
-function init(){
+async function init(){
 
-  /* XRP */
+  /*
+    ここが今回の重要部分。
+
+    XRP
+    HBAR
+    ONDO
+    USDJPY
+    BTC
+
+    を順番待ちさせず同時に取得開始。
+  */
+
+  await Promise.allSettled([
+
+    fetchBitbank(),
+
+    fetchMarketSnapshots(),
+
+    fetchBTCUSD(),
+
+    fetchFearGreed()
+
+  ]);
+
+
+  /*
+    3銘柄が揃った瞬間に
+    renderInitialPortfolio() が
+    一括表示する
+  */
+
+
   connectBitbank();
 
-
-  /* REALTIME HBAR / ONDO / USDJPY */
   connectMarketFeed();
 
 
-  /* 初期値 */
-  fetchMarketSnapshots();
+  /*
+    以降の定期更新
+  */
 
-
-  /* BTC */
-  fetchBTCUSD();
-
-
-  /* Fear & Greed */
-  fetchFearGreed();
-
-
-  /* 5秒更新
-     XRP/BTCのみ。
-     HBAR/ONDO/USDJPYはWebSocket */
   setInterval(
     updateAll,
     5000
   );
 
 
-  /* BTC */
   setInterval(
     fetchBTCUSD,
     15000
   );
 
 
-  /* Fear & Greed */
   setInterval(
     fetchFearGreed,
     60000
