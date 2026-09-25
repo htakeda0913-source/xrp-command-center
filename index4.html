@@ -502,21 +502,13 @@ let xrpPrevPrice=null;
 let btcJpy=null;
 let btcUsd=null;
 
+let usdJpy=null;
+
 /*
-=========================================================
-重要
-=========================================================
-
-usdJpy は HBAR / ONDO の計算には一切使わない。
-
-HBAR → CoinGecko HBAR/JPY
-ONDO → CoinGecko ONDO/JPY
-
-完全に直接取得。
-=========================================================
+  HBAR / ONDO は USDJPY に依存しない。
+  価格取得は各銘柄を完全に独立。
 */
 
-let usdJpy=null;
 let hbarPrice=null;
 let ondoPrice=null;
 
@@ -526,11 +518,12 @@ let reconnectTimer=null;
 
 let chartData=[];
 let firstXrp=true;
-let lastXrpUpdate=0;
 let updateRunning=false;
 
 
-/* ---------- helpers ---------- */
+/* =========================
+   HELPERS
+========================= */
 
 function N(v,d=2){
   return Number.isFinite(Number(v))
@@ -558,6 +551,7 @@ function setText(id,v){
 function setPnl(id,v){
   const e=document.getElementById(id);
   if(!e||!Number.isFinite(v))return;
+
   e.textContent=(v>=0?"+":"")+Y(v);
   e.classList.toggle("positive",v>0);
   e.classList.toggle("negative",v<0);
@@ -566,13 +560,16 @@ function setPnl(id,v){
 function setPct(id,v){
   const e=document.getElementById(id);
   if(!e||!Number.isFinite(v))return;
+
   e.textContent=(v>=0?"+":"")+v.toFixed(2)+"%";
   e.classList.toggle("positive",v>0);
   e.classList.toggle("negative",v<0);
 }
 
 
-/* ---------- timeout付きJSON ---------- */
+/* =========================
+   TIMEOUT JSON
+========================= */
 
 async function getJSON(url,timeout=3500){
 
@@ -603,13 +600,14 @@ async function getJSON(url,timeout=3500){
     clearTimeout(timer);
 
   }
+
 }
 
 
-/* =========================================================
+/* =====================================================
    USDJPY
-   ★完全独立
-========================================================= */
+   完全独立
+===================================================== */
 
 async function fetchUSDJPY(){
 
@@ -637,12 +635,10 @@ async function fetchUSDJPY(){
 
       setText(
         "fxUpdated",
-        "更新 "+
-        new Date().toLocaleTimeString("ja-JP")
+        "更新 "+new Date().toLocaleTimeString("ja-JP")
       );
 
       return;
-
     }
 
   }catch(e){
@@ -650,11 +646,6 @@ async function fetchUSDJPY(){
     console.warn("USDJPY error",e);
 
   }
-
-  /*
-    失敗しても最後の値を保持。
-    そしてHBAR/ONDOには一切影響しない。
-  */
 
   if(Number.isFinite(usdJpy)){
 
@@ -673,103 +664,112 @@ async function fetchUSDJPY(){
 }
 
 
-/* =========================================================
+/* =====================================================
    XRP / BTC
-========================================================= */
+===================================================== */
 
 async function fetchBitbank(){
 
-  try{
+  const result=await Promise.allSettled([
 
-    const [xr,rbtc]=await Promise.allSettled([
+    getJSON(
+      "https://public.bitbank.cc/xrp_jpy/ticker?_="+Date.now(),
+      3000
+    ),
 
-      getJSON(
-        "https://public.bitbank.cc/xrp_jpy/ticker?_="+Date.now(),
-        3000
-      ),
+    getJSON(
+      "https://public.bitbank.cc/btc_jpy/ticker?_="+Date.now(),
+      3000
+    )
 
-      getJSON(
-        "https://public.bitbank.cc/btc_jpy/ticker?_="+Date.now(),
-        3000
-      )
-
-    ]);
+  ]);
 
 
-    if(xr.status==="fulfilled"){
+  if(result[0].status==="fulfilled"){
 
-      const p=Number(xr.value?.data?.last);
+    const p=
+      Number(result[0].value?.data?.last);
 
-      if(Number.isFinite(p)){
+    if(Number.isFinite(p)){
 
-        xrpPrevPrice=xrpPrice;
-        xrpPrice=p;
-        lastXrpUpdate=Date.now();
+      xrpPrevPrice=xrpPrice;
+      xrpPrice=p;
 
-        if(!firstXrp)
-          checkAlerts();
+      if(!firstXrp)
+        checkAlerts();
 
-        firstXrp=false;
+      firstXrp=false;
 
-        addChartPoint(p);
-
-      }
+      addChartPoint(p);
 
     }
-
-
-    if(rbtc.status==="fulfilled"){
-
-      const p=Number(rbtc.value?.data?.last);
-
-      if(Number.isFinite(p))
-        btcJpy=p;
-
-    }
-
-    updateXRP();
-    updateMacro();
-
-  }catch(e){
-
-    console.warn("Bitbank error",e);
 
   }
+
+
+  if(result[1].status==="fulfilled"){
+
+    const p=
+      Number(result[1].value?.data?.last);
+
+    if(Number.isFinite(p))
+      btcJpy=p;
+
+  }
+
+  updateXRP();
+  updateMacro();
 
 }
 
 
-/* =========================================================
-   ★ HBAR / ONDO
-   ★ドル円を一切使わない
-========================================================= */
+/* =====================================================
+   HBAR
+   CryptoCompare → JPY
+===================================================== */
 
-async function fetchAltPrices(){
+async function fetchHBAR(){
 
   try{
 
     const j=await getJSON(
-
-      "https://api.coingecko.com/api/v3/simple/price"+
-      "?ids=hedera,ondo"+
-      "&vs_currencies=jpy"+
-      "&include_last_updated_at=true"+
+      "https://min-api.cryptocompare.com/data/price"+
+      "?fsym=HBAR"+
+      "&tsyms=JPY"+
+      "&tryConversion=true"+
+      "&extraParams=XRP_ORBIT"+
       "&_="+Date.now(),
-
       3500
-
     );
 
+    const p=Number(j?.JPY);
 
-    /* HBAR/JPY直接 */
+    if(!Number.isFinite(p)||p<=0)
+      throw new Error("HBAR JPY invalid");
 
-    const h=Number(
-      j?.hedera?.jpy
+    hbarPrice=p;
+
+    setText(
+      "portHbarPrice",
+      N(p,2)
     );
 
-    if(Number.isFinite(h)){
+    setText(
+      "hbarStatus",
+      "● HBAR/JPY 直接取得"
+    );
 
-      hbarPrice=h;
+    document
+      .getElementById("hbarStatus")
+      ?.classList.add("ok");
+
+    updatePortfolio();
+
+  }catch(e){
+
+    console.warn("HBAR error",e);
+
+    if(Number.isFinite(hbarPrice)){
 
       setText(
         "portHbarPrice",
@@ -778,25 +778,70 @@ async function fetchAltPrices(){
 
       setText(
         "hbarStatus",
-        "● HBAR/JPY 直接取得"
+        "● HBAR/JPY 前回値保持"
       );
 
-      document
-        .getElementById("hbarStatus")
-        ?.classList.add("ok");
+    }else{
+
+      setText(
+        "hbarStatus",
+        "HBAR/JPY 取得待機"
+      );
 
     }
 
+  }
 
-    /* ONDO/JPY直接 */
+}
 
-    const o=Number(
-      j?.ondo?.jpy
+
+/* =====================================================
+   ONDO
+   CryptoCompare → JPY
+===================================================== */
+
+async function fetchONDO(){
+
+  try{
+
+    const j=await getJSON(
+      "https://min-api.cryptocompare.com/data/price"+
+      "?fsym=ONDO"+
+      "&tsyms=JPY"+
+      "&tryConversion=true"+
+      "&extraParams=XRP_ORBIT"+
+      "&_="+Date.now(),
+      3500
     );
 
-    if(Number.isFinite(o)){
+    const p=Number(j?.JPY);
 
-      ondoPrice=o;
+    if(!Number.isFinite(p)||p<=0)
+      throw new Error("ONDO JPY invalid");
+
+    ondoPrice=p;
+
+    setText(
+      "portOndoPrice",
+      N(p,2)
+    );
+
+    setText(
+      "ondoStatus",
+      "● ONDO/JPY 直接取得"
+    );
+
+    document
+      .getElementById("ondoStatus")
+      ?.classList.add("ok");
+
+    updatePortfolio();
+
+  }catch(e){
+
+    console.warn("ONDO error",e);
+
+    if(Number.isFinite(ondoPrice)){
 
       setText(
         "portOndoPrice",
@@ -805,40 +850,26 @@ async function fetchAltPrices(){
 
       setText(
         "ondoStatus",
-        "● ONDO/JPY 直接取得"
+        "● ONDO/JPY 前回値保持"
       );
 
-      document
-        .getElementById("ondoStatus")
-        ?.classList.add("ok");
+    }else{
+
+      setText(
+        "ondoStatus",
+        "ONDO/JPY 取得待機"
+      );
 
     }
-
-
-    /*
-      ここ重要。
-
-      usdJpy はここで一度も参照していない。
-      HBAR/ONDO = JPY直接価格。
-    */
-
-    updatePortfolio();
-
-  }catch(e){
-
-    console.warn(
-      "HBAR/ONDO direct JPY error:",
-      e
-    );
 
   }
 
 }
 
 
-/* =========================================================
+/* =====================================================
    BTC/USD
-========================================================= */
+===================================================== */
 
 async function fetchBTCUSD(){
 
@@ -849,9 +880,8 @@ async function fetchBTCUSD(){
       3000
     );
 
-    const p=Number(
-      j?.data?.amount
-    );
+    const p=
+      Number(j?.data?.amount);
 
     if(Number.isFinite(p))
       btcUsd=p;
@@ -860,18 +890,13 @@ async function fetchBTCUSD(){
 
   }catch(e){
 
-    /*
-      BTC/USD取得失敗時だけ、
-      BTC/JPY ÷ USD/JPY を補助的に使う。
-      HBAR/ONDOとは完全無関係。
-    */
-
     if(
       Number.isFinite(btcJpy)&&
       Number.isFinite(usdJpy)
     ){
 
-      btcUsd=btcJpy/usdJpy;
+      btcUsd=
+        btcJpy/usdJpy;
 
       updateMacro();
 
@@ -882,9 +907,9 @@ async function fetchBTCUSD(){
 }
 
 
-/* =========================================================
+/* =====================================================
    PORTFOLIO
-========================================================= */
+===================================================== */
 
 function calc(price,a){
 
@@ -908,20 +933,14 @@ function calc(price,a){
 
 function updatePortfolio(){
 
-  const x=calc(
-    xrpPrice,
-    PORTFOLIO.XRP
-  );
+  const x=
+    calc(xrpPrice,PORTFOLIO.XRP);
 
-  const h=calc(
-    hbarPrice,
-    PORTFOLIO.HBAR
-  );
+  const h=
+    calc(hbarPrice,PORTFOLIO.HBAR);
 
-  const o=calc(
-    ondoPrice,
-    PORTFOLIO.ONDO
-  );
+  const o=
+    calc(ondoPrice,PORTFOLIO.ONDO);
 
 
   if(x){
@@ -1000,14 +1019,30 @@ function updatePortfolio(){
 
 
   /*
-    3銘柄揃った時だけMISSION。
-    ただし1銘柄死んでも個別表示は残す。
+    取得できた銘柄だけで一時表示。
+    1銘柄の通信エラーで全体が消えない。
   */
 
-  if(x&&h&&o){
+  let total=0;
+  let count=0;
 
-    const total=
-      x.value+h.value+o.value;
+  if(x){
+    total+=x.value;
+    count++;
+  }
+
+  if(h){
+    total+=h.value;
+    count++;
+  }
+
+  if(o){
+    total+=o.value;
+    count++;
+  }
+
+
+  if(count>0){
 
     const pnl=
       total-TOTAL_COST;
@@ -1027,22 +1062,31 @@ function updatePortfolio(){
       Y(total)
     );
 
-    const pct=Math.min(
-      100,
-      total/MISSION_GOAL*100
-    );
-
-    document
-      .getElementById("missionProgress")
-      .style.width=pct+"%";
+    const pct=
+      Math.min(
+        100,
+        total/MISSION_GOAL*100
+      );
 
     setText(
       "missionPercent",
       "進捗 "+pct.toFixed(1)+"%"
     );
 
+    const bar=
+      document.getElementById(
+        "missionProgress"
+      );
+
+    if(bar)
+      bar.style.width=
+        pct+"%";
+
     const remain=
-      Math.max(0,MISSION_GOAL-total);
+      Math.max(
+        0,
+        MISSION_GOAL-total
+      );
 
     setText(
       "missionRemaining",
@@ -1056,9 +1100,9 @@ function updatePortfolio(){
 }
 
 
-/* =========================================================
+/* =====================================================
    MACRO
-========================================================= */
+===================================================== */
 
 function updateMacro(){
 
@@ -1073,7 +1117,9 @@ function updateMacro(){
       "btcUsd",
       "$"+btcUsd.toLocaleString(
         "en-US",
-        {maximumFractionDigits:0}
+        {
+          maximumFractionDigits:0
+        }
       )
     );
 
@@ -1084,8 +1130,7 @@ function updateMacro(){
 
     setText(
       "btcUpdated",
-      "更新 "+
-      new Date().toLocaleTimeString("ja-JP")
+      "更新 "+new Date().toLocaleTimeString("ja-JP")
     );
 
   }
@@ -1093,9 +1138,9 @@ function updateMacro(){
 }
 
 
-/* =========================================================
+/* =====================================================
    XRP
-========================================================= */
+===================================================== */
 
 function updateXRP(){
 
@@ -1145,9 +1190,9 @@ function updateTargets(){
 }
 
 
-/* =========================================================
+/* =====================================================
    ALERT
-========================================================= */
+===================================================== */
 
 function checkAlerts(){
 
@@ -1164,17 +1209,15 @@ function checkAlerts(){
       xrpPrice>=level
     ){
 
-      const box=
-        document.getElementById(
+      document
+        .getElementById(
           "alertBox"+level
-        );
-
-      box?.classList.add("hit");
+        )
+        ?.classList.add("hit");
 
       setText(
         "alertLog",
-        "🚨 XRP "+
-        level+
+        "🚨 XRP "+level+
         "円到達｜現在 "+
         N(xrpPrice,2)+"円"
       );
@@ -1186,9 +1229,9 @@ function checkAlerts(){
 }
 
 
-/* =========================================================
+/* =====================================================
    CHART
-========================================================= */
+===================================================== */
 
 function addChartPoint(price){
 
@@ -1298,9 +1341,9 @@ function drawChart(){
 }
 
 
-/* =========================================================
+/* =====================================================
    ORDER BOOK / VOLUME
-========================================================= */
+===================================================== */
 
 function renderBook(id,rows,type){
 
@@ -1335,12 +1378,9 @@ function connectBitbank(){
 
     ws.onopen=()=>{
 
-      const dot=
-        document.getElementById(
-          "connectionDot"
-        );
-
-      dot?.classList.remove("off");
+      document
+        .getElementById("connectionDot")
+        ?.classList.remove("off");
 
       setText(
         "connectionText",
@@ -1378,7 +1418,9 @@ function connectBitbank(){
 
       if(e.data==="2"){
 
-        try{ws.send("3")}catch(_){}
+        try{
+          ws.send("3")
+        }catch(_){}
 
         return;
 
@@ -1393,7 +1435,9 @@ function connectBitbank(){
       let p;
 
       try{
-        p=JSON.parse(e.data.slice(2));
+        p=JSON.parse(
+          e.data.slice(2)
+        );
       }catch(_){
         return;
       }
@@ -1407,6 +1451,7 @@ function connectBitbank(){
       const b=p[1];
       const room=b?.room_name;
       const d=b?.message?.data;
+
 
       if(
         room==="transactions_xrp_jpy"&&
@@ -1426,6 +1471,7 @@ function connectBitbank(){
         );
 
       }
+
 
       if(
         room==="depth_whole_xrp_jpy"
@@ -1482,9 +1528,9 @@ function connectBitbank(){
 }
 
 
-/* =========================================================
+/* =====================================================
    FEAR & GREED
-========================================================= */
+===================================================== */
 
 async function fetchFearGreed(){
 
@@ -1515,9 +1561,9 @@ async function fetchFearGreed(){
 }
 
 
-/* =========================================================
+/* =====================================================
    NOTIFICATION
-========================================================= */
+===================================================== */
 
 document
   .getElementById("notifyButton")
@@ -1529,18 +1575,21 @@ document
     const p=
       await Notification.requestPermission();
 
-    if(p==="granted")
+    if(p==="granted"){
+
       setText(
         "notifyButton",
         "🔔 通知ON"
       );
 
+    }
+
   };
 
 
-/* =========================================================
+/* =====================================================
    MASTER
-========================================================= */
+===================================================== */
 
 async function updateAll(){
 
@@ -1552,22 +1601,24 @@ async function updateAll(){
   try{
 
     /*
-      全部独立取得。
-
-      特に重要：
+      完全独立。
 
       USDJPY
-          ↓
-      HBAR / ONDO
+      XRP/BTC
+      HBAR
+      ONDO
+      BTC/USD
 
-      という依存関係は存在しない。
+      のどれか1つが失敗しても
+      他には影響しない。
     */
 
     await Promise.allSettled([
 
       fetchUSDJPY(),
       fetchBitbank(),
-      fetchAltPrices(),
+      fetchHBAR(),
+      fetchONDO(),
       fetchBTCUSD()
 
     ]);
@@ -1592,27 +1643,15 @@ async function updateAll(){
 }
 
 
-/* =========================================================
+/* =====================================================
    START
-========================================================= */
+===================================================== */
 
 async function init(){
 
-  /*
-    WebSocketを先に開始
-  */
-
   connectBitbank();
 
-  /*
-    初回価格取得
-  */
-
   await updateAll();
-
-  /*
-    Fear & Greed
-  */
 
   fetchFearGreed();
 
@@ -1620,10 +1659,6 @@ async function init(){
     fetchFearGreed,
     60000
   );
-
-  /*
-    全体5秒更新
-  */
 
   setInterval(
     updateAll,
