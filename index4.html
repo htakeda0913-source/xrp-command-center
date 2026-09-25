@@ -210,7 +210,7 @@ canvas{width:100%;height:100%;display:block}
 
 <div class="card-title">
 PORTFOLIO｜3銘柄保有状況
-<span class="live">● 5 SEC UPDATE</span>
+<span class="live">● REALTIME</span>
 </div>
 
 <div class="portfolio-grid">
@@ -297,7 +297,7 @@ style="margin-top:10px;font-size:11px;font-weight:900">
 </div>
 
 <div id="hbarStatus" class="alt-status">
-HBAR/USD 待機
+HBAR/USD 接続待機
 </div>
 
 </div>
@@ -343,7 +343,7 @@ style="margin-top:10px;font-size:11px;font-weight:900">
 </div>
 
 <div id="ondoStatus" class="alt-status">
-ONDO/USD 待機
+ONDO/USD 接続待機
 </div>
 
 </div>
@@ -376,7 +376,7 @@ ONDO/USD 待機
 <section class="card">
 
 <div class="card-title">
-BTC / JPY <span class="live">● 5 SEC</span>
+BTC / JPY <span class="live">● LIVE</span>
 </div>
 
 <div class="macro-row">
@@ -396,7 +396,7 @@ BTC / JPY <span class="live">● 5 SEC</span>
 <section class="card">
 
 <div class="card-title">
-USD / JPY <span class="live">● FX</span>
+USD / JPY <span class="live">● REALTIME FX</span>
 </div>
 
 <div class="macro-row">
@@ -420,7 +420,7 @@ HBAR / ONDOへの換算
 </div>
 
 <div style="color:var(--green);font-size:11px;font-weight:800;margin-top:5px">
-USD価格 × ドル円で連動
+USD価格 × リアルタイムドル円
 </div>
 
 </div>
@@ -590,10 +590,18 @@ Market Sentiment
 
 
 <div class="footer">
-XRP司令室 ORBIT｜XRP 9,000｜HBAR 7,500｜ONDO 1,540｜5秒更新
+XRP司令室 ORBIT｜XRP 9,000｜HBAR 7,500｜ONDO 1,540｜REALTIME
 </div>
 
 </div>
+
+
+<!-- =====================================================
+     SIGNALR
+     USDJPY REALTIME
+===================================================== -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
 
 
 <script>
@@ -619,6 +627,11 @@ const PORTFOLIO={
 const TOTAL_COST=1892596;
 const MISSION_GOAL=3000000;
 
+
+/* =====================================================
+   MARKET STATE
+===================================================== */
+
 let xrpPrice=null;
 let xrpPrevPrice=null;
 
@@ -637,6 +650,15 @@ let volumeXrp=0;
 
 let ws=null;
 let reconnectTimer=null;
+
+let coinbaseWS=null;
+let coinbaseReconnectTimer=null;
+
+let fxConnection=null;
+
+let hbarLive=false;
+let ondoLive=false;
+let usdJpyLive=false;
 
 let chartData=[];
 let firstXrp=true;
@@ -771,13 +793,12 @@ async function getJSON(url,timeout=5000){
 
 
 /* =====================================================
-   USDJPY
-   Frankfurter v2
+   USDJPY REALTIME — BIQUOTE SIGNALR
 ===================================================== */
 
 function applyUSDJPY(
   price,
-  source="FX"
+  source="REALTIME FX"
 ){
 
   const p=Number(price);
@@ -816,67 +837,207 @@ function applyUSDJPY(
 }
 
 
-async function fetchUSDJPY(){
+async function connectUSDJPY(){
 
   try{
 
-    const j=
-      await getJSON(
-        "https://api.frankfurter.dev/v2/rate/usd/jpy",
-        5000
-      );
+    if(fxConnection){
 
-    const p=
-      Number(j?.rate);
+      try{
+        await fxConnection.stop();
+      }catch(_){}
 
-    if(!Number.isFinite(p))
-      throw new Error(
-        "USDJPY unavailable"
-      );
+    }
 
-    applyUSDJPY(
-      p,
-      "FX"
+
+    fxConnection=
+      new signalR.HubConnectionBuilder()
+
+        .withUrl(
+          "https://biquote.io/hubs/tick"
+        )
+
+        .withAutomaticReconnect(
+          [0,2000,5000,10000]
+        )
+
+        .build();
+
+
+    fxConnection.on(
+      "ReceiveTick",
+      tick=>{
+
+        if(!tick)
+          return;
+
+
+        const symbol=
+          String(
+            tick.symbol||""
+          ).toUpperCase();
+
+
+        if(symbol!=="USDJPY")
+          return;
+
+
+        const price=
+          Number(tick.mid);
+
+
+        if(
+          !Number.isFinite(price)||
+          price<=0
+        )
+          return;
+
+
+        usdJpyLive=true;
+
+        applyUSDJPY(
+          price,
+          "FX LIVE"
+        );
+
+      }
     );
 
-    return true;
 
-  }catch(e){
+    fxConnection.onreconnecting(
+      ()=>{
+        usdJpyLive=false;
 
-    console.warn(
-      "USDJPY:",
-      e
+        setText(
+          "fxUpdated",
+          "FX RECONNECTING..."
+        );
+      }
     );
 
-    if(Number.isFinite(usdJpy)){
 
-      setText(
-        "usdJpy",
-        usdJpy.toFixed(3)
-      );
+    fxConnection.onreconnected(
+      async()=>{
 
-      setText(
-        "fxUpdated",
-        "前回値保持"
-      );
+        try{
 
-      updateAltJPY();
+          await fxConnection.invoke(
+            "Subscribe",
+            ["USDJPY"]
+          );
 
-    }else{
+          usdJpyLive=true;
 
-      setText(
-        "usdJpy",
-        "---"
-      );
+        }catch(e){
 
-      setText(
-        "fxUpdated",
-        "USDJPY 取得失敗"
+          console.warn(
+            "USDJPY resubscribe:",
+            e
+          );
+
+        }
+
+      }
+    );
+
+
+    fxConnection.onclose(
+      ()=>{
+
+        usdJpyLive=false;
+
+        setText(
+          "fxUpdated",
+          "FX OFFLINE"
+        );
+
+        setTimeout(
+          connectUSDJPY,
+          5000
+        );
+
+      }
+    );
+
+
+    await fxConnection.start();
+
+
+    /*
+     * Subscribe
+     */
+    await fxConnection.invoke(
+      "Subscribe",
+      ["USDJPY"]
+    );
+
+
+    /*
+     * 接続直後に現在値を取得
+     */
+    try{
+
+      const tick=
+        await fxConnection.invoke(
+          "GetLatestTick",
+          "USDJPY"
+        );
+
+
+      if(tick){
+
+        const p=
+          Number(tick.mid);
+
+        if(Number.isFinite(p))
+          applyUSDJPY(
+            p,
+            "FX LIVE"
+          );
+
+      }
+
+    }catch(e){
+
+      console.warn(
+        "USDJPY initial tick:",
+        e
       );
 
     }
 
-    return false;
+
+    usdJpyLive=true;
+
+    setText(
+      "fxUpdated",
+      "● FX LIVE"
+    );
+
+
+    console.log(
+      "USDJPY REALTIME CONNECTED"
+    );
+
+  }catch(e){
+
+    usdJpyLive=false;
+
+    console.error(
+      "USDJPY SignalR:",
+      e
+    );
+
+    setText(
+      "fxUpdated",
+      "FX 接続失敗｜再接続中"
+    );
+
+
+    setTimeout(
+      connectUSDJPY,
+      5000
+    );
 
   }
 
@@ -884,8 +1045,239 @@ async function fetchUSDJPY(){
 
 
 /* =====================================================
-   HBAR / ONDO USD
-   Coinbase Advanced Trade
+   HBAR / ONDO — COINBASE ADVANCED TRADE WEBSOCKET
+===================================================== */
+
+function connectCoinbaseRealtime(){
+
+  try{
+
+    if(coinbaseWS){
+
+      try{
+        coinbaseWS.close();
+      }catch(_){}
+
+    }
+
+
+    coinbaseWS=
+      new WebSocket(
+        "wss://advanced-trade-ws.coinbase.com"
+      );
+
+
+    coinbaseWS.onopen=()=>{
+
+      console.log(
+        "COINBASE REALTIME CONNECTED"
+      );
+
+
+      /*
+       * Public ticker channel
+       */
+      coinbaseWS.send(
+        JSON.stringify({
+          type:"subscribe",
+          product_ids:[
+            "HBAR-USD",
+            "ONDO-USD"
+          ],
+          channel:"ticker"
+        })
+      );
+
+
+      setText(
+        "hbarStatus",
+        "● HBAR/USD CONNECTED"
+      );
+
+      setText(
+        "ondoStatus",
+        "● ONDO/USD CONNECTED"
+      );
+
+    };
+
+
+    coinbaseWS.onmessage=event=>{
+
+      try{
+
+        const msg=
+          JSON.parse(
+            event.data
+          );
+
+
+        if(
+          msg.channel!=="ticker"
+        )
+          return;
+
+
+        const events=
+          Array.isArray(msg.events)
+            ?msg.events
+            :[];
+
+
+        events.forEach(
+          ev=>{
+
+            const tickers=
+              Array.isArray(ev.tickers)
+                ?ev.tickers
+                :[];
+
+
+            tickers.forEach(
+              ticker=>{
+
+                const product=
+                  String(
+                    ticker.product_id||""
+                  ).toUpperCase();
+
+
+                const price=
+                  Number(
+                    ticker.price
+                  );
+
+
+                if(
+                  !Number.isFinite(price)||
+                  price<=0
+                )
+                  return;
+
+
+                if(
+                  product==="HBAR-USD"
+                ){
+
+                  hbarUsd=price;
+                  hbarLive=true;
+
+                  setText(
+                    "hbarStatus",
+                    "● HBAR/USD LIVE"
+                  );
+
+                  document
+                    .getElementById(
+                      "hbarStatus"
+                    )
+                    ?.classList.add("ok");
+
+                }
+
+
+                if(
+                  product==="ONDO-USD"
+                ){
+
+                  ondoUsd=price;
+                  ondoLive=true;
+
+                  setText(
+                    "ondoStatus",
+                    "● ONDO/USD LIVE"
+                  );
+
+                  document
+                    .getElementById(
+                      "ondoStatus"
+                    )
+                    ?.classList.add("ok");
+
+                }
+
+              }
+            );
+
+          }
+        );
+
+
+        updateAltJPY();
+
+      }catch(e){
+
+        console.warn(
+          "Coinbase WS parse:",
+          e
+        );
+
+      }
+
+    };
+
+
+    coinbaseWS.onerror=error=>{
+
+      console.warn(
+        "Coinbase WS error:",
+        error
+      );
+
+    };
+
+
+    coinbaseWS.onclose=()=>{
+
+      hbarLive=false;
+      ondoLive=false;
+
+
+      setText(
+        "hbarStatus",
+        "HBAR/USD 再接続中..."
+      );
+
+      setText(
+        "ondoStatus",
+        "ONDO/USD 再接続中..."
+      );
+
+
+      clearTimeout(
+        coinbaseReconnectTimer
+      );
+
+
+      coinbaseReconnectTimer=
+        setTimeout(
+          connectCoinbaseRealtime,
+          3000
+        );
+
+    };
+
+  }catch(e){
+
+    console.error(
+      "Coinbase connection:",
+      e
+    );
+
+
+    setTimeout(
+      connectCoinbaseRealtime,
+      5000
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   HBAR / ONDO INITIAL SNAPSHOT
+   WebSocket接続前の初期表示用
 ===================================================== */
 
 async function fetchCoinbasePrice(
@@ -900,8 +1292,10 @@ async function fetchCoinbasePrice(
       5000
     );
 
+
   let p=
     Number(j?.price);
+
 
   if(!Number.isFinite(p)){
 
@@ -909,6 +1303,7 @@ async function fetchCoinbasePrice(
       Array.isArray(j?.trades)
         ?j.trades
         :[];
+
 
     if(trades.length){
 
@@ -921,13 +1316,16 @@ async function fetchCoinbasePrice(
 
   }
 
+
   if(
     !Number.isFinite(p)||
     p<=0
   )
     throw new Error(
-      productId+" price unavailable"
+      productId+
+      " price unavailable"
     );
+
 
   return p;
 
@@ -938,34 +1336,26 @@ async function fetchHBAR(){
 
   try{
 
-    hbarUsd=
+    const p=
       await fetchCoinbasePrice(
         "HBAR-USD"
       );
 
+
+    /*
+     * WSがまだ値を返していない場合のみ採用
+     */
+    if(!hbarLive)
+      hbarUsd=p;
+
+
     updateAltJPY();
-
-    setText(
-      "hbarStatus",
-      "● HBAR/USD LIVE"
-    );
-
-    document
-      .getElementById(
-        "hbarStatus"
-      )
-      ?.classList.add("ok");
 
   }catch(e){
 
     console.warn(
-      "HBAR:",
+      "HBAR snapshot:",
       e
-    );
-
-    setText(
-      "hbarStatus",
-      "HBAR/USD 取得失敗"
     );
 
   }
@@ -977,34 +1367,26 @@ async function fetchONDO(){
 
   try{
 
-    ondoUsd=
+    const p=
       await fetchCoinbasePrice(
         "ONDO-USD"
       );
 
+
+    /*
+     * WSがまだ値を返していない場合のみ採用
+     */
+    if(!ondoLive)
+      ondoUsd=p;
+
+
     updateAltJPY();
-
-    setText(
-      "ondoStatus",
-      "● ONDO/USD LIVE"
-    );
-
-    document
-      .getElementById(
-        "ondoStatus"
-      )
-      ?.classList.add("ok");
 
   }catch(e){
 
     console.warn(
-      "ONDO:",
+      "ONDO snapshot:",
       e
-    );
-
-    setText(
-      "ondoStatus",
-      "ONDO/USD 取得失敗"
     );
 
   }
@@ -1026,21 +1408,27 @@ function updateAltJPY(){
     hbarPrice=
       hbarUsd*usdJpy;
 
+
     setText(
       "portHbarPrice",
       N(hbarPrice,4)
     );
 
-    setText(
-      "hbarStatus",
-      "● HBAR/USD × USDJPY LIVE"
-    );
 
-    document
-      .getElementById(
-        "hbarStatus"
-      )
-      ?.classList.add("ok");
+    if(hbarLive){
+
+      setText(
+        "hbarStatus",
+        "● HBAR/USD × USDJPY LIVE"
+      );
+
+      document
+        .getElementById(
+          "hbarStatus"
+        )
+        ?.classList.add("ok");
+
+    }
 
   }
 
@@ -1053,23 +1441,30 @@ function updateAltJPY(){
     ondoPrice=
       ondoUsd*usdJpy;
 
+
     setText(
       "portOndoPrice",
       N(ondoPrice,4)
     );
 
-    setText(
-      "ondoStatus",
-      "● ONDO/USD × USDJPY LIVE"
-    );
 
-    document
-      .getElementById(
-        "ondoStatus"
-      )
-      ?.classList.add("ok");
+    if(ondoLive){
+
+      setText(
+        "ondoStatus",
+        "● ONDO/USD × USDJPY LIVE"
+      );
+
+      document
+        .getElementById(
+          "ondoStatus"
+        )
+        ?.classList.add("ok");
+
+    }
 
   }
+
 
   updatePortfolio();
 
@@ -1107,6 +1502,7 @@ async function fetchBitbank(){
         results[0].value?.data?.last
       );
 
+
     if(Number.isFinite(p)){
 
       xrpPrevPrice=
@@ -1114,10 +1510,13 @@ async function fetchBitbank(){
 
       xrpPrice=p;
 
+
       if(!firstXrp)
         checkAlerts();
 
+
       firstXrp=false;
+
 
       addChartPoint(p);
 
@@ -1134,6 +1533,7 @@ async function fetchBitbank(){
       Number(
         results[1].value?.data?.last
       );
+
 
     if(Number.isFinite(p))
       btcJpy=p;
@@ -1161,8 +1561,10 @@ async function fetchBTCUSD(){
         4000
       );
 
+
     let p=
       Number(j?.price);
+
 
     if(!Number.isFinite(p)){
 
@@ -1173,8 +1575,10 @@ async function fetchBTCUSD(){
 
     }
 
+
     if(Number.isFinite(p))
       btcUsd=p;
+
 
     updateMacro();
 
@@ -1206,11 +1610,14 @@ function calc(price,a){
   if(!Number.isFinite(price))
     return null;
 
+
   const value=
     price*a.amount;
 
+
   const pnl=
     value-a.cost;
+
 
   return{
     value,
@@ -1229,11 +1636,13 @@ function updatePortfolio(){
       PORTFOLIO.XRP
     );
 
+
   const h=
     calc(
       hbarPrice,
       PORTFOLIO.HBAR
     );
+
 
   const o=
     calc(
@@ -1249,15 +1658,18 @@ function updatePortfolio(){
       N(xrpPrice,2)
     );
 
+
     setText(
       "portXrpValue",
       Y(x.value)
     );
 
+
     setPnl(
       "portXrpPnl",
       x.pnl
     );
+
 
     setPct(
       "portXrpPnlPct",
@@ -1274,15 +1686,18 @@ function updatePortfolio(){
       N(hbarPrice,4)
     );
 
+
     setText(
       "portHbarValue",
       Y(h.value)
     );
 
+
     setPnl(
       "portHbarPnl",
       h.pnl
     );
+
 
     setPct(
       "portHbarPnlPct",
@@ -1299,15 +1714,18 @@ function updatePortfolio(){
       N(ondoPrice,4)
     );
 
+
     setText(
       "portOndoValue",
       Y(o.value)
     );
 
+
     setPnl(
       "portOndoPnl",
       o.pnl
     );
+
 
     setPct(
       "portOndoPnlPct",
@@ -1319,11 +1737,14 @@ function updatePortfolio(){
 
   let total=0;
 
+
   if(x)
     total+=x.value;
 
+
   if(h)
     total+=h.value;
+
 
   if(o)
     total+=o.value;
@@ -1334,15 +1755,18 @@ function updatePortfolio(){
     const pnl=
       total-TOTAL_COST;
 
+
     setText(
       "totalAssets",
       Y(total)
     );
 
+
     setPnl(
       "totalPnl",
       pnl
     );
+
 
     setText(
       "missionTotalValue",
@@ -1361,6 +1785,7 @@ function updatePortfolio(){
       document.getElementById(
         "missionProgress"
       );
+
 
     if(bar)
       bar.style.width=
@@ -1383,11 +1808,9 @@ function updatePortfolio(){
 
     setText(
       "missionRemaining",
-
       remain===0
         ?"🎉 MISSION COMPLETE"
         :"あと "+Y(remain)+" で300万円"
-
     );
 
   }
@@ -1454,6 +1877,7 @@ function updateXRP(){
   if(!Number.isFinite(xrpPrice))
     return;
 
+
   updateTargets();
   updatePortfolio();
 
@@ -1469,10 +1893,12 @@ function updateTargets(){
       const t=
         Number(e.dataset.target);
 
+
       e.classList.remove(
         "reached",
         "next"
       );
+
 
       if(xrpPrice>=t)
         e.classList.add(
@@ -1612,12 +2038,14 @@ function drawChart(){
   const r=
     c.getBoundingClientRect();
 
+
   const d=
     window.devicePixelRatio||1;
 
 
   c.width=
     r.width*d;
+
 
   c.height=
     r.height*d;
@@ -1649,8 +2077,10 @@ function drawChart(){
   const min0=
     Math.min(...prices);
 
+
   const max0=
     Math.max(...prices);
+
 
   const range=
     max0-min0||1;
@@ -1658,6 +2088,7 @@ function drawChart(){
 
   const min=
     min0-range*.08;
+
 
   const max=
     max0+range*.08;
@@ -1671,15 +2102,18 @@ function drawChart(){
 
     ctx.beginPath();
 
+
     ctx.moveTo(
       0,
       r.height*i/5
     );
 
+
     ctx.lineTo(
       r.width,
       r.height*i/5
     );
+
 
     ctx.stroke();
 
@@ -1723,6 +2157,7 @@ function drawChart(){
   ctx.lineWidth=2;
   ctx.shadowColor="#00eaff";
   ctx.shadowBlur=12;
+
 
   ctx.stroke();
 
@@ -1857,6 +2292,7 @@ function connectBitbank(){
 
       let p;
 
+
       try{
 
         p=
@@ -1880,8 +2316,10 @@ function connectBitbank(){
 
       const b=p[1];
 
+
       const room=
         b?.room_name;
+
 
       const d=
         b?.message?.data;
@@ -1922,6 +2360,7 @@ function connectBitbank(){
           "ask"
         );
 
+
         renderBook(
           "bids",
           d?.bids,
@@ -1946,7 +2385,7 @@ function connectBitbank(){
 
       setText(
         "connectionText",
-        "REST FALLBACK"
+        "RECONNECTING..."
       );
 
 
@@ -1965,7 +2404,6 @@ function connectBitbank(){
 
 
     ws.onerror=()=>{};
-
 
   }catch(e){
 
@@ -2067,12 +2505,17 @@ async function updateAll(){
 
   try{
 
+    /*
+     * HBAR / ONDO / USDJPYは
+     * ここではポーリングしない。
+     *
+     * WebSocket / SignalRから
+     * リアルタイム更新する。
+     */
+
     await Promise.allSettled([
 
       fetchBitbank(),
-      fetchHBAR(),
-      fetchONDO(),
-      fetchUSDJPY(),
       fetchBTCUSD()
 
     ]);
@@ -2107,45 +2550,59 @@ async function updateAll(){
 
 function init(){
 
-  /* XRP */
+  /*
+   * XRP / BTC / ORDER BOOK
+   */
   connectBitbank();
 
 
-  /* USDJPY */
-  fetchUSDJPY();
+  /*
+   * USDJPY REALTIME
+   */
+  connectUSDJPY();
 
 
-  /* HBAR */
+  /*
+   * HBAR / ONDO
+   * 初期スナップショット
+   */
   fetchHBAR();
-
-
-  /* ONDO */
   fetchONDO();
 
 
-  /* BTC */
+  /*
+   * HBAR / ONDO REALTIME
+   */
+  connectCoinbaseRealtime();
+
+
+  /*
+   * BTC USD 初期値
+   */
   fetchBTCUSD();
 
 
-  /* Fear & Greed */
+  /*
+   * Fear & Greed
+   */
   fetchFearGreed();
 
 
-  /* 5秒更新 */
+  /*
+   * XRP / BTC は5秒ごと
+   *
+   * HBAR / ONDO / USDJPYは
+   * WebSocketなのでここでは取得しない
+   */
   setInterval(
     updateAll,
     5000
   );
 
 
-  /* 為替 */
-  setInterval(
-    fetchUSDJPY,
-    30000
-  );
-
-
-  /* Fear & Greed */
+  /*
+   * Fear & Greed
+   */
   setInterval(
     fetchFearGreed,
     60000
