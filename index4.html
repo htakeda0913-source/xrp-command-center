@@ -374,10 +374,6 @@ let xrpPrevPrice=null;
 let btcJpy=null;
 let btcUsd=null;
 
-/* =====================================================
-   ★ 共通ドル円
-   HBAR / ONDOはこの値を使って円換算
-===================================================== */
 let usdJpy=null;
 
 let hbarUsd=null;
@@ -475,7 +471,6 @@ async function getJSON(url,timeout=4000){
 
 /* =====================================================
    USDJPY
-   ★ ここは元の正常な方式を維持
 ===================================================== */
 
 function applyUSDJPY(price,source="LIVE"){
@@ -501,10 +496,6 @@ function applyUSDJPY(price,source="LIVE"){
     new Date().toLocaleTimeString("ja-JP")
   );
 
-  /*
-   * ★ ドル円が更新されたら
-   * HBAR / ONDOも即座に円換算
-   */
   updateAltJPY();
 
   if(Number.isFinite(btcJpy)){
@@ -659,24 +650,18 @@ function scheduleFXFallback(){
 
 
 /* =====================================================
-   ★ HBAR / ONDO
-   USD価格を取得
-   ↓
-   共通USDJPYを掛ける
+   HBAR / ONDO
+   USD → JPY
 ===================================================== */
 
 function updateAltJPY(){
 
-  /*
-   * HBAR/USD × USDJPY
-   */
   if(
     Number.isFinite(hbarUsd)&&
     Number.isFinite(usdJpy)
   ){
 
-    hbarPrice=
-      hbarUsd*usdJpy;
+    hbarPrice=hbarUsd*usdJpy;
 
     setText(
       "portHbarPrice",
@@ -693,16 +678,12 @@ function updateAltJPY(){
       ?.classList.add("ok");
   }
 
-  /*
-   * ONDO/USD × USDJPY
-   */
   if(
     Number.isFinite(ondoUsd)&&
     Number.isFinite(usdJpy)
   ){
 
-    ondoPrice=
-      ondoUsd*usdJpy;
+    ondoPrice=ondoUsd*usdJpy;
 
     setText(
       "portOndoPrice",
@@ -1585,10 +1566,6 @@ async function updateAll(){
 
   try{
 
-    /*
-     * HBAR / ONDOはUSD価格を取得。
-     * 円換算は現在のusdJpyを使用。
-     */
     await Promise.allSettled([
 
       fetchBitbank(),
@@ -1620,42 +1597,62 @@ async function updateAll(){
 
 /* =====================================================
    INIT
+   ★★★ ここを高速起動化 ★★★
+   ★ 何もawaitしない
+   ★ 全データ取得を同時スタート
 ===================================================== */
 
-async function init(){
+function init(){
 
+  /*
+   * XRP WebSocket
+   * → 即接続開始
+   */
   connectBitbank();
 
   /*
-   * ★ドル円は今動いている方式をそのまま使用
+   * USDJPY
+   * → RESTとLIVE接続を即スタート
+   * → HBAR / ONDOはUSDJPY到着前でも
+   *   USD価格の取得を開始する
    */
-  await fetchUSDJPY();
-
+  fetchUSDJPY();
   connectUSDJPY();
 
   /*
-   * ★初回からHBAR/ONDO USD取得
-   * ★取得後、共通USDJPYで円換算
+   * HBAR / ONDO
+   * → USDJPYを待たず即取得
+   * → USDJPYが到着した瞬間に円換算
    */
-  await Promise.allSettled([
-    fetchHBAR(),
-    fetchONDO()
-  ]);
+  fetchHBAR();
+  fetchONDO();
 
-  updateAltJPY();
+  /*
+   * BTC
+   * → 即取得
+   */
+  fetchBTCUSD();
 
-  await updateAll();
-
+  /*
+   * Fear & Greed
+   * → 即取得
+   */
   fetchFearGreed();
 
-  setInterval(
-    fetchFearGreed,
-    60000
-  );
-
+  /*
+   * ★ 5秒ごとに全体更新
+   */
   setInterval(
     updateAll,
     5000
+  );
+
+  /*
+   * Fear & Greedは1分ごと
+   */
+  setInterval(
+    fetchFearGreed,
+    60000
   );
 
   window.addEventListener(
