@@ -116,10 +116,7 @@ body:before{
 .macro-sub{font-size:10px;color:var(--muted)}
 .macro-row{padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05)}
 .target-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}
-.target{
-  text-align:center;padding:12px 7px;border-radius:13px;
-  border:1px solid rgba(0,234,255,.1);background:rgba(255,255,255,.02)
-}
+.target{text-align:center;padding:12px 7px;border-radius:13px;border:1px solid rgba(0,234,255,.1);background:rgba(255,255,255,.02)}
 .target-price{font-size:17px;font-weight:900}
 .target-label{font-size:9px;color:#70869a;margin-top:4px}
 .target.reached{border-color:rgba(0,245,160,.5);background:rgba(0,245,160,.06)}
@@ -127,20 +124,13 @@ body:before{
 .target.next{border-color:rgba(255,209,102,.6)}
 .target.next .target-price{color:var(--gold)}
 .alert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.alert-level{
-  padding:13px;border-radius:13px;text-align:center;
-  border:1px solid rgba(0,234,255,.1);background:rgba(255,255,255,.025)
-}
+.alert-level{padding:13px;border-radius:13px;text-align:center;border:1px solid rgba(0,234,255,.1);background:rgba(255,255,255,.025)}
 .alert-level strong{display:block;font-size:21px}
 .alert-level span{color:#6d8397;font-size:9px}
 .alert-level.hit{border-color:var(--green);background:rgba(0,245,160,.08)}
 .alert-level.hit strong{color:var(--green)}
 .alert-log{margin-top:11px;color:var(--gold);font-size:11px}
-.notify-btn{
-  margin-top:10px;border:1px solid rgba(0,234,255,.3);
-  color:var(--cyan);background:rgba(0,234,255,.05);
-  border-radius:10px;padding:8px 12px;cursor:pointer;font-size:10px
-}
+.notify-btn{margin-top:10px;border:1px solid rgba(0,234,255,.3);color:var(--cyan);background:rgba(0,234,255,.05);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:10px}
 .chart-wrap{width:100%;height:260px}
 canvas{width:100%;height:100%;display:block}
 .book{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -172,7 +162,6 @@ canvas{width:100%;height:100%;display:block}
 </head>
 
 <body>
-
 <div class="app">
 
 <header class="header">
@@ -183,7 +172,6 @@ canvas{width:100%;height:100%;display:block}
       <div class="subtitle">MULTI ASSET REALTIME COMMAND CENTER</div>
     </div>
   </div>
-
   <div class="connection">
     <span id="connectionDot" class="connection-dot"></span>
     <span id="connectionText">CONNECTING...</span>
@@ -204,11 +192,7 @@ canvas{width:100%;height:100%;display:block}
       <div id="missionTotalValue" class="mission-current-value">---</div>
     </div>
   </div>
-
-  <div class="progress-wrap">
-    <div id="missionProgress" class="progress"></div>
-  </div>
-
+  <div class="progress-wrap"><div id="missionProgress" class="progress"></div></div>
   <div class="mission-stats">
     <span id="missionPercent">進捗 --%</span>
     <span id="missionRemaining">あと --- で300万円</span>
@@ -216,127 +200,67 @@ canvas{width:100%;height:100%;display:block}
 </section>
 
 <section class="card full">
-
-<div class="card-title">
-PORTFOLIO｜3銘柄保有状況
-<span class="live">● 5 SEC UPDATE</span>
-</div>
+<div class="card-title">PORTFOLIO｜3銘柄保有状況 <span class="live">● 5 SEC UPDATE</span></div>
 
 <div class="portfolio-grid">
 
 <div class="asset">
-  <div class="asset-top">
-    <div class="asset-name">XRP</div>
-    <div class="asset-tag">RIPPLE</div>
-  </div>
+  <div class="asset-top"><div class="asset-name">XRP</div><div class="asset-tag">RIPPLE</div></div>
   <div id="portXrpPrice" class="asset-price">---</div>
   <div class="asset-yen">JPY / XRP</div>
-
   <div class="asset-info">
-    <div class="info-box">
-      <div class="info-label">保有数量</div>
-      <div class="info-value">9,000 XRP</div>
-    </div>
-    <div class="info-box">
-      <div class="info-label">平均取得</div>
-      <div class="info-value">183円</div>
-    </div>
-    <div class="info-box">
-      <div class="info-label">現在評価額</div>
-      <div id="portXrpValue" class="info-value">---</div>
-    </div>
-    <div class="info-box">
-      <div class="info-label">損益</div>
-      <div id="portXrpPnl" class="info-value">---</div>
-    </div>
+    <div class="info-box"><div class="info-label">保有数量</div><div class="info-value">9,000 XRP</div></div>
+    <div class="info-box"><div class="info-label">平均取得</div><div class="info-value">183円</div></div>
+    <div class="info-box"><div class="info-label">現在評価額</div><div id="portXrpValue" class="info-value">---</div></div>
+    <div class="info-box"><div class="info-label">損益</div><div id="portXrpPnl" class="info-value">---</div></div>
   </div>
-
   <div id="portXrpPnlPct" style="margin-top:10px;font-size:11px;font-weight:900">---</div>
 </div>
 
 <div class="asset">
-  <div class="asset-top">
-    <div class="asset-name">HBAR</div>
-    <div class="asset-tag">HEDERA</div>
-  </div>
+  <div class="asset-top"><div class="asset-name">HBAR</div><div class="asset-tag">HEDERA</div></div>
   <div id="portHbarPrice" class="asset-price">---</div>
   <div class="asset-yen">JPY / HBAR</div>
-
   <div class="asset-info">
-    <div class="info-box">
-      <div class="info-label">保有数量</div>
-      <div class="info-value">7,500 HBAR</div>
-    </div>
-    <div class="info-box">
-      <div class="info-label">平均取得</div>
-      <div class="info-value">14.8円</div>
-    </div>
-    <div class="info-box">
-      <div class="info-label">現在評価額</div>
-      <div id="portHbarValue" class="info-value">---</div>
-    </div>
-    <div class="info-box">
-      <div class="info-label">損益</div>
-      <div id="portHbarPnl" class="info-value">---</div>
-    </div>
+    <div class="info-box"><div class="info-label">保有数量</div><div class="info-value">7,500 HBAR</div></div>
+    <div class="info-box"><div class="info-label">平均取得</div><div class="info-value">14.8円</div></div>
+    <div class="info-box"><div class="info-label">現在評価額</div><div id="portHbarValue" class="info-value">---</div></div>
+    <div class="info-box"><div class="info-label">損益</div><div id="portHbarPnl" class="info-value">---</div></div>
   </div>
-
   <div id="portHbarPnlPct" style="margin-top:10px;font-size:11px;font-weight:900">---</div>
-  <div id="hbarStatus" class="alt-status">HBAR/JPY 直接取得</div>
+  <div id="hbarStatus" class="alt-status">HBAR/JPY 取得待機</div>
 </div>
 
 <div class="asset">
-  <div class="asset-top">
-    <div class="asset-name">ONDO</div>
-    <div class="asset-tag">ONDO FINANCE</div>
-  </div>
+  <div class="asset-top"><div class="asset-name">ONDO</div><div class="asset-tag">ONDO FINANCE</div></div>
   <div id="portOndoPrice" class="asset-price">---</div>
   <div class="asset-yen">JPY / ONDO</div>
-
   <div class="asset-info">
-    <div class="info-box">
-      <div class="info-label">保有数量</div>
-      <div class="info-value">1,540 ONDO</div>
-    </div>
-    <div class="info-box">
-      <div class="info-label">平均取得</div>
-      <div class="info-value">87.4円</div>
-    </div>
-    <div class="info-box">
-      <div class="info-label">現在評価額</div>
-      <div id="portOndoValue" class="info-value">---</div>
-    </div>
-    <div class="info-box">
-      <div class="info-label">損益</div>
-      <div id="portOndoPnl" class="info-value">---</div>
-    </div>
+    <div class="info-box"><div class="info-label">保有数量</div><div class="info-value">1,540 ONDO</div></div>
+    <div class="info-box"><div class="info-label">平均取得</div><div class="info-value">87.4円</div></div>
+    <div class="info-box"><div class="info-label">現在評価額</div><div id="portOndoValue" class="info-value">---</div></div>
+    <div class="info-box"><div class="info-label">損益</div><div id="portOndoPnl" class="info-value">---</div></div>
   </div>
-
   <div id="portOndoPnlPct" style="margin-top:10px;font-size:11px;font-weight:900">---</div>
-  <div id="ondoStatus" class="alt-status">ONDO/JPY 直接取得</div>
+  <div id="ondoStatus" class="alt-status">ONDO/JPY 取得待機</div>
 </div>
 
 </div>
 
 <div class="total-box">
-
 <div>
   <div class="total-main-label">現在保有金額｜3銘柄合計</div>
   <div id="totalAssets" class="total-main">---</div>
 </div>
-
 <div>
   <div class="total-small-label">総取得金額</div>
   <div class="total-small">1,892,596円</div>
 </div>
-
 <div>
   <div class="total-small-label">総損益</div>
   <div id="totalPnl" class="total-small">---</div>
 </div>
-
 </div>
-
 </section>
 
 <section class="card">
@@ -361,9 +285,7 @@ PORTFOLIO｜3銘柄保有状況
   </div>
   <div class="macro-row">
     <div class="macro-sub">HBAR / ONDOへの影響</div>
-    <div style="color:var(--green);font-size:11px;font-weight:800;margin-top:5px">
-      完全分離済み
-    </div>
+    <div style="color:var(--green);font-size:11px;font-weight:800;margin-top:5px">完全分離済み</div>
   </div>
 </section>
 
@@ -397,14 +319,8 @@ PORTFOLIO｜3銘柄保有状況
 <section class="card">
   <div class="card-title">XRP ORDER BOOK</div>
   <div class="book">
-    <div>
-      <div class="book-head"><span>ASK</span><span>AMOUNT</span></div>
-      <div id="asks"></div>
-    </div>
-    <div>
-      <div class="book-head"><span>BID</span><span>AMOUNT</span></div>
-      <div id="bids"></div>
-    </div>
+    <div><div class="book-head"><span>ASK</span><span>AMOUNT</span></div><div id="asks"></div></div>
+    <div><div class="book-head"><span>BID</span><span>AMOUNT</span></div><div id="bids"></div></div>
   </div>
 </section>
 
@@ -428,16 +344,10 @@ PORTFOLIO｜3銘柄保有状況
 </main>
 
 <div class="footer">
-XRP司令室 ORBIT｜
-XRP 9,000｜
-HBAR 7,500｜
-ONDO 1,540｜
-5秒更新
+XRP司令室 ORBIT｜XRP 9,000｜HBAR 7,500｜ONDO 1,540｜5秒更新
+</div>
 </div>
 
-</div>
-
-<!-- USDJPYリアルタイム用 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
 
 <script>
@@ -466,7 +376,6 @@ let chartData=[];
 let firstXrp=true;
 let updateRunning=false;
 
-/* USDJPY専用 */
 let fxConnection=null;
 let fxRestTimer=null;
 
@@ -509,20 +418,25 @@ function setPct(id,v){
   e.classList.toggle("negative",v<0);
 }
 
-async function getJSON(url,timeout=3500){
+async function getJSON(url,timeout=4000){
 
   const controller=new AbortController();
+
   const timer=setTimeout(
     ()=>controller.abort(),
     timeout
   );
 
   try{
+
     const r=await fetch(
       url,
       {
         cache:"no-store",
-        signal:controller.signal
+        signal:controller.signal,
+        headers:{
+          "Accept":"application/json"
+        }
       }
     );
 
@@ -532,14 +446,16 @@ async function getJSON(url,timeout=3500){
     return await r.json();
 
   }finally{
+
     clearTimeout(timer);
+
   }
 }
 
 
 /* =====================================================
    USDJPY
-   BiQuote REALTIME
+   現在OKなので維持
 ===================================================== */
 
 function applyUSDJPY(price,source="LIVE"){
@@ -550,8 +466,7 @@ function applyUSDJPY(price,source="LIVE"){
     !Number.isFinite(p)||
     p<50||
     p>250
-  )
-    return;
+  )return;
 
   usdJpy=p;
 
@@ -572,8 +487,6 @@ function applyUSDJPY(price,source="LIVE"){
   }
 }
 
-
-/* RESTはWebSocket接続前・切断時だけ使用 */
 async function fetchUSDJPY(){
 
   try{
@@ -586,7 +499,7 @@ async function fetchUSDJPY(){
     const p=Number(j?.mid);
 
     if(!Number.isFinite(p))
-      throw new Error("USDJPY mid unavailable");
+      throw new Error("USDJPY unavailable");
 
     applyUSDJPY(p,"REST");
 
@@ -594,170 +507,87 @@ async function fetchUSDJPY(){
 
   }catch(e){
 
-    console.warn("USDJPY REST:",e);
+    console.warn("USDJPY:",e);
 
     if(Number.isFinite(usdJpy)){
-
-      setText(
-        "usdJpy",
-        usdJpy.toFixed(3)
-      );
-
-      setText(
-        "fxUpdated",
-        "前回値保持"
-      );
-
-    }else{
-
-      setText(
-        "fxUpdated",
-        "USDJPY 接続待機"
-      );
-
+      setText("usdJpy",usdJpy.toFixed(3));
+      setText("fxUpdated","前回値保持");
     }
 
     return false;
   }
 }
 
-
-/* BiQuote SignalR */
 async function connectUSDJPY(){
 
   try{
 
     if(typeof signalR==="undefined"){
-      console.warn("SignalR library unavailable");
       await fetchUSDJPY();
       scheduleFXFallback();
       return;
     }
 
-    if(fxConnection){
-
-      try{
-        await fxConnection.stop();
-      }catch(_){}
-
-    }
-
     fxConnection=
       new signalR.HubConnectionBuilder()
-      .withUrl(
-        "https://biquote.io/hubs/tick"
-      )
+      .withUrl("https://biquote.io/hubs/tick")
       .withAutomaticReconnect([0,2000,5000,10000])
       .build();
-
 
     fxConnection.on(
       "ReceiveTick",
       tick=>{
-
         if(
           tick &&
           String(tick.symbol).toUpperCase()==="USDJPY"
         ){
-
-          applyUSDJPY(
-            tick.mid,
-            "LIVE"
-          );
-
+          applyUSDJPY(tick.mid,"LIVE");
         }
-
       }
     );
 
-
-    fxConnection.onreconnecting(()=>{
-      setText(
-        "fxUpdated",
-        "USDJPY 再接続中..."
-      );
-    });
-
-
     fxConnection.onreconnected(async()=>{
-
-      setText(
-        "fxUpdated",
-        "USDJPY LIVE"
-      );
-
       try{
         await fxConnection.invoke(
           "Subscribe",
           ["USDJPY"]
         );
-      }catch(e){
-        console.warn("USDJPY resubscribe:",e);
-      }
-
+      }catch(e){}
     });
-
 
     fxConnection.onclose(()=>{
-
-      setText(
-        "fxUpdated",
-        "USDJPY REST待機"
-      );
-
       scheduleFXFallback();
-
     });
 
-
     await fxConnection.start();
-
 
     await fxConnection.invoke(
       "Subscribe",
       ["USDJPY"]
     );
 
-
     setText(
       "fxUpdated",
       "● USDJPY LIVE"
     );
 
-    console.log(
-      "USDJPY WebSocket connected"
-    );
-
-    if(fxRestTimer){
-      clearInterval(fxRestTimer);
-      fxRestTimer=null;
-    }
-
   }catch(e){
 
-    console.warn(
-      "USDJPY WebSocket:",
-      e
-    );
+    console.warn("USDJPY WS:",e);
 
     await fetchUSDJPY();
-
     scheduleFXFallback();
 
     setTimeout(
       connectUSDJPY,
       10000
     );
-
   }
-
 }
-
 
 function scheduleFXFallback(){
 
-  if(fxRestTimer)
-    return;
+  if(fxRestTimer)return;
 
   fxRestTimer=setInterval(
     async()=>{
@@ -765,15 +595,13 @@ function scheduleFXFallback(){
       if(
         fxConnection &&
         fxConnection.state==="Connected"
-      )
-        return;
+      )return;
 
       await fetchUSDJPY();
 
     },
     5000
   );
-
 }
 
 
@@ -797,13 +625,10 @@ async function fetchBitbank(){
 
   ]);
 
-  const xr=results[0];
-  const rb=results[1];
-
-  if(xr.status==="fulfilled"){
+  if(results[0].status==="fulfilled"){
 
     const p=Number(
-      xr.value?.data?.last
+      results[0].value?.data?.last
     );
 
     if(Number.isFinite(p)){
@@ -820,10 +645,10 @@ async function fetchBitbank(){
     }
   }
 
-  if(rb.status==="fulfilled"){
+  if(results[1].status==="fulfilled"){
 
     const p=Number(
-      rb.value?.data?.last
+      results[1].value?.data?.last
     );
 
     if(Number.isFinite(p))
@@ -836,8 +661,9 @@ async function fetchBitbank(){
 
 
 /* =====================================================
-   HBAR / ONDO
-   既存の直接JPY取得を維持
+   HBAR
+   ★ CoinGecko JPY直接
+   ★ USDJPYを一切使用しない
 ===================================================== */
 
 async function fetchHBAR(){
@@ -845,25 +671,38 @@ async function fetchHBAR(){
   try{
 
     const j=await getJSON(
-      "https://min-api.cryptocompare.com/data/price?fsym=HBAR&tsyms=JPY&tryConversion=true&extraParams=XRP_ORBIT&_="+Date.now(),
-      3500
+      "https://api.coingecko.com/api/v3/simple/price"+
+      "?ids=hedera-hashgraph"+
+      "&vs_currencies=jpy"+
+      "&precision=4"+
+      "&_="+Date.now(),
+      5000
     );
 
-    const p=Number(j?.JPY);
+    const p=
+      Number(
+        j?.["hedera-hashgraph"]?.jpy
+      );
 
-    if(!Number.isFinite(p)||p<=0)
-      throw new Error("HBAR JPY invalid");
+    if(
+      !Number.isFinite(p)||
+      p<=0
+    ){
+      throw new Error(
+        "HBAR JPY not found"
+      );
+    }
 
     hbarPrice=p;
 
     setText(
       "portHbarPrice",
-      N(p,2)
+      N(hbarPrice,2)
     );
 
     setText(
       "hbarStatus",
-      "● HBAR/JPY 直接取得"
+      "● HBAR/JPY LIVE"
     );
 
     document
@@ -874,7 +713,10 @@ async function fetchHBAR(){
 
   }catch(e){
 
-    console.warn("HBAR error:",e);
+    console.warn(
+      "HBAR CoinGecko:",
+      e
+    );
 
     if(Number.isFinite(hbarPrice)){
 
@@ -885,45 +727,68 @@ async function fetchHBAR(){
 
       setText(
         "hbarStatus",
-        "● HBAR/JPY 前回値保持"
+        "● HBAR 前回値"
       );
 
     }else{
 
       setText(
-        "hbarStatus",
-        "HBAR/JPY 取得待機"
+        "portHbarPrice",
+        "---"
       );
 
+      setText(
+        "hbarStatus",
+        "HBAR 接続待機"
+      );
     }
   }
 }
 
+
+/* =====================================================
+   ONDO
+   ★ CoinGecko JPY直接
+   ★ USDJPYを一切使用しない
+===================================================== */
 
 async function fetchONDO(){
 
   try{
 
     const j=await getJSON(
-      "https://min-api.cryptocompare.com/data/price?fsym=ONDO&tsyms=JPY&tryConversion=true&extraParams=XRP_ORBIT&_="+Date.now(),
-      3500
+      "https://api.coingecko.com/api/v3/simple/price"+
+      "?ids=ondo-finance"+
+      "&vs_currencies=jpy"+
+      "&precision=4"+
+      "&_="+Date.now(),
+      5000
     );
 
-    const p=Number(j?.JPY);
+    const p=
+      Number(
+        j?.["ondo-finance"]?.jpy
+      );
 
-    if(!Number.isFinite(p)||p<=0)
-      throw new Error("ONDO JPY invalid");
+    if(
+      !Number.isFinite(p)||
+      p<=0
+    ){
+      throw new Error(
+        "ONDO JPY not found"
+      );
+    }
 
     ondoPrice=p;
 
     setText(
       "portOndoPrice",
-      N(p,2)
+      N(ondoPrice,2)
     );
 
     setText(
       "ondoStatus",
-      "● ONDO/JPY 直接取得"
+      "● ONDO/JPY LIVE"
     );
 
     document
@@ -934,7 +799,10 @@ async function fetchONDO(){
 
   }catch(e){
 
-    console.warn("ONDO error:",e);
+    console.warn(
+      "ONDO CoinGecko:",
+      e
+    );
 
     if(Number.isFinite(ondoPrice)){
 
@@ -945,16 +813,20 @@ async function fetchONDO(){
 
       setText(
         "ondoStatus",
-        "● ONDO/JPY 前回値保持"
+        "● ONDO 前回値"
       );
 
     }else{
 
       setText(
-        "ondoStatus",
-        "ONDO/JPY 取得待機"
+        "portOndoPrice",
+        "---"
       );
 
+      setText(
+        "ondoStatus",
+        "ONDO 接続待機"
+      );
     }
   }
 }
@@ -973,9 +845,8 @@ async function fetchBTCUSD(){
       3000
     );
 
-    const p=Number(
-      j?.data?.amount
-    );
+    const p=
+      Number(j?.data?.amount);
 
     if(Number.isFinite(p))
       btcUsd=p;
@@ -989,7 +860,8 @@ async function fetchBTCUSD(){
       Number.isFinite(usdJpy)
     ){
 
-      btcUsd=btcJpy/usdJpy;
+      btcUsd=
+        btcJpy/usdJpy;
 
       updateMacro();
     }
@@ -1006,8 +878,11 @@ function calc(price,a){
   if(!Number.isFinite(price))
     return null;
 
-  const value=price*a.amount;
-  const pnl=value-a.cost;
+  const value=
+    price*a.amount;
+
+  const pnl=
+    value-a.cost;
 
   return{
     value,
@@ -1015,7 +890,6 @@ function calc(price,a){
     pct:pnl/a.cost*100
   };
 }
-
 
 function updatePortfolio(){
 
@@ -1108,27 +982,16 @@ function updatePortfolio(){
 
 
   let total=0;
-  let count=0;
 
-  if(x){
-    total+=x.value;
-    count++;
-  }
-
-  if(h){
-    total+=h.value;
-    count++;
-  }
-
-  if(o){
-    total+=o.value;
-    count++;
-  }
+  if(x)total+=x.value;
+  if(h)total+=h.value;
+  if(o)total+=o.value;
 
 
-  if(count>0){
+  if(total>0){
 
-    const pnl=total-TOTAL_COST;
+    const pnl=
+      total-TOTAL_COST;
 
     setText(
       "totalAssets",
@@ -1151,13 +1014,13 @@ function updatePortfolio(){
         total/MISSION_GOAL*100
       );
 
-    const progress=
+    const bar=
       document.getElementById(
         "missionProgress"
       );
 
-    if(progress)
-      progress.style.width=
+    if(bar)
+      bar.style.width=
         pct+"%";
 
     setText(
@@ -1213,7 +1076,8 @@ function updateMacro(){
 
     setText(
       "btcUpdated",
-      "更新 "+new Date().toLocaleTimeString("ja-JP")
+      "更新 "+
+      new Date().toLocaleTimeString("ja-JP")
     );
   }
 }
@@ -1231,7 +1095,6 @@ function updateXRP(){
   updateTargets();
   updatePortfolio();
 }
-
 
 function updateTargets(){
 
@@ -1266,14 +1129,12 @@ function updateTargets(){
   }
 }
 
-
 function checkAlerts(){
 
   if(
     !Number.isFinite(xrpPrevPrice)||
     !Number.isFinite(xrpPrice)
-  )
-    return;
+  )return;
 
   [225,250,300].forEach(level=>{
 
@@ -1319,7 +1180,6 @@ function addChartPoint(price){
   drawChart();
 }
 
-
 function drawChart(){
 
   const c=
@@ -1330,8 +1190,7 @@ function drawChart(){
   if(
     !c||
     chartData.length<2
-  )
-    return;
+  )return;
 
   const r=
     c.getBoundingClientRect();
@@ -1434,8 +1293,7 @@ function renderBook(id,rows,type){
   if(
     !e||
     !Array.isArray(rows)
-  )
-    return;
+  )return;
 
   e.innerHTML=
     rows.slice(0,8)
@@ -1450,22 +1308,24 @@ function renderBook(id,rows,type){
 
 
 /* =====================================================
-   BITBANK WEBSOCKET
+   BITBANK
 ===================================================== */
 
 function connectBitbank(){
 
   try{
 
-    ws=new WebSocket(
-      "wss://stream.bitbank.cc/socket.io/?EIO=4&transport=websocket"
-    );
-
+    ws=
+      new WebSocket(
+        "wss://stream.bitbank.cc/socket.io/?EIO=4&transport=websocket"
+      );
 
     ws.onopen=()=>{
 
       document
-        .getElementById("connectionDot")
+        .getElementById(
+          "connectionDot"
+        )
         ?.classList.remove("off");
 
       setText(
@@ -1479,8 +1339,7 @@ function connectBitbank(){
 
         if(
           ws?.readyState!==WebSocket.OPEN
-        )
-          return;
+        )return;
 
         [
           "transactions_xrp_jpy",
@@ -1492,7 +1351,6 @@ function connectBitbank(){
             room+
             '"]'
           );
-
         });
 
       },500);
@@ -1513,8 +1371,7 @@ function connectBitbank(){
       if(
         typeof e.data!=="string"||
         !e.data.startsWith("42")
-      )
-        return;
+      )return;
 
       let p;
 
@@ -1529,8 +1386,7 @@ function connectBitbank(){
       if(
         !Array.isArray(p)||
         p[0]!=="message"
-      )
-        return;
+      )return;
 
       const b=p[1];
       const room=b?.room_name;
@@ -1572,7 +1428,6 @@ function connectBitbank(){
           "bid"
         );
       }
-
     };
 
 
@@ -1625,8 +1480,7 @@ async function fetchFearGreed(){
 
     const d=j?.data?.[0];
 
-    if(!d)
-      return;
+    if(!d)return;
 
     setText(
       "fgScore",
@@ -1656,18 +1510,16 @@ document
     const p=
       await Notification.requestPermission();
 
-    if(p==="granted"){
-
+    if(p==="granted")
       setText(
         "notifyButton",
         "🔔 通知ON"
       );
-    }
   };
 
 
 /* =====================================================
-   5秒更新
+   MASTER
 ===================================================== */
 
 async function updateAll(){
@@ -1687,12 +1539,6 @@ async function updateAll(){
       fetchBTCUSD()
 
     ]);
-
-    /*
-      USDJPYはWebSocket専用。
-      接続前/切断時だけREST。
-      ここで5秒RESTを叩き続けない。
-    */
 
     updateXRP();
     updatePortfolio();
@@ -1721,15 +1567,16 @@ async function init(){
 
   connectBitbank();
 
-  /*
-    初回USDJPYだけRESTで即表示
-  */
+  /* ドル円は現在OKの方式を維持 */
   await fetchUSDJPY();
 
-  /*
-    その後リアルタイムWS
-  */
   connectUSDJPY();
+
+  /* HBAR / ONDOは初回から独立取得 */
+  await Promise.allSettled([
+    fetchHBAR(),
+    fetchONDO()
+  ]);
 
   await updateAll();
 
