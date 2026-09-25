@@ -241,7 +241,6 @@ transform:translateY(130px);opacity:0;pointer-events:none;transition:.3s;z-index
 
 <main class="grid">
 
-<!-- ① MISSIONを最上段 -->
 <section class="card mission full">
 <div class="mission-header">
 <div>
@@ -263,7 +262,6 @@ transform:translateY(130px);opacity:0;pointer-events:none;transition:.3s;z-index
 </div>
 </section>
 
-<!-- ② ポートフォリオ -->
 <section class="card full">
 <div class="card-title">
 PORTFOLIO｜3銘柄保有状況 <span class="live">● 5 SEC UPDATE</span>
@@ -378,7 +376,6 @@ PORTFOLIO｜3銘柄保有状況 <span class="live">● 5 SEC UPDATE</span>
 </div>
 </section>
 
-<!-- ③ BTC -->
 <section class="card">
 <div class="card-title">BTC / JPY <span class="live">● 5 SEC</span></div>
 <div class="macro-row">
@@ -392,7 +389,6 @@ PORTFOLIO｜3銘柄保有状況 <span class="live">● 5 SEC UPDATE</span>
 </div>
 </section>
 
-<!-- ④ USDJPY -->
 <section class="card">
 <div class="card-title">USD / JPY <span class="live">● 5 SEC</span></div>
 <div class="macro-row">
@@ -406,7 +402,6 @@ PORTFOLIO｜3銘柄保有状況 <span class="live">● 5 SEC UPDATE</span>
 </div>
 </section>
 
-<!-- ⑤ TARGET -->
 <section class="card full">
 <div class="card-title">XRP TARGET RADAR</div>
 <div class="target-grid">
@@ -433,7 +428,6 @@ PORTFOLIO｜3銘柄保有状況 <span class="live">● 5 SEC UPDATE</span>
 </div>
 </section>
 
-<!-- ⑥ ALERT -->
 <section class="card full">
 <div class="card-title">ALERT CENTER <span class="live">● XRP PRICE ALERT</span></div>
 <div class="alert-grid">
@@ -451,7 +445,6 @@ PORTFOLIO｜3銘柄保有状況 <span class="live">● 5 SEC UPDATE</span>
 <button id="notifyButton" class="notify-btn">🔔 ブラウザ通知をON</button>
 </section>
 
-<!-- ⑦ CHART -->
 <section class="card full">
 <div class="card-title">XRP REALTIME CHART <span class="live">● LIVE</span></div>
 <div class="chart-wrap">
@@ -459,7 +452,6 @@ PORTFOLIO｜3銘柄保有状況 <span class="live">● 5 SEC UPDATE</span>
 </div>
 </section>
 
-<!-- ⑧ ORDER BOOK -->
 <section class="card">
 <div class="card-title">XRP ORDER BOOK</div>
 <div class="book">
@@ -474,14 +466,12 @@ PORTFOLIO｜3銘柄保有状況 <span class="live">● 5 SEC UPDATE</span>
 </div>
 </section>
 
-<!-- ⑨ VOLUME -->
 <section class="card">
 <div class="card-title">XRP VOLUME</div>
 <div id="volume" class="macro-price">---</div>
 <div class="macro-sub">WebSocket 約定データ</div>
 </section>
 
-<!-- ⑩ FEAR & GREED -->
 <section class="card">
 <div class="card-title">CRYPTO FEAR & GREED</div>
 <div class="fear">
@@ -586,11 +576,6 @@ if(!Number.isFinite(xrpPrice))return;
 
 setText("portXrpPrice",N(xrpPrice,2));
 
-const ch=
-Number.isFinite(xrpOpen)&&xrpOpen
-?(xrpPrice-xrpOpen)/xrpOpen*100
-:null;
-
 updatePortfolio();
 updateTargets();
 }
@@ -665,7 +650,10 @@ if(e)e.classList.add("next");
 
 async function getJSON(url){
 try{
-const r=await fetch(url,{cache:"no-store"});
+const r=await fetch(url,{
+cache:"no-store",
+headers:{"Accept":"application/json"}
+});
 if(!r.ok)throw Error(r.status);
 return await r.json();
 }catch(e){
@@ -673,27 +661,148 @@ return null;
 }
 }
 
+/* =========================================================
+   USD / JPY
+   Yahoo Financeを最優先。
+   取得できなければER-API → Frankfurter。
+   正常値を取得できた場合だけusdJpyを書き換える。
+   ========================================================= */
 async function fetchUSDJPY(){
+
+/* ① Yahoo Finance */
+const yahoo=await getJSON(
+"https://query1.finance.yahoo.com/v8/finance/chart/USDJPY=X?interval=1m&range=1d&_="+Date.now()
+);
+
+let v=null;
+
+const result=yahoo?.chart?.result?.[0];
+
+if(result){
+const meta=result.meta||{};
+
+v=Number(
+meta.regularMarketPrice ??
+meta.previousClose
+);
+
+if(!Number.isFinite(v)){
+const closes=result.indicators?.quote?.[0]?.close||[];
+
+for(let i=closes.length-1;i>=0;i--){
+const q=Number(closes[i]);
+if(Number.isFinite(q)){
+v=q;
+break;
+}
+}
+}
+}
+
+if(Number.isFinite(v)&&v>50&&v<250){
+
+usdJpy=v;
+
+setText("usdJpy",v.toFixed(2));
+
+setText(
+"fxUpdated",
+"更新 "+new Date().toLocaleTimeString("ja-JP")
+);
+
+setText(
+"usdSource",
+"● LIVE FX｜Yahoo Finance"
+);
+
+const source=document.getElementById("usdSource");
+if(source){
+source.style.color="var(--green)";
+}
+
+return;
+}
+
+/* ② ER-API fallback */
 const a=await getJSON(
 "https://open.er-api.com/v6/latest/USD?_="+Date.now()
 );
 
-let v=Number(a?.rates?.JPY);
-let src="ER-API";
+v=Number(a?.rates?.JPY);
 
-if(!Number.isFinite(v)){
+if(Number.isFinite(v)&&v>50&&v<250){
+
+usdJpy=v;
+
+setText("usdJpy",v.toFixed(2));
+
+setText(
+"fxUpdated",
+"更新 "+new Date().toLocaleTimeString("ja-JP")
+);
+
+setText(
+"usdSource",
+"● FALLBACK｜ER-API"
+);
+
+const source=document.getElementById("usdSource");
+if(source){
+source.style.color="var(--gold)";
+}
+
+return;
+}
+
+/* ③ Frankfurter fallback */
 const b=await getJSON(
 "https://api.frankfurter.app/latest?from=USD&to=JPY&_="+Date.now()
 );
+
 v=Number(b?.rates?.JPY);
-src="Frankfurter";
-}
 
 if(Number.isFinite(v)&&v>50&&v<250){
+
 usdJpy=v;
+
 setText("usdJpy",v.toFixed(2));
-setText("fxUpdated","更新 "+new Date().toLocaleTimeString("ja-JP"));
-setText("usdSource","LIVE FX｜"+src);
+
+setText(
+"fxUpdated",
+"更新 "+new Date().toLocaleTimeString("ja-JP")
+);
+
+setText(
+"usdSource",
+"● FALLBACK｜Frankfurter"
+);
+
+const source=document.getElementById("usdSource");
+if(source){
+source.style.color="var(--gold)";
+}
+
+return;
+}
+
+/* 全滅した場合は前回値をそのまま保持 */
+if(Number.isFinite(usdJpy)){
+setText("usdJpy",usdJpy.toFixed(2));
+
+setText(
+"fxUpdated",
+"前回値 "+new Date().toLocaleTimeString("ja-JP")
+);
+
+setText(
+"usdSource",
+"● LAST VALUE｜通信待機"
+);
+
+const source=document.getElementById("usdSource");
+if(source){
+source.style.color="var(--gold)";
+}
 }
 }
 
@@ -781,11 +890,13 @@ if(Number.isFinite(h))hbarUsd=h;
 if(Number.isFinite(o))ondoUsd=o;
 
 if(Number.isFinite(usdJpy)){
+
 if(Number.isFinite(hbarUsd))
 hbarPrice=hbarUsd*usdJpy;
 
 if(Number.isFinite(ondoUsd))
 ondoPrice=ondoUsd*usdJpy;
+
 }
 
 if(
@@ -817,6 +928,7 @@ updatePortfolio();
 }
 
 async function fetchBTCUSD(){
+
 const j=await getJSON(
 "https://api.coinbase.com/v2/prices/BTC-USD/spot?_="+Date.now()
 );
@@ -832,6 +944,7 @@ updateMacro();
 }
 
 function updateMacro(){
+
 if(Number.isFinite(btcJpy))
 setText("btcPrice",Y(btcJpy));
 
@@ -849,6 +962,7 @@ setText(
 }
 
 function connectBitbank(){
+
 try{
 
 if(ws)
@@ -859,11 +973,13 @@ ws=new WebSocket(
 );
 
 ws.onopen=()=>{
+
 connection(true);
 
 ws.send("40");
 
 setTimeout(()=>{
+
 if(!ws||ws.readyState!==WebSocket.OPEN)return;
 
 [
@@ -876,9 +992,11 @@ ws.send('42["join-room","'+r+'"]')
 );
 
 },500);
+
 };
 
 ws.onmessage=e=>{
+
 const raw=e.data;
 
 if(typeof raw!=="string")return;
@@ -907,9 +1025,11 @@ const d=b?.message?.data;
 if(!room||!d)return;
 
 if(room==="ticker_xrp_jpy"){
+
 const q=Number(d.last);
 
 if(Number.isFinite(q)){
+
 xrpPrevPrice=xrpPrice;
 xrpPrice=q;
 xrpOpen=Number(d.open);
@@ -919,11 +1039,13 @@ addChartPoint(q);
 updateXRP();
 
 if(!firstXrp)checkAlerts();
+
 firstXrp=false;
 }
 }
 
 if(room==="ticker_btc_jpy"){
+
 const q=Number(d.last);
 
 if(Number.isFinite(q)){
@@ -933,35 +1055,52 @@ updateMacro();
 }
 
 if(room==="transactions_xrp_jpy"){
+
 if(Array.isArray(d.transactions)){
+
 volumeXrp=d.transactions.reduce(
 (s,x)=>s+(Number(x.amount)||0),0
 );
 
-setText("volume",N(volumeXrp,0)+" XRP");
+setText(
+"volume",
+N(volumeXrp,0)+" XRP"
+);
 }
 }
 
 if(room==="depth_whole_xrp_jpy"){
+
 renderBook("asks",d.asks,"ask");
 renderBook("bids",d.bids,"bid");
+
 }
 };
 
 ws.onerror=()=>connection(false);
 
 ws.onclose=()=>{
+
 connection(false);
+
 clearTimeout(reconnectTimer);
-reconnectTimer=setTimeout(connectBitbank,3000);
+
+reconnectTimer=setTimeout(
+connectBitbank,
+3000
+);
+
 };
 
 }catch(e){
+
 connection(false);
+
 }
 }
 
 function renderBook(id,rows,cls){
+
 const e=document.getElementById(id);
 
 if(!e||!Array.isArray(rows))return;
@@ -972,9 +1111,11 @@ e.innerHTML=rows.slice(0,8).map(r=>
 <span>${N(Number(r[1]),0)}</span>
 </div>`
 ).join("");
+
 }
 
 function addChartPoint(price){
+
 if(!Number.isFinite(price))return;
 
 const l=chartData.at(-1);
@@ -993,6 +1134,7 @@ drawChart();
 }
 
 function drawChart(){
+
 const c=document.getElementById("xrpChart");
 
 if(!c)return;
@@ -1024,19 +1166,37 @@ x.strokeStyle="rgba(255,255,255,.055)";
 x.lineWidth=1;
 
 for(let i=1;i<5;i++){
+
 x.beginPath();
-x.moveTo(0,r.height*i/5);
-x.lineTo(r.width,r.height*i/5);
+
+x.moveTo(
+0,
+r.height*i/5
+);
+
+x.lineTo(
+r.width,
+r.height*i/5
+);
+
 x.stroke();
+
 }
 
 x.beginPath();
 
 chartData.forEach((v,i)=>{
-const xx=i/(chartData.length-1)*r.width;
-const yy=r.height-((v.price-min)/range)*(r.height-20)-10;
+
+const xx=
+i/(chartData.length-1)*r.width;
+
+const yy=
+r.height-
+((v.price-min)/range)*
+(r.height-20)-10;
 
 i?x.lineTo(xx,yy):x.moveTo(xx,yy);
+
 });
 
 x.strokeStyle="#00eaff";
@@ -1045,43 +1205,80 @@ x.shadowColor="#00eaff";
 x.shadowBlur=12;
 x.stroke();
 x.shadowBlur=0;
+
 }
 
 function checkAlerts(){
-if(!Number.isFinite(xrpPrevPrice)||!Number.isFinite(xrpPrice))
-return;
+
+if(
+!Number.isFinite(xrpPrevPrice)||
+!Number.isFinite(xrpPrice)
+)return;
 
 XRP_ALERTS.forEach(l=>{
-if(xrpPrevPrice<l&&xrpPrice>=l)
+
+if(
+xrpPrevPrice<l&&
+xrpPrice>=l
+)
 fireAlert(l);
+
 });
+
 }
 
 function fireAlert(level){
-const b=document.getElementById("alertBox"+level);
+
+const b=document.getElementById(
+"alertBox"+level
+);
 
 if(b)b.classList.add("hit");
 
 const msg=
-"XRP "+level+"円到達｜現在 "+N(xrpPrice,2)+"円";
+"XRP "+level+
+"円到達｜現在 "+
+N(xrpPrice,2)+"円";
 
-setText("alertLog","🚨 "+msg);
+setText(
+"alertLog",
+"🚨 "+msg
+);
 
-showToast("🚨 XRP TARGET ALERT",msg);
+showToast(
+"🚨 XRP TARGET ALERT",
+msg
+);
 
 if(
 "Notification"in window&&
 Notification.permission==="granted"
 ){
+
 try{
-new Notification("XRP 司令室",{body:msg});
+
+new Notification(
+"XRP 司令室",
+{body:msg}
+);
+
 }catch(e){}
+
 }
+
 }
 
 function showToast(title,text){
-setText("toastTitle",title);
-setText("toastText",text);
+
+setText(
+"toastTitle",
+title
+);
+
+setText(
+"toastText",
+text
+);
 
 const t=document.getElementById("toast");
 
@@ -1093,27 +1290,40 @@ toastTimer=setTimeout(
 ()=>t.classList.remove("show"),
 6000
 );
+
 }
 
-document.getElementById("notifyButton").onclick=async()=>{
+document.getElementById(
+"notifyButton"
+).onclick=async()=>{
 
 if(!("Notification"in window)){
+
 showToast(
 "通知非対応",
 "このブラウザでは通知を利用できません。"
 );
+
 return;
 }
 
-const p=await Notification.requestPermission();
+const p=
+await Notification.requestPermission();
 
 if(p==="granted"){
-setText("notifyButton","🔔 通知ON");
+
+setText(
+"notifyButton",
+"🔔 通知ON"
+);
+
 showToast(
 "通知ON",
 "225 / 250 / 300円を監視します。"
 );
+
 }
+
 };
 
 async function fetchFearGreed(){
@@ -1126,18 +1336,31 @@ const d=j?.data?.[0];
 
 if(!d)return;
 
-setText("fgScore",d.value||"--");
+setText(
+"fgScore",
+d.value||"--"
+);
+
 setText(
 "fgLabel",
 d.value_classification||"UNKNOWN"
 );
+
 }
 
 async function updateAll(){
 
+/*
+  ドル円を最初に取得。
+  その値を同じ更新サイクル内で
+  HBAR / ONDO / BTC換算へ使用する。
+*/
 await fetchUSDJPY();
+
 await fetchBitbank();
+
 await fetchBTCUSD();
+
 await fetchAltPrices();
 
 updateXRP();
@@ -1148,8 +1371,13 @@ if(
 lastXrpUpdate&&
 Date.now()-lastXrpUpdate>15000
 ){
-try{ws?.close()}catch(e){}
+
+try{
+ws?.close();
+}catch(e){}
+
 }
+
 }
 
 async function init(){
@@ -1160,10 +1388,21 @@ connectBitbank();
 
 fetchFearGreed();
 
-setInterval(fetchFearGreed,60000);
-setInterval(updateAll,5000);
+setInterval(
+fetchFearGreed,
+60000
+);
 
-window.addEventListener("resize",drawChart);
+setInterval(
+updateAll,
+5000
+);
+
+window.addEventListener(
+"resize",
+drawChart
+);
+
 }
 
 init();
