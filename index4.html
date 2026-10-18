@@ -1,268 +1,61 @@
-
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#070d18">
-<title>ORBIT TRADER｜XRP × HBAR</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#070d18"><title>ORBIT TRADER｜XRP × HBAR</title>
 <style>
-:root{color-scheme:dark;--bg:#070d18;--panel:#101d30;--line:#263b55;--muted:#91a7c2;--text:#edf5ff;--blue:#3eb5ff;--purple:#b18aff;--green:#25e0a2;--red:#ff7189;--amber:#ffc86b}
-*{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at 10% 0%,#123052 0,transparent 35%),radial-gradient(ellipse at 90% 5%,#2a1742 0,transparent 28%),var(--bg);color:var(--text);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif}
-main{max-width:1400px;margin:auto;padding:18px}
-.top,.head,.coinhead{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.top{border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:16px}
-.brand{display:flex;align-items:center;gap:12px}
-.logo{width:44px;height:44px;border:2px solid var(--blue);border-radius:50%;display:grid;place-items:center;color:var(--blue);font-size:23px}
-.name{font-size:26px;font-weight:950;letter-spacing:.1em}
-.sub,.muted,.eyebrow,.label{color:var(--muted);font-size:11px}
-.right{text-align:right;color:var(--muted);font-size:11px}
-.pill,.badge{border:1px solid #31516d;border-radius:99px;padding:4px 9px;display:inline-block}
-.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--amber);margin-right:6px}
-.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:13px}
-.panel{background:linear-gradient(145deg,#101d30f2,#0a1422f5);border:1px solid var(--line);border-radius:14px;padding:15px;min-width:0;box-shadow:0 10px 28px #0002}
-.s12{grid-column:span 12}.s7{grid-column:span 7}.s6{grid-column:span 6}.s5{grid-column:span 5}.s4{grid-column:span 4}
-.head{margin-bottom:12px}.h{font-weight:850;font-size:13px;letter-spacing:.04em}
-.bigstats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
-.bigstat,.stat{border:1px solid #243b55;background:#071321;border-radius:10px;padding:11px;min-width:0}
-.biglabel{color:#9bb6d0;font-size:11px}
-.bigval{font-size:clamp(19px,2.4vw,30px);font-weight:950;overflow-wrap:anywhere;margin-top:5px}
-.coinicon{width:36px;height:36px;border:1px solid #396182;border-radius:50%;display:grid;place-items:center;font-size:18px;font-weight:900;color:var(--blue)}
-.hbar .coinicon{color:var(--purple);border-color:#69508c}
-.coinname{font-size:18px;font-weight:900}.qty{font-size:11px;color:var(--muted)}
-.price{font-size:clamp(28px,3vw,38px);font-weight:950;margin:13px 0 2px;overflow-wrap:anywhere}
-.price small{font-size:12px;color:var(--muted)}.change{font-weight:800;font-size:12px}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}
-.label{font-size:10px}.val{font-size:15px;font-weight:850;margin-top:3px;overflow-wrap:anywhere}
-.green{color:var(--green)}.red{color:var(--red)}
-.progress{height:7px;background:#203149;border-radius:99px;overflow:hidden;margin-top:8px}
-.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--purple))}
-.splitbar{height:11px;display:flex;overflow:hidden;border-radius:99px;background:#202e43;margin:12px 0}
-.splitbar div{height:100%}.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--muted)}
-.legend i{display:inline-block;width:8px;height:8px;margin-right:4px;border-radius:2px}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.field label{display:block;color:var(--muted);font-size:11px;margin-bottom:5px}
-input,select{width:100%;min-width:0;background:#07111f;color:var(--text);border:1px solid #344a65;border-radius:8px;padding:10px;font:inherit}
-button{border:1px solid #2c83ba;background:linear-gradient(135deg,#12517b,#12304c);border-radius:8px;color:white;padding:9px 12px;font:inherit;font-weight:800;cursor:pointer}
-button.secondary{background:#111e30;border-color:#344761}
-.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.chartbox{height:210px}.chartbox canvas{width:100%;height:100%;display:block}
-.chartnote{font-size:10px;color:var(--muted);margin-top:6px}
-.list{display:grid;gap:8px}.item{padding:10px;border:1px solid #22344c;border-radius:9px;background:#091423}
-.item a{color:#d7eaff;text-decoration:none;font-weight:750}
-.item p{font-size:11px;color:var(--muted);margin:4px 0 0}
-.warning{font-size:11px;color:#e2c18b;background:#261f15;border:1px solid #55442a;border-radius:9px;padding:9px;margin-top:10px}
-.foot{text-align:center;color:#7186a2;font-size:10px;margin:15px 0}.empty{font-size:12px;color:var(--muted)}
-@media(max-width:900px){.s7,.s5,.s4{grid-column:span 6}.bigstats{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:620px){main{padding:11px}.name{font-size:21px}.sub{font-size:9px}.s7,.s6,.s5,.s4{grid-column:span 12}.panel{padding:12px}.top{align-items:flex-start}.right{font-size:10px}}
-</style>
-</head>
+:root{color-scheme:dark;--bg:#070d18;--panel:#101d30;--line:#263b55;--muted:#91a7c2;--text:#edf5ff;--blue:#3eb5ff;--purple:#b18aff;--green:#25e0a2;--red:#ff7189;--amber:#ffc86b}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 10% 0%,#123052 0,transparent 35%),radial-gradient(ellipse at 90% 5%,#2a1742 0,transparent 28%),var(--bg);color:var(--text);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif}main{max-width:1400px;margin:auto;padding:18px}.top,.head,.coinhead{display:flex;justify-content:space-between;align-items:center;gap:12px}.top{border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:16px}.brand{display:flex;align-items:center;gap:12px}.logo{width:44px;height:44px;border:2px solid var(--blue);border-radius:50%;display:grid;place-items:center;color:var(--blue);font-size:23px}.name{font-size:26px;font-weight:950;letter-spacing:.1em}.sub,.muted,.eyebrow,.label{color:var(--muted);font-size:11px}.right{text-align:right;color:var(--muted);font-size:11px}.pill,.badge{border:1px solid #31516d;border-radius:99px;padding:4px 9px;display:inline-block}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--amber);margin-right:6px}.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:13px}.panel{background:linear-gradient(145deg,#101d30f2,#0a1422f5);border:1px solid var(--line);border-radius:14px;padding:15px;min-width:0;box-shadow:0 10px 28px #0002}.s12{grid-column:span 12}.s7{grid-column:span 7}.s6{grid-column:span 6}.s5{grid-column:span 5}.s4{grid-column:span 4}.head{margin-bottom:12px}.h{font-weight:850;font-size:13px;letter-spacing:.04em}.bigstats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.bigstat,.stat{border:1px solid #243b55;background:#071321;border-radius:10px;padding:11px;min-width:0}.biglabel{color:#9bb6d0;font-size:11px}.bigval{font-size:clamp(19px,2.4vw,30px);font-weight:950;overflow-wrap:anywhere;margin-top:5px}.coinicon{width:36px;height:36px;border:1px solid #396182;border-radius:50%;display:grid;place-items:center;font-size:18px;font-weight:900;color:var(--blue)}.hbar .coinicon{color:var(--purple);border-color:#69508c}.coinname{font-size:18px;font-weight:900}.qty{font-size:11px;color:var(--muted)}.price{font-size:clamp(28px,3vw,38px);font-weight:950;margin:13px 0 2px;overflow-wrap:anywhere}.price small{font-size:12px;color:var(--muted)}.change{font-weight:800;font-size:12px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.label{font-size:10px}.val{font-size:15px;font-weight:850;margin-top:3px;overflow-wrap:anywhere}.green{color:var(--green)}.red{color:var(--red)}.progress{height:7px;background:#203149;border-radius:99px;overflow:hidden;margin-top:8px}.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--purple))}.splitbar{height:11px;display:flex;overflow:hidden;border-radius:99px;background:#202e43;margin:12px 0}.splitbar div{height:100%}.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--muted)}.legend i{display:inline-block;width:8px;height:8px;margin-right:4px;border-radius:2px}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field label{display:block;color:var(--muted);font-size:11px;margin-bottom:5px}input,select{width:100%;min-width:0;background:#07111f;color:var(--text);border:1px solid #344a65;border-radius:8px;padding:10px;font:inherit}button{border:1px solid #2c83ba;background:linear-gradient(135deg,#12517b,#12304c);border-radius:8px;color:white;padding:9px 12px;font:inherit;font-weight:800;cursor:pointer}button.secondary{background:#111e30;border-color:#344761}.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.chartbox{height:210px}.chartbox canvas{width:100%;height:100%;display:block}.chartnote{font-size:10px;color:var(--muted);margin-top:6px}.list{display:grid;gap:8px}.item{padding:10px;border:1px solid #22344c;border-radius:9px;background:#091423}.item a{color:#d7eaff;text-decoration:none;font-weight:750}.item p{font-size:11px;color:var(--muted);margin:4px 0 0}.warning{font-size:11px;color:#e2c18b;background:#261f15;border:1px solid #55442a;border-radius:9px;padding:9px;margin-top:10px}.foot{text-align:center;color:#7186a2;font-size:10px;margin:15px 0}.empty{font-size:12px;color:var(--muted)}@media(max-width:900px){.s7,.s5,.s4{grid-column:span 6}.bigstats{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:620px){main{padding:11px}.name{font-size:21px}.sub{font-size:9px}.s7,.s6,.s5,.s4{grid-column:span 12}.panel{padding:12px}.top{align-items:flex-start}.right{font-size:10px}}
+</style></head>
 <body><main>
-<header class="top">
-  <div class="brand"><div class="logo">◉</div><div><div class="name">ORBIT <span style="color:var(--blue)">TRADER</span></div><div class="sub">DIGITAL ASSET COMMAND CENTER / XRP × HBAR</div></div></div>
-  <div class="right"><div class="pill"><span class="dot" id="statusDot"></span><span id="status">初期化中</span></div><div id="clock" style="margin-top:7px">—</div></div>
-</header>
+<header class="top"><div class="brand"><div class="logo">◉</div><div><div class="name">ORBIT <span style="color:var(--blue)">TRADER</span></div><div class="sub">DIGITAL ASSET COMMAND CENTER / XRP × HBAR</div></div></div><div class="right"><div class="pill"><span class="dot" id="statusDot"></span><span id="status">初期化中</span></div><div id="clock" style="margin-top:7px">—</div></div></header>
 <div class="grid">
-<section class="panel s12">
-  <div class="head"><div><div class="h">PORTFOLIO OVERVIEW / 総資産</div><div class="eyebrow">保有数量・取得単価は固定設定</div></div><button id="refreshBtn">↻ 今すぐ更新</button></div>
-  <div class="bigstats">
-    <div class="bigstat"><div class="biglabel">総資産評価額</div><div class="bigval" id="totalValue">価格取得待ち</div><div class="eyebrow">JPY</div></div>
-    <div class="bigstat"><div class="biglabel">含み損益</div><div class="bigval" id="totalPnl">価格取得待ち</div><div class="eyebrow" id="totalPnlPct">取得原価比</div></div>
-    <div class="bigstat"><div class="biglabel">取得原価</div><div class="bigval" id="totalCost">—</div><div class="eyebrow">XRP + HBAR</div></div>
-    <div class="bigstat"><div class="biglabel">目標 ¥10,000,000 まで</div><div class="bigval" id="goalRemain">価格取得待ち</div><div class="progress"><span id="goalProgress"></span></div><div class="eyebrow" id="goalPct">—</div></div>
-  </div>
-</section>
-<section class="panel s6">
-  <div class="coinhead"><div class="coinicon">X</div><div><div class="coinname">XRP / JPY</div><div class="qty">7,500 XRP · 平均取得 ¥183.000</div></div><span class="badge" style="margin-left:auto">XRP</span></div>
-  <div class="price" id="xrpPrice">取得待ち <small>JPY</small></div><div class="change" id="xrpChange">24H変動：取得待ち</div>
-  <div class="stats"><div class="stat"><div class="label">評価額</div><div class="val" id="xrpValue">価格取得待ち</div></div><div class="stat"><div class="label">含み損益</div><div class="val" id="xrpPnl">価格取得待ち</div></div><div class="stat"><div class="label">損益分岐価格</div><div class="val">¥183.000</div></div><div class="stat"><div class="label">損益率</div><div class="val" id="xrpPnlPct">—</div></div></div>
-</section>
-<section class="panel s6 hbar">
-  <div class="coinhead"><div class="coinicon">H</div><div><div class="coinname">HBAR / JPY</div><div class="qty">29,583.8939 HBAR · 平均取得 ¥14.000</div></div><span class="badge" style="margin-left:auto">HBAR</span></div>
-  <div class="price" id="hbarPrice">取得待ち <small>JPY</small></div><div class="change" id="hbarChange">24H変動：取得待ち</div>
-  <div class="stats"><div class="stat"><div class="label">評価額</div><div class="val" id="hbarValue">価格取得待ち</div></div><div class="stat"><div class="label">含み損益</div><div class="val" id="hbarPnl">価格取得待ち</div></div><div class="stat"><div class="label">損益分岐価格</div><div class="val">¥14.000</div></div><div class="stat"><div class="label">損益率</div><div class="val" id="hbarPnlPct">—</div></div></div>
-</section>
-<section class="panel s7">
-  <div class="head"><div><div class="h">PRICE TRACKER / 価格チャート</div><div class="eyebrow">表示中に蓄積した価格履歴</div></div><select id="chartAsset" style="width:auto"><option value="xrp">XRP</option><option value="hbar">HBAR</option><option value="both">両方（指数）</option></select></div>
-  <div class="chartbox"><canvas id="priceChart"></canvas></div><div class="chartnote" id="chartNote">価格データ待ち。通信できない場合はプレビューの外部通信制限が考えられます。</div>
-</section>
-<section class="panel s5">
-  <div class="head"><div><div class="h">ASSET ALLOCATION / 資産配分</div><div class="eyebrow">評価額ベース</div></div></div>
-  <div class="bigval" id="allocationTotal">価格取得待ち</div><div class="splitbar"><div id="xrpBar" style="width:50%;background:var(--blue)"></div><div id="hbarBar" style="width:50%;background:var(--purple)"></div></div>
-  <div class="legend"><span><i style="background:var(--blue)"></i>XRP <b id="xrpShare">—</b></span><span><i style="background:var(--purple)"></i>HBAR <b id="hbarShare">—</b></span></div>
-  <div class="stats"><div class="stat"><div class="label">XRP評価額</div><div class="val" id="allocXrpValue">—</div><div class="label" id="allocXrpPnl">損益 —</div></div><div class="stat"><div class="label">HBAR評価額</div><div class="val" id="allocHbarValue">—</div><div class="label" id="allocHbarPnl">損益 —</div></div></div>
-</section>
-<section class="panel s6">
-  <div class="head"><div><div class="h">TARGET SIMULATOR / 目標シミュレーター</div><div class="eyebrow">価格入力で想定評価額・損益を即時計算</div></div></div>
-  <div class="two"><div class="field"><label for="simXrp">XRP想定価格（円）</label><input id="simXrp" type="number" min="0" step="0.001" value="300"></div><div class="field"><label for="simHbar">HBAR想定価格（円）</label><input id="simHbar" type="number" min="0" step="0.001" value="50"></div></div>
-  <div class="stats"><div class="stat"><div class="label">想定総資産</div><div class="val" id="simTotal">—</div></div><div class="stat"><div class="label">想定損益</div><div class="val" id="simPnl">—</div></div><div class="stat"><div class="label">目標達成率</div><div class="val" id="simGoalPct">—</div></div><div class="stat"><div class="label">目標まで</div><div class="val" id="simRemain">—</div></div></div>
-  <div class="btnrow"><button class="secondary preset" data-x="100" data-h="20">控えめ</button><button class="secondary preset" data-x="300" data-h="50">中間</button><button class="secondary preset" data-x="500" data-h="100">強気</button><button class="secondary" id="useCurrent">現在価格を入力</button></div>
-  <div class="warning">仮定価格による試算であり、将来価格や利益を保証しません。</div>
-</section>
-<section class="panel s6">
-  <div class="head"><div><div class="h">PRICE ALERTS / 価格アラート</div><div class="eyebrow">この画面を開いている間に監視します</div></div></div>
-  <div class="two"><div class="field"><label for="alertAsset">対象</label><select id="alertAsset"><option value="xrp">XRP</option><option value="hbar">HBAR</option></select></div><div class="field"><label for="alertDirection">条件</label><select id="alertDirection"><option value="above">指定価格以上</option><option value="below">指定価格以下</option></select></div><div class="field" style="grid-column:1/-1"><label for="alertPrice">目標価格（円）</label><input id="alertPrice" type="number" min="0" step="0.001" placeholder="例：300.000"></div></div>
-  <div class="btnrow"><button id="addAlert">＋ アラート追加</button><button class="secondary" id="notifyPermission">通知を許可</button></div><div class="list" id="alertList" style="margin-top:12px"><div class="empty">アラートはまだありません。</div></div>
-</section>
-<section class="panel s12">
-  <div class="head"><div><div class="h">NEWS & KEY EVENTS / ニュース・重要情報</div><div class="eyebrow">公式情報源へのリンク。最新記事や日程はリンク先で確認してください。</div></div></div>
-  <div class="grid">
-    <div class="panel s4"><div class="h">XRP / Ripple</div><div class="list" style="margin-top:8px"><div class="item"><a href="https://ripple.com/insights/" target="_blank" rel="noopener">Ripple Insights ↗</a><p>Ripple公式の発表・業界情報</p></div><div class="item"><a href="https://xrpl.org/blog" target="_blank" rel="noopener">XRPL公式ブログ ↗</a><p>XRPL技術・開発情報</p></div></div></div>
-    <div class="panel s4"><div class="h">HBAR / Hedera</div><div class="list" style="margin-top:8px"><div class="item"><a href="https://hedera.com/blog" target="_blank" rel="noopener">Hedera公式ブログ ↗</a><p>ネットワーク・提携情報</p></div><div class="item"><a href="https://status.hedera.com/" target="_blank" rel="noopener">Hedera Status ↗</a><p>稼働状況・障害情報</p></div></div></div>
-    <div class="panel s4"><div class="h">Market / Calendar</div><div class="list" style="margin-top:8px"><div class="item"><a href="https://www.coindesk.com/" target="_blank" rel="noopener">CoinDesk ↗</a><p>暗号資産市場ニュース</p></div><div class="item"><a href="https://www.federalreserve.gov/newsevents/calendar.htm" target="_blank" rel="noopener">FRB公式カレンダー ↗</a><p>米金融政策関連の予定</p></div></div></div>
-  </div><div class="warning">ニュース欄は自動取得ではなく、確認用の公式・報道リンク集です。</div>
-</section>
-</div>
-<div class="foot">ORBIT TRADER · 約10秒ごとに価格更新 · 価格は小数点以下3桁 · 投資判断はご自身でご確認ください</div>
+<section class="panel s12"><div class="head"><div><div class="h">PORTFOLIO OVERVIEW / 総資産</div><div class="eyebrow">保有数量・取得単価は固定設定</div></div><button id="refreshBtn">↻ 今すぐ更新</button></div><div class="bigstats"><div class="bigstat"><div class="biglabel">総資産評価額</div><div class="bigval" id="totalValue">価格取得待ち</div><div class="eyebrow">JPY</div></div><div class="bigstat"><div class="biglabel">含み損益</div><div class="bigval" id="totalPnl">価格取得待ち</div><div class="eyebrow" id="totalPnlPct">取得原価比</div></div><div class="bigstat"><div class="biglabel">取得原価</div><div class="bigval" id="totalCost">—</div><div class="eyebrow">XRP + HBAR</div></div><div class="bigstat"><div class="biglabel">目標 ¥10,000,000 まで</div><div class="bigval" id="goalRemain">価格取得待ち</div><div class="progress"><span id="goalProgress"></span></div><div class="eyebrow" id="goalPct">—</div></div></div></section>
+<section class="panel s6"><div class="coinhead"><div class="coinicon">X</div><div><div class="coinname">XRP / JPY</div><div class="qty">7,500 XRP · 平均取得 ¥183.000</div></div><span class="badge" style="margin-left:auto">XRP</span></div><div class="price" id="xrpPrice">取得待ち <small>JPY</small></div><div class="change" id="xrpChange">24H変動：取得待ち</div><div class="stats"><div class="stat"><div class="label">評価額</div><div class="val" id="xrpValue">価格取得待ち</div></div><div class="stat"><div class="label">含み損益</div><div class="val" id="xrpPnl">価格取得待ち</div></div><div class="stat"><div class="label">損益分岐価格</div><div class="val">¥183.000</div></div><div class="stat"><div class="label">損益率</div><div class="val" id="xrpPnlPct">—</div></div></div></section>
+
+<section class="panel s6 hbar"><div class="coinhead"><div class="coinicon">H</div><div><div class="coinname">HBAR / JPY</div><div class="qty">29,583.8939 HBAR · 平均取得 ¥14.000</div></div><span class="badge" style="margin-left:auto">HBAR</span></div><div class="price" id="hbarPrice">取得待ち <small>JPY</small></div><div class="change" id="hbarChange">24H変動：取得待ち</div><div class="stats"><div class="stat"><div class="label">評価額</div><div class="val" id="hbarValue">価格取得待ち</div></div><div class="stat"><div class="label">含み損益</div><div class="val" id="hbarPnl">価格取得待ち</div></div><div class="stat"><div class="label">損益分岐価格</div><div class="val">¥14.000</div></div><div class="stat"><div class="label">損益率</div><div class="val" id="hbarPnlPct">—</div></div></div></section>
+<section class="panel s7"><div class="head"><div><div class="h">PRICE TRACKER / 価格チャート</div><div class="eyebrow">表示中に蓄積した価格履歴</div></div><select id="chartAsset" style="width:auto"><option value="xrp">XRP</option><option value="hbar">HBAR</option><option value="both">両方（指数）</option></select></div><div class="chartbox"><canvas id="priceChart"></canvas></div><div class="chartnote" id="chartNote">価格データ待ち。通信できない場合はプレビューの外部通信制限が考えられます。</div></section>
+<section class="panel s5"><div class="head"><div><div class="h">ASSET ALLOCATION / 資産配分</div><div class="eyebrow">評価額ベース</div></div></div><div class="bigval" id="allocationTotal">価格取得待ち</div><div class="splitbar"><div id="xrpBar" style="width:50%;background:var(--blue)"></div><div id="hbarBar" style="width:50%;background:var(--purple)"></div></div><div class="legend"><span><i style="background:var(--blue)"></i>XRP <b id="xrpShare">—</b></span><span><i style="background:var(--purple)"></i>HBAR <b id="hbarShare">—</b></span></div><div class="stats"><div class="stat"><div class="label">XRP評価額</div><div class="val" id="allocXrpValue">—</div><div class="label" id="allocXrpPnl">損益 —</div></div><div class="stat"><div class="label">HBAR評価額</div><div class="val" id="allocHbarValue">—</div><div class="label" id="allocHbarPnl">損益 —</div></div></div></section>
+<section class="panel s6"><div class="head"><div><div class="h">TARGET SIMULATOR / 目標シミュレーター</div><div class="eyebrow">価格入力で想定評価額・損益を即時計算</div></div></div><div class="two"><div class="field"><label for="simXrp">XRP想定価格（円）</label><input id="simXrp" type="number" min="0" step="0.001" value="300"></div><div class="field"><label for="simHbar">HBAR想定価格（円）</label><input id="simHbar" type="number" min="0" step="0.001" value="50"></div></div><div class="stats"><div class="stat"><div class="label">想定総資産</div><div class="val" id="simTotal">—</div></div><div class="stat"><div class="label">想定損益</div><div class="val" id="simPnl">—</div></div><div class="stat"><div class="label">目標達成率</div><div class="val" id="simGoalPct">—</div></div><div class="stat"><div class="label">目標まで</div><div class="val" id="simRemain">—</div></div></div><div class="btnrow"><button class="secondary preset" data-x="100" data-h="20">控えめ</button><button class="secondary preset" data-x="300" data-h="50">中間</button><button class="secondary preset" data-x="500" data-h="100">強気</button><button class="secondary" id="useCurrent">現在価格を入力</button></div><div class="warning">仮定価格による試算であり、将来価格や利益を保証しません。</div></section>
+<section class="panel s6"><div class="head"><div><div class="h">TRADE SIMULATOR / 利確・買い増し試算</div><div class="eyebrow">売買後の保有数量・平均取得単価・実現損益を概算</div></div></div><div class="two"><div class="field"><label for="tradeAsset">対象通貨</label><select id="tradeAsset"><option value="xrp">XRP</option><option value="hbar">HBAR</option></select></div><div class="field"><label for="tradeSide">取引</label><select id="tradeSide"><option value="buy">買い増し</option><option value="sell">一部利確</option></select></div><div class="field"><label for="tradeQty">数量</label><input id="tradeQty" type="number" min="0" step="0.001" value="100"></div><div class="field"><label for="tradePrice">想定約定価格（円）</label><input id="tradePrice" type="number" min="0" step="0.001" value="100"></div></div><div class="stats"><div class="stat"><div class="label">取引金額</div><div class="val" id="tradeAmount">—</div></div><div class="stat"><div class="label">取引後の保有数量</div><div class="val" id="tradeAfterQty">—</div></div><div class="stat"><div class="label">取引後の平均取得単価</div><div class="val" id="tradeAfterAvg">—</div></div><div class="stat"><div class="label">この売却の実現損益</div><div class="val" id="tradeRealized">—</div></div></div><div class="warning">手数料・税金を含まない概算です。売却時の実現損益は平均取得単価方式で計算します。</div></section>
+<section class="panel s6"><div class="head"><div><div class="h">TECHNICALS / テクニカル指標</div><div class="eyebrow">この画面で蓄積した10秒間隔の価格データから算出</div></div><select id="techAsset" style="width:auto"><option value="xrp">XRP</option><option value="hbar">HBAR</option></select></div><div class="stats"><div class="stat"><div class="label">RSI（14本）</div><div class="val" id="rsiValue">データ不足</div></div><div class="stat"><div class="label">SMA（20本）</div><div class="val" id="sma20Value">データ不足</div></div><div class="stat"><div class="label">SMA（50本）</div><div class="val" id="sma50Value">データ不足</div></div><div class="stat"><div class="label">価格とSMA20</div><div class="val" id="smaSignal">データ不足</div></div></div><div class="chartnote" id="techNote">最低50本の価格データが必要です。指標は参考情報で、売買推奨ではありません。</div></section>
+<section class="panel s12"><div class="head"><div><div class="h">PORTFOLIO HISTORY / 資産推移</div><div class="eyebrow">評価額スナップショットを端末内に保存（対応時）</div></div><button class="secondary" id="clearHistory">履歴を消去</button></div><div class="chartbox"><canvas id="historyChart"></canvas></div><div class="chartnote" id="historyNote">履歴を蓄積中…</div></section>
+<section class="panel s12"><div class="head"><div><div class="h">API MONITOR / 接続診断</div><div class="eyebrow">APIごとの成功・失敗理由と最終更新を表示</div></div><span class="badge" id="apiSummary">診断待ち</span></div><div class="stats"><div class="stat"><div class="label">XRP価格ソース</div><div class="val" id="apiXrp">未接続</div></div><div class="stat"><div class="label">HBAR価格ソース</div><div class="val" id="apiHbar">未接続</div></div><div class="stat"><div class="label">為替ソース</div><div class="val" id="apiFx">必要時に取得</div></div><div class="stat"><div class="label">最終成功更新</div><div class="val" id="apiLastSuccess">—</div></div></div><div class="warning" id="apiDetails">接続診断を実行しています。</div><div class="chartnote">ChatGPT内プレビューでは外部通信（fetch/CORS）が制限されることがあります。その場合はHTMLファイルを保存してSafariなどで直接開いてください。API障害・通信制限・タイムアウトを区別して表示します。</div></section>
+<section class="panel s6"><div class="head"><div><div class="h">PRICE ALERTS / 価格アラート</div><div class="eyebrow">この画面を開いている間に監視します</div></div></div><div class="two"><div class="field"><label for="alertAsset">対象</label><select id="alertAsset"><option value="xrp">XRP</option><option value="hbar">HBAR</option></select></div><div class="field"><label for="alertDirection">条件</label><select id="alertDirection"><option value="above">指定価格以上</option><option value="below">指定価格以下</option></select></div><div class="field" style="grid-column:1/-1"><label for="alertPrice">目標価格（円）</label><input id="alertPrice" type="number" min="0" step="0.001" placeholder="例：300.000"></div></div><div class="btnrow"><button id="addAlert">＋ アラート追加</button><button class="secondary" id="notifyPermission">通知を許可</button></div><div class="list" id="alertList" style="margin-top:12px"><div class="empty">アラートはまだありません。</div></div></section>
+</div><div class="foot">ORBIT TRADER · 約10秒ごとに価格更新 · 価格は小数点以下3桁 · 投資判断はご自身でご確認ください</div>
 </main>
 <script>
 'use strict';
-const $=id=>document.getElementById(id),QX=7500,QH=29583.8939,AX=183,AH=14.65,COST=QX*AX+QH*AH,GOAL=10000000,MAX_POINTS=240;
-let xrp=null,hbar=null,xrp24=null,hbar24=null,busy=false;
-const history={xrp:[],hbar:[]},alerts=[];
+
+const $=id=>document.getElementById(id),QX=7500,QH=29583.8939,AX=183,AH=14,COST=QX*AX+QH*AH,GOAL=10000000,MAX_POINTS=240,STORAGE_KEY='orbit-trader-history-v2';
+let xrp=null,hbar=null,xrp24=null,hbar24=null,busy=false,lastSuccess=null;const history={xrp:[],hbar:[]},portfolioHistory=[];
 const money=n=>Number.isFinite(n)?'¥'+Math.round(n).toLocaleString('ja-JP'):'—';
 const fmtPrice=n=>Number.isFinite(n)?n.toLocaleString('ja-JP',{minimumFractionDigits:3,maximumFractionDigits:3}):'—';
+const fmtQty=n=>Number.isFinite(n)?n.toLocaleString('ja-JP',{maximumFractionDigits:4}):'—';
 const pct=n=>Number.isFinite(n)?(n>0?'+':'')+n.toFixed(2)+'%':'—';
-function setMetric(id,value,positive=null){
- const e=$(id);e.textContent=value;e.classList.remove('green','red');
- if(positive!==null)e.classList.add(positive?'green':'red');
-}
-function render(){
- const xv=xrp===null?null:xrp*QX,hv=hbar===null?null:hbar*QH;
- const total=xv!==null&&hv!==null?xv+hv:null;
- const xp=xv===null?null:xv-QX*AX,hp=hv===null?null:hv-QH*AH,p=total===null?null:total-COST;
- $('xrpValue').textContent=money(xv);$('hbarValue').textContent=money(hv);
- setMetric('xrpPnl',xp===null?'価格取得待ち':(xp>=0?'+':'−')+money(Math.abs(xp)),xp===null?null:xp>=0);
- setMetric('hbarPnl',hp===null?'価格取得待ち':(hp>=0?'+':'−')+money(Math.abs(hp)),hp===null?null:hp>=0);
- setMetric('xrpPnlPct',xp===null?'—':pct(xp/(QX*AX)*100),xp===null?null:xp>=0);
- setMetric('hbarPnlPct',hp===null?'—':pct(hp/(QH*AH)*100),hp===null?null:hp>=0);
- $('totalValue').textContent=money(total);$('totalCost').textContent=money(COST);
- setMetric('totalPnl',p===null?'価格取得待ち':(p>=0?'+':'−')+money(Math.abs(p)),p===null?null:p>=0);
- $('totalPnlPct').textContent=p===null?'価格取得後に計算':pct(p/COST*100)+' 対取得原価';
- $('goalRemain').textContent=total===null?'価格取得待ち':money(Math.max(0,GOAL-total));
- const g=total===null?0:Math.min(100,total/GOAL*100);
- $('goalProgress').style.width=g+'%';$('goalPct').textContent=total===null?'現在の達成率 —':g.toFixed(2)+'% 達成';
- $('allocationTotal').textContent=money(total);
- const xs=total>0&&xv!==null?xv/total*100:null,hs=total>0&&hv!==null?hv/total*100:null;
- $('xrpBar').style.width=(xs??50)+'%';$('hbarBar').style.width=(hs??50)+'%';
- $('xrpShare').textContent=xs===null?'—':xs.toFixed(2)+'%';$('hbarShare').textContent=hs===null?'—':hs.toFixed(2)+'%';
- $('allocXrpValue').textContent=money(xv);$('allocHbarValue').textContent=money(hv);
- $('allocXrpPnl').textContent=xp===null?'損益 —':'損益 '+(xp>=0?'+':'−')+money(Math.abs(xp));
- $('allocHbarPnl').textContent=hp===null?'損益 —':'損益 '+(hp>=0?'+':'−')+money(Math.abs(hp));
- simRender();drawChart();checkAlerts();
-}
-async function getJSON(url){
- const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),7000);
- try{const r=await fetch(url,{cache:'no-store',signal:controller.signal});if(!r.ok)throw Error('HTTP '+r.status);return await r.json()}
- finally{clearTimeout(timer)}
-}
-async function refresh(){
- if(busy)return;busy=true;$('status').textContent='価格更新中…';$('statusDot').style.background='var(--amber)';
- let ok=0,errors=[];const now=Date.now();
- // まずXRP・HBARの円価格を1回のAPI呼び出しで取得
- try{
-  const j=await getJSON('https://api.coingecko.com/api/v3/simple/price?ids=ripple%2Chedera-hashgraph&vs_currencies=jpy&include_24hr_change=true');
-  const xp=Number(j?.ripple?.jpy),hp=Number(j?.['hedera-hashgraph']?.jpy);
-  const xc=Number(j?.ripple?.jpy_24h_change),hc=Number(j?.['hedera-hashgraph']?.jpy_24h_change);
-  if(xp>0){xrp=xp;xrp24=Number.isFinite(xc)?xc:null;ok++}
-  if(hp>0){hbar=hp;hbar24=Number.isFinite(hc)?hc:null;ok++}
-  if(!(xp>0))errors.push('XRP価格データなし');
-  if(!(hp>0))errors.push('HBAR価格データなし');
- }catch(e){errors.push('CoinGecko API/CORS')}
- // まとめて取得できなかった銘柄だけ代替APIで取得
- if(xrp===null){
-  try{
-   const j=await getJSON('https://public.bitbank.cc/xrp_jpy/ticker'),d=j?.data,p=Number(d?.last),o=Number(d?.open);
-   if(!(p>0))throw Error('bad');xrp=p;xrp24=o>0?(p/o-1)*100:null;ok++;
-  }catch(e){errors.push('XRP代替API失敗')}
- }
- if(hbar===null){
-  try{
-   const [t,fx]=await Promise.all([getJSON('https://api.binance.com/api/v3/ticker/24hr?symbol=HBARUSDT'),getFx()]);
-   const usdt=Number(t?.lastPrice),ch=Number(t?.priceChangePercent);
-   if(!(usdt>0&&fx>0))throw Error('bad');hbar=usdt*fx;hbar24=Number.isFinite(ch)?ch:null;ok++;
-  }catch(e){errors.push('HBAR代替API/為替失敗')}
- }
- if(xrp!==null){
-  $('xrpPrice').innerHTML=fmtPrice(xrp)+' <small>JPY</small>';
-  setMetric('xrpChange','24H変動：'+pct(xrp24),xrp24===null?null:xrp24>=0);
-  history.xrp.push({t:now,p:xrp});if(history.xrp.length>MAX_POINTS)history.xrp.shift();
- }else $('xrpPrice').innerHTML='取得失敗 <small>通信制限の可能性</small>';
- if(hbar!==null){
-  $('hbarPrice').innerHTML=fmtPrice(hbar)+' <small>JPY</small>';
-  setMetric('hbarChange','24H変動：'+pct(hbar24),hbar24===null?null:hbar24>=0);
-  history.hbar.push({t:now,p:hbar});if(history.hbar.length>MAX_POINTS)history.hbar.shift();
- }else $('hbarPrice').innerHTML='取得失敗 <small>通信制限の可能性</small>';
- render();$('clock').textContent=new Date().toLocaleString('ja-JP');
- $('status').textContent=ok>=2?'LIVE · 価格接続中':ok===1?'PARTIAL · 一部取得':'API接続失敗';
- $('statusDot').style.background=ok>=2?'var(--green)':ok===1?'var(--amber)':'var(--red)';
- $('chartNote').textContent='最終確認 '+new Date().toLocaleTimeString('ja-JP')+' · 履歴 '+Math.max(history.xrp.length,history.hbar.length)+' 点';
- if(errors.length)$('chartNote').textContent+=' · '+[...new Set(errors)].join(' / ')+'。ChatGPT内プレビューで外部通信が遮断される場合はSafari等で開いてください。';
- busy=false;
-}
-async function getFx(){
- try{const j=await getJSON('https://api.bitbank.cc/v1/ticker/usdt_jpy'),n=Number(j?.data?.last);if(n>0)return n}catch(e){}
- const j=await getJSON('https://open.er-api.com/v6/latest/USD'),n=Number(j?.rates?.JPY);
- if(n>0)return n;throw Error('FX unavailable');
-}
-function simRender(){
- const sx=Number($('simXrp').value),sh=Number($('simHbar').value);
- if(!Number.isFinite(sx)||!Number.isFinite(sh)||sx<0||sh<0)return;
- const total=sx*QX+sh*QH,p=total-COST,g=total/GOAL*100;
- $('simTotal').textContent=money(total);setMetric('simPnl',(p>=0?'+':'−')+money(Math.abs(p)),p>=0);
- $('simGoalPct').textContent=g.toFixed(2)+'%';$('simRemain').textContent=total>=GOAL?'目標達成！':money(GOAL-total);
-}
-function drawChart(){
- const c=$('priceChart'),ctx=c.getContext('2d'),r=c.getBoundingClientRect(),dpr=window.devicePixelRatio||1;
- if(!r.width||!r.height)return;c.width=Math.floor(r.width*dpr);c.height=Math.floor(r.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
- const w=r.width,h=r.height;ctx.clearRect(0,0,w,h);const mode=$('chartAsset').value;let sets=[];
- if(mode==='xrp'&&history.xrp.length)sets=[{a:history.xrp,color:'#3eb5ff',label:'XRP'}];
- if(mode==='hbar'&&history.hbar.length)sets=[{a:history.hbar,color:'#b18aff',label:'HBAR'}];
- if(mode==='both'){
-  if(history.xrp.length)sets.push({a:history.xrp.map(o=>({p:o.p/history.xrp[0].p*100})),color:'#3eb5ff',label:'XRP index'});
-  if(history.hbar.length)sets.push({a:history.hbar.map(o=>({p:o.p/history.hbar[0].p*100})),color:'#b18aff',label:'HBAR index'});
- }
- if(!sets.length){ctx.fillStyle='#91a7c2';ctx.font='12px sans-serif';ctx.fillText('価格履歴を蓄積中…',12,h/2);return}
- const all=sets.flatMap(s=>s.a.map(o=>o.p)),mn=Math.min(...all),mx=Math.max(...all),pad=(mx-mn||Math.max(mx*.01,1))*.15,lo=mn-pad,hi=mx+pad;
- ctx.strokeStyle='#1e3047';
- for(let i=0;i<5;i++){const y=12+(h-30)*i/4;ctx.beginPath();ctx.moveTo(36,y);ctx.lineTo(w-8,y);ctx.stroke();ctx.fillStyle='#7e94b0';ctx.font='10px sans-serif';ctx.fillText((hi-(hi-lo)*i/4).toLocaleString('ja-JP',{maximumFractionDigits:3}),2,y+3)}
- for(const s of sets){ctx.strokeStyle=s.color;ctx.lineWidth=2;ctx.beginPath();s.a.forEach((o,i)=>{const x=36+(w-45)*(i/Math.max(s.a.length-1,1)),y=12+(h-30)*(1-(o.p-lo)/(hi-lo));if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});ctx.stroke()}
- ctx.fillStyle='#a5b8cf';ctx.font='10px sans-serif';ctx.fillText(sets.map(s=>s.label).join(' / '),40,h-4);
-}
-function checkAlerts(){
- for(const a of alerts){if(a.done)continue;const p=a.asset==='xrp'?xrp:hbar;if(p===null)continue;
-  if(a.dir==='above'?p>=a.price:p<=a.price){a.done=true;renderAlerts();const msg=`${a.asset.toUpperCase()} が ¥${fmtPrice(a.price)} に到達（現在 ¥${fmtPrice(p)}）`;
-   if('Notification'in window&&Notification.permission==='granted')new Notification('ORBIT価格アラート',{body:msg});else alert(msg);
-  }
- }
-}
-function renderAlerts(){
- $('alertList').innerHTML='';
- if(!alerts.length){$('alertList').innerHTML='<div class="empty">アラートはまだありません。</div>';return}
- alerts.forEach((a,i)=>{
-  const row=document.createElement('div');row.className='item';
-  const txt=document.createElement('span');txt.textContent=`${a.asset.toUpperCase()} ${a.dir==='above'?'≥':'≤'} ¥${fmtPrice(a.price)}${a.done?' · 到達済み':''} `;
-  const b=document.createElement('button');b.className='secondary';b.textContent='削除';b.onclick=()=>{alerts.splice(i,1);renderAlerts()};
-  row.append(txt,b);$('alertList').append(row);
- });
-}
-$('refreshBtn').addEventListener('click',refresh);
-$('chartAsset').addEventListener('change',drawChart);
-$('simXrp').addEventListener('input',simRender);$('simHbar').addEventListener('input',simRender);
-document.querySelectorAll('.preset').forEach(b=>b.addEventListener('click',()=>{$('simXrp').value=b.dataset.x;$('simHbar').value=b.dataset.h;simRender()}));
-$('useCurrent').addEventListener('click',()=>{if(xrp!==null)$('simXrp').value=xrp.toFixed(3);if(hbar!==null)$('simHbar').value=hbar.toFixed(3);simRender()});
-$('addAlert').addEventListener('click',()=>{
- const asset=$('alertAsset').value,dir=$('alertDirection').value,price=Number($('alertPrice').value);
- if(!(price>0)){alert('目標価格を入力してください。');return}
- alerts.push({asset,dir,price,done:false});renderAlerts();$('alertPrice').value='';
-});
-$('notifyPermission').addEventListener('click',async()=>{
- if(!('Notification'in window)){alert('このブラウザは通知に対応していません。');return}
- const p=await Notification.requestPermission();alert(p==='granted'?'通知が許可されました。':'通知は許可されませんでした。');
-});
-window.addEventListener('resize',drawChart);
-$('totalCost').textContent=money(COST);render();simRender();refresh();setInterval(refresh,10000);
-</script>
-</body>
-</html>
+function setMetric(id,value,positive=null){const e=$(id);if(!e)return;e.textContent=value;e.classList.remove('green','red');if(positive!==null)e.classList.add(positive?'green':'red')}
+function describeError(e){if(e?.name==='AbortError')return 'タイムアウト（7秒）';const m=String(e?.message||e||'不明なエラー');if(/Failed to fetch|NetworkError|Load failed|CORS|fetch/i.test(m))return '通信失敗/CORS制限';return m.slice(0,100)}
+function savePortfolioHistory(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(portfolioHistory.slice(-1000)));$('historyNote').textContent=`保存済み ${portfolioHistory.length} 点 · このブラウザのローカル保存を使用`}catch(e){$('historyNote').textContent=`履歴 ${portfolioHistory.length} 点（保存不可：プレビュー/ブラウザの保存制限）`}}
+function loadPortfolioHistory(){try{const a=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');if(Array.isArray(a))portfolioHistory.push(...a.filter(o=>Number.isFinite(o.t)&&Number.isFinite(o.total)).slice(-1000))}catch(e){$('historyNote').textContent='端末内履歴を読み込めません（保存機能が制限されています）。表示中の履歴は記録を試みます。'}}
+function recordPortfolio(now){if(xrp===null||hbar===null)return;portfolioHistory.push({t:now,total:xrp*QX+hbar*QH,xrp:xrp*QX,hbar:hbar*QH});if(portfolioHistory.length>1000)portfolioHistory.shift();savePortfolioHistory();drawHistoryChart()}
+function render(){const xv=xrp===null?null:xrp*QX,hv=hbar===null?null:hbar*QH,total=xv!==null&&hv!==null?xv+hv:null,xp=xv===null?null:xv-QX*AX,hp=hv===null?null:hv-QH*AH,p=total===null?null:total-COST;
+$('xrpValue').textContent=money(xv);$('hbarValue').textContent=money(hv);setMetric('xrpPnl',xp===null?'価格取得待ち':(xp>=0?'+':'−')+money(Math.abs(xp)),xp===null?null:xp>=0);setMetric('hbarPnl',hp===null?'価格取得待ち':(hp>=0?'+':'−')+money(Math.abs(hp)),hp===null?null:hp>=0);setMetric('xrpPnlPct',xp===null?'—':pct(xp/(QX*AX)*100),xp===null?null:xp>=0);setMetric('hbarPnlPct',hp===null?'—':pct(hp/(QH*AH)*100),hp===null?null:hp>=0);
+$('totalValue').textContent=money(total);$('totalCost').textContent=money(COST);setMetric('totalPnl',p===null?'価格取得待ち':(p>=0?'+':'−')+money(Math.abs(p)),p===null?null:p>=0);$('totalPnlPct').textContent=p===null?'価格取得後に計算':pct(p/COST*100)+' 対取得原価';$('goalRemain').textContent=total===null?'価格取得待ち':money(Math.max(0,GOAL-total));const g=total===null?0:Math.min(100,total/GOAL*100);$('goalProgress').style.width=g+'%';$('goalPct').textContent=total===null?'現在の達成率 —':g.toFixed(2)+'% 達成';
+$('allocationTotal').textContent=money(total);const xs=total>0&&xv!==null?xv/total*100:null,hs=total>0&&hv!==null?hv/total*100:null;$('xrpBar').style.width=(xs??50)+'%';$('hbarBar').style.width=(hs??50)+'%';$('xrpShare').textContent=xs===null?'—':xs.toFixed(2)+'%';$('hbarShare').textContent=hs===null?'—':hs.toFixed(2)+'%';$('allocXrpValue').textContent=money(xv);$('allocHbarValue').textContent=money(hv);$('allocXrpPnl').textContent=xp===null?'損益 —':'損益 '+(xp>=0?'+':'−')+money(Math.abs(xp));$('allocHbarPnl').textContent=hp===null?'損益 —':'損益 '+(hp>=0?'+':'−')+money(Math.abs(hp));simRender();tradeRender();drawChart();drawHistoryChart();renderTechnicals();checkAlerts()}
+async function getJSON(url){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),7000);try{const r=await fetch(url,{cache:'no-store',signal:controller.signal});if(!r.ok)throw Error('HTTP '+r.status);return await r.json()}finally{clearTimeout(timer)}}
+async function refresh(){if(busy)return;busy=true;$('status').textContent='価格更新中…';$('statusDot').style.background='var(--amber)';$('apiSummary').textContent='接続確認中';let ok=0,errors=[],sources={xrp:[],hbar:[],fx:[]};const now=Date.now();
+try{const j=await getJSON('https://api.coingecko.com/api/v3/simple/price?ids=ripple%2Chedera-hashgraph&vs_currencies=jpy&include_24hr_change=true');const xp=Number(j?.ripple?.jpy),hp=Number(j?.['hedera-hashgraph']?.jpy),xc=Number(j?.ripple?.jpy_24h_change),hc=Number(j?.['hedera-hashgraph']?.jpy_24h_change);if(xp>0){xrp=xp;xrp24=Number.isFinite(xc)?xc:null;ok++;sources.xrp.push('CoinGecko')}if(hp>0){hbar=hp;hbar24=Number.isFinite(hc)?hc:null;ok++;sources.hbar.push('CoinGecko')}if(!(xp>0))errors.push('CoinGecko XRP: 有効な価格なし');if(!(hp>0))errors.push('CoinGecko HBAR: 有効な価格なし')}catch(e){errors.push('CoinGecko: '+describeError(e))}
+if(!sources.xrp.length){try{const j=await getJSON('https://public.bitbank.cc/xrp_jpy/ticker'),d=j?.data,p=Number(d?.last),o=Number(d?.open);if(!(p>0))throw Error('価格データなし');xrp=p;xrp24=o>0?(p/o-1)*100:null;ok++;sources.xrp.push('bitbank')}catch(e){errors.push('XRP bitbank: '+describeError(e));try{const [t,fx]=await Promise.all([getJSON('https://api.binance.com/api/v3/ticker/24hr?symbol=XRPUSDT'),getFx()]);const usdt=Number(t?.lastPrice),ch=Number(t?.priceChangePercent);if(!(usdt>0&&fx.rate>0))throw Error('価格/為替データなし');xrp=usdt*fx.rate;xrp24=Number.isFinite(ch)?ch:null;ok++;sources.xrp.push('Binance');sources.fx.push(fx.source)}catch(e2){errors.push('XRP Binance/為替: '+describeError(e2))}}}
+if(!sources.hbar.length){try{const [t,fx]=await Promise.all([getJSON('https://api.binance.com/api/v3/ticker/24hr?symbol=HBARUSDT'),getFx()]);const usdt=Number(t?.lastPrice),ch=Number(t?.priceChangePercent);if(!(usdt>0&&fx.rate>0))throw Error('価格/為替データなし');hbar=usdt*fx.rate;hbar24=Number.isFinite(ch)?ch:null;ok++;sources.hbar.push('Binance');sources.fx.push(fx.source)}catch(e){errors.push('HBAR Binance/為替: '+describeError(e))}}
+if(xrp!==null){$('xrpPrice').innerHTML=fmtPrice(xrp)+' <small>JPY'+(sources.xrp.length?'':' · 前回値')+'</small>';setMetric('xrpChange','24H変動：'+pct(xrp24),xrp24===null?null:xrp24>=0);history.xrp.push({t:now,p:xrp});if(history.xrp.length>MAX_POINTS)history.xrp.shift()}else $('xrpPrice').innerHTML='取得失敗 <small>通信制限の可能性</small>';
+if(hbar!==null){$('hbarPrice').innerHTML=fmtPrice(hbar)+' <small>JPY'+(sources.hbar.length?'':' · 前回値')+'</small>';setMetric('hbarChange','24H変動：'+pct(hbar24),hbar24===null?null:hbar24>=0);history.hbar.push({t:now,p:hbar});if(history.hbar.length>MAX_POINTS)history.hbar.shift()}else $('hbarPrice').innerHTML='取得失敗 <small>通信制限の可能性</small>';
+$('apiXrp').textContent=sources.xrp.length?sources.xrp.join(' → '):(xrp===null?'取得失敗':'前回取得値を保持（今回更新なし）');$('apiHbar').textContent=sources.hbar.length?sources.hbar.join(' → '):(hbar===null?'取得失敗':'前回取得値を保持（今回更新なし）');$('apiFx').textContent=sources.fx.length?[...new Set(sources.fx)].join(' / '):'Binance代替時のみ必要';if(ok>0)lastSuccess=new Date(now);$('apiLastSuccess').textContent=lastSuccess?lastSuccess.toLocaleTimeString('ja-JP'):'成功実績なし';$('apiSummary').textContent=ok>=2?'正常':ok===1?'一部接続':'接続失敗';$('apiSummary').style.color=ok>=2?'var(--green)':ok===1?'var(--amber)':'var(--red)';$('apiDetails').textContent=errors.length?'診断 '+new Date(now).toLocaleTimeString('ja-JP')+'：'+errors.join(' ｜ ')+'。ChatGPT内プレビューでは外部通信が遮断される場合があります。':`診断 ${new Date(now).toLocaleTimeString('ja-JP')}：価格取得成功。XRP=${sources.xrp.join('/')||'前回値'}、HBAR=${sources.hbar.join('/')||'前回値'}。`;if(sources.xrp.length&&sources.hbar.length)recordPortfolio(now);busy=false}
+async function getFx(){let errors=[];try{const j=await getJSON('https://api.bitbank.cc/v1/ticker/usdt_jpy'),n=Number(j?.data?.last);if(n>0)return {rate:n,source:'bitbank USDT/JPY'}}catch(e){errors.push(describeError(e))}try{const j=await getJSON('https://open.er-api.com/v6/latest/USD'),n=Number(j?.rates?.JPY);if(n>0)return {rate:n,source:'open.er-api USD/JPY'}}catch(e){errors.push(describeError(e))}throw Error('為替取得失敗: '+errors.join(', '))}
+function simRender(){const sx=Number($('simXrp').value),sh=Number($('simHbar').value);if(!Number.isFinite(sx)||!Number.isFinite(sh)||sx<0||sh<0)return;const total=sx*QX+sh*QH,p=total-COST,g=total/GOAL*100;$('simTotal').textContent=money(total);setMetric('simPnl',(p>=0?'+':'−')+money(Math.abs(p)),p>=0);$('simGoalPct').textContent=g.toFixed(2)+'%';$('simRemain').textContent=total>=GOAL?'目標達成！':money(GOAL-total)}
+function tradeRender(){const asset=$('tradeAsset').value,side=$('tradeSide').value,qty=Math.max(0,Number($('tradeQty').value)||0),price=Math.max(0,Number($('tradePrice').value)||0),held=asset==='xrp'?QX:QH,avg=asset==='xrp'?AX:AH,amount=qty*price;let after=held,afterAvg=avg,realized=0;if(side==='buy'){after=held+qty;afterAvg=after>0?(held*avg+amount)/after:avg}else{after=Math.max(0,held-qty);realized=(Math.min(qty,held))*(price-avg);if(qty>held)$('tradeAfterQty').textContent='数量超過';} $('tradeAmount').textContent=money(amount);$('tradeAfterQty').textContent=fmtQty(after)+(side==='sell'&&qty>held?'（保有数量超過）':'');$('tradeAfterAvg').textContent='¥'+fmtPrice(afterAvg);setMetric('tradeRealized',side==='buy'?'—（売却時に確定）':(realized>=0?'+':'−')+money(Math.abs(realized)),side==='buy'?null:realized>=0)}
+function drawChart(){const c=$('priceChart'),ctx=c.getContext('2d'),r=c.getBoundingClientRect(),dpr=window.devicePixelRatio||1;if(!r.width||!r.height)return;c.width=Math.floor(r.width*dpr);c.height=Math.floor(r.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);const w=r.width,h=r.height;ctx.clearRect(0,0,w,h);const mode=$('chartAsset').value;let sets=[];if(mode==='xrp'&&history.xrp.length)sets=[{a:history.xrp,color:'#3eb5ff',label:'XRP'}];if(mode==='hbar'&&history.hbar.length)sets=[{a:history.hbar,color:'#b18aff',label:'HBAR'}];if(mode==='both'){if(history.xrp.length)sets.push({a:history.xrp.map(o=>({p:o.p/history.xrp[0].p*100})),color:'#3eb5ff',label:'XRP index'});if(history.hbar.length)sets.push({a:history.hbar.map(o=>({p:o.p/history.hbar[0].p*100})),color:'#b18aff',label:'HBAR index'})}if(!sets.length){ctx.fillStyle='#91a7c2';ctx.font='12px sans-serif';ctx.fillText('価格履歴を蓄積中…',12,h/2);return}const all=sets.flatMap(s=>s.a.map(o=>o.p)),mn=Math.min(...all),mx=Math.max(...all),pad=(mx-mn||Math.max(mx*.01,1))*.15,lo=mn-pad,hi=mx+pad;ctx.strokeStyle='#1e3047';for(let i=0;i<5;i++){const y=12+(h-30)*i/4;ctx.beginPath();ctx.moveTo(36,y);ctx.lineTo(w-8,y);ctx.stroke();ctx.fillStyle='#7e94b0';ctx.font='10px sans-serif';ctx.fillText((hi-(hi-lo)*i/4).toLocaleString('ja-JP',{maximumFractionDigits:3}),2,y+3)}for(const s of sets){ctx.strokeStyle=s.color;ctx.lineWidth=2;ctx.beginPath();s.a.forEach((o,i)=>{const x=36+(w-45)*(i/Math.max(s.a.length-1,1)),y=12+(h-30)*(1-(o.p-lo)/(hi-lo));if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});ctx.stroke()}ctx.fillStyle='#a5b8cf';ctx.font='10px sans-serif';ctx.fillText(sets.map(s=>s.label).join(' / '),40,h-4)}
+function renderTechnicals(){const asset=$('techAsset').value,a=history[asset].map(o=>o.p),last=a[a.length-1];if(a.length<15){$('rsiValue').textContent='データ不足';$('sma20Value').textContent=a.length+' / 20本';$('sma50Value').textContent=a.length+' / 50本';$('smaSignal').textContent='データ不足';$('techNote').textContent=`${asset.toUpperCase()}：価格データ ${a.length} 本。RSI14は15本以上、SMA50は50本以上で算出。再読み込み後の価格指標履歴はセッション内のデータに依存します。`;return}let gains=0,losses=0;for(let i=a.length-14;i<a.length;i++){const d=a[i]-a[i-1];if(d>0)gains+=d;else losses-=d}const rs=losses===0?(gains===0?0:Infinity):(gains/14)/(losses/14),rsi=losses===0?(gains===0?50:100):100-100/(1+rs);$('rsiValue').textContent=rsi.toFixed(1)+(rsi>=70?'（高水準）':rsi<=30?'（低水準）':'');$('sma20Value').textContent=a.length>=20?'¥'+fmtPrice(a.slice(-20).reduce((s,n)=>s+n,0)/20):`${a.length} / 20本`;$('sma50Value').textContent=a.length>=50?'¥'+fmtPrice(a.slice(-50).reduce((s,n)=>s+n,0)/50):`${a.length} / 50本`;$('smaSignal').textContent=a.length>=20?(last>=a.slice(-20).reduce((s,n)=>s+n,0)/20?'価格がSMA20以上':'価格がSMA20未満'):'データ不足';$('techNote').textContent=`${asset.toUpperCase()}：${a.length}本の画面内価格から計算。10秒ごとのサンプルであり、取引所のローソク足ベースの一般的なRSI/SMAとは異なる参考値です。`}
+function drawHistoryChart(){const c=$('historyChart');if(!c)return;const ctx=c.getContext('2d'),r=c.getBoundingClientRect(),dpr=window.devicePixelRatio||1;if(!r.width||!r.height)return;c.width=Math.floor(r.width*dpr);c.height=Math.floor(r.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);const w=r.width,h=r.height;ctx.clearRect(0,0,w,h);const a=portfolioHistory.filter(o=>Number.isFinite(o.total));if(a.length<2){ctx.fillStyle='#91a7c2';ctx.font='12px sans-serif';ctx.fillText(a.length?'履歴2点目を待っています…':'資産推移を記録中…',12,h/2);$('historyNote').textContent=`記録 ${a.length} 点 · 両通貨の価格取得成功時に保存します`;return}const vals=a.map(o=>o.total),mn=Math.min(...vals),mx=Math.max(...vals),pad=(mx-mn||mx*.01||1)*.15,lo=mn-pad,hi=mx+pad;ctx.strokeStyle='#1e3047';for(let i=0;i<5;i++){const y=12+(h-30)*i/4;ctx.beginPath();ctx.moveTo(50,y);ctx.lineTo(w-8,y);ctx.stroke();ctx.fillStyle='#7e94b0';ctx.font='10px sans-serif';ctx.fillText(money(hi-(hi-lo)*i/4),2,y+3)}ctx.strokeStyle='#25e0a2';ctx.lineWidth=2;ctx.beginPath();a.forEach((o,i)=>{const x=50+(w-60)*i/Math.max(a.length-1,1),y=12+(h-30)*(1-(o.total-lo)/(hi-lo));if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});ctx.stroke();$('historyNote').textContent=`資産履歴 ${a.length} 点 · 最終記録 ${new Date(a[a.length-1].t).toLocaleString('ja-JP')} · ${localStorageAvailable()?'端末内保存を使用':'保存機能に制限あり'}`}
+function localStorageAvailable(){try{localStorage.setItem('__orbit_test','1');localStorage.removeItem('__orbit_test');return true}catch(e){return false}}
+function checkAlerts(){for(const a of alerts){if(a.done)continue;const p=a.asset==='xrp'?xrp:hbar;if(p===null)continue;if(a.dir==='above'?p>=a.price:p<=a.price){a.done=true;renderAlerts();const msg=`${a.asset.toUpperCase()} が ¥${fmtPrice(a.price)} に到達（現在 ¥${fmtPrice(p)}）`;if('Notification'in window&&Notification.permission==='granted')new Notification('ORBIT価格アラート',{body:msg});else alert(msg)}}}
+const alerts=[];function renderAlerts(){$('alertList').innerHTML='';if(!alerts.length){$('alertList').innerHTML='<div class="empty">アラートはまだありません。</div>';return}alerts.forEach((a,i)=>{const row=document.createElement('div');row.className='item';const txt=document.createElement('span');txt.textContent=`${a.asset.toUpperCase()} ${a.dir==='above'?'≥':'≤'} ¥${fmtPrice(a.price)}${a.done?' · 到達済み':''} `;const b=document.createElement('button');b.className='secondary';b.textContent='削除';b.onclick=()=>{alerts.splice(i,1);renderAlerts()};row.append(txt,b);$('alertList').append(row)})}
+$('refreshBtn').addEventListener('click',refresh);$('chartAsset').addEventListener('change',drawChart);$('techAsset').addEventListener('change',renderTechnicals);$('simXrp').addEventListener('input',simRender);$('simHbar').addEventListener('input',simRender);['tradeAsset','tradeSide','tradeQty','tradePrice'].forEach(id=>$(id).addEventListener('input',tradeRender));document.querySelectorAll('.preset').forEach(b=>b.addEventListener('click',()=>{$('simXrp').value=b.dataset.x;$('simHbar').value=b.dataset.h;simRender()}));$('useCurrent').addEventListener('click',()=>{if(xrp!==null)$('simXrp').value=xrp.toFixed(3);if(hbar!==null)$('simHbar').value=hbar.toFixed(3);simRender()});$('addAlert').addEventListener('click',()=>{const asset=$('alertAsset').value,dir=$('alertDirection').value,price=Number($('alertPrice').value);if(!(price>0)){alert('目標価格を入力してください。');return}alerts.push({asset,dir,price,done:false});renderAlerts();$('alertPrice').value=''});$('notifyPermission').addEventListener('click',async()=>{if(!('Notification'in window)){alert('このブラウザは通知に対応していません。');return}const p=await Notification.requestPermission();alert(p==='granted'?'通知が許可されました。':'通知は許可されませんでした。')});$('clearHistory').addEventListener('click',()=>{if(!confirm('保存済みの資産推移履歴をすべて消去しますか？'))return;portfolioHistory.length=0;try{localStorage.removeItem(STORAGE_KEY)}catch(e){}drawHistoryChart();$('historyNote').textContent='履歴を消去しました。次回の価格取得から再記録します。'});window.addEventListener('resize',()=>{drawChart();drawHistoryChart()});loadPortfolioHistory();$('totalCost').textContent=money(COST);render();simRender();tradeRender();refresh();setInterval(refresh,10000);
+</script></body></html>
