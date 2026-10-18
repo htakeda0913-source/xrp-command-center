@@ -1,245 +1,442 @@
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>XRP 司令室｜ORBIT</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07101f">
+<title>ORBIT｜XRP + HBAR</title>
 <style>
-:root {
-  color-scheme: dark;
-  --bg: #080d18;
-  --panel: #111a2b;
-  --line: #26354c;
-  --text: #edf3ff;
-  --muted: #91a2bd;
-  --cyan: #56d9ed;
-  --green: #66e0ae;
-  --red: #ff7c89;
+:root{
+  color-scheme:dark;
+  --bg:#07101f;--panel:#0c192b;--line:#1d3554;
+  --muted:#91a9ca;--text:#f4f8ff;
+  --blue:#36a8ff;--purple:#a66cff;
+  --green:#19e6a0;--red:#ff7189;
 }
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  padding: 18px;
-  background: var(--bg);
-  color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:radial-gradient(ellipse at 15% 0%,#102746 0,transparent 38%),
+  radial-gradient(ellipse at 90% 10%,#21153d 0,transparent 34%),var(--bg);
+  color:var(--text);
+  font:15px/1.5 -apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif;
+  min-height:100vh;
 }
-main { max-width: 900px; margin: auto; }
-header { margin-bottom: 22px; }
-.eyebrow {
-  color: var(--cyan);
-  letter-spacing: .18em;
-  font-size: 11px;
-  font-weight: 800;
+main{max-width:1050px;margin:auto;padding:25px 20px 28px}
+.header{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:18px;padding:4px 0 23px;border-bottom:1px solid #203651;
+  margin-bottom:24px;
 }
-h1 { font-size: 28px; margin: 8px 0; }
-.subtitle { color: var(--muted); font-size: 12px; }
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+.brand{display:flex;align-items:center;gap:14px}
+.logo{
+  width:49px;height:49px;border:2px solid var(--blue);
+  border-radius:50%;display:grid;place-items:center;
+  color:var(--blue);font-size:25px;box-shadow:0 0 22px #168bff26;
 }
-.card {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 15px;
-  padding: 17px;
-  min-width: 0;
+.brandname{font-size:25px;font-weight:900;letter-spacing:.12em}
+.tagline{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.status{text-align:right;color:var(--muted);font-size:12px}
+.dot{
+  display:inline-block;width:8px;height:8px;border-radius:50%;
+  background:var(--green);margin-right:7px;box-shadow:0 0 10px #19e6a0;
 }
-.wide { grid-column: 1 / -1; }
-.label {
-  color: var(--muted);
-  font-size: 11px;
-  letter-spacing: .08em;
+.holdings{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.coin{
+  position:relative;overflow:hidden;border:1px solid var(--line);
+  border-radius:20px;padding:23px;
+  background:linear-gradient(145deg,#0d1c30f2,#0a1424f5);
+  box-shadow:0 18px 45px #0002;min-width:0;
 }
-.value {
-  font-size: clamp(21px, 5vw, 32px);
-  font-weight: 800;
-  margin-top: 9px;
-  overflow-wrap: anywhere;
+.coin.xrp{border-color:#176ca2}
+.coin.hbar{border-color:#6542a2}
+.coin:after{
+  content:"";position:absolute;width:190px;height:190px;
+  right:-75px;top:-95px;border-radius:50%;
+  filter:blur(30px);opacity:.12;pointer-events:none;
 }
-.small { color: var(--muted); font-size: 12px; margin-top: 8px; }
-.cyan { color: var(--cyan); }
-.green { color: var(--green); }
-.red { color: var(--red); }
-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-th, td {
-  text-align: right;
-  padding: 11px 5px;
-  border-bottom: 1px solid var(--line);
-  font-size: 12px;
+.coin.xrp:after{background:var(--blue)}
+.coin.hbar:after{background:var(--purple)}
+.coinhead{display:flex;align-items:center;gap:13px}
+.coinmark{
+  width:53px;height:53px;border:1px solid #456383;
+  border-radius:50%;display:grid;place-items:center;
+  font-size:25px;font-weight:500;flex-shrink:0;
 }
-th:first-child, td:first-child { text-align: left; }
-th { color: var(--muted); font-weight: 600; }
-input {
-  width: 100%;
-  padding: 11px;
-  margin-top: 7px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #080f1d;
-  color: var(--text);
-  font-size: 16px;
+.xrp .coinmark{color:var(--blue)}
+.hbar .coinmark{color:#d4c3ff;border-color:#6d5b91}
+.coinname{font-size:23px;font-weight:850;letter-spacing:.04em}
+.qty{color:#c4d4e9;font-size:13px}
+.source{
+  margin-left:auto;align-self:flex-start;border:1px solid #2a4968;
+  border-radius:99px;padding:5px 9px;color:#c7d8ee;
+  font-size:11px;white-space:nowrap;
 }
-button {
-  padding: 11px 15px;
-  margin-top: 10px;
-  border: 0;
-  border-radius: 8px;
-  background: var(--cyan);
-  color: #06121c;
-  font-weight: 800;
+.hbar .source{border-color:#5c4389}
+.pricearea{
+  display:flex;align-items:end;justify-content:space-between;
+  gap:12px;margin:25px 0 22px;
 }
-footer {
-  color: var(--muted);
-  font-size: 10px;
-  text-align: center;
-  padding: 22px 0 8px;
+.price{
+  font-size:clamp(29px,4.4vw,44px);font-weight:900;
+  letter-spacing:-.045em;line-height:1.1;overflow-wrap:anywhere;
 }
-@media (max-width: 480px) {
-  body { padding: 12px; }
-  .grid { gap: 9px; }
-  .card { padding: 13px; }
-  h1 { font-size: 24px; }
+.xrp .price{color:#eaf6ff}
+.hbar .price{color:#f5efff}
+.price small{font-size:16px;letter-spacing:0;color:var(--muted);font-weight:600}
+.mini{width:37%;height:48px;flex-shrink:0;opacity:.9}
+.mini svg{width:100%;height:100%;overflow:visible}
+.metric{
+  background:#071323aa;border:1px solid #1b304b;border-radius:13px;
+  padding:15px 16px;display:flex;justify-content:space-between;
+  align-items:center;gap:12px;
+}
+.metriclabel{font-size:12px;color:var(--muted)}
+.metricvalue{
+  font-size:clamp(20px,3vw,29px);font-weight:850;
+  letter-spacing:-.025em;margin-top:3px;overflow-wrap:anywhere;
+}
+.metricqty{
+  text-align:right;border-left:1px solid #203650;
+  padding-left:14px;flex-shrink:0;
+}
+.metricqty .metricvalue{font-size:17px;letter-spacing:0}
+.total{
+  margin-top:19px;border:1px solid #168f9c;border-radius:20px;
+  background:linear-gradient(115deg,#082b3a,#0b1b2e 58%,#10273a);
+  padding:24px 27px;display:grid;grid-template-columns:1fr 1fr;
+  gap:22px;align-items:center;box-shadow:0 14px 42px #0002;
+}
+.totalcol+.totalcol{border-left:1px solid #28546b;padding-left:26px}
+.sectionlabel{font-size:13px;color:#a8c2de}
+.totalvalue{
+  font-size:clamp(35px,6vw,54px);font-weight:900;
+  letter-spacing:-.045em;margin-top:7px;overflow-wrap:anywhere;
+}
+.gain{color:var(--green)}
+.loss{color:var(--red)}
+.pvalue{
+  font-size:clamp(25px,4.5vw,40px);font-weight:900;
+  letter-spacing:-.035em;margin-top:7px;overflow-wrap:anywhere;
+}
+.percent{font-size:14px;margin-top:2px;color:#b8d6e8}
+.tools{
+  margin-top:17px;border:1px solid #1a2d47;border-radius:16px;
+  padding:16px 18px;background:#091526bb;
+  display:flex;align-items:center;gap:15px;flex-wrap:wrap;
+}
+.toolcopy{flex:1;min-width:190px}
+.tooltitle{font-weight:750}
+.help{font-size:12px;color:var(--muted);margin-top:3px}
+button{
+  border:1px solid #287dc0;background:linear-gradient(135deg,#124a77,#123357);
+  border-radius:10px;color:white;padding:11px 16px;
+  font:inherit;font-weight:700;cursor:pointer;
+}
+button:active{transform:scale(.98)}
+.updated{font-size:11px;color:#7890b1;text-align:center;margin-top:16px}
+.footer{font-size:11px;color:#91a9ca;text-align:center;margin-top:8px}
+@media(max-width:680px){
+  main{padding:18px 13px 23px}
+  .header{margin-bottom:17px;padding-bottom:17px}
+  .logo{width:41px;height:41px}
+  .brandname{font-size:21px}
+  .tagline{max-width:220px}
+  .holdings{grid-template-columns:1fr;gap:13px}
+  .coin{padding:18px}
+  .pricearea{margin:20px 0 17px}
+  .total{padding:20px 17px;gap:14px}
+  .totalcol+.totalcol{padding-left:15px}
+  .metric{padding:13px}
+  .tools{align-items:stretch}
+  button{width:100%}
+}
+@media(max-width:390px){
+  .source{font-size:10px;padding:4px 6px}
+  .coinname{font-size:21px}
+  .coinmark{width:45px;height:45px}
+  .metricqty .metricvalue{font-size:14px}
+  .total{grid-template-columns:1fr}
+  .totalcol+.totalcol{
+    border-left:0;border-top:1px solid #28546b;padding:14px 0 0;
+  }
+  .totalvalue{font-size:42px}
 }
 </style>
 </head>
 <body>
 <main>
-<header>
-  <div class="eyebrow">XRP ONLY · ORBIT SYSTEM</div>
-  <h1>XRP 司令室</h1>
-  <div class="subtitle">保有枚数 9,520 XRP｜マーケット・シミュレーション</div>
+<header class="header">
+  <div class="brand">
+    <div class="logo">◉</div>
+    <div>
+      <div class="brandname">ORBIT</div>
+      <div class="tagline">XRP + HBAR ｜ 保有資産ダッシュボード</div>
+    </div>
+  </div>
+  <div class="status">
+    <div><span class="dot"></span><span id="status">価格を確認中</span></div>
+    <div id="clock" style="margin-top:5px">—</div>
+  </div>
 </header>
 
-<section class="grid">
-  <div class="card">
-    <div class="label">XRP 現在価格（JPY）</div>
-    <div class="value cyan" id="price">取得中…</div>
-    <div class="small" id="updated">bitbank 公開価格データ</div>
-  </div>
+<section class="holdings">
+  <article class="coin xrp">
+    <div class="coinhead">
+      <div class="coinmark">X</div>
+      <div>
+        <div class="coinname">XRP</div>
+        <div class="qty">保有数量　7,500 枚</div>
+      </div>
+      <div class="source">bitbank</div>
+    </div>
+    <div class="pricearea">
+      <div>
+        <div class="metriclabel">現在価格</div>
+        <div class="price" id="xrpPrice">— <small>円</small></div>
+      </div>
+      <div class="mini">
+        <svg viewBox="0 0 150 48" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="gx" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#36a8ff" stop-opacity=".35"/>
+              <stop offset="1" stop-color="#36a8ff" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path d="M0 40 L12 34 L20 37 L32 23 L42 28 L53 17 L64 22 L75 11 L87 19 L99 8 L111 16 L123 5 L135 10 L150 1 L150 48 L0 48Z" fill="url(#gx)"/>
+          <path d="M0 40 L12 34 L20 37 L32 23 L42 28 L53 17 L64 22 L75 11 L87 19 L99 8 L111 16 L123 5 L135 10 L150 1" fill="none" stroke="#36a8ff" stroke-width="2"/>
+        </svg>
+      </div>
+    </div>
+    <div class="metric">
+      <div>
+        <div class="metriclabel">現在の評価額</div>
+        <div class="metricvalue" id="xrpValue">— 円</div>
+      </div>
+      <div class="metricqty">
+        <div class="metriclabel">保有数量</div>
+        <div class="metricvalue">7,500 枚</div>
+      </div>
+    </div>
+  </article>
 
-  <div class="card">
-    <div class="label">XRP HOLDING</div>
-    <div class="value">9,520 <span class="cyan">XRP</span></div>
-    <div class="small">シミュレーション枚数</div>
-  </div>
+  <article class="coin hbar">
+    <div class="coinhead">
+      <div class="coinmark">H</div>
+      <div>
+        <div class="coinname">HBAR</div>
+        <div class="qty">保有数量　29,583.8939 枚</div>
+      </div>
+      <div class="source">Binance市場</div>
+    </div>
+    <div class="pricearea">
+      <div>
+        <div class="metriclabel">現在価格</div>
+        <div class="price" id="hbarPrice">— <small>円</small></div>
+      </div>
+      <div class="mini">
+        <svg viewBox="0 0 150 48" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="gh" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#a66cff" stop-opacity=".35"/>
+              <stop offset="1" stop-color="#a66cff" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path d="M0 42 L12 35 L23 38 L34 27 L45 30 L56 18 L66 23 L78 14 L88 18 L100 9 L110 15 L121 6 L133 11 L143 3 L150 1 L150 48 L0 48Z" fill="url(#gh)"/>
+          <path d="M0 42 L12 35 L23 38 L34 27 L45 30 L56 18 L66 23 L78 14 L88 18 L100 9 L110 15 L121 6 L133 11 L143 3 L150 1" fill="none" stroke="#a66cff" stroke-width="2"/>
+        </svg>
+      </div>
+    </div>
+    <div class="metric">
+      <div>
+        <div class="metriclabel">現在の評価額</div>
+        <div class="metricvalue" id="hbarValue">— 円</div>
+      </div>
+      <div class="metricqty">
+        <div class="metriclabel">保有数量</div>
+        <div class="metricvalue">29,583.8939 枚</div>
+      </div>
+    </div>
+  </article>
+</section>
 
-  <div class="card">
-    <div class="label">保有評価額</div>
-    <div class="value" id="valuation">—</div>
-    <div class="small">現在価格 × 9,520 XRP</div>
+<section class="total">
+  <div class="totalcol">
+    <div class="sectionlabel">合計評価額</div>
+    <div class="totalvalue" id="totalValue">— 円</div>
   </div>
-
-  <div class="card">
-    <div class="label">平均取得価格（参考）</div>
-    <div class="value">¥188.86</div>
-    <div class="small">元コードの設定値</div>
-  </div>
-
-  <div class="card wide">
-    <div class="label">価格別シミュレーション</div>
-    <table>
-      <thead>
-        <tr>
-          <th>XRP価格</th>
-          <th>評価額</th>
-          <th>188.86円比</th>
-        </tr>
-      </thead>
-      <tbody id="scenarios"></tbody>
-    </table>
-  </div>
-
-  <div class="card wide">
-    <div class="label">目標価格シミュレーター</div>
-    <label class="small" for="target">目標価格（円）</label>
-    <input id="target" type="number" value="300" min="0" step="1">
-    <button id="calculate">計算する</button>
-    <div class="value cyan" id="targetValue">¥2,850,000</div>
-    <div class="small" id="targetProfit">目標価格 × 9,520 XRP</div>
+  <div class="totalcol">
+    <div class="sectionlabel">含み損益（合計）</div>
+    <div class="pvalue" id="profit">計算中</div>
+    <div class="percent" id="profitPercent">取得単価は設定済み</div>
   </div>
 </section>
 
-<footer>
-  ORBIT XRP DASHBOARD · 保有枚数設定 9,520 XRP<br>
-  表示価格・評価額は参考値です。売買判断はご自身で確認してください。
-</footer>
+<section class="tools">
+  <div class="toolcopy">
+    <div class="tooltitle">取得単価（自動設定）</div>
+    <div class="help">XRP：183円 × 7,500枚 ／ HBAR：14.65円 × 29,583.8939枚</div>
+    <div class="help" id="costText">合計取得原価：計算中</div>
+  </div>
+  <button id="refresh">価格を更新 ↻</button>
+</section>
+
+<div class="updated" id="updated">価格取得待ち</div>
+<div class="footer">
+  XRP：bitbank公開価格 ／ HBAR：Binance HBARUSDT × 為替レート
+  ・約10秒ごとに自動更新
+</div>
 </main>
 
 <script>
-const PORTFOLIO = {
-  XRP: {
-    amount: 9520,
-    avg: 188.86,
-    cost: 1892596
+const $ = id => document.getElementById(id);
+
+// 保有枚数・平均取得単価
+const XRP_QTY = 7500;
+const HBAR_QTY = 29583.8939;
+const XRP_AVG = 183;
+const HBAR_AVG = 14.65;
+
+const XRP_COST = XRP_QTY * XRP_AVG;
+const HBAR_COST = HBAR_QTY * HBAR_AVG;
+const TOTAL_COST = XRP_COST + HBAR_COST;
+
+let xrp = null;
+let hbar = null;
+
+const fmt = n =>
+  Number.isFinite(n) ? Math.round(n).toLocaleString("ja-JP") : "—";
+
+const yen = n =>
+  Number.isFinite(n) ? "¥ " + fmt(n) : "— 円";
+
+$("costText").textContent =
+  "合計取得原価：" + yen(TOTAL_COST);
+
+function render() {
+  const xrpValue = xrp === null ? null : xrp * XRP_QTY;
+  const hbarValue = hbar === null ? null : hbar * HBAR_QTY;
+
+  const total =
+    xrpValue === null || hbarValue === null
+      ? null
+      : xrpValue + hbarValue;
+
+  $("xrpValue").textContent = yen(xrpValue);
+  $("hbarValue").textContent = yen(hbarValue);
+  $("totalValue").textContent = yen(total);
+
+  if (total !== null) {
+    const profit = total - TOTAL_COST;
+    const percent = profit / TOTAL_COST * 100;
+
+    $("profit").textContent =
+      (profit > 0 ? "+ " : profit < 0 ? "− " : "") +
+      yen(Math.abs(profit));
+
+    $("profit").className =
+      "pvalue " + (profit >= 0 ? "gain" : "loss");
+
+    $("profitPercent").textContent =
+      (percent > 0 ? "+" : "") + percent.toFixed(2) + "%";
+  } else {
+    $("profit").textContent = "—";
+    $("profit").className = "pvalue";
+    $("profitPercent").textContent = "価格取得後に自動計算";
   }
-};
-
-const XRP_AMOUNT = PORTFOLIO.XRP.amount;
-const AVG_PRICE = PORTFOLIO.XRP.avg;
-
-const yen = n => "¥" + Math.round(n).toLocaleString("ja-JP");
-
-function renderScenarios() {
-  const levels = [150, 180, 200, 220, 250, 300, 350, 400, 500];
-  document.getElementById("scenarios").innerHTML = levels.map(p => {
-    const value = p * XRP_AMOUNT;
-    const diff = (p - AVG_PRICE) * XRP_AMOUNT;
-    const cls = diff >= 0 ? "green" : "red";
-    return `<tr>
-      <td>¥${p}</td>
-      <td>${yen(value)}</td>
-      <td class="${cls}">${diff >= 0 ? "+" : ""}${yen(diff)}</td>
-    </tr>`;
-  }).join("");
 }
 
-function calculateTarget() {
-  const target = Number(document.getElementById("target").value);
-  if (!Number.isFinite(target) || target < 0) return;
-  const value = target * XRP_AMOUNT;
-  const diff = (target - AVG_PRICE) * XRP_AMOUNT;
-  document.getElementById("targetValue").textContent = yen(value);
-  document.getElementById("targetProfit").textContent =
-    "平均取得価格188.86円との比較：" +
-    (diff >= 0 ? "+" : "") + yen(diff) +
-    "（税金・手数料を除く参考値）";
+async function getJSON(url) {
+  const response = await fetch(url, { cache: "no-store" });
+  if (!response.ok) throw new Error("HTTP " + response.status);
+  return response.json();
 }
 
-async function updatePrice() {
+async function refresh() {
+  $("status").textContent = "価格取得中";
+  $("clock").textContent = new Date().toLocaleTimeString("ja-JP");
+
+  let successCount = 0;
+
+  // XRP：bitbankのXRP/JPY価格
   try {
-    const response = await fetch(
-      "https://public.bitbank.cc/xrp_jpy/ticker"
+    const data = await getJSON(
+      "https://api.bitbank.cc/v1/ticker/xrp_jpy"
     );
-    if (!response.ok) throw new Error("price unavailable");
-    const json = await response.json();
-    const price = Number(json.data.sell);
-    if (!Number.isFinite(price)) throw new Error("invalid price");
 
-    document.getElementById("price").textContent =
-      "¥" + price.toLocaleString("ja-JP", {
-        maximumFractionDigits: 3
-      });
-    document.getElementById("valuation").textContent =
-      yen(price * XRP_AMOUNT);
-    document.getElementById("updated").textContent =
-      "取得時刻：" + new Date().toLocaleTimeString("ja-JP");
+    const price = Number(data?.data?.last);
+    if (!(price > 0)) throw new Error("XRP価格が不正です");
+
+    xrp = price;
+    $("xrpPrice").innerHTML = yen(price) + " <small>円</small>";
+    successCount++;
   } catch (error) {
-    document.getElementById("price").textContent = "取得できません";
-    document.getElementById("updated").textContent =
-      "価格取得には通信環境が必要です";
+    $("xrpPrice").textContent = "取得失敗";
   }
+
+  // HBAR：BinanceのHBAR/USDT価格を円換算
+  try {
+    const data = await getJSON(
+      "https://api.binance.com/api/v3/ticker/price?symbol=HBARUSDT"
+    );
+
+    const usdtPrice = Number(data?.price);
+    if (!(usdtPrice > 0)) throw new Error("HBAR価格が不正です");
+
+    let exchangeRate = null;
+
+    // USDT/JPYのレートを取得
+    try {
+      const fxData = await getJSON(
+        "https://api.bitbank.cc/v1/ticker/usdt_jpy"
+      );
+      const rate = Number(fxData?.data?.last);
+      if (rate > 0) exchangeRate = rate;
+    } catch (error) {
+      // 代替為替レートへ
+    }
+
+    // bitbankの為替レートが取れない場合の代替
+    if (exchangeRate === null) {
+      const fxData = await getJSON(
+        "https://open.er-api.com/v6/latest/USD"
+      );
+      const rate = Number(fxData?.rates?.JPY);
+      if (rate > 0) exchangeRate = rate;
+    }
+
+    if (!(exchangeRate > 0)) {
+      throw new Error("為替レートが取得できません");
+    }
+
+    hbar = usdtPrice * exchangeRate;
+    $("hbarPrice").innerHTML = yen(hbar) + " <small>円</small>";
+    successCount++;
+  } catch (error) {
+    $("hbarPrice").textContent = "取得失敗";
+  }
+
+  render();
+
+  if (successCount === 2) {
+    $("status").textContent = "価格更新済み";
+  } else if (successCount === 1) {
+    $("status").textContent = "一部価格を取得";
+  } else {
+    $("status").textContent = "価格取得に失敗";
+  }
+
+  const now = new Date().toLocaleString("ja-JP");
+  $("clock").textContent = now;
+  $("updated").textContent = "最終確認：" + now + " ｜ 更新間隔：約10秒";
 }
 
-document.getElementById("calculate")
-  .addEventListener("click", calculateTarget);
+$("refresh").addEventListener("click", refresh);
 
-renderScenarios();
-calculateTarget();
-updatePrice();
-setInterval(updatePrice, 30000);
+// 最初にすぐ価格取得、その後10秒ごとに更新
+refresh();
+setInterval(refresh, 10000);
 </script>
 </body>
 </html>
