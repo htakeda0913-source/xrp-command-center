@@ -77,7 +77,7 @@ input,select{width:100%;min-width:0;background:#07111f;color:var(--text);border:
 </section>
 
 <section class="panel s6">
-  <div class="coinhead"><div><div class="coinname">XRP / JPY</div><div class="qty">保有 7,500 XRP · 平均取得 ¥183.000</div></div><span class="badge">XRP</span></div>
+  <div class="coinhead"><div><div class="coinname">XRP / JPY</div><div class="qty">保有 8,000.106067 XRP · 平均取得 ¥183.000</div></div><span class="badge">XRP</span></div>
   <div class="price" id="xrpPrice">取得待ち <small>JPY</small></div>
   <div class="change" id="xrpChange">24H変動：—</div>
   <div class="stats">
@@ -89,7 +89,7 @@ input,select{width:100%;min-width:0;background:#07111f;color:var(--text);border:
 </section>
 
 <section class="panel s6">
-  <div class="coinhead"><div><div class="coinname">HBAR / JPY</div><div class="qty">保有 29,583.8939 HBAR · 平均取得 ¥14.000</div></div><span class="badge">HBAR</span></div>
+  <div class="coinhead"><div><div class="coinname">HBAR / JPY</div><div class="qty">保有 20,788.59174836 HBAR · 平均取得 ¥14.000</div></div><span class="badge">HBAR</span></div>
   <div class="price" id="hbarPrice">取得待ち <small>JPY</small></div>
   <div class="change" id="hbarChange">24H変動：—</div>
   <div class="stats">
@@ -185,16 +185,19 @@ const history={xrp:[],hbar:[]};
 const money=n=>Number.isFinite(n)?'¥'+Math.round(n).toLocaleString('ja-JP'):'—';
 const fp=n=>Number.isFinite(n)?n.toLocaleString('ja-JP',{minimumFractionDigits:3,maximumFractionDigits:3}):'—';
 const pct=n=>Number.isFinite(n)?(n>0?'+':'')+n.toFixed(2)+'%':'—';
+
 function metric(id,text,positive=null){
  const e=$(id);e.textContent=text;e.classList.remove('green','red');
  if(positive!==null)e.classList.add(positive?'green':'red');
 }
+
 function errorText(e){
  if(e?.name==='AbortError')return 'タイムアウト';
  const m=String(e?.message||e||'不明なエラー');
  if(/Failed to fetch|NetworkError|Load failed|CORS|fetch/i.test(m))return '通信失敗（CORS・プレビュー制限の可能性）';
  return m.slice(0,100);
 }
+
 async function json(url,ms=6000){
  const controller=new AbortController();
  const timer=setTimeout(()=>controller.abort(),ms);
@@ -204,6 +207,7 @@ async function json(url,ms=6000){
   return await r.json();
  }finally{clearTimeout(timer)}
 }
+
 async function firstWorking(tasks){
  const errors=[];
  for(const [name,fn] of tasks){
@@ -214,6 +218,7 @@ async function firstWorking(tasks){
  }
  return {name:null,value:null,errors};
 }
+
 async function fxRate(){
  const r=await firstWorking([
   ['open.er-api',async()=>{
@@ -228,6 +233,7 @@ async function fxRate(){
  if(r.value)return {rate:r.value,source:r.name,errors:r.errors};
  throw Error(r.errors.join(' / ')||'為替取得失敗');
 }
+
 async function fetchXRP(){
  const errors=[];
  try{
@@ -258,6 +264,7 @@ async function fetchXRP(){
  }catch(e){errors.push('CoinCap/為替: '+errorText(e))}
  return {price:null,change:null,source:null,errors};
 }
+
 async function fetchHBAR(){
  const errors=[];
  try{
@@ -282,6 +289,7 @@ async function fetchHBAR(){
  }catch(e){errors.push('CoinCap/為替: '+errorText(e))}
  return {price:null,change:null,source:null,errors};
 }
+
 function updatePortfolio(){
  const xv=xrp===null?null:xrp*QX,hv=hbar===null?null:hbar*QH;
  const total=xv!==null&&hv!==null?xv+hv:null;
@@ -306,6 +314,7 @@ function updatePortfolio(){
  $('allocX').textContent=money(xv);$('allocH').textContent=money(hv);
  simRender();tradeRender();drawChart();techRender();
 }
+
 async function refresh(){
  if(busy)return;busy=true;
  $('status').textContent='価格取得中…';$('dot').style.background='var(--amber)';
@@ -346,6 +355,7 @@ async function refresh(){
   :'診断 '+new Date(now).toLocaleTimeString('ja-JP')+'：価格取得成功。';
  updatePortfolio();busy=false;
 }
+
 function simRender(){
  const sx=Number($('simX').value),sh=Number($('simH').value);
  if(!Number.isFinite(sx)||!Number.isFinite(sh)||sx<0||sh<0)return;
@@ -355,6 +365,7 @@ function simRender(){
  $('simGoal').textContent=(total/GOAL*100).toFixed(2)+'%';
  $('simRemain').textContent=total>=GOAL?'目標達成！':money(GOAL-total);
 }
+
 function tradeRender(){
  const asset=$('tradeAsset').value,side=$('tradeSide').value;
  const qty=Math.max(0,Number($('tradeQty').value)||0);
@@ -368,6 +379,7 @@ function tradeRender(){
  $('tradeAvg').textContent='¥'+fp(afterAvg);
  metric('tradeRealized',side==='buy'?'—（売却時に確定）':(realized>=0?'+':'−')+money(Math.abs(realized)),side==='buy'?null:realized>=0);
 }
+
 function drawChart(){
  const c=$('priceChart'),ctx=c.getContext('2d'),r=c.getBoundingClientRect(),dpr=window.devicePixelRatio||1;
  if(!r.width||!r.height)return;
@@ -383,6 +395,7 @@ function drawChart(){
  ctx.stroke();
  ctx.fillStyle='#91a7c2';ctx.font='10px sans-serif';ctx.fillText('高値 ¥'+fp(mx)+' / 安値 ¥'+fp(mn),5,h-3);
 }
+
 function techRender(){
  const a=history[$('techAsset').value].map(o=>o.p),n=a.length,last=a[n-1];
  if(n<15){$('rsi').textContent='データ不足';$('sma20').textContent=n+' / 20本';$('sma50').textContent=n+' / 50本';$('signal').textContent='データ不足';$('techNote').textContent='RSI14は15本以上、SMA50は50本以上の画面内データで計算します。';return}
@@ -397,6 +410,7 @@ function techRender(){
  $('signal').textContent=sma20===null?'データ不足':last>=sma20?'価格がSMA20以上':'価格がSMA20未満';
  $('techNote').textContent='10秒ごとの画面内サンプルから算出した参考値です。取引所のローソク足指標とは異なります。';
 }
+
 $('refresh').addEventListener('click',refresh);
 $('chartAsset').addEventListener('change',drawChart);
 $('techAsset').addEventListener('change',techRender);
