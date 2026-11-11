@@ -310,7 +310,7 @@ header {
     </div>
     <div class="asset-value" id="xrpValue">---</div>
     <div class="asset-price">価格：¥<span id="xrpPrice">---</span></div>
-    <div class="asset-quantity">保有数量：4,000 XRP</div>
+    <div class="asset-quantity">保有数量：0 XRP</div>
   </article>
 
   <article class="asset-card">
@@ -347,7 +347,7 @@ header {
       </div>
       <div class="asset-dot"></div>
     </div>
-    <div class="asset-value" id="jpyValue">¥724,164</div>
+    <div class="asset-value" id="jpyValue">¥1,403,348</div>
     <div class="asset-price">現金残高</div>
     <div class="asset-quantity">日本円</div>
   </article>
@@ -409,10 +409,10 @@ header {
 ========================================= */
 
 const HOLDINGS = {
-  XRP: 4000,
+  XRP: 0,
   HBAR: 10000,
   USDT: 719.98092026,
-  JPY: 724164
+  JPY: 1403348
 };
 
 const TARGET = 5000000;
@@ -638,7 +638,7 @@ async function refreshPrices() {
 }
 
 refreshPrices();
-setInterval(refreshPrices, 30000);
+setInterval(refreshPrices, 10000);
 
 connectBTC();
 
