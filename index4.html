@@ -2,1009 +2,675 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#080e1b">
-  <title>CRYPTO COMMAND CENTER</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080e1b">
+<title>CRYPTO COMMAND CENTER</title>
+<script src="https://unpkg.com/lightweight-charts@4.2.2/dist/lightweight-charts.standalone.production.js"></script>
 
-  <script src="https://unpkg.com/lightweight-charts@4.2.2/dist/lightweight-charts.standalone.production.js"></script>
+<style>
+:root {
+  --bg:#080e1b;
+  --panel:#101a2b;
+  --gold:#d7b56d;
+  --gold2:#f0d69b;
+  --text:#f3f5fa;
+  --muted:#8d9bb1;
+  --green:#39c99a;
+  --red:#ef737b;
+  --line:rgba(207,174,105,.22);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;padding:20px 14px 40px;
+  background:radial-gradient(ellipse at top,#182641 0%,transparent 48%),var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+}
+.container{width:100%;max-width:1100px;margin:0 auto}
+header{text-align:center;margin:8px 0 22px}
+.eyebrow{color:var(--gold);font-size:10px;letter-spacing:4px;margin-bottom:8px}
+h1{font-size:clamp(22px,5vw,30px);letter-spacing:2px;margin:0;color:var(--gold2)}
+.subtitle{color:var(--muted);font-size:11px;margin-top:7px;letter-spacing:1px}
+.section-title{
+  display:flex;align-items:center;gap:10px;
+  color:var(--gold2);font-size:13px;font-weight:700;
+  letter-spacing:1px;margin:24px 0 12px
+}
+.section-title:after{content:"";height:1px;flex:1;background:var(--line)}
+.panel{
+  background:linear-gradient(145deg,rgba(21,34,55,.98),rgba(13,23,39,.98));
+  border:1px solid var(--line);border-radius:15px;padding:16px;
+  box-shadow:0 10px 28px rgba(0,0,0,.16);min-width:0
+}
+.overview-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.overview-label{color:var(--muted);font-size:11px;margin-bottom:8px}
+.overview-value{font-size:clamp(19px,4.5vw,25px);font-weight:700;overflow-wrap:anywhere}
+.overview-sub{color:var(--muted);font-size:10px;margin-top:6px}
+.gold{color:var(--gold2)}
+.green{color:var(--green)}
+.red{color:var(--red)}
+.muted{color:var(--muted)}
 
-  <style>
-    :root {
-      --bg: #080e1b;
-      --panel: #101a2b;
-      --panel2: #142137;
-      --line: rgba(207, 174, 105, .22);
-      --gold: #d7b56d;
-      --gold2: #f0d69b;
-      --text: #f3f5fa;
-      --muted: #8d9bb1;
-      --green: #39c99a;
-      --red: #ef737b;
-      --blue: #7da8ef;
-    }
+.reference-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;margin-top:10px
+}
+.reference-item{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;gap:6px;min-width:0;font-size:12px
+}
+.reference-item strong{
+  font-size:14px;color:var(--gold2);text-align:right;
+  white-space:nowrap;font-variant-numeric:tabular-nums
+}
+.reference-value{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.reference-value strong{font-size:15px}
+.reference-value small{font-size:10px;color:var(--muted);white-space:nowrap}
 
-    * { box-sizing: border-box; }
+.asset-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.asset-card{
+  min-width:0;padding:15px;border-radius:14px;
+  border:1px solid var(--line);
+  background:linear-gradient(150deg,#142239,#0e192b)
+}
+.asset-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:13px}
+.asset-name{font-size:16px;font-weight:800;letter-spacing:1px}
+.asset-quantity{color:var(--muted);font-size:10px;text-align:right}
+.price-label{color:var(--muted);font-size:10px;margin-bottom:4px}
+.current-price{font-size:clamp(20px,4vw,25px);font-weight:750;color:var(--gold2);overflow-wrap:anywhere}
+.asset-divider{height:1px;background:rgba(255,255,255,.08);margin:13px 0}
+.data-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:8px 0;font-size:11px}
+.data-row span:first-child{color:var(--muted);flex-shrink:0}
+.data-row strong{text-align:right;overflow-wrap:anywhere}
+.takeprofit{
+  margin-top:12px;padding:11px;border-radius:10px;
+  background:rgba(215,181,109,.08);
+  border:1px solid rgba(215,181,109,.25)
+}
+.takeprofit-title{color:var(--gold);font-size:10px;margin-bottom:7px}
+.target-price{font-size:19px;font-weight:800;color:var(--gold2)}
+.profit-amount{color:var(--green);font-size:12px;font-weight:700;margin-top:5px}
 
-    body {
-      margin: 0;
-      padding: 20px 14px 40px;
-      background:
-        radial-gradient(ellipse at top, #182641 0%, transparent 48%),
-        var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-        "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
-    }
+.chart-panel{padding:14px}
+.chart-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.chart-coin{color:var(--gold2);font-size:15px;font-weight:800}
+.chart-price{color:var(--muted);font-size:11px}
+.chart-controls,.coin-select{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+button{
+  border:1px solid rgba(215,181,109,.35);border-radius:7px;
+  background:#111e32;color:#c3cbd8;padding:8px 12px;
+  font-size:11px;cursor:pointer
+}
+button.active{
+  background:linear-gradient(135deg,#d7b56d,#a9823e);
+  border-color:var(--gold2);color:#101827;font-weight:800
+}
+#chart{width:100%;height:330px;position:relative}
+.chart-message{color:var(--muted);font-size:11px;margin-top:8px;min-height:16px}
+.summary-list{display:grid;gap:0}
+.summary-row{
+  display:flex;justify-content:space-between;gap:12px;
+  padding:12px 2px;border-bottom:1px solid rgba(255,255,255,.07);font-size:12px
+}
+.summary-row:last-child{border-bottom:0}
+.summary-row span{color:var(--muted)}
+.summary-row strong{text-align:right}
+.progress-track{height:8px;background:#26344a;border-radius:10px;overflow:hidden;margin-top:10px}
+.progress-bar{
+  height:100%;width:0%;border-radius:10px;
+  background:linear-gradient(90deg,#a9823e,#f0d69b);
+  transition:width .4s ease
+}
+.footnote{color:#75849a;font-size:10px;line-height:1.7;margin-top:12px}
+.update-status{text-align:center;color:var(--muted);font-size:10px;margin-top:16px}
 
-    .container {
-      width: 100%;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    header {
-      text-align: center;
-      margin: 8px 0 22px;
-    }
-
-    .eyebrow {
-      color: var(--gold);
-      font-size: 10px;
-      letter-spacing: 4px;
-      margin-bottom: 8px;
-    }
-
-    h1 {
-      font-size: clamp(22px, 5vw, 30px);
-      letter-spacing: 2px;
-      margin: 0;
-      color: var(--gold2);
-      font-weight: 700;
-    }
-
-    .subtitle {
-      color: var(--muted);
-      font-size: 11px;
-      margin-top: 7px;
-      letter-spacing: 1px;
-    }
-
-    .section-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--gold2);
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      margin: 24px 0 12px;
-    }
-
-    .section-title::after {
-      content: "";
-      height: 1px;
-      flex: 1;
-      background: var(--line);
-    }
-
-    .panel {
-      background: linear-gradient(145deg, rgba(21, 34, 55, .98), rgba(13, 23, 39, .98));
-      border: 1px solid var(--line);
-      border-radius: 15px;
-      padding: 16px;
-      box-shadow: 0 10px 28px rgba(0,0,0,.16);
-      min-width: 0;
-    }
-
-    .overview-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .overview-label {
-      color: var(--muted);
-      font-size: 11px;
-      margin-bottom: 8px;
-    }
-
-    .overview-value {
-      font-size: clamp(19px, 4.5vw, 25px);
-      font-weight: 700;
-      letter-spacing: .3px;
-      overflow-wrap: anywhere;
-    }
-
-    .overview-sub {
-      color: var(--muted);
-      font-size: 10px;
-      margin-top: 6px;
-    }
-
-    .gold { color: var(--gold2); }
-    .green { color: var(--green); }
-    .red { color: var(--red); }
-    .muted { color: var(--muted); }
-
-    .reference-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .reference-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-    }
-
-    .reference-item strong {
-      font-size: 15px;
-      color: var(--gold2);
-      text-align: right;
-    }
-
-    .asset-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .asset-card {
-      min-width: 0;
-      padding: 15px;
-      border-radius: 14px;
-      border: 1px solid var(--line);
-      background: linear-gradient(150deg, #142239, #0e192b);
-    }
-
-    .asset-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 13px;
-    }
-
-    .asset-name {
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: 1px;
-    }
-
-    .asset-quantity {
-      color: var(--muted);
-      font-size: 10px;
-      text-align: right;
-    }
-
-    .price-label {
-      color: var(--muted);
-      font-size: 10px;
-      margin-bottom: 4px;
-    }
-
-    .current-price {
-      font-size: clamp(20px, 4vw, 25px);
-      font-weight: 750;
-      color: var(--gold2);
-      overflow-wrap: anywhere;
-    }
-
-    .asset-divider {
-      height: 1px;
-      background: rgba(255,255,255,.08);
-      margin: 13px 0;
-    }
-
-    .data-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 8px;
-      margin: 8px 0;
-      font-size: 11px;
-    }
-
-    .data-row span:first-child {
-      color: var(--muted);
-      flex-shrink: 0;
-    }
-
-    .data-row strong {
-      text-align: right;
-      overflow-wrap: anywhere;
-    }
-
-    .takeprofit {
-      margin-top: 12px;
-      padding: 11px;
-      border-radius: 10px;
-      background: rgba(215,181,109,.08);
-      border: 1px solid rgba(215,181,109,.25);
-    }
-
-    .takeprofit-title {
-      color: var(--gold);
-      font-size: 10px;
-      margin-bottom: 7px;
-      letter-spacing: .5px;
-    }
-
-    .target-price {
-      font-size: 19px;
-      font-weight: 800;
-      color: var(--gold2);
-    }
-
-    .profit-amount {
-      color: var(--green);
-      font-size: 12px;
-      font-weight: 700;
-      margin-top: 5px;
-    }
-
-    .chart-panel {
-      padding: 14px;
-    }
-
-    .chart-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 12px;
-    }
-
-    .chart-coin {
-      color: var(--gold2);
-      font-size: 15px;
-      font-weight: 800;
-    }
-
-    .chart-price {
-      color: var(--muted);
-      font-size: 11px;
-    }
-
-    .chart-controls {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-bottom: 12px;
-    }
-
-    button {
-      border: 1px solid rgba(215,181,109,.35);
-      border-radius: 7px;
-      background: #111e32;
-      color: #c3cbd8;
-      padding: 8px 12px;
-      font-size: 11px;
-      cursor: pointer;
-    }
-
-    button.active {
-      background: linear-gradient(135deg, #d7b56d, #a9823e);
-      border-color: var(--gold2);
-      color: #101827;
-      font-weight: 800;
-    }
-
-    .coin-select {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-bottom: 12px;
-    }
-
-    #chart {
-      width: 100%;
-      height: 330px;
-      position: relative;
-    }
-
-    .chart-message {
-      color: var(--muted);
-      font-size: 11px;
-      margin-top: 8px;
-      min-height: 16px;
-    }
-
-    .summary-list {
-      display: grid;
-      gap: 0;
-    }
-
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 12px 2px;
-      border-bottom: 1px solid rgba(255,255,255,.07);
-      font-size: 12px;
-    }
-
-    .summary-row:last-child { border-bottom: 0; }
-    .summary-row span { color: var(--muted); }
-    .summary-row strong { text-align: right; }
-
-    .progress-track {
-      height: 8px;
-      background: #26344a;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-top: 10px;
-    }
-
-    .progress-bar {
-      height: 100%;
-      width: 0%;
-      border-radius: 10px;
-      background: linear-gradient(90deg, #a9823e, #f0d69b);
-      transition: width .4s ease;
-    }
-
-    .footnote {
-      color: #75849a;
-      font-size: 10px;
-      line-height: 1.7;
-      margin-top: 12px;
-    }
-
-    .update-status {
-      text-align: center;
-      color: var(--muted);
-      font-size: 10px;
-      margin-top: 16px;
-    }
-
-    @media (max-width: 600px) {
-      body { padding: 14px 10px 30px; }
-      .panel { padding: 13px; }
-      .asset-grid { gap: 9px; }
-      .asset-card { padding: 12px 10px; }
-      .asset-name { font-size: 14px; }
-      .current-price { font-size: 19px; }
-      .data-row { font-size: 10px; }
-      .target-price { font-size: 17px; }
-      #chart { height: 280px; }
-      button { padding: 8px 10px; }
-    }
-
-    @media (max-width: 370px) {
-      .asset-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+@media(max-width:600px){
+  body{padding:14px 10px 30px}
+  .panel{padding:13px}
+  .asset-grid{gap:9px}
+  .asset-card{padding:12px 10px}
+  .asset-name{font-size:14px}
+  .current-price{font-size:19px}
+  .data-row{font-size:10px}
+  .target-price{font-size:17px}
+  #chart{height:280px}
+  button{padding:8px 10px}
+}
+@media(max-width:370px){
+  .asset-grid{grid-template-columns:1fr}
+  .reference-grid{grid-template-columns:1fr}
+}
+</style>
 </head>
 
 <body>
 <div class="container">
 
-  <header>
-    <div class="eyebrow">DIGITAL ASSET MANAGEMENT</div>
-    <h1>CRYPTO COMMAND CENTER</h1>
-    <div class="subtitle">資産管理・価格監視・利確目標</div>
-  </header>
+<header>
+  <div class="eyebrow">DIGITAL ASSET MANAGEMENT</div>
+  <h1>CRYPTO COMMAND CENTER</h1>
+  <div class="subtitle">資産管理・価格監視・利確目標</div>
+</header>
 
-  <div class="section-title">ポートフォリオ概要</div>
-  <div class="overview-grid">
-    <div class="panel">
-      <div class="overview-label">現在の総資産評価額</div>
-      <div class="overview-value gold" id="totalValue">---</div>
-      <div class="overview-sub">保有資産 ＋ 日本円残高</div>
-    </div>
-    <div class="panel">
-      <div class="overview-label">目標資産額</div>
-      <div class="overview-value" id="goalValue">5,000,000円</div>
-      <div class="overview-sub">目標までの進捗</div>
-    </div>
-    <div class="panel">
-      <div class="overview-label">評価損益</div>
-      <div class="overview-value" id="totalProfit">---</div>
-      <div class="overview-sub">保有4銘柄の取得金額との比較</div>
-    </div>
-    <div class="panel">
-      <div class="overview-label">日本円残高</div>
-      <div class="overview-value" id="cashValue">187,725円</div>
-      <div class="overview-sub">現金として保有</div>
-    </div>
+<div class="section-title">ポートフォリオ概要</div>
+<div class="overview-grid">
+  <div class="panel">
+    <div class="overview-label">現在の総資産評価額</div>
+    <div class="overview-value gold" id="totalValue">---</div>
+    <div class="overview-sub">保有資産 ＋ 日本円残高</div>
   </div>
+  <div class="panel">
+    <div class="overview-label">目標資産額</div>
+    <div class="overview-value" id="goalValue">5,000,000円</div>
+    <div class="overview-sub">目標までの進捗</div>
+  </div>
+  <div class="panel">
+    <div class="overview-label">評価損益</div>
+    <div class="overview-value" id="totalProfit">---</div>
+    <div class="overview-sub">保有4銘柄の取得金額との比較</div>
+  </div>
+  <div class="panel">
+    <div class="overview-label">日本円残高</div>
+    <div class="overview-value" id="cashValue">187,725円</div>
+    <div class="overview-sub">現金として保有</div>
+  </div>
+</div>
 
-  <div class="panel" style="margin-top:10px">
+<div class="panel" style="margin-top:10px">
+  <div class="reference-item">
+    <span class="muted">目標達成率</span>
+    <strong id="progressText">---</strong>
+  </div>
+  <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+</div>
+
+<div class="section-title">市場参考価格</div>
+<div class="panel">
+  <div class="reference-grid">
     <div class="reference-item">
-      <span class="muted">目標達成率</span>
-      <strong id="progressText">---</strong>
-    </div>
-    <div class="progress-track">
-      <div class="progress-bar" id="progressBar"></div>
-    </div>
-  </div>
-
-  <div class="section-title">市場参考価格</div>
-  <div class="panel">
-    <div class="reference-grid">
-      <div class="reference-item">
-        <span class="muted">BTC / JPY</span>
+      <span class="muted">BTC / JPY</span>
+      <div class="reference-value">
         <strong id="btcPrice">取得中...</strong>
+        <small id="btcUsd">ドル換算 取得中...</small>
       </div>
-      <div class="reference-item">
-        <span class="muted">USD / JPY</span>
-        <strong id="usdJpy">取得中...</strong>
-      </div>
+    </div>
+    <div class="reference-item">
+      <span class="muted">USD / JPY</span>
+      <strong id="usdJpy">取得中...</strong>
+    </div>
+  </div>
+</div>
+
+<div class="section-title">保有資産・2倍利確目標</div>
+<div class="asset-grid">
+
+  <div class="asset-card">
+    <div class="asset-top"><div class="asset-name">XRP</div><div class="asset-quantity">保有 3,000 枚</div></div>
+    <div class="price-label">現在価格 / Bitbank</div>
+    <div class="current-price" id="price-xrp">取得中...</div>
+    <div class="asset-divider"></div>
+    <div class="data-row"><span>平均取得単価</span><strong>164.896円</strong></div>
+    <div class="data-row"><span>取得金額</span><strong>494,687円</strong></div>
+    <div class="data-row"><span>現在評価額</span><strong id="value-xrp">---</strong></div>
+    <div class="data-row"><span>評価損益</span><strong id="pnl-xrp">---</strong></div>
+    <div class="takeprofit">
+      <div class="takeprofit-title">2倍 利確目標</div>
+      <div class="target-price">329.791円</div>
+      <div class="profit-amount">利確時の利益 ＋494,687円</div>
     </div>
   </div>
 
-  <div class="section-title">保有資産・2倍利確目標</div>
-  <div class="asset-grid" id="assetGrid">
-
-    <div class="asset-card">
-      <div class="asset-top">
-        <div class="asset-name">XRP</div>
-        <div class="asset-quantity">保有 3,000 枚</div>
-      </div>
-      <div class="price-label">現在価格 / Bitbank</div>
-      <div class="current-price" id="price-xrp">取得中...</div>
-      <div class="asset-divider"></div>
-      <div class="data-row"><span>平均取得単価</span><strong>164.896円</strong></div>
-      <div class="data-row"><span>取得金額</span><strong>494,687円</strong></div>
-      <div class="data-row"><span>現在評価額</span><strong id="value-xrp">---</strong></div>
-      <div class="data-row"><span>評価損益</span><strong id="pnl-xrp">---</strong></div>
-      <div class="takeprofit">
-        <div class="takeprofit-title">2倍 利確目標</div>
-        <div class="target-price">329.791円</div>
-        <div class="profit-amount">利確時の利益 ＋494,687円</div>
-      </div>
-    </div>
-
-    <div class="asset-card">
-      <div class="asset-top">
-        <div class="asset-name">XLM</div>
-        <div class="asset-quantity">保有 2,000 枚</div>
-      </div>
-      <div class="price-label">現在価格 / Bitbank</div>
-      <div class="current-price" id="price-xlm">取得中...</div>
-      <div class="asset-divider"></div>
-      <div class="data-row"><span>平均取得単価</span><strong>23.000円</strong></div>
-      <div class="data-row"><span>取得金額</span><strong>46,000円</strong></div>
-      <div class="data-row"><span>現在評価額</span><strong id="value-xlm">---</strong></div>
-      <div class="data-row"><span>評価損益</span><strong id="pnl-xlm">---</strong></div>
-      <div class="takeprofit">
-        <div class="takeprofit-title">2倍 利確目標</div>
-        <div class="target-price">46.000円</div>
-        <div class="profit-amount">利確時の利益 ＋46,000円</div>
-      </div>
-    </div>
-
-    <div class="asset-card">
-      <div class="asset-top">
-        <div class="asset-name">SUI</div>
-        <div class="asset-quantity">保有 3,000 枚</div>
-      </div>
-      <div class="price-label">現在価格 / Bitbank</div>
-      <div class="current-price" id="price-sui">取得中...</div>
-      <div class="asset-divider"></div>
-      <div class="data-row"><span>平均取得単価</span><strong>129.167円</strong></div>
-      <div class="data-row"><span>取得金額</span><strong>387,500円</strong></div>
-      <div class="data-row"><span>現在評価額</span><strong id="value-sui">---</strong></div>
-      <div class="data-row"><span>評価損益</span><strong id="pnl-sui">---</strong></div>
-      <div class="takeprofit">
-        <div class="takeprofit-title">2倍 利確目標</div>
-        <div class="target-price">258.333円</div>
-        <div class="profit-amount">利確時の利益 ＋387,500円</div>
-      </div>
-    </div>
-
-    <div class="asset-card">
-      <div class="asset-top">
-        <div class="asset-name">ETH</div>
-        <div class="asset-quantity">保有 1 ETH</div>
-      </div>
-      <div class="price-label">現在価格 / Bitbank</div>
-      <div class="current-price" id="price-eth">取得中...</div>
-      <div class="asset-divider"></div>
-      <div class="data-row"><span>平均取得単価</span><strong>316,250円</strong></div>
-      <div class="data-row"><span>取得金額</span><strong>316,250円</strong></div>
-      <div class="data-row"><span>現在評価額</span><strong id="value-eth">---</strong></div>
-      <div class="data-row"><span>評価損益</span><strong id="pnl-eth">---</strong></div>
-      <div class="takeprofit">
-        <div class="takeprofit-title">2倍 利確目標</div>
-        <div class="target-price">632,500円</div>
-        <div class="profit-amount">利確時の利益 ＋316,250円</div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="section-title">チャート分析</div>
-  <div class="panel chart-panel">
-    <div class="chart-heading">
-      <div class="chart-coin" id="chartTitle">XRP / JPY</div>
-      <div class="chart-price" id="chartCurrentPrice">価格取得中...</div>
-    </div>
-
-    <div class="coin-select">
-      <button class="active" data-coin="xrp">XRP</button>
-      <button data-coin="xlm">XLM</button>
-      <button data-coin="sui">SUI</button>
-      <button data-coin="eth">ETH</button>
-    </div>
-
-    <div class="chart-controls">
-      <button class="active" data-timeframe="1min">1分足</button>
-      <button data-timeframe="1hour">1時間足</button>
-      <button data-timeframe="4hour">4時間足</button>
-      <button data-timeframe="1day">日足</button>
-    </div>
-
-    <div id="chart"></div>
-    <div class="chart-message" id="chartMessage">チャートを読み込んでいます...</div>
-  </div>
-
-  <div class="section-title">2倍利確シミュレーション</div>
-  <div class="panel">
-    <div class="summary-list">
-      <div class="summary-row">
-        <span>4銘柄の取得金額合計</span>
-        <strong>1,244,437円</strong>
-      </div>
-      <div class="summary-row">
-        <span>2倍利確時の売却総額</span>
-        <strong class="gold">2,488,874円</strong>
-      </div>
-      <div class="summary-row">
-        <span>2倍利確時の利益合計</span>
-        <strong class="green">＋1,244,437円</strong>
-      </div>
-      <div class="summary-row">
-        <span>日本円残高</span>
-        <strong>187,725円</strong>
-      </div>
-    </div>
-    <div class="footnote">
-      ※ 利益額は各銘柄の取得金額と同額です。売買手数料・スプレッド・税金は含みません。<br>
-      ※ 2倍利確目標は平均取得単価を基準に計算しています。<br>
-      ※ 取得金額・保有数量は登録時点の内容です。取引後はコード内の数値を更新してください。
+  <div class="asset-card">
+    <div class="asset-top"><div class="asset-name">XLM</div><div class="asset-quantity">保有 2,000 枚</div></div>
+    <div class="price-label">現在価格 / Bitbank</div>
+    <div class="current-price" id="price-xlm">取得中...</div>
+    <div class="asset-divider"></div>
+    <div class="data-row"><span>平均取得単価</span><strong>23.000円</strong></div>
+    <div class="data-row"><span>取得金額</span><strong>46,000円</strong></div>
+    <div class="data-row"><span>現在評価額</span><strong id="value-xlm">---</strong></div>
+    <div class="data-row"><span>評価損益</span><strong id="pnl-xlm">---</strong></div>
+    <div class="takeprofit">
+      <div class="takeprofit-title">2倍 利確目標</div>
+      <div class="target-price">46.000円</div>
+      <div class="profit-amount">利確時の利益 ＋46,000円</div>
     </div>
   </div>
 
-  <div class="update-status" id="updateStatus">価格情報を取得しています...</div>
+  <div class="asset-card">
+    <div class="asset-top"><div class="asset-name">SUI</div><div class="asset-quantity">保有 3,000 枚</div></div>
+    <div class="price-label">現在価格 / Bitbank</div>
+    <div class="current-price" id="price-sui">取得中...</div>
+    <div class="asset-divider"></div>
+    <div class="data-row"><span>平均取得単価</span><strong>129.167円</strong></div>
+    <div class="data-row"><span>取得金額</span><strong>387,500円</strong></div>
+    <div class="data-row"><span>現在評価額</span><strong id="value-sui">---</strong></div>
+    <div class="data-row"><span>評価損益</span><strong id="pnl-sui">---</strong></div>
+    <div class="takeprofit">
+      <div class="takeprofit-title">2倍 利確目標</div>
+      <div class="target-price">258.333円</div>
+      <div class="profit-amount">利確時の利益 ＋387,500円</div>
+    </div>
+  </div>
+
+  <div class="asset-card">
+    <div class="asset-top"><div class="asset-name">ETH</div><div class="asset-quantity">保有 1 ETH</div></div>
+    <div class="price-label">現在価格 / Bitbank</div>
+    <div class="current-price" id="price-eth">取得中...</div>
+    <div class="asset-divider"></div>
+    <div class="data-row"><span>平均取得単価</span><strong>316,250円</strong></div>
+    <div class="data-row"><span>取得金額</span><strong>316,250円</strong></div>
+    <div class="data-row"><span>現在評価額</span><strong id="value-eth">---</strong></div>
+    <div class="data-row"><span>評価損益</span><strong id="pnl-eth">---</strong></div>
+    <div class="takeprofit">
+      <div class="takeprofit-title">2倍 利確目標</div>
+      <div class="target-price">632,500円</div>
+      <div class="profit-amount">利確時の利益 ＋316,250円</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="section-title">チャート分析</div>
+<div class="panel chart-panel">
+  <div class="chart-heading">
+    <div class="chart-coin" id="chartTitle">XRP / JPY</div>
+    <div class="chart-price" id="chartCurrentPrice">価格取得中...</div>
+  </div>
+
+  <div class="coin-select">
+    <button class="active" data-coin="xrp">XRP</button>
+    <button data-coin="xlm">XLM</button>
+    <button data-coin="sui">SUI</button>
+    <button data-coin="eth">ETH</button>
+    <button data-coin="btc">BTC</button>
+  </div>
+
+  <div class="chart-controls">
+    <button class="active" data-timeframe="1min">1分足</button>
+    <button data-timeframe="1hour">1時間足</button>
+    <button data-timeframe="4hour">4時間足</button>
+    <button data-timeframe="1day">日足</button>
+  </div>
+
+  <div id="chart"></div>
+  <div class="chart-message" id="chartMessage">チャートを読み込んでいます...</div>
+</div>
+
+<div class="section-title">2倍利確シミュレーション</div>
+<div class="panel">
+  <div class="summary-list">
+    <div class="summary-row"><span>4銘柄の取得金額合計</span><strong>1,244,437円</strong></div>
+    <div class="summary-row"><span>2倍利確時の売却総額</span><strong class="gold">2,488,874円</strong></div>
+    <div class="summary-row"><span>2倍利確時の利益合計</span><strong class="green">＋1,244,437円</strong></div>
+    <div class="summary-row"><span>日本円残高</span><strong>187,725円</strong></div>
+  </div>
+  <div class="footnote">
+    ※ 利益額は各銘柄の取得金額と同額です。売買手数料・スプレッド・税金は含みません。<br>
+    ※ 2倍利確目標は平均取得単価を基準に計算しています。<br>
+    ※ BTCは参考価格とチャートのみで、保有資産評価には含めていません。
+  </div>
+</div>
+
+<div class="update-status" id="updateStatus">価格情報を取得しています...</div>
 </div>
 
 <script>
-  // ==============================
-  // 保有資産設定
-  // ==============================
-  const assets = {
-    xrp: {
-      name: "XRP",
-      pair: "xrp_jpy",
-      quantity: 3000,
-      cost: 494686.8,
-      average: 164.8956,
-      decimals: 3
-    },
-    xlm: {
-      name: "XLM",
-      pair: "xlm_jpy",
-      quantity: 2000,
-      cost: 46000,
-      average: 23,
-      decimals: 3
-    },
-    sui: {
-      name: "SUI",
-      pair: "sui_jpy",
-      quantity: 3000,
-      cost: 387500,
-      average: 129.1666666667,
-      decimals: 3
-    },
-    eth: {
-      name: "ETH",
-      pair: "eth_jpy",
-      quantity: 1,
-      cost: 316250,
-      average: 316250,
-      decimals: 0
+// ==============================
+// 保有資産設定
+// ==============================
+const assets = {
+  xrp:{name:"XRP",pair:"xrp_jpy",quantity:3000,cost:494686.8,average:164.8956,decimals:3},
+  xlm:{name:"XLM",pair:"xlm_jpy",quantity:2000,cost:46000,average:23,decimals:3},
+  sui:{name:"SUI",pair:"sui_jpy",quantity:3000,cost:387500,average:129.1666666667,decimals:3},
+  eth:{name:"ETH",pair:"eth_jpy",quantity:1,cost:316250,average:316250,decimals:0}
+};
+
+const chartPairs = {
+  ...Object.fromEntries(Object.entries(assets).map(([key,a])=>[key,a.pair])),
+  btc:"btc_jpy"
+};
+
+const cashBalance=187725;
+const goalAmount=5000000;
+const prices={};
+let usdJpyRate=null;
+let selectedCoin="xrp";
+let selectedTimeframe="1min";
+let chart=null;
+let candleSeries=null;
+let chartResizeObserver=null;
+let chartRequestToken=0;
+
+const yen0=value=>Number(value).toLocaleString("ja-JP",{maximumFractionDigits:0})+"円";
+const priceFormat=(value,decimals)=>Number(value).toLocaleString("ja-JP",{
+  minimumFractionDigits:decimals,maximumFractionDigits:decimals
+})+"円";
+const signedYen=value=>(value>=0?"+":"")+yen0(value);
+
+// ==============================
+// Bitbank価格取得
+// ==============================
+async function fetchTicker(pair){
+  const response=await fetch(`https://public.bitbank.cc/${pair}/ticker`,{cache:"no-store"});
+  if(!response.ok)throw new Error("価格取得エラー");
+  const json=await response.json();
+  if(json.success!==1||!json.data||json.data.last==null)throw new Error("価格データなし");
+  return Number(json.data.last);
+}
+
+async function updateAssetPrices(){
+  await Promise.all(Object.keys(assets).map(async key=>{
+    try{
+      prices[key]=await fetchTicker(assets[key].pair);
+      renderAsset(key);
+    }catch(error){
+      if(prices[key]==null){
+        document.getElementById(`price-${key}`).textContent="取得できません";
+      }
     }
-  };
+  }));
+  renderPortfolio();
+  updateChartPriceLabel();
 
-  const cashBalance = 187725;
-  const goalAmount = 5000000;
-  const prices = {};
-  let selectedCoin = "xrp";
-  let selectedTimeframe = "1min";
-  let chart = null;
-  let candleSeries = null;
-  let chartResizeObserver = null;
-  let chartRequestToken = 0;
+  const now=new Date();
+  document.getElementById("updateStatus").textContent=
+    "最終更新："+now.toLocaleTimeString("ja-JP")+" ／ Bitbank公開価格API";
+}
 
-  const yen0 = value =>
-    Number(value).toLocaleString("ja-JP", {
-      maximumFractionDigits: 0
-    }) + "円";
+function renderAsset(key){
+  const asset=assets[key];
+  const price=prices[key];
+  if(price==null)return;
 
-  const priceFormat = (value, decimals) =>
-    Number(value).toLocaleString("ja-JP", {
-      minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals
-    }) + "円";
+  const value=price*asset.quantity;
+  const pnl=value-asset.cost;
 
-  const signedYen = value => {
-    const sign = value >= 0 ? "+" : "";
-    return sign + yen0(value);
-  };
+  document.getElementById(`price-${key}`).textContent=priceFormat(price,asset.decimals);
+  document.getElementById(`value-${key}`).textContent=yen0(value);
 
-  // ==============================
-  // 現在価格取得
-  // ==============================
-  async function fetchTicker(pair) {
-    const url = `https://public.bitbank.cc/${pair}/ticker`;
-    const response = await fetch(url, { cache: "no-store" });
-    if (!response.ok) throw new Error("価格取得エラー");
-    const json = await response.json();
-    if (json.success !== 1 || !json.data || json.data.last == null) {
-      throw new Error("価格データがありません");
-    }
-    return Number(json.data.last);
+  const pnlElement=document.getElementById(`pnl-${key}`);
+  pnlElement.textContent=signedYen(pnl);
+  pnlElement.className=pnl>=0?"green":"red";
+}
+
+function renderPortfolio(){
+  let assetValue=0;
+  let totalCost=0;
+
+  Object.keys(assets).forEach(key=>{
+    const asset=assets[key];
+    totalCost+=asset.cost;
+    if(prices[key]!=null)assetValue+=prices[key]*asset.quantity;
+  });
+
+  const totalValue=assetValue+cashBalance;
+  const pnl=assetValue-totalCost;
+  const progress=Math.min(100,totalValue/goalAmount*100);
+
+  document.getElementById("totalValue").textContent=yen0(totalValue);
+  document.getElementById("totalProfit").textContent=signedYen(pnl);
+  document.getElementById("totalProfit").className=
+    "overview-value "+(pnl>=0?"green":"red");
+  document.getElementById("cashValue").textContent=yen0(cashBalance);
+  document.getElementById("goalValue").textContent=yen0(goalAmount);
+  document.getElementById("progressText").textContent=progress.toFixed(1)+"%";
+  document.getElementById("progressBar").style.width=progress.toFixed(2)+"%";
+}
+
+// ==============================
+// BTC価格・ドル換算・為替
+// ==============================
+async function updateReferencePrices(){
+  let btcPrice=null;
+
+  try{
+    btcPrice=await fetchTicker("btc_jpy");
+    document.getElementById("btcPrice").textContent=yen0(btcPrice);
+  }catch(error){
+    document.getElementById("btcPrice").textContent="取得失敗";
   }
 
-  async function updateAssetPrices() {
-    const keys = Object.keys(assets);
+  try{
+    const response=await fetch("https://open.er-api.com/v6/latest/USD",{cache:"no-store"});
+    if(!response.ok)throw new Error("為替取得エラー");
+    const json=await response.json();
+    const rate=json.rates&&Number(json.rates.JPY);
+    if(!rate)throw new Error("為替データなし");
 
-    await Promise.all(keys.map(async key => {
-      const asset = assets[key];
-      try {
-        const price = await fetchTicker(asset.pair);
-        prices[key] = price;
-        renderAsset(key);
-      } catch (error) {
-        const element = document.getElementById(`price-${key}`);
-        if (!prices[key]) element.textContent = "取得できません";
-      }
+    usdJpyRate=rate;
+    document.getElementById("usdJpy").textContent=rate.toFixed(2)+"円";
+
+    if(btcPrice!=null){
+      document.getElementById("btcUsd").textContent=
+        "$"+(btcPrice/rate).toLocaleString("en-US",{maximumFractionDigits:0})+" USD";
+    }else{
+      document.getElementById("btcUsd").textContent="ドル換算できません";
+    }
+  }catch(error){
+    document.getElementById("usdJpy").textContent="取得失敗";
+    document.getElementById("btcUsd").textContent="ドル換算できません";
+  }
+}
+
+// ==============================
+// チャート初期化
+// ==============================
+function initializeChart(){
+  const element=document.getElementById("chart");
+
+  chart=LightweightCharts.createChart(element,{
+    width:element.clientWidth,
+    height:element.clientHeight,
+    layout:{
+      background:{color:"#101a2b"},
+      textColor:"#aebbd0",
+      fontFamily:"-apple-system,BlinkMacSystemFont,sans-serif"
+    },
+    grid:{
+      vertLines:{color:"rgba(255,255,255,.045)"},
+      horzLines:{color:"rgba(255,255,255,.045)"}
+    },
+    rightPriceScale:{borderColor:"rgba(215,181,109,.2)"},
+    timeScale:{
+      borderColor:"rgba(215,181,109,.2)",
+      timeVisible:true,secondsVisible:false,
+      rightOffset:5,barSpacing:7,minBarSpacing:2
+    },
+    crosshair:{mode:LightweightCharts.CrosshairMode.Normal},
+    handleScroll:{
+      mouseWheel:true,pressedMouseMove:true,
+      horzTouchDrag:true,vertTouchDrag:false
+    },
+    handleScale:{
+      axisPressedMouseMove:true,mouseWheel:true,pinch:true
+    }
+  });
+
+  candleSeries=chart.addCandlestickSeries({
+    upColor:"#35c995",downColor:"#ed6874",
+    borderUpColor:"#35c995",borderDownColor:"#ed6874",
+    wickUpColor:"#35c995",wickDownColor:"#ed6874",
+    priceLineVisible:true,lastValueVisible:true
+  });
+
+  if(chartResizeObserver)chartResizeObserver.disconnect();
+
+  chartResizeObserver=new ResizeObserver(()=>{
+    if(!chart)return;
+    chart.applyOptions({
+      width:element.clientWidth,
+      height:element.clientHeight
+    });
+  });
+  chartResizeObserver.observe(element);
+}
+
+// ==============================
+// Bitbank API用の日付
+// 1分足・1時間足：UTC日付 YYYYMMDD
+// 4時間足・日足：UTC年 YYYY
+// ==============================
+function getUtcDate(offsetDays=0){
+  const date=new Date();
+  date.setUTCDate(date.getUTCDate()+offsetDays);
+  return [
+    date.getUTCFullYear(),
+    String(date.getUTCMonth()+1).padStart(2,"0"),
+    String(date.getUTCDate()).padStart(2,"0")
+  ].join("");
+}
+
+function getUtcYear(offsetYears=0){
+  return String(new Date().getUTCFullYear()+offsetYears);
+}
+
+function getDatesForTimeframe(timeframe){
+  if(timeframe==="1min"){
+    return [getUtcDate(0),getUtcDate(-1)];
+  }
+  if(timeframe==="1hour"){
+    return [getUtcDate(0),getUtcDate(-1),getUtcDate(-2),getUtcDate(-3)];
+  }
+  if(timeframe==="4hour"||timeframe==="1day"){
+    return [getUtcYear(0),getUtcYear(-1)];
+  }
+  return [getUtcYear(0)];
+}
+
+async function fetchCandles(pair,timeframe,date){
+  const url=`https://public.bitbank.cc/${pair}/candlestick/${timeframe}/${date}`;
+  const response=await fetch(url,{cache:"no-store"});
+  if(!response.ok)throw new Error("ローソク足取得エラー");
+
+  const json=await response.json();
+  if(json.success!==1||!json.data||!json.data.candlestick){
+    throw new Error("ローソク足データがありません");
+  }
+
+  const group=json.data.candlestick.find(item=>item.type===timeframe)
+    ||json.data.candlestick[0];
+  const rows=group&&group.ohlcv?group.ohlcv:[];
+
+  return rows.map(row=>({
+    time:Math.floor(Number(row[5])/1000),
+    open:Number(row[0]),
+    high:Number(row[1]),
+    low:Number(row[2]),
+    close:Number(row[3])
+  })).filter(c=>
+    Number.isFinite(c.time)&&Number.isFinite(c.open)&&
+    Number.isFinite(c.high)&&Number.isFinite(c.low)&&
+    Number.isFinite(c.close)
+  );
+}
+
+// ==============================
+// チャート読み込み
+// ==============================
+async function loadChart(){
+  if(!chart||!candleSeries)return;
+
+  const token=++chartRequestToken;
+  const pair=chartPairs[selectedCoin];
+  const timeframe=selectedTimeframe;
+  const name=selectedCoin.toUpperCase();
+
+  document.getElementById("chartTitle").textContent=name+" / JPY";
+  document.getElementById("chartMessage").textContent="チャートを読み込んでいます...";
+  updateChartPriceLabel();
+
+  try{
+    const dates=getDatesForTimeframe(timeframe);
+    const allCandles=[];
+
+    const results=await Promise.all(dates.map(async date=>{
+      try{return await fetchCandles(pair,timeframe,date);}
+      catch(error){return [];}
     }));
 
-    renderPortfolio();
+    if(token!==chartRequestToken)return;
+    results.forEach(rows=>allCandles.push(...rows));
 
-    const now = new Date();
-    document.getElementById("updateStatus").textContent =
-      "最終更新：" + now.toLocaleTimeString("ja-JP") +
-      " ／ Bitbank公開価格API";
+    const unique=new Map();
+    allCandles.forEach(candle=>unique.set(candle.time,candle));
+
+    const sorted=Array.from(unique.values()).sort((a,b)=>a.time-b.time);
+
+    if(!sorted.length)throw new Error("ローソク足データなし");
+
+    candleSeries.setData(sorted);
+    chart.timeScale().fitContent();
+
+    document.getElementById("chartMessage").textContent=
+      `${sorted.length}本のローソク足を表示中`;
+  }catch(error){
+    if(token!==chartRequestToken)return;
+    document.getElementById("chartMessage").textContent=
+      "チャートを取得できません。時間をおいて再読み込みしてください。";
+  }
+}
+
+function updateChartPriceLabel(){
+  if(selectedCoin==="btc"){
+    const element=document.getElementById("chartCurrentPrice");
+    element.textContent="BTC / JPY 参考価格";
+    return;
   }
 
-  function renderAsset(key) {
-    const asset = assets[key];
-    const price = prices[key];
-    if (price == null) return;
+  const price=prices[selectedCoin];
+  if(price==null)return;
 
-    const value = price * asset.quantity;
-    const pnl = value - asset.cost;
+  document.getElementById("chartCurrentPrice").textContent=
+    "現在価格 "+priceFormat(price,assets[selectedCoin].decimals);
+}
 
-    document.getElementById(`price-${key}`).textContent =
-      priceFormat(price, asset.decimals);
+// ==============================
+// チャート切り替え
+// ==============================
+document.querySelectorAll("[data-coin]").forEach(button=>{
+  button.addEventListener("click",()=>{
+    selectedCoin=button.dataset.coin;
 
-    document.getElementById(`value-${key}`).textContent = yen0(value);
-
-    const pnlElement = document.getElementById(`pnl-${key}`);
-    pnlElement.textContent = signedYen(pnl);
-    pnlElement.className = pnl >= 0 ? "green" : "red";
-
-    if (selectedCoin === key) {
-      document.getElementById("chartCurrentPrice").textContent =
-        "現在価格 " + priceFormat(price, asset.decimals);
-    }
-  }
-
-  function renderPortfolio() {
-    let assetValue = 0;
-    let totalCost = 0;
-
-    Object.keys(assets).forEach(key => {
-      const asset = assets[key];
-      totalCost += asset.cost;
-      if (prices[key] != null) {
-        assetValue += prices[key] * asset.quantity;
-      }
-    });
-
-    const totalValue = assetValue + cashBalance;
-    const pnl = assetValue - totalCost;
-    const progress = Math.min(100, totalValue / goalAmount * 100);
-
-    document.getElementById("totalValue").textContent = yen0(totalValue);
-    document.getElementById("totalProfit").textContent = signedYen(pnl);
-    document.getElementById("totalProfit").className =
-      "overview-value " + (pnl >= 0 ? "green" : "red");
-
-    document.getElementById("cashValue").textContent = yen0(cashBalance);
-    document.getElementById("goalValue").textContent = yen0(goalAmount);
-    document.getElementById("progressText").textContent =
-      progress.toFixed(1) + "%";
-    document.getElementById("progressBar").style.width =
-      progress.toFixed(2) + "%";
-  }
-
-  // ==============================
-  // BTC / JPY と USD / JPY
-  // ==============================
-  async function updateReferencePrices() {
-    try {
-      const btc = await fetchTicker("btc_jpy");
-      document.getElementById("btcPrice").textContent = yen0(btc);
-    } catch (error) {
-      document.getElementById("btcPrice").textContent = "取得失敗";
-    }
-
-    try {
-      const response = await fetch(
-        "https://open.er-api.com/v6/latest/USD",
-        { cache: "no-store" }
-      );
-      const json = await response.json();
-      const rate = json.rates && json.rates.JPY;
-      if (!rate) throw new Error("為替データなし");
-      document.getElementById("usdJpy").textContent =
-        Number(rate).toFixed(2) + "円";
-    } catch (error) {
-      document.getElementById("usdJpy").textContent = "取得失敗";
-    }
-  }
-
-  // ==============================
-  // チャート初期化
-  // ==============================
-  function initializeChart() {
-    const chartElement = document.getElementById("chart");
-
-    chart = LightweightCharts.createChart(chartElement, {
-      width: chartElement.clientWidth,
-      height: chartElement.clientHeight,
-      layout: {
-        background: { color: "#101a2b" },
-        textColor: "#aebbd0",
-        fontFamily: "-apple-system, BlinkMacSystemFont, sans-serif"
-      },
-      grid: {
-        vertLines: { color: "rgba(255,255,255,.045)" },
-        horzLines: { color: "rgba(255,255,255,.045)" }
-      },
-      rightPriceScale: {
-        borderColor: "rgba(215,181,109,.2)"
-      },
-      timeScale: {
-        borderColor: "rgba(215,181,109,.2)",
-        timeVisible: true,
-        secondsVisible: false,
-        rightOffset: 5,
-        barSpacing: 7,
-        minBarSpacing: 2
-      },
-      crosshair: {
-        mode: LightweightCharts.CrosshairMode.Normal
-      },
-      handleScroll: {
-        mouseWheel: true,
-        pressedMouseMove: true,
-        horzTouchDrag: true,
-        vertTouchDrag: false
-      },
-      handleScale: {
-        axisPressedMouseMove: true,
-        mouseWheel: true,
-        pinch: true
-      }
-    });
-
-    candleSeries = chart.addCandlestickSeries({
-      upColor: "#35c995",
-      downColor: "#ed6874",
-      borderUpColor: "#35c995",
-      borderDownColor: "#ed6874",
-      wickUpColor: "#35c995",
-      wickDownColor: "#ed6874",
-      priceLineVisible: true,
-      lastValueVisible: true
-    });
-
-    if (chartResizeObserver) chartResizeObserver.disconnect();
-
-    chartResizeObserver = new ResizeObserver(() => {
-      if (!chart) return;
-      chart.applyOptions({
-        width: chartElement.clientWidth,
-        height: chartElement.clientHeight
-      });
-    });
-
-    chartResizeObserver.observe(chartElement);
-  }
-
-  // ==============================
-  // Bitbankローソク足取得
-  // ==============================
-  function getJstDate(offsetDays = 0) {
-    const now = new Date();
-    const jst = new Date(now.getTime() + 9 * 60 * 60 * 1000);
-    jst.setUTCDate(jst.getUTCDate() + offsetDays);
-
-    const year = jst.getUTCFullYear();
-    const month = String(jst.getUTCMonth() + 1).padStart(2, "0");
-    const day = String(jst.getUTCDate()).padStart(2, "0");
-
-    return {
-      day: `${year}${month}${day}`,
-      year: String(year)
-    };
-  }
-
-  function getDatesForTimeframe(timeframe) {
-    if (timeframe === "1min") return [getJstDate(0).day];
-    if (timeframe === "1hour") {
-      return [getJstDate(0).day, getJstDate(-1).day, getJstDate(-2).day];
-    }
-    if (timeframe === "4hour") {
-      return Array.from({ length: 8 }, (_, i) => getJstDate(-i).day);
-    }
-
-    const currentYear = Number(getJstDate(0).year);
-    return [
-      String(currentYear),
-      String(currentYear - 1),
-      String(currentYear - 2)
-    ];
-  }
-
-  async function fetchCandles(pair, timeframe, date) {
-    const url =
-      `https://public.bitbank.cc/${pair}/candlestick/${timeframe}/${date}`;
-
-    const response = await fetch(url, { cache: "no-store" });
-    if (!response.ok) throw new Error("ローソク足取得エラー");
-
-    const json = await response.json();
-    if (json.success !== 1 || !json.data || !json.data.candlestick) {
-      throw new Error("ローソク足データがありません");
-    }
-
-    const group = json.data.candlestick[0];
-    const rows = group && group.ohlcv ? group.ohlcv : [];
-
-    return rows.map(row => {
-      const timestamp = Number(row[5]);
-      return {
-        time: Math.floor(timestamp / 1000),
-        open: Number(row[0]),
-        high: Number(row[1]),
-        low: Number(row[2]),
-        close: Number(row[3])
-      };
-    }).filter(candle =>
-      Number.isFinite(candle.time) &&
-      Number.isFinite(candle.open) &&
-      Number.isFinite(candle.high) &&
-      Number.isFinite(candle.low) &&
-      Number.isFinite(candle.close)
+    document.querySelectorAll("[data-coin]").forEach(item=>
+      item.classList.toggle("active",item===button)
     );
-  }
 
-  async function loadChart() {
-    if (!chart || !candleSeries) return;
-
-    const requestToken = ++chartRequestToken;
-    const asset = assets[selectedCoin];
-    const timeframe = selectedTimeframe;
-
-    document.getElementById("chartTitle").textContent =
-      asset.name + " / JPY";
-    document.getElementById("chartMessage").textContent =
-      "チャートを読み込んでいます...";
-
-    try {
-      const dates = getDatesForTimeframe(timeframe);
-      const allCandles = [];
-
-      for (const date of dates) {
-        if (requestToken !== chartRequestToken) return;
-
-        try {
-          const candles = await fetchCandles(
-            asset.pair,
-            timeframe,
-            date
-          );
-          allCandles.push(...candles);
-        } catch (error) {
-          // その日のデータがない場合は次の日付を試す
-        }
-      }
-
-      if (requestToken !== chartRequestToken) return;
-
-      const unique = new Map();
-      allCandles.forEach(candle => unique.set(candle.time, candle));
-
-      const sorted = Array.from(unique.values())
-        .sort((a, b) => a.time - b.time);
-
-      if (!sorted.length) {
-        throw new Error("ローソク足データを取得できませんでした");
-      }
-
-      candleSeries.setData(sorted);
-      chart.timeScale().fitContent();
-
-      document.getElementById("chartMessage").textContent =
-        `${sorted.length}本のローソク足を表示中`;
-    } catch (error) {
-      if (requestToken !== chartRequestToken) return;
-      document.getElementById("chartMessage").textContent =
-        "チャートを取得できません。時間をおいて再読み込みしてください。";
-    }
-  }
-
-  // ==============================
-  // チャート操作
-  // ==============================
-  document.querySelectorAll("[data-coin]").forEach(button => {
-    button.addEventListener("click", () => {
-      selectedCoin = button.dataset.coin;
-
-      document.querySelectorAll("[data-coin]").forEach(item =>
-        item.classList.toggle("active", item === button)
-      );
-
-      if (prices[selectedCoin] != null) {
-        document.getElementById("chartCurrentPrice").textContent =
-          "現在価格 " +
-          priceFormat(prices[selectedCoin], assets[selectedCoin].decimals);
-      }
-
-      loadChart();
-    });
+    loadChart();
   });
+});
 
-  document.querySelectorAll("[data-timeframe]").forEach(button => {
-    button.addEventListener("click", () => {
-      selectedTimeframe = button.dataset.timeframe;
+document.querySelectorAll("[data-timeframe]").forEach(button=>{
+  button.addEventListener("click",()=>{
+    selectedTimeframe=button.dataset.timeframe;
 
-      document.querySelectorAll("[data-timeframe]").forEach(item =>
-        item.classList.toggle("active", item === button)
-      );
+    document.querySelectorAll("[data-timeframe]").forEach(item=>
+      item.classList.toggle("active",item===button)
+    );
 
-      loadChart();
-    });
+    loadChart();
   });
+});
 
-  // ==============================
-  // 起動・自動更新
-  // ==============================
-  async function startDashboard() {
-    initializeChart();
+// ==============================
+// 起動・自動更新
+// ==============================
+async function startDashboard(){
+  initializeChart();
 
-    await Promise.all([
-      updateAssetPrices(),
-      updateReferencePrices()
-    ]);
+  await Promise.all([
+    updateAssetPrices(),
+    updateReferencePrices()
+  ]);
 
-    await loadChart();
+  await loadChart();
 
-    // 保有銘柄の価格は10秒ごとに更新
-    setInterval(updateAssetPrices, 10000);
+  setInterval(updateAssetPrices,10000);
+  setInterval(updateReferencePrices,600000);
+  setInterval(loadChart,60000);
+}
 
-    // BTC・為替は10分ごとに更新
-    setInterval(updateReferencePrices, 600000);
-
-    // チャートは60秒ごとに更新
-    setInterval(loadChart, 60000);
-  }
-
-  startDashboard();
+startDashboard();
 </script>
 </body>
 </html>
