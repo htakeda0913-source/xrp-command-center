@@ -172,7 +172,7 @@ button.active{
   </div>
   <div class="panel">
     <div class="overview-label">日本円残高</div>
-    <div class="overview-value" id="cashValue">187,725円</div>
+    <div class="overview-value" id="cashValue">0円</div>
     <div class="overview-sub">現金として保有</div>
   </div>
 </div>
@@ -222,34 +222,34 @@ button.active{
   </div>
 
   <div class="asset-card">
-    <div class="asset-top"><div class="asset-name">XLM</div><div class="asset-quantity">保有 2,000 枚</div></div>
+    <div class="asset-top"><div class="asset-name">XLM</div><div class="asset-quantity">保有 5,000 枚</div></div>
     <div class="price-label">現在価格 / Bitbank</div>
     <div class="current-price" id="price-xlm">取得中...</div>
     <div class="asset-divider"></div>
-    <div class="data-row"><span>平均取得単価</span><strong>23.000円</strong></div>
-    <div class="data-row"><span>取得金額</span><strong>46,000円</strong></div>
+    <div class="data-row"><span>平均取得単価</span><strong>22.400円</strong></div>
+    <div class="data-row"><span>取得金額</span><strong>112,000円</strong></div>
     <div class="data-row"><span>現在評価額</span><strong id="value-xlm">---</strong></div>
     <div class="data-row"><span>評価損益</span><strong id="pnl-xlm">---</strong></div>
     <div class="takeprofit">
       <div class="takeprofit-title">2倍 利確目標</div>
-      <div class="target-price">46.000円</div>
-      <div class="profit-amount">利確時の利益 ＋46,000円</div>
+      <div class="target-price">44.800円</div>
+      <div class="profit-amount">利確時の利益 ＋112,000円</div>
     </div>
   </div>
 
   <div class="asset-card">
-    <div class="asset-top"><div class="asset-name">SUI</div><div class="asset-quantity">保有 3,000 枚</div></div>
+    <div class="asset-top"><div class="asset-name">SUI</div><div class="asset-quantity">保有 4,000 枚</div></div>
     <div class="price-label">現在価格 / Bitbank</div>
     <div class="current-price" id="price-sui">取得中...</div>
     <div class="asset-divider"></div>
-    <div class="data-row"><span>平均取得単価</span><strong>129.167円</strong></div>
-    <div class="data-row"><span>取得金額</span><strong>387,500円</strong></div>
+    <div class="data-row"><span>平均取得単価</span><strong>126.875円</strong></div>
+    <div class="data-row"><span>取得金額</span><strong>507,500円</strong></div>
     <div class="data-row"><span>現在評価額</span><strong id="value-sui">---</strong></div>
     <div class="data-row"><span>評価損益</span><strong id="pnl-sui">---</strong></div>
     <div class="takeprofit">
       <div class="takeprofit-title">2倍 利確目標</div>
-      <div class="target-price">258.333円</div>
-      <div class="profit-amount">利確時の利益 ＋387,500円</div>
+      <div class="target-price">253.750円</div>
+      <div class="profit-amount">利確時の利益 ＋507,500円</div>
     </div>
   </div>
 
@@ -300,10 +300,10 @@ button.active{
 <div class="section-title">2倍利確シミュレーション</div>
 <div class="panel">
   <div class="summary-list">
-    <div class="summary-row"><span>4銘柄の取得金額合計</span><strong>1,244,437円</strong></div>
-    <div class="summary-row"><span>2倍利確時の売却総額</span><strong class="gold">2,488,874円</strong></div>
-    <div class="summary-row"><span>2倍利確時の利益合計</span><strong class="green">＋1,244,437円</strong></div>
-    <div class="summary-row"><span>日本円残高</span><strong>187,725円</strong></div>
+    <div class="summary-row"><span>4銘柄の取得金額合計</span><strong>1,430,437円</strong></div>
+    <div class="summary-row"><span>2倍利確時の売却総額</span><strong class="gold">2,860,874円</strong></div>
+    <div class="summary-row"><span>2倍利確時の利益合計</span><strong class="green">＋1,430,437円</strong></div>
+    <div class="summary-row"><span>日本円残高</span><strong>0円</strong></div>
   </div>
   <div class="footnote">
     ※ 利益額は各銘柄の取得金額と同額です。売買手数料・スプレッド・税金は含みません。<br>
@@ -321,8 +321,8 @@ button.active{
 // ==============================
 const assets = {
   xrp:{name:"XRP",pair:"xrp_jpy",quantity:3000,cost:494686.8,average:164.8956,decimals:3},
-  xlm:{name:"XLM",pair:"xlm_jpy",quantity:2000,cost:46000,average:23,decimals:3},
-  sui:{name:"SUI",pair:"sui_jpy",quantity:3000,cost:387500,average:129.1666666667,decimals:3},
+  xlm:{name:"XLM",pair:"xlm_jpy",quantity:5000,cost:112000,average:22.4,decimals:3},
+  sui:{name:"SUI",pair:"sui_jpy",quantity:4000,cost:507500,average:126.875,decimals:3},
   eth:{name:"ETH",pair:"eth_jpy",quantity:1,cost:316250,average:316250,decimals:0}
 };
 
@@ -331,7 +331,7 @@ const chartPairs = {
   btc:"btc_jpy"
 };
 
-const cashBalance=187725;
+const cashBalance=0;
 const goalAmount=5000000;
 const prices={};
 let usdJpyRate=null;
